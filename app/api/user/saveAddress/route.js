@@ -10,7 +10,7 @@ export const POST = async (request  ) => {
 
   if(!session){
     return NextResponse.json( "you must be login in" ,{
-           status: 201,
+           status: 400,
          })
     }
  
@@ -18,16 +18,16 @@ export const POST = async (request  ) => {
     db.connectDb()
     const {address} = await request.json();
  
-    const user = await User.findById(session.id);
-    await user.updateOne({
-      $push: {
-        address: address,
-      },
-    });
-
    
+    const user = await User.findByIdAndUpdate(
+      session.id,
+      { $push: { address: address } },
+      { new: true }
+    );
+    
+ 
      db.disconnectDb()
-      return NextResponse.json( address ,{
+      return NextResponse.json(  { addresses: user.address } ,{
         status: 201,
       })
     } catch (err) {

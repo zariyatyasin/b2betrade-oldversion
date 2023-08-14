@@ -5,10 +5,7 @@ export default function Header() {
   return (
     <div>
       <header className="relative bg-white shadow">
-        <nav
-          aria-label="Top"
-          className="max-w-[1440px] mx-auto sm:px-6 lg:px-8"
-        >
+        <nav aria-label="Top" className="max-w-7xl mx-auto ">
           <div className="px-4   sm:px-0 sm:pb-0">
             <div className="h-16 flex items-center justify-between">
               <div className="  flex">

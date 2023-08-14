@@ -2,14 +2,14 @@ import React from "react";
 
 export default function DeliveryMethod() {
   return (
-    <div className="mt-10 border-t border-gray-200 pt-10">
-      <fieldset>
-        <legend className="text-lg font-medium text-gray-900">
-          Delivery method
+    <div className=" py-6 px-4 sm:px-6 bg-white border border-gray-200   lg:px-8  mt-4">
+      <div className=" mt-4">
+        <legend className="text-2xl font-black text-gray-90">
+          Delivery Method
         </legend>
 
-        <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-          <label className="relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none">
+        <div className="mt-4  ">
+          <label className="relative bg-white border shadow-sm p-4 flex cursor-pointer focus:outline-none">
             <input
               type="radio"
               name="delivery-method"
@@ -25,7 +25,7 @@ export default function DeliveryMethod() {
                   className="block text-sm font-medium text-gray-900"
                 >
                   {" "}
-                  Standard{" "}
+                  Sundarban Courier Service
                 </span>
                 <span
                   id="delivery-method-0-description-0"
@@ -45,7 +45,7 @@ export default function DeliveryMethod() {
             </div>
 
             <svg
-              className="h-5 w-5 text-indigo-600"
+              className="h-5 w-5 text-gray-900"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -57,14 +57,9 @@ export default function DeliveryMethod() {
                 clip-rule="evenodd"
               />
             </svg>
-
-            <div
-              className="absolute -inset-px rounded-lg border-2 pointer-events-none"
-              aria-hidden="true"
-            ></div>
           </label>
 
-          <label className="relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none">
+          <label className="relative bg-white border mt-2 shadow-sm p-4 flex cursor-pointer focus:outline-none">
             <input
               type="radio"
               name="delivery-method"
@@ -80,7 +75,7 @@ export default function DeliveryMethod() {
                   className="block text-sm font-medium text-gray-900"
                 >
                   {" "}
-                  Express{" "}
+                  Pathao Courier.
                 </span>
                 <span
                   id="delivery-method-1-description-0"
@@ -100,7 +95,7 @@ export default function DeliveryMethod() {
             </div>
 
             <svg
-              className="h-5 w-5 text-indigo-600"
+              className="h-5 w-5 text-gray-900"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -112,14 +107,9 @@ export default function DeliveryMethod() {
                 clip-rule="evenodd"
               />
             </svg>
-
-            <div
-              className="absolute -inset-px rounded-lg border-2 pointer-events-none"
-              aria-hidden="true"
-            ></div>
           </label>
         </div>
-      </fieldset>
+      </div>
     </div>
   );
 }

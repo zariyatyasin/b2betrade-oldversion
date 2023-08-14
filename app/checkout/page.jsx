@@ -6,6 +6,7 @@ import User from "../../model/User";
 import Cart from "../../model/Cart";
 import Header from "../../components/cart/Header";
 import Checkout from "../../components/checkout/Checkout";
+import FullScreenLoading from "../../loading/FullScreenLoading";
 async function getCart() {
   db.connectDb();
   const session = await getCurrentUser();

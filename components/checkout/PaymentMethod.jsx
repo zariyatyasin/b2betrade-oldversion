@@ -1,134 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
+import { paymentMethods } from "../../data/paymentMethods";
 
-export default function PaymentMethod() {
+export default function PaymentMethod({ selectedMethod, setSelectedMethod }) {
+  const handleMethodChange = (methodId) => {
+    setSelectedMethod(methodId);
+  };
+
   return (
-    <div class="mt-10 border-t border-gray-200 pt-10">
-      <h2 class="text-lg font-medium text-gray-900">Payment</h2>
+    <div className="mt-4 py-6 px-4 sm:px-6 bg-white border border-gray-200 lg:px-8 rounded-md">
+      <h2 className="text-2xl font-black text-gray-900 mb-4">Payment Method</h2>
 
-      <fieldset class="mt-4">
-        <legend class="sr-only">Payment type</legend>
-        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-          <div class="flex items-center">
-            <input
-              id="credit-card"
-              name="payment-type"
-              type="radio"
-              checked
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-            />
-            <label
-              for="credit-card"
-              class="ml-3 block text-sm font-medium text-gray-700"
-            >
-              {" "}
-              Credit card{" "}
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              id="paypal"
-              name="payment-type"
-              type="radio"
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-            />
-            <label
-              for="paypal"
-              class="ml-3 block text-sm font-medium text-gray-700"
-            >
-              {" "}
-              PayPal{" "}
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              id="etransfer"
-              name="payment-type"
-              type="radio"
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-            />
-            <label
-              for="etransfer"
-              class="ml-3 block text-sm font-medium text-gray-700"
-            >
-              {" "}
-              eTransfer{" "}
-            </label>
-          </div>
+      <fieldset className="mt-4">
+        <legend className="sr-only">Payment type</legend>
+        <div className="flex flex-col">
+          {paymentMethods.map((method) => (
+            <div className="flex w-full items-center">
+              <label
+                key={method.id}
+                className={`${
+                  selectedMethod === method.id
+                    ? "border-gray-900 border  ring-gray-900"
+                    : " "
+                }  flex  items-center  w-full  p-2 mb-2 cursor-pointer transition duration-300 ease-in-out`}
+              >
+                <svg
+                  className={`h-5 w-5 ${
+                    selectedMethod === method.id
+                      ? "text-gray-900"
+                      : "text-gray-200"
+                  }  mr-2`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                    className=" border"
+                  />
+                </svg>
+                <img src={method.images} className=" h-8 w-8 mr-2" />
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value={method.id}
+                  checked={selectedMethod === method.id}
+                  onChange={() => handleMethodChange(method.id)}
+                  className="sr-only"
+                />
+                <div className=" text-start">
+                  <div className="text-sm font-medium text-gray-900">
+                    {method.name}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-500">
+                    {method.description}
+                  </div>
+                </div>
+              </label>
+            </div>
+          ))}
         </div>
       </fieldset>
-
-      <div class="mt-6 grid grid-cols-4 gap-y-6 gap-x-4">
-        <div class="col-span-4">
-          <label
-            for="card-number"
-            class="block text-sm font-medium text-gray-700"
-          >
-            Card number
-          </label>
-          <div class="mt-1">
-            <input
-              type="text"
-              id="card-number"
-              name="card-number"
-              autocomplete="cc-number"
-              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-        </div>
-
-        <div class="col-span-4">
-          <label
-            for="name-on-card"
-            class="block text-sm font-medium text-gray-700"
-          >
-            Name on card
-          </label>
-          <div class="mt-1">
-            <input
-              type="text"
-              id="name-on-card"
-              name="name-on-card"
-              autocomplete="cc-name"
-              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-        </div>
-
-        <div class="col-span-3">
-          <label
-            for="expiration-date"
-            class="block text-sm font-medium text-gray-700"
-          >
-            Expiration date (MM/YY)
-          </label>
-          <div class="mt-1">
-            <input
-              type="text"
-              name="expiration-date"
-              id="expiration-date"
-              autocomplete="cc-exp"
-              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label for="cvc" class="block text-sm font-medium text-gray-700">
-            CVC
-          </label>
-          <div class="mt-1">
-            <input
-              type="text"
-              name="cvc"
-              id="cvc"
-              autocomplete="csc"
-              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

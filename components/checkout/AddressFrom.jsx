@@ -13,7 +13,14 @@ const validationSchema = Yup.object().shape({
   state: Yup.string().required("State is required"),
 });
 
-const AddressForm = ({ onSave, formData, onCancel, isEditing, addresses }) => {
+const AddressForm = ({
+  onSave,
+  formData,
+  onCancel,
+  isEditing,
+  addresses,
+  loading,
+}) => {
   const [localFormData, setLocalFormData] = useState(formData);
 
   useEffect(() => {
@@ -134,7 +141,13 @@ const AddressForm = ({ onSave, formData, onCancel, isEditing, addresses }) => {
 
           <Grid item xs={12}>
             <div className="flex text-white">
-              <button className="mr-2 bg-gray-950 px-4 py-2" type="submit">
+              <button
+                className={`mr-2  px-4 py-2 ${
+                  loading ? "bg-gray-600" : "bg-gray-950"
+                }`}
+                type="submit"
+                disabled={loading}
+              >
                 Save Address
               </button>
 

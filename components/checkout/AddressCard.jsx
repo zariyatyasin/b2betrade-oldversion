@@ -8,14 +8,14 @@ export default function AddressCard({
   handleEditAddress,
   changeAtiveHandler,
   handleDeleteAddress,
+  loadin,
   setSelectedAddressIndex,
 }) {
   return (
-    <label
-      className={`relative bg-white overflow-hidden   border rounded-lg shadow-sm p-4 flex cursor-pointer   ${
+    <div
+      className={`relative bg-white overflow-hidden   border  shadow-sm p-4 flex  mb-2 ${
         address?.active && "border-gray-950"
       }`}
-      onClick={() => changeAtiveHandler(address?._id)}
     >
       <input
         type="radio"
@@ -31,16 +31,15 @@ export default function AddressCard({
         <div className="flex flex-col   w-full">
           <span
             id="delivery-method-0-label"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-bold text-gray-900"
           >
             {" "}
-            {address?.city}
+            {address?.fullName}
           </span>
           <span
             id="delivery-method-0-description-0"
-            className="mt-1 flex items-center text-sm text-gray-500"
+            className="mt-1 flex items-center text-xs text-gray-500"
           >
-            {" "}
             {address?.address1}
           </span>
           <div className="  w-full">
@@ -55,21 +54,36 @@ export default function AddressCard({
         </div>
       </div>
 
-      <svg
-        className={` ${
-          selectedAddressIndex === index ? "block " : "hidden"
-        } h-5 w-5 text-gray-900`}
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fillRule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-          clipRule="evenodd"
-        />
-      </svg>
+      <div className="">
+        <div
+          className={`flex cursor-pointer  border ${
+            address?.active ? "bg-gray-950 " : ""
+          } px-2 py-1 rounded-full  items-center`}
+          onClick={() => changeAtiveHandler(address?._id)}
+        >
+          <span
+            className={`${
+              address?.active ? "text-white" : "text-gray-500"
+            } mr-1 text-xs`}
+          >
+            {" "}
+            Active
+          </span>
+          <svg
+            className={` ${"text-gray-200"} h-4 w-4 `}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
       <div className=" absolute  flex bottom-5 right-5">
         <div
           className=" cursor-pointer"
@@ -79,16 +93,16 @@ export default function AddressCard({
         </div>
         <div
           className="ml-2 cursor-pointer"
-          onClick={() => handleDeleteAddress(index)}
+          onClick={() => handleDeleteAddress(address?._id)}
         >
           <DeleteOutlineOutlinedIcon sx={{ fontSize: 18 }} />
         </div>
       </div>
 
       <div
-        className="absolute  -inset-px rounded-lg border-2 pointer-events-none"
+        className="absolute  -inset-px  border-2 pointer-events-none"
         aria-hidden="true"
       ></div>
-    </label>
+    </div>
   );
 }
