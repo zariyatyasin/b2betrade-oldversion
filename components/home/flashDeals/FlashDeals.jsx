@@ -13,7 +13,7 @@ import { flashDealsArray } from "../../../data/home";
 import FlashCard from "./FlashCard";
 const FlashDeals = () => {
   // Set the target date for the countdown (e.g., 1st January 2024)
-  const targetDate = new Date("2023-08-01T00:00:00");
+  const targetDate = new Date("2023-10-01T00:00:00");
 
   // State variables to hold the countdown values
   const [days, setDays] = useState(0);
@@ -29,21 +29,30 @@ const FlashDeals = () => {
       // Calculate the time remaining between now and the target date
       const timeRemaining = targetDate - now;
 
-      // Calculate the remaining days, hours, minutes, and seconds
-      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+      // Check if the countdown has reached zero or is negative
+      if (timeRemaining <= 0) {
+        // Set countdown values to zero
+        setDays(0);
+        setHours(0);
+        setMinutes(0);
+        setSeconds(0);
+      } else {
+        // Calculate the remaining days, hours, minutes, and seconds
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-      // Update the state variables with the new countdown values
-      setDays(days);
-      setHours(hours);
-      setMinutes(minutes);
-      setSeconds(seconds);
+        // Update the state variables with the new countdown values
+        setDays(days);
+        setHours(hours);
+        setMinutes(minutes);
+        setSeconds(seconds);
+      }
     };
 
     // Update the countdown every second

@@ -15,15 +15,16 @@ const CartProduct = ({ product, selected, setSelected }) => {
   const { cart } = useSelector((state) => ({ ...state }));
 
   const updateQty = (type) => {
-    let updatedProduct = {
-      ...product,
-      qty: type === "plus" ? product.qty + 1 : product.qty - 1,
-    };
-    setSelected((prevSelected) => {
-      return prevSelected.map((p) =>
-        p._uid === product._uid ? updatedProduct : p
-      );
+    let newCart = cart.cartItems.map((p) => {
+      if (p._uid == product._uid) {
+        return {
+          ...p,
+          qty: type == "plus" ? product.qty + 1 : product.qty - 1,
+        };
+      }
+      return p;
     });
+    dispatch(updateCart(newCart));
   };
 
   const removeProduct = (id) => {

@@ -22,9 +22,9 @@ export const POST = async (request  ) => {
     const user = await User.findById(session.id);
     const checkCoupon = await Coupon.findOne({coupon})
     if(checkCoupon == null){
-        return    NextResponse.json( {message:"Invalid Coupon"} ,{
-            status: 400,
-          })
+      return NextResponse.json(  {  message:"Invalid Coupon" } ,{
+        status: 201,
+      })
     }
  
    let  {cartTotal} = await Cart.findOne({user:session.id})

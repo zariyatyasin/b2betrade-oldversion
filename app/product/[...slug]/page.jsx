@@ -11,7 +11,7 @@ async function getData(url) {
   const slug = url.slug[0];
   const style = parseInt(url.slug[1]) || 0;
   const size = parseInt(url.slug[2]) || 0;
-
+  console.log(style);
   await db.connectDb();
   try {
     let product = await Product.findOne({ slug: slug })

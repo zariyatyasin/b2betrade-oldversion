@@ -14,14 +14,26 @@ export default function OrderSummary({
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState(" ");
+  useEffect(() => {
+    // Calculate and log the new totalAfterDiscount value whenever it changes
+    console.log("Updated totalAfterDiscount:", totalAfterDiscount);
 
+    // Calculate any additional logic here based on the updated totalAfterDiscount value
+  }, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
 
-    setTotalAfterDiscount(res.totalAfterDiscount);
-    setDiscount(res.discount);
-    setError("");
-    console.log("Updated totalAfterDiscount:", res.totalAfterDiscount);
+    if (res.message) {
+      setError(res.message);
+      setTotalAfterDiscount(0); // Reset totalAfterDiscount in case of error
+      setDiscount(0); // Reset discount in case of error
+    } else {
+      setDiscount(res.discount);
+      setError("");
+      setTotalAfterDiscount(res.totalAfterDiscount);
+
+      console.log(totalAfterDiscount);
+    }
   };
 
   const placeOrderHandler = async () => {
@@ -63,8 +75,15 @@ export default function OrderSummary({
               <dt className="text-base font-medium">Total</dt>
               <dd className="text-base font-medium text-gray-900">
                 {" "}
-                ৳ {totalAfterDiscount?.toFixed(2)}
+                ৳ {totalAfterDiscount}
               </dd>
+
+              {totalAfterDiscount < cart.cartTotal &&
+                totalAfterDiscount != "" && (
+                  <span>
+                    New price : <b>{totalAfterDiscount}$</b>
+                  </span>
+                )}
             </div>
           </dl>
 
@@ -87,10 +106,15 @@ export default function OrderSummary({
                   Apply Coupon
                 </button>
               </div>
+              {discount > 0 && (
+                <span>
+                  Coupon applied : <b>-{discount}%</b>
+                </span>
+              )}
             </div>
             <button
               type="submit"
-              className="w-full bg-gray-900 border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-gray-900 mt-4"
+              className="w-full bg-gray-900 border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-900 mt-4"
               onClick={() => placeOrderHandler()}
             >
               Place order

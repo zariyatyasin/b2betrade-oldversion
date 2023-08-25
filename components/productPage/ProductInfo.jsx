@@ -164,7 +164,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-      <h2 className="mt-8 text-base text-gray-900">Choose subscription</h2>
+      <h2 className="mt-8 text-base text-gray-900">Color</h2>
       <div className="mt-3 flex select-none flex-wrap items-center gap-1">
         {product.colors &&
           product.colors.map((color, i) => (

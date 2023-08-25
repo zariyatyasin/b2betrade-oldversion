@@ -22,7 +22,8 @@ export default function Checkout({ cart, user }) {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editedAddressIndex, setEditedAddressIndex] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState();
-  const [totalAfterDiscout, setTotalAfterDiscount] = useState();
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+
   const [formData, setFormData] = useState({
     fullName: "",
 
@@ -130,7 +131,7 @@ export default function Checkout({ cart, user }) {
           <div className="max-w-2xl mx-auto lg:max-w-none">
             <Steps />
 
-            <div className="lg:grid lg:grid-cols-3 lg:gap-x-12">
+            <div className="lg:grid lg:grid-cols-3 lg:gap-x-8">
               <div className="  lg:col-span-2 ">
                 <div className=" py-6 poin px-4 sm:px-6 bg-white border border-gray-200   lg:px-8 ">
                   <h2 className="text-2xl font-black text-gray-900">
@@ -272,7 +273,7 @@ export default function Checkout({ cart, user }) {
               </div>
 
               <OrderSummary
-                totalAfterDiscout={totalAfterDiscout}
+                totalAfterDiscount={totalAfterDiscount}
                 setTotalAfterDiscount={setTotalAfterDiscount}
                 cart={cart}
                 user={user}
