@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PaymentMethod from "./PaymentMethod";
 import { applyCoupon } from "../../request/user";
-
+import axios from "axios";
+import { useRouter } from "next/navigation";
 export default function OrderSummary({
   cart,
   setTotalAfterDiscount,
@@ -14,32 +15,44 @@ export default function OrderSummary({
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState(" ");
+  const [orderError, setOrderError] = useState(" ");
+  const router = useRouter();
+  console.log(selectedMethod);
+  console.log(cart.products);
   useEffect(() => {
-    // Calculate and log the new totalAfterDiscount value whenever it changes
     console.log("Updated totalAfterDiscount:", totalAfterDiscount);
-
-    // Calculate any additional logic here based on the updated totalAfterDiscount value
   }, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
 
     if (res.message) {
       setError(res.message);
-      setTotalAfterDiscount(0); // Reset totalAfterDiscount in case of error
-      setDiscount(0); // Reset discount in case of error
+      setTotalAfterDiscount(0);
+      setDiscount(0);
     } else {
       setDiscount(res.discount);
       setError("");
       setTotalAfterDiscount(res.totalAfterDiscount);
-
-      console.log(totalAfterDiscount);
     }
   };
 
   const placeOrderHandler = async () => {
-    // Implement your place order logic here
-  };
+    try {
+      const { data } = await axios.post("/api/order/create", {
+        products: cart.products,
+        shippingAddress: selectedAddress,
+        paymentMethod: selectedMethod,
+        totalBeforeDiscount: cart.cartTotal,
+        total: totalAfterDiscount !== "" ? totalAfterDiscount : total,
+        couponApplied: coupon,
+      });
 
+      router.push(`/order/${data.order_id}`);
+    } catch (error) {
+      setOrderError(error.response.data.message);
+    }
+  };
+  console.log(selectedAddress);
   return (
     <div>
       <div className="mt-10 lg:mt-0  lg:col-span-1">
@@ -65,18 +78,14 @@ export default function OrderSummary({
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-sm">Shipping</dt>
-              <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+              <dd className="text-sm font-medium text-gray-900">$0.00</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-sm">Taxes</dt>
-              <dd className="text-sm font-medium text-gray-900">$5.52</dd>
+              <dd className="text-sm font-medium text-gray-900">$0.00</dd>
             </div>
             <div className="flex items-center justify-between border-t border-gray-200 pt-6">
               <dt className="text-base font-medium">Total</dt>
-              <dd className="text-base font-medium text-gray-900">
-                {" "}
-                ৳ {totalAfterDiscount}
-              </dd>
 
               {totalAfterDiscount < cart.cartTotal &&
                 totalAfterDiscount != "" && (
