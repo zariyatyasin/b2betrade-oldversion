@@ -18,6 +18,9 @@ export const POST = async (request) => {
     db.connectDb();
 
     const { name } = await request.json();
+
+    console.log("this is", name);
+
     const exists = await Category.findOne({ name });
     if (exists) {
       return NextResponse.json(
@@ -36,13 +39,45 @@ export const POST = async (request) => {
     return NextResponse.json(
       {
         message: "Category created successfully !",
-        categories: await Category.find({}).sort({ updateAt: -1 }),
+        categories: await Category.find({}).sort({ updatedAt: -1 }),
       },
       {
         status: 201,
       }
     );
   } catch (err) {
-    return new NextResponse({ message: err.message }, { status: 500 });
+    return NextResponse.json({ message: err.message }, { status: 500 });
+  }
+};
+export const PUT = async (request) => {
+  try {
+    db.connectDb();
+
+    const { id, name } = await request.json();
+
+    const category = await Category.findByIdAndUpdate(
+      id,
+      { name, slug: slugify(name) },
+      { new: true }
+    );
+
+    if (!category) {
+      return NextResponse.json("Category not found", {
+        status: 404,
+      });
+    }
+
+    db.disconnectDb();
+    return NextResponse.json(
+      {
+        message: "Category updated successfully !",
+        categories: await Category.find({}).sort({ updatedAt: -1 }),
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (err) {
+    return NextResponse.json({ message: err.message }, { status: 500 });
   }
 };
