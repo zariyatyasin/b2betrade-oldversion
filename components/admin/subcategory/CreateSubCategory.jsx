@@ -4,33 +4,36 @@ import CrudTable from "@/components/Table/CrudTable";
 import React, { useState } from "react";
 
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import CreateForm from "@/components/form/CreateForm";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import FullScreenLoading from "@/components/loading/FullScreenLoading";
-export default function CreateCategories({ categories }) {
-  const [data, setData] = useState(categories);
+import CreateSubCategoryForm from "@/components/form/CreateSubCategoryForm";
+export default function CreateSubCategory({ categories, subcategories }) {
+  const [data, setData] = useState(subcategories);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editData, setEditData] = useState({});
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
-  const columns = [
-    { field: "name", headerName: "Category Name", width: 300 },
 
+  const columns = [
+    { field: "name", headerName: "Subcategory Name", width: 200 },
+    { field: "parent.name", headerName: "Parent Category", width: 200 },
     {
       field: "actions",
       headerName: "Actions",
       sortable: false,
-      width: 280,
+      width: 250,
     },
   ];
   const editableColumns = columns.filter(
@@ -39,18 +42,32 @@ export default function CreateCategories({ categories }) {
   const [createFormOpen, setCreateFormOpen] = useState(false);
 
   //create categories
-  const handleCreateCategory = async (name) => {
-    console.log(name);
+  const handleSubmitForm = async (formData) => {
     setLoading(true);
-    try {
-      const { data } = await axios.post("/api/admin/category", name);
 
-      setData(data.categories);
-      toast.success(data.message);
+    try {
+      if (formData.action === "edit") {
+        const { data } = await axios.put("/api/admin/subcategory", {
+          id: formData.id,
+          name: formData.name,
+          parent: formData.categoryId,
+        });
+
+        setData(data.subcategories);
+        toast.success(data.message);
+      } else {
+        // Create operation
+        const { data } = await axios.post("/api/admin/subcategory", {
+          name: formData.name,
+          parent: formData.categoryId,
+        });
+        console.log(data.subcategories);
+        setData(data.subcategories);
+        toast.success(data.message);
+      }
     } catch (error) {
-      setError(error);
-      console.error("Error:", error.response);
-      toast.error(error.response.data);
+      console.error("Error creating/editing category:", error);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -65,10 +82,10 @@ export default function CreateCategories({ categories }) {
 
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/api/admin/category/${deleteItemId}`
+        `http://localhost:3000/api/admin/subcategory/${deleteItemId}`
       );
 
-      setData(data.categories);
+      setData(data.subcategories);
       toast.success(data.message);
     } catch (error) {
       setError(error);
@@ -78,49 +95,26 @@ export default function CreateCategories({ categories }) {
       setLoading(false);
     }
   };
-
   const handleEdit = (rowData) => {
-    setEditData(rowData);
+    setEditData({ ...rowData, action: "edit" });
+
     setOpenEditDialog(true);
   };
 
-  const handleUpdateCategory = async () => {
-    setLoading(true);
-
-    console.log(editData);
-    try {
-      const { data } = await axios.put(
-        `http://localhost:3000/api/admin/category/`,
-        {
-          id: editData._id,
-          name: editData.name,
-        }
-      );
-      setData(data.categories);
-      toast.success(data.message);
-      setOpenEditDialog(false);
-    } catch (error) {
-      setError(error);
-      console.error("Error:", error.response);
-      toast.error(error.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
   const rowsWithIds = data?.map((row, index) => ({
     ...row,
     id: index + 1,
+    "parent.name": row.parent.name,
   }));
 
   return (
     <div className=" w-full">
       {loading && <FullScreenLoading />}
       <Button
-        variant="contained"
-        color="primary"
+        className=" bg-gray-950 text-white  "
         onClick={() => setCreateFormOpen(true)}
       >
-        Create
+        Create SubCategory
       </Button>
       <CrudTable
         columns={columns}
@@ -130,31 +124,18 @@ export default function CreateCategories({ categories }) {
         onSubmitDelete={(id) => handleDelete(id)}
       />
 
-      <CreateForm
-        open={createFormOpen}
-        onClose={() => setCreateFormOpen(false)}
-        onSubmit={handleCreateCategory}
+      <CreateSubCategoryForm
+        open={createFormOpen || openEditDialog}
+        onClose={() => {
+          setCreateFormOpen(false);
+          setOpenEditDialog(false);
+          setEditData({});
+        }}
+        onSubmits={handleSubmitForm}
+        categories={categories}
+        editData={editData}
         fields={editableColumns.map((col) => col.field)}
       />
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>Edit Row</DialogTitle>
-        <DialogContent>
-          {editableColumns.map((col) => (
-            <TextField
-              key={col.field}
-              label={col.headerName}
-              value={editData[col.field]}
-              onChange={(e) =>
-                setEditData({ ...editData, [col.field]: e.target.value })
-              }
-            />
-          ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleUpdateCategory}>Save</Button>
-          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
 
       <Dialog
         open={deleteConfirmationOpen}

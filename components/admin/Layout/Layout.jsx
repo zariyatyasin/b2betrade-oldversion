@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
         onClick={() => dispatch(toggleSidebar(!expand))}
       ></div> */}
       <div
-        className={`mt-24 transition-all ease-in-out duration-300 ${
+        className={`mt-24 transition-all ease-in-out duration-300  overflow-hidden ${
           expand ? "ml-64" : "ml-0"
         }`}
       >

@@ -146,7 +146,7 @@ const Sidebar = () => {
               </li>
               <li className="px-2">
                 <Link
-                  href="/admin/dashboard/allproduct"
+                  href="/admin/dashboard/product/allproduct"
                   className={`  ${
                     router == "allproduct" ? "bg-gray-950 text-white" : ""
                   } inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
@@ -157,7 +157,7 @@ const Sidebar = () => {
               </li>
               <li className="px-2">
                 <Link
-                  href="/admin/dashboard/createproduct"
+                  href="/admin/dashboard/product/createproduct"
                   className={`  ${
                     router == "createproduct" ? "bg-gray-950 text-white" : ""
                   } inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
@@ -189,7 +189,9 @@ const Sidebar = () => {
               <li className="px-2">
                 <Link
                   href="/admin/dashboard/subcategories"
-                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                  className={`  ${
+                    router == "subcategories" ? "bg-gray-950 text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <AppRegistrationOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">
@@ -207,7 +209,7 @@ const Sidebar = () => {
 
               <li className="px-2">
                 <Link
-                  href="/admin/dashboard/categories"
+                  href="/admin/dashboard/coupon"
                   className={`inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <LocalAtmOutlinedIcon sx={{ fontSize: 18 }} />

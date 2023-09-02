@@ -8,13 +8,21 @@ import {
   Button,
 } from "@mui/material";
 
-export default function CreateForm({ open, onClose, onSubmit, fields }) {
+export default function CreateForm({
+  open,
+  onClose,
+  onSubmit,
+  fields,
+  selecetFromIput,
+}) {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
       acc[field] = "";
       return acc;
     }, {})
   );
+
+  console.log(selecetFromIput);
 
   const handleChange = (event, field) => {
     setFormData({

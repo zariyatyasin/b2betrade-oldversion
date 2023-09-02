@@ -4,7 +4,7 @@ import { Table } from "@mui/material";
 
 import { Button } from "@/components/ui/button";
 
-export default function CrudTable({
+export default function CrudTablePicAndLink({
   columns,
 
   data,

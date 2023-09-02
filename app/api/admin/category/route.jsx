@@ -55,6 +55,8 @@ export const PUT = async (request) => {
 
     const { id, name } = await request.json();
 
+    console.log(id, name);
+
     const category = await Category.findByIdAndUpdate(
       id,
       { name, slug: slugify(name) },
@@ -71,7 +73,7 @@ export const PUT = async (request) => {
     return NextResponse.json(
       {
         message: "Category updated successfully !",
-        categories: await Category.find({}).sort({ updatedAt: -1 }),
+        categories: await Category.find({}).sort({ createdAt: -1 }),
       },
       {
         status: 200,

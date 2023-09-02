@@ -3,11 +3,12 @@ import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
-import cart from "./cartSlice";import expandSidebar from "./ExpandSlice";
-
+import cart from "./cartSlice";
+import expandSidebar from "./ExpandSlice";
+import DialogSlice from "./DialogSlice";
 
 const reducers = combineReducers({ cart,
-  expandSidebar, });
+   expandSidebar, DialogSlice});
 
 const config = {
   key: "root",

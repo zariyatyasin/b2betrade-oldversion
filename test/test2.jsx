@@ -1,295 +1,312 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import AddressForm from "./AddressFrom";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
-export default function Checkout() {
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
+export default function CreateSubCategoryForm({
+  open,
+  onClose,
+  onSubmit,
+  fields,
+  selectFromInput,
+}) {
+  const [formData, setFormData] = useState(
+    fields.reduce((acc, field) => {
+      acc[field] = "";
+      return acc;
+    }, {})
+  );
 
-  const [showAddressForm, setShowAddressForm] = useState(false);
-  const [editedAddressIndex, setEditedAddressIndex] = useState(null);
-  useEffect(() => {
-    setShowAddressForm(addresses.length === 0);
-  }, [addresses]);
-  const handleSaveAddress = (address) => {
-    if (editedAddressIndex !== null) {
-      // Edit existing address
-      const updatedAddresses = [...addresses];
-      updatedAddresses[editedAddressIndex] = address;
-      setAddresses(updatedAddresses);
-      setEditedAddressIndex(null);
-    } else {
-      // Add new address
-      setAddresses([...addresses, address]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const handleChange = (event, field) => {
+    setFormData({
+      ...formData,
+      [field]: event.target.value,
+    });
+  };
+
+  const handleCategorySelect = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    const selectedCategoryObject = selectFromInput.find(
+      (category) => category.name === selectedCategory
+    );
+
+    if (selectedCategoryObject) {
+      // Use selectedCategoryObject._id in your submission logic
+      onSubmit({
+        ...formData,
+        categoryId: selectedCategoryObject._id,
+      });
+
+      setFormData(
+        fields.reduce((acc, field) => {
+          acc[field] = "";
+          return acc;
+        }, {})
+      );
+
+      setSelectedCategory("");
+      onClose();
     }
-    setShowAddressForm(false);
-
-    // Reset form fields after saving
-    setStreet("");
-    setCity("");
-    setState("");
-    setPostalCode("");
   };
-
-  const handleEditAddress = (index) => {
-    const addressToEdit = addresses[index];
-    const addressParts = addressToEdit.split(", ");
-    const [street, city, state, postalCode] = addressParts; // Extract parts
-
-    setStreet(street);
-    setCity(city);
-    setState(state);
-    setPostalCode(postalCode);
-
-    setEditedAddressIndex(index);
-    setShowAddressForm(true);
-  };
-
-  const handleDeleteAddress = (index) => {
-    const updatedAddresses = [...addresses];
-    updatedAddresses.splice(index, 1);
-    setAddresses(updatedAddresses);
-    setShowAddressForm(updatedAddresses.length === 0);
-  };
-
-  // Initialize address data for editing
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [postalCode, setPostalCode] = useState("");
 
   return (
-    <div>
-      <div className="bg-gray-50">
-        <main className="max-w-[1440px] mx-auto pt-16 pb-24 px-4 sm:px-6 lg:px-8">
-          <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-semibold mb-4">Checkout</h1>
-            {addresses.length > 0 && (
-              <div>
-                <div className="mb-4">
-                  <h2 className="text-lg font-semibold mb-2">
-                    Saved Addresses
-                  </h2>
-                  <ul>
-                    {addresses.map((address, index) => (
-                      <li
-                        key={index}
-                        className={`mb-2 ${
-                          selectedAddressIndex === index
-                            ? "border border-blue-500"
-                            : ""
-                        }`}
-                      >
-                        <label className="flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={selectedAddressIndex === index}
-                            onChange={() => setSelectedAddressIndex(index)}
-                            className="mr-2"
-                          />
-                          {address}
-                        </label>
-                        <button
-                          className="ml-2 px-2 py-1 bg-yellow-500 text-white rounded"
-                          onClick={() => handleEditAddress(index)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="ml-2 px-2 py-1 bg-red-500 text-white rounded"
-                          onClick={() => handleDeleteAddress(index)}
-                        >
-                          Delete
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {!showAddressForm && (
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded"
-                    onClick={() => setShowAddressForm(!showAddressForm)}
-                  >
-                    Add Address
-                  </button>
-                )}
-              </div>
-            )}
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Create Category</DialogTitle>
+      <DialogContent>
+        <Select
+          label="Category"
+          value={selectedCategory}
+          onChange={handleCategorySelect}
+        >
+          {selectFromInput.map((category) => (
+            <MenuItem key={category._id} value={category.name}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select>
+        {fields.map((field) => (
+          <TextField
+            key={field}
+            label={field}
+            value={formData[field]}
+            onChange={(e) => handleChange(e, field)}
+          />
+        ))}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleSubmit}>Save</Button>
+        <Button onClick={onClose}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
-            {showAddressForm && (
-              <AddressForm
-                onSave={handleSaveAddress}
-                street={street}
-                addresses={addresses}
-                city={city}
-                state={state}
-                postalCode={postalCode}
-                onCancel={() => {
-                  setEditedAddressIndex(null);
-                  setShowAddressForm(false);
-                  setStreet("");
-                  setCity("");
-                  setState("");
-                  setPostalCode("");
-                }}
-                isEditing={editedAddressIndex !== null}
-              />
-            )}
-          </div>
-        </main>
-      </div>
+
+
+
+
+
+"use client";
+
+import CrudTable from "@/components/Table/CrudTable";
+import React, { useState } from "react";
+
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
+
+import axios from "axios";
+import { toast } from "react-toastify";
+import FullScreenLoading from "@/components/loading/FullScreenLoading";
+import CreateSubCategoryForm from "@/components/form/CreateSubCategoryForm";
+export default function CreateSubCategory({ categories, subcategories }) {
+  const [data, setData] = useState(subcategories);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
+  console.log(categories);
+
+  const columns = [
+    { field: "name", headerName: "Subcategory Name", width: 130 },
+    { field: "parent.name", headerName: "Parent Category", width: 150 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      sortable: false,
+      width: 150,
+    },
+  ];
+  const editableColumns = columns.filter(
+    (col) => col.field !== "id" && col.field !== "actions"
+  );
+  const [createFormOpen, setCreateFormOpen] = useState(false);
+
+  //create categories
+  const handleCreateCategory = async (data) => {
+    console.log("this is data", data);
+    // setLoading(true);
+    // try {
+    //   const { data } = await axios.post("/api/admin/subcategory", {
+    //     name: data.name,
+    //     parent: data.categoryId,
+    //   });
+
+    //   setData(data.categories);
+    //   toast.success(data.message);
+    // } catch (error) {
+    //   setError(error);
+    //   console.error("Error:", error);
+    //   // toast.error(error.response.data);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
+  const handleDelete = (id) => {
+    setDeleteItemId(id);
+    setDeleteConfirmationOpen(true);
+  };
+  const handleConfirmDelete = async () => {
+    setLoading(true);
+    setDeleteConfirmationOpen(false);
+
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3000/api/admin/category/${deleteItemId}`
+      );
+
+      setData(data.categories);
+      toast.success(data.message);
+    } catch (error) {
+      setError(error);
+      console.error("Error:", error.response);
+      toast.error(error.response.data);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (rowData) => {
+    setEditData(rowData);
+    setOpenEditDialog(true);
+  };
+
+  const handleUpdateCategory = async () => {
+    console.log(editData);
+    // setLoading(true);
+    // try {
+    //   const { data } = await axios.put(
+    //     `http://localhost:3000/api/admin/category/`,
+    //     {
+    //       id: editData._id,
+    //       name: editData.name,
+    //     }
+    //   );
+    //   setData(data.categories);
+    //   toast.success(data.message);
+    //   setOpenEditDialog(false);
+    // } catch (error) {
+    //   setError(error);
+    //   console.error("Error:", error.response);
+    //   toast.error(error.response.data);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
+  const rowsWithIds = data.map((row, index) => ({
+    ...row,
+    id: index + 1,
+    "parent.name": row.parent.name,
+  }));
+
+  return (
+    <div className=" w-full">
+      {loading && <FullScreenLoading />}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setCreateFormOpen(true)}
+      >
+        Create
+      </Button>
+      <CrudTable
+        columns={columns}
+        editableColumns={editableColumns}
+        data={rowsWithIds}
+        onEdit={handleEdit}
+        onSubmitDelete={(id) => handleDelete(id)}
+      />
+
+      <CreateSubCategoryForm
+        open={createFormOpen}
+        onClose={() => setCreateFormOpen(false)}
+        onSubmit={handleCreateCategory}
+        categories={categories}
+        fields={editableColumns.map((col) => col.field)}
+      />
+      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <DialogTitle>Edit Row</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Subcategory Name"
+            value={editData.name}
+            onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+          />
+          {editableColumns.map((col) => {
+            if (col.field === "parent.name") {
+              return editData.parent ? (
+                <Select
+                  key={col.field}
+                  label={col.headerName}
+                  value={editData.parent.name}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      parent: { ...editData.parent, name: e.target.value },
+                    })
+                  }
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category._id} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              ) : null;
+            }
+          })}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleUpdateCategory}>Save</Button>
+          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={deleteConfirmationOpen}
+        onClose={() => setDeleteConfirmationOpen(false)}
+      >
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this item?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmDelete} color="primary">
+            Yes
+          </Button>
+          <Button
+            onClick={() => {
+              setDeleteConfirmationOpen(false);
+              setDeleteItemId(null);
+            }}
+            color="primary"
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
-import React, { useState, useEffect } from "react";
-
-const AddressForm = ({
-  onSave,
-  street: initialStreet,
-  city: initialCity,
-  state: initialState,
-  postalCode: initialPostalCode,
-  onCancel,
-  isEditing,
-  addresses,
-}) => {
-  const [street, setStreet] = useState(initialStreet || "");
-  const [city, setCity] = useState(initialCity || "");
-  const [state, setState] = useState(initialState || "");
-  const [postalCode, setPostalCode] = useState(initialPostalCode || "");
-
-  const [errors, setErrors] = useState({
-    street: "",
-    city: "",
-    state: "",
-    postalCode: "",
-  });
-
-  useEffect(() => {
-    setStreet(initialStreet || "");
-    setCity(initialCity || "");
-    setState(initialState || "");
-    setPostalCode(initialPostalCode || "");
-    setErrors({
-      street: "",
-      city: "",
-      state: "",
-      postalCode: "",
-    });
-  }, [initialStreet, initialCity, initialState, initialPostalCode]);
-
-  const validateField = (fieldName, value) => {
-    const newErrors = { ...errors };
-    let isValid = true;
-
-    if (value.trim() === "") {
-      newErrors[fieldName] = `${fieldName} is required`;
-      isValid = false;
-    } else {
-      newErrors[fieldName] = "";
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      validateField("street", street) &&
-      validateField("city", city) &&
-      validateField("state", state) &&
-      validateField("postalCode", postalCode)
-    ) {
-      const address = `${street}, ${city}, ${state}, ${postalCode}`;
-      onSave(address);
-      setStreet("");
-      setCity("");
-      setState("");
-      setPostalCode("");
-    }
-  };
-
-  return (
-    <div className="my-4 p-4 border rounded bg-gray-100">
-      <h2 className="text-lg font-semibold mb-2">
-        {isEditing ? "Edit" : "Add"} Address
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block mb-2">Street:</label>
-          <input
-            className="w-full p-2 border rounded"
-            type="text"
-            value={street}
-            onChange={(e) => {
-              setStreet(e.target.value);
-              validateField("street", e.target.value);
-            }}
-          />
-          {errors.street && <p className="text-red-500">{errors.street}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2">City:</label>
-          <input
-            className="w-full p-2 border rounded"
-            type="text"
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-              validateField("city", e.target.value);
-            }}
-          />
-          {errors.city && <p className="text-red-500">{errors.city}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2">State:</label>
-          <input
-            className="w-full p-2 border rounded"
-            type="text"
-            value={state}
-            onChange={(e) => {
-              setState(e.target.value);
-              validateField("state", e.target.value);
-            }}
-          />
-          {errors.state && <p className="text-red-500">{errors.state}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2">Postal Code:</label>
-          <input
-            className="w-full p-2 border rounded"
-            type="text"
-            value={postalCode}
-            onChange={(e) => {
-              setPostalCode(e.target.value);
-              validateField("postalCode", e.target.value);
-            }}
-          />
-          {errors.postalCode && (
-            <p className="text-red-500">{errors.postalCode}</p>
-          )}
-        </div>
-        <div className="flex">
-          <button
-            className="mr-2 px-4 py-2 bg-blue-500 text-white rounded"
-            type="submit"
-          >
-            Save Address
-          </button>
-          {addresses.length > 0 && (
-            <button
-              className="px-4 py-2 bg-gray-500 text-white rounded"
-              onClick={onCancel}
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
-    </div>
-  );
-};
-
-export default AddressForm;

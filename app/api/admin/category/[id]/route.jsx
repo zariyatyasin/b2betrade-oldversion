@@ -12,9 +12,12 @@ export const DELETE = async (request, { params }) => {
     const deletedCategory = await Category.findByIdAndRemove(id);
 
     if (!deletedCategory) {
-      return NextResponse.json("Category not found", {
-        status: 404,
-      });
+      return NextResponse.json(
+        {
+          message: "Category not found",
+        },
+        { status: 500 }
+      );
     }
 
     db.disconnectDb();

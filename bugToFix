@@ -7,4 +7,20 @@ add loading
 middleware and call back origain redicrt
 
 
-uncommnet session and other stuff
+uncommnet ai getSeestion session and other stuff in admin to
+
+fix all the  error so that it will show it  } catch (err) {
+      console.log(err.message);
+      return new NextResponse(err, { status: 500 });
+    }
+  };
+  return NextResponse.json(err, { status: 500 });
+
+  /////
+
+
+  MongoNotConnectedError: Client must be connected before running operations
+  at new Promise (<anonymous>)
+  at AsyncGenerator.next (<anonymous>)
+  at async getData (./app/page.jsx:32:20)
+  at async Home (./app/page.jsx:40:26)

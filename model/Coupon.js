@@ -25,6 +25,45 @@ const couponSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    minAmount: {
+      type: Number,
+      required: true,
+       
+    },
+    maxUsesTotal: {
+      type: Number,
+    },
+    maxUsesPerUser: {
+      type: Number,
+    },
+ 
+    applicableProducts: [{
+      type: ObjectId,
+      ref: "Product",
+    }],
+    applicableCategories: [{
+      type: ObjectId,
+      ref: "Category",
+    }],
+    redemptionHistory: [{
+      user: {
+        type: ObjectId,
+        ref: "User",
+      },
+      redeemedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    }],
+    discountType: {
+      type: String,
+      enum: ["percentage", "fixed"],
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

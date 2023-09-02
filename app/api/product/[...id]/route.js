@@ -8,8 +8,8 @@ export const GET = async (request , { params } ) => {
     try {
      db.connectDb()
        const id = params.id[0];
-       const style = params.id[1];
-       const size = params.id[2]
+       const style = params.id[1] || 0;
+       const size = params.id[2] || 0;
        const product = await Product.findById(id).lean();
        let discount = product.subProducts[style].discount
        let priceBefore = product.subProducts[style].sizes[size].price;
@@ -37,6 +37,6 @@ export const GET = async (request , { params } ) => {
         status: 201,
       })
     } catch (err) {
-      return new NextResponse({message:err}, { status: 500 });
+      return new NextResponse(err, { status: 500 });
     }
   };

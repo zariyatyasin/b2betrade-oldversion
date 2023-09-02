@@ -19,13 +19,11 @@ export default function OrderSummary({
   const router = useRouter();
   console.log(selectedMethod);
   console.log(cart.products);
-  useEffect(() => {
-    console.log("Updated totalAfterDiscount:", totalAfterDiscount);
-  }, [totalAfterDiscount]);
+  useEffect(() => {}, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
-
-    if (res.message) {
+    console.log("this is re", res);
+    if (res?.message) {
       setError(res.message);
       setTotalAfterDiscount(0);
       setDiscount(0);
