@@ -9,7 +9,6 @@ const initialState = {
     link_text: "",
   },
 };
-
 export const DialogSlice = createSlice({
   name: "dialog",
   initialState,

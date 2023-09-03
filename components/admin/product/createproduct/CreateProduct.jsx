@@ -9,6 +9,12 @@ import AdminInput from "@/components/selects/AdminPut";
 import DialogModal from "@/components/dilogModel/DialogModal";
 import { useDispatch } from "react-redux";
 import { showDialog } from "@/store/DialogSlice";
+import CreateProductImage from "./CreateProductImage";
+import AddImageColor from "./AddImageColor";
+import AddProductStyle from "./AddProductStyle";
+import Sizes from "./addToClick/size";
+import Details from "./addToClick/Details";
+import Questions from "./addToClick/Questions";
 
 const initialState = {
   name: "",
@@ -50,6 +56,9 @@ const initialState = {
 export default function CreateProduct({ parents, categories }) {
   const [product, setProduct] = useState(initialState);
   const [subs, setSubs] = useState([]);
+  const [colorImage, setColorImage] = useState("");
+  const [images, setImages] = useState([]);
+  const [description_images, setDescription_images] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -95,17 +104,9 @@ export default function CreateProduct({ parents, categories }) {
   };
 
   const createProduct = async () => {
+    console.log(product);
     // Implement your createProduct logic here
   };
-
-  useEffect(() => {
-    dispatch(
-      showDialog({
-        header: "Please follow our instructions.",
-        msgs: "dlklkd",
-      })
-    );
-  }, []);
 
   const validate = Yup.object({
     name: Yup.string()
@@ -115,7 +116,7 @@ export default function CreateProduct({ parents, categories }) {
     brand: Yup.string().required("Please add a brand"),
     category: Yup.string().required("Please select a category."),
     sku: Yup.string().required("Please add an SKU/number"),
-    color: Yup.string().required("Please add a color"),
+
     description: Yup.string().required("Please add a description"),
   });
 
@@ -129,16 +130,41 @@ export default function CreateProduct({ parents, categories }) {
       >
         {(formik) => (
           <Form>
+            <CreateProductImage
+              name="imageInputFile"
+              header="Product Carousel Images"
+              text="Add images"
+              images={images}
+              setImages={setImages}
+              setColorImage={setColorImage}
+            />
+
             <div className="">
               {product.color.image && (
-                <img src={product.color.image} className={"h-24 w-24"} alt="" />
+                <img
+                  src={product.color.image}
+                  className={"h-24 w-24 mt-5"}
+                  alt=""
+                />
               )}
               {product.color.color && (
-                <span
-                  className={""}
-                  style={{ background: `${product.color.color}` }}
-                ></span>
+                <div
+                  className={" h-8 w-8 rounded-full"}
+                  style={{ backgroundColor: `${product.color.color}` }}
+                ></div>
               )}
+              <AddImageColor
+                name="color"
+                product={product}
+                setProduct={setProduct}
+                colorImage={colorImage}
+              />
+              <AddProductStyle
+                name="styleInput"
+                product={product}
+                setProduct={setProduct}
+                colorImage={colorImage}
+              />
               <SingularSelect
                 name="parent"
                 value={product.parent}
@@ -202,23 +228,21 @@ export default function CreateProduct({ parents, categories }) {
                   placholder="Product discount"
                   onChange={handleChange}
                 />
-                {/* 
-<Sizes
-              sizes={product.sizes}
-              product={product}
-              setProduct={setProduct}
-            />
-            <Details
-              details={product.details}
-              product={product}
-              setProduct={setProduct}
-            />
-            <Questions
-              questions={product.questions}
-              product={product}
-              setProduct={setProduct}
-            /> */}
-
+                <Sizes
+                  sizes={product.sizes}
+                  product={product}
+                  setProduct={setProduct}
+                />
+                <Details
+                  details={product.details}
+                  product={product}
+                  setProduct={setProduct}
+                />{" "}
+                <Questions
+                  questions={product.questions}
+                  product={product}
+                  setProduct={setProduct}
+                />
                 {/*
             <Images
               name="imageDescInputFile"
@@ -234,7 +258,12 @@ export default function CreateProduct({ parents, categories }) {
             */}
               </div>
             </div>
-            <button type="submit">Create Product</button>
+            <button
+              type="submit"
+              className="p-2 border bg-gray-950 text-white font-bold"
+            >
+              Create Product
+            </button>
           </Form>
         )}
       </Formik>

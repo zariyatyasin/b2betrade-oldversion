@@ -1,13 +1,16 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import { Navbar } from "./sidebar/Navbar";
 import { toggleSidebar } from "@/store/ExpandSlice";
+import { hideDialog } from "@/store/DialogSlice";
+import DialogModal from "@/components/dilogModel/DialogModal";
 
 const Layout = ({ children }) => {
   const { expandSidebar } = useSelector((state) => ({ ...state }));
   const expand = expandSidebar.expandSidebar;
+
   const dispatch = useDispatch();
 
   return (

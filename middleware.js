@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
     const session = await getToken({
-        req,
+        req, 
         secret: process.env.JWT_SECRET,
         secureCookie: process.env.NODE_ENV === "production"
     });

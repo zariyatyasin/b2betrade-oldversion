@@ -24,3 +24,11 @@ fix all the  error so that it will show it  } catch (err) {
   at AsyncGenerator.next (<anonymous>)
   at async getData (./app/page.jsx:32:20)
   at async Home (./app/page.jsx:40:26)
+
+</anonymous>
+
+must to fix..
+
+
+all api need to be fix. if the user is admin the the admin can make the request
+ in here now everyone can make request if he/she is login  
