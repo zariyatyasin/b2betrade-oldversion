@@ -1,5 +1,5 @@
 import Layout from "@/components/admin/Layout/Layout";
-import CreateProduct from "@/components/admin/product/createproduct/CreateProduct";
+import CreateProduct from "../../../../../components/admin/product/createproduct/CreateProduct";
 import Category from "@/model/Category";
 import Product from "@/model/Product";
 import db from "@/utils/db";

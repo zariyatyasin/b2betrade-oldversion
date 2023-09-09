@@ -104,8 +104,20 @@ export default function CreateProduct({ parents, categories }) {
   };
 
   const createProduct = async () => {
-    console.log(product);
-    // Implement your createProduct logic here
+    console.log("this ", images);
+    try {
+      const data = new FormData();
+      data.append("file", images);
+
+      const res = await axios.post(
+        "http://localhost:3000/api/cloudinary",
+        data
+      );
+
+      if (!res.ok) throw new Error(await res.text());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validate = Yup.object({
@@ -131,7 +143,7 @@ export default function CreateProduct({ parents, categories }) {
         {(formik) => (
           <Form>
             <CreateProductImage
-              name="imageInputFile"
+              name="file"
               header="Product Carousel Images"
               text="Add images"
               images={images}
