@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { writeFile, unlink } from "fs/promises";
 import { v2 as cloudinary } from "cloudinary";
 import path from "path";
+import { getCurrentUser } from "../../../utils/session";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -13,24 +14,24 @@ const maxFileSize = 5 * 1024 * 1024; // 5MB
 const maxNumberOfFiles = 10;
 export const POST = async (request) => {
   try {
-    const data = await request.formData();
+    const session = await getCurrentUser();
 
+    const data = await request.formData();
     const files = data.getAll("file");
+
     let images = [];
 
     for (const file of files) {
-      const ext = file.name.split(".").pop().toLowerCase(); // Get file extension
-      if (!allowedFileTypes.includes(ext)) {
+      const ext = file.name ? file.name.split(".").pop().toLowerCase() : "";
+
+      if (ext && !allowedFileTypes.includes(ext)) {
         return NextResponse.json(`File type not allowed: ${file.name}`);
       }
+
       if (file.size > maxFileSize) {
         return NextResponse.json(`File size exceeds the limit: ${file.name}`);
       }
-      if (files.length > maxNumberOfFiles) {
-        return NextResponse.json(
-          `Exceeded maximum number of files allowed (${maxNumberOfFiles})`
-        );
-      }
+
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const filePath = path.join(process.cwd(), "public/uploads", file.name);
@@ -43,15 +44,13 @@ export const POST = async (request) => {
         secure_url: response.secure_url,
         public_id: response.public_id,
       });
+
       await unlink(filePath);
     }
 
-    return NextResponse.json(
-      { images },
-      {
-        status: 201,
-      }
-    );
+    return NextResponse.json(images, {
+      status: 201,
+    });
   } catch (err) {
     return new NextResponse(err, { status: 500 });
   }
@@ -59,7 +58,7 @@ export const POST = async (request) => {
 
 export const DELETE = async (request) => {
   try {
-    const { public_id } = await request.json(); // Assuming you pass the public_id in the query parameter
+    const { public_id } = await request.json();
 
     if (!public_id) {
       return new NextResponse("Missing public_id", { status: 400 });
