@@ -28,10 +28,6 @@ export const POST = async (request) => {
         return NextResponse.json(`File type not allowed: ${file.name}`);
       }
 
-      if (file.size > maxFileSize) {
-        return NextResponse.json(`File size exceeds the limit: ${file.name}`);
-      }
-
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const filePath = path.join(process.cwd(), "public/uploads", file.name);
@@ -47,6 +43,8 @@ export const POST = async (request) => {
 
       await unlink(filePath);
     }
+
+    console.log(images);
 
     return NextResponse.json(images, {
       status: 201,

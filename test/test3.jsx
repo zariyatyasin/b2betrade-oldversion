@@ -1,152 +1,68 @@
-"use client";
-import React from "react";
-import { Formik, Form, Field, FieldArray } from "formik";
-import { TextField, Button, Grid, Paper } from "@mui/material";
-import * as Yup from "yup";
+const dataURItoBlob = (dataURI) => {
+  var byteString;
+  if (dataURI.split(",")[0].indexOf("base64") >= 0)
+    byteString = atob(dataURI.split(",")[1]);
+  else byteString = unescape(dataURI.split(",")[1]);
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Required"),
-  description: Yup.string().required("Required"),
-  // Add more validation rules here based on your schema
-});
+  var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
 
-const CreateProductForm = ({ onSubmit }) => {
-  return (
-    <Formik
-      initialValues={{
-        name: "",
-        description: "",
-        brand: "",
-        // Add more initial values here based on your schema
-        subProducts: [{ sku: "", sizes: [{ size: "", qty: "", price: "" }] }],
-      }}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Field component={TextField} name="name" label="Name" fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                name="description"
-                label="Description"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Field
-                component={TextField}
-                name="brand"
-                label="Brand"
-                fullWidth
-              />
-            </Grid>
-            {/* Add more fields here based on your schema */}
-            <Grid item xs={12}>
-              <h3>Sub Products</h3>
-              <FieldArray name="subProducts">
-                {(arrayHelpers) => (
-                  <div>
-                    {arrayHelpers.form.values.subProducts.map(
-                      (subProduct, index) => (
-                        <Paper
-                          key={index}
-                          elevation={3}
-                          style={{ padding: "1rem", marginBottom: "1rem" }}
-                        >
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <Field
-                                component={TextField}
-                                name={`subProducts.${index}.sku`}
-                                label="SKU"
-                                fullWidth
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <h4>Sizes</h4>
-                              <FieldArray name={`subProducts.${index}.sizes`}>
-                                {(arrayHelpers) => (
-                                  <div>
-                                    {subProduct.sizes.map((size, sizeIndex) => (
-                                      <div key={sizeIndex}>
-                                        <Grid container spacing={1}>
-                                          <Grid item xs={4}>
-                                            <Field
-                                              component={TextField}
-                                              name={`subProducts.${index}.sizes.${sizeIndex}.size`}
-                                              label="Size"
-                                              fullWidth
-                                            />
-                                          </Grid>
-                                          <Grid item xs={4}>
-                                            <Field
-                                              component={TextField}
-                                              name={`subProducts.${index}.sizes.${sizeIndex}.qty`}
-                                              label="Quantity"
-                                              fullWidth
-                                            />
-                                          </Grid>
-                                          <Grid item xs={4}>
-                                            <Field
-                                              component={TextField}
-                                              name={`subProducts.${index}.sizes.${sizeIndex}.price`}
-                                              label="Price"
-                                              fullWidth
-                                            />
-                                          </Grid>
-                                        </Grid>
-                                      </div>
-                                    ))}
-                                    <Button
-                                      variant="outlined"
-                                      onClick={() =>
-                                        arrayHelpers.push({
-                                          size: "",
-                                          qty: "",
-                                          price: "",
-                                        })
-                                      }
-                                    >
-                                      Add Size
-                                    </Button>
-                                  </div>
-                                )}
-                              </FieldArray>
-                            </Grid>
-                          </Grid>
-                        </Paper>
-                      )
-                    )}
-                    <Button
-                      variant="outlined"
-                      onClick={() =>
-                        arrayHelpers.push({
-                          sku: "",
-                          sizes: [{ size: "", qty: "", price: "" }],
-                        })
-                      }
-                    >
-                      Add Sub Product
-                    </Button>
-                  </div>
-                )}
-              </FieldArray>
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
-  );
+  var ia = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([ia], { type: mimeString });
 };
 
-export default CreateProductForm;
+console.log(product);
+const createProduct = async () => {
+  let style_img = "";
+  const uploadedImages = [];
+  try {
+    for (const dataURI of images) {
+      const blob = dataURItoBlob(dataURI);
+      const formData = new FormData();
+      formData.append("file", blob, "image.png");
+
+      const response = await fetch(`/api/cloudinary`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error uploading image`);
+      }
+
+      const data = await response.json();
+
+      uploadedImages.push(...data);
+    }
+    if (product.color.image) {
+      let temp = dataURItoBlob(product.color.image);
+      let path = "product style images";
+      let formData = new FormData();
+      formData.append("path", path);
+      formData.append("file", temp);
+      let cloudinary_style_img = await fetch(`/api/cloudinary`, {
+        method: "POST",
+        body: formData,
+      });
+      style_img = cloudinary_style_img[0].url;
+    }
+
+    const { data } = await axios.post("/api/admin/product", {
+      ...product,
+      images: uploadedImages,
+      color: {
+        image: style_img,
+        color: product.color.color,
+      },
+    });
+
+    console.log("this is pr", product);
+
+    console.log(data);
+  } catch (error) {
+    console.error("Error creating product:", error);
+  }
+};

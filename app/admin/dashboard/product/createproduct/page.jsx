@@ -1,8 +1,8 @@
-import Layout from "@/components/admin/Layout/Layout";
+import Layout from "../../../../../components/admin/Layout/Layout";
 import CreateProduct from "../../../../../components/admin/product/createproduct/CreateProduct";
-import Category from "@/model/Category";
-import Product from "@/model/Product";
-import db from "@/utils/db";
+import Category from "../../../../../model/Category";
+import Product from "..//../../../../model/Product";
+import db from "../../../../../utils/db";
 import React from "react";
 async function getData() {
   db.connectDb();
@@ -24,7 +24,7 @@ export default async function page() {
 
   return (
     <Layout>
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="mx-4 sm:mx-6 lg:mx-8  ">
         <CreateProduct parents={parents} categories={categories} />
       </div>
     </Layout>

@@ -13,6 +13,8 @@ import Accordian from "../accordion/Accordion";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../store/cartSlice";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 const ProductInfo = ({ product, setActiveImg, params }) => {
   const UrlSize = params?.slug[2];
   const UrlStyle = params?.slug[1];
@@ -22,6 +24,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const [staySize, setStaySize] = useState(
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
+
+  console.log(product.colors);
 
   const dispatch = useDispatch();
 
@@ -101,50 +105,53 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   return (
-    <div className="lg:col-span-3 lg:row-span-2 lg:row-end-2   md:justify-start">
-      <h1 className="text-xl lg:text-3xl text-gray-900 font-bold">
-        {product.name}
-      </h1>
+    <div className=" flex-1   ">
+      <h1 className="text-xl font-semibold  text-gray-900 ">{product.name}</h1>
       <div className="mt-2 flex items-center">
         <Rating
           name="hover-feedback"
           defaultValue={product.rating}
           readOnly
+          sx={{ fontSize: 24 }}
           precision={0.5}
         />
-        <p className="ml-2 text-sm font-medium text-gray-500">
+        <p className="ml-2 text-sm  font-bold text-gray-950">
           {product.numReviews} {product.numReviews > 1 ? "reviews" : "review"}
         </p>
       </div>
-      <div className="flex items-end mt-3">
+      <div className="flex items-end mt-4 mb-4">
         {!size ? (
-          <h1 className="text-3xl font-bold">{product.priceRange}</h1>
+          <h1 className="text-3xl font-bold text-[#ff6f61]">
+            {product.priceRange}
+          </h1>
         ) : (
-          <h1 className="text-3xl font-bold">{product.price}</h1>
+          <h1 className="text-3xl font-bold text-[#ff6f61]">
+            ৳{product.price}
+          </h1>
         )}
         {product.discount > 0 && size && (
           <div className="ml-2">
-            <span className="text-xl line-through mr-2">
+            <span className="text-sm line-through mr-2">
               ${product.priceBefore}
             </span>
-            <span className="text-white rounded text-sm font-bold bg-green-400 p-1">
+            <span className=" text-red-500  rounded  s   ">
               {product.discount}%
             </span>
           </div>
         )}
       </div>
-      <div className="mt-1 text-black rounded text-sm font-bold">
+      <div className="mt-1 text-green-500 rounded text-sm font-semibold">
         {product.shipping ? `+${product.shipping}$ shipping` : "Free Shipping"}
       </div>
-      <p className="mt-2 text-gray-600">
+      <p className="mt-2 text-sm text-gray-600">
         {size
           ? `${product.quantity} pieces available.`
           : `Total available: ${product.size.reduce(
               (start, next) => start + next.qty,
               0
-            )} pieces.`}
+            )} pieces. `}
       </p>
-      <h2 className="mt-8 text-base text-gray-900">Select the Size</h2>
+      <h2 className=" mt-2 text-base text-gray-900">Select the Size</h2>
       <div className="mt-3 flex select-none flex-wrap items-center gap-2">
         {product.size.map((size, i) => (
           <Link
@@ -154,7 +161,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           >
             <div
               key={i}
-              className={`peer-checked:bg-black peer-checked:text-white  border ${
+              className={`peer-checked:bg-black peer-checked:text-white rounded-lg border ${
                 i === staySize ? "bg-black text-white" : "border-black"
               } px-6 py-2 font-bold cursor-pointer`}
               onClick={() => handleSizeSelection({ size: size.size, index: i })}
@@ -164,7 +171,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-      <h2 className="mt-8 text-base text-gray-900">Color</h2>
+      <h2 className="mt-3 text-base text-gray-900">Color</h2>
       <div className="mt-3 flex select-none flex-wrap items-center gap-1">
         {product.colors &&
           product.colors.map((color, i) => (
@@ -181,20 +188,20 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             </div>
           ))}
       </div>
-      <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-        <div className="flex flex-row h-10 w-full  relative bg-transparent mt-1">
+      <div className="mt-3  flex select-none flex-wrap items-center gap-1">
+        <div className=" bg-gray-100 h-10 p-1 rounded-lg flex flex-row   relative mt-1">
           <button
-            className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-8 rounded-l cursor-pointer outline-none"
+            className="inline-flex items-center px-3   border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50    "
             onClick={handleQtyDecrease}
           >
-            <span className="m-auto text-2xl font-thin">−</span>
+            <RemoveOutlinedIcon sx={{ fontSize: 14 }} />
           </button>
-          <span>{qty}</span>
+          <div className="p-4 flex   items-center ">{qty}</div>
           <button
-            className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-8 rounded-r cursor-pointer"
+            className=" inline-flex items-center px-3  border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50   "
             onClick={handleQtyIncrease}
           >
-            <span className="m-auto text-2xl font-thin">+</span>
+            <AddOutlinedIcon sx={{ fontSize: 14 }} />
           </button>
         </div>
       </div>
@@ -202,12 +209,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         <button
           disabled={product.quantity < 1}
           type="button"
-          className="inline-flex items-center justify-center  border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+          className="inline-flex items-center justify-center  border-2 border-transparent bg-gray-950 rounded-lg 0 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
           onClick={() => addToCartHandler()}
         >
           Add to cart
         </button>
-        <FavoriteBorderOutlinedIcon />
+        <div className="ml-6">
+          <FavoriteBorderOutlinedIcon sx={{ fontSize: 28 }} />
+        </div>
       </div>
       {error && <span className=" text-red-600"> {error}</span>}
       <ul className="mt-5 flex items-center">

@@ -1,4 +1,4 @@
-import { sizesList } from "@/data/sizes";
+import { sizesList } from "../../../../../data/sizes";
 import { useState } from "react";
 import {
   RemoveCircle as RemoveCircleIcon,

@@ -13,7 +13,7 @@ const ProductSwiper = ({ images }) => {
   }, [swiperRef]);
   return (
     <div
-      className=""
+      className=" h-72"
       onMouseEnter={() => {
         swiperRef.current.swiper.autoplay.start();
       }}
@@ -30,8 +30,8 @@ const ProductSwiper = ({ images }) => {
         speed={500}
       >
         {images?.map((img, id) => (
-          <SwiperSlide key={id}>
-            <img src={img.url} alt="" className="w-full h-full" />
+          <SwiperSlide key={id} className=" ">
+            <img src={img.url} alt="" className="w-full h-full object-cover " />
           </SwiperSlide>
         ))}
       </Swiper>

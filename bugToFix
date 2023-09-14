@@ -27,5 +27,7 @@ at async Home (./app/page.jsx:40:26)
 
 must to fix..
 
-all api need to be fix. if the user is admin the the admin can make the request
+\*\*all api need to be fix. if the user is admin the the admin can make the request
 in here now everyone can make request if he/she is login
+
+\*\*in the single product image i have to fix the image side images. it going to the bottom

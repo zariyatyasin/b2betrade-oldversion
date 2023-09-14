@@ -6,7 +6,7 @@ import { ReduxProvider } from "../store/provider";
 import AuthProvider from "../components/provider/AuthProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import QueryProvider from "@/components/provider/QueryProvider";
+import QueryProvider from "../components/provider/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

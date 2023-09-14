@@ -23,7 +23,7 @@ function ProductCardSwip({ products }) {
 
   return (
     <div>
-      <div className=" relative h-auto   ">
+      <div className=" relative h-auto h- ">
         <Link href={`/product/${products.slug}/${active} `}>
           <ProductSwiper images={images} />
         </Link>
@@ -36,11 +36,7 @@ function ProductCardSwip({ products }) {
             ""
           )}
         </div>
-        <div className="  ">
-          {/* <h2 className="  mr-auto cursor-pointer   truncate ">
-            Lorem ipsum is placeholder text commonly used in the graphic
-          </h2> */}
-        </div>
+        <div className="  "></div>
         {prices.length === 1 ? (
           <div className=" text-red-500 text-left text-sm mt-2  font-semibold  ">{`USD${prices[0]}$`}</div>
         ) : (
@@ -68,6 +64,7 @@ function ProductCardSwip({ products }) {
                   </span>
                 ) : (
                   <span
+                    key={i}
                     className={`block p-1 border-2 border-gray-100 hover:${style.color} rounded-full transition ease-in duration-300`}
                   >
                     <a

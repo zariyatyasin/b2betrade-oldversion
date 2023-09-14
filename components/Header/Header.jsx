@@ -9,13 +9,13 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 import Usermenu from "./Usermenu";
 import Example from "./Example";
-
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 export const Header = () => {
   const session = useSession();
-
+  console.log(session);
   const [isLogin, setLogin] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const handleUserMenuOpen = () => {
@@ -32,66 +32,69 @@ export const Header = () => {
         <div className="max-w-9xl mx-auto  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
           <div className="relative   h-16 flex justify-between items-center">
             <div className="relative z-10 px-2 flex lg:px-0 items-center">
-              <div className="flex-shrink-0 flex items-center ">
-                <span className="text-gray-900 font-semibold text-2xl lg:text-3xl">
-                  sudzar
-                </span>
-              </div>
-
-              <div className=" hidden     transition-all duration-100 ease-in-out lg:flex  ">
-                <div className="relative flex items-center text-md font-medium  ml-16    py-0    hover:text-black">
-                  Deals Today
-                  <span className=" text-red-500">
-                    <BoltOutlinedIcon />
-                  </span>
-                </div>
-                <div className="relative flex items-center text-md font-medium  ml-8    py-0 t   hover:text-black">
-                  Offers
-                </div>
-                <div className="relative flex items-center text-md font-medium  ml-8    py-0 t   hover:text-black">
-                  FAQ
-                </div>
-                <div className="relative hidden ml-16  z-0 flex-1 px-2 md:flex items-center justify-center  ">
-                  <div className="w-full sm:max-w-xs">
-                    <label htmlFor="search" className="sr-only">
-                      Search
-                    </label>
-                    <div className="relative">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <SearchIcon className="h-5 w-5 text-gray-900" />
-                      </div>
-                      <input
-                        id="search"
-                        name="search"
-                        className="block w-full  bg-gray-100    rounded-md py-3 pl-10 pr-8 text-sm placeholder-gray-900 focus:outline-none focus:text-gray-900 focus:placeholder-gray-900   sm:text-sm"
-                        placeholder="Search"
-                        type="search"
-                      />
-                    </div>
+              <div className=" z-40   lg:relative lg:z-10    flex items-center">
+                <div className=" hidden     transition-all duration-100 ease-in-out lg:flex  ">
+                  <div className="relative flex items-center text-md font-medium    py-0    hover:text-black">
+                    Deals Today
+                    <span className=" text-red-500">
+                      <BoltOutlinedIcon />
+                    </span>
+                  </div>
+                  <div className="relative flex items-center text-md font-medium  ml-8    py-0 t   hover:text-black">
+                    #Offers
+                  </div>
+                  <div className="relative flex items-center text-md font-medium ml-8 py-0 text-red-500 ">
+                    Under ৳ 500
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="relative z-10 flex items-center lg:hidden">
+            <div className="flex-shrink-0 flex items-center ">
+              <Link
+                href={"/"}
+                className="text-gray-900  font-bold uppercase text-2xl lg:text-3xl"
+              >
+                sudzar
+              </Link>
+            </div>
+            <div className=" z-40   lg:relative lg:z-10 lg:ml-4  flex items-center">
+              <div className=" hidden     transition-all duration-100 ease-in-out lg:flex  ">
+                <div className="relative hidden mr-8  z-0 flex-1 px-2 md:flex items-center justify-center  ml">
+                  <div className="w-full sm:max-w-xs border flex items-center">
+                    <label htmlFor="search" className="sr-only">
+                      Search
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="search"
+                        name="search"
+                        className="block w-full  bg-gray-100    rounded-md py-3 h-10  p-4 text-sm placeholder-gray-900 focus:outline-none focus:text-gray-900 focus:placeholder-gray-900   sm:text-sm"
+                        placeholder="Search"
+                        type="search"
+                      />
+                    </div>
+                    <div className="pointer-events-none h-10 bg-gray-950  w-10 justify-center  flex items-center">
+                      <SearchIcon className="  text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <button
+                type="button"
+                className=" flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <SearchIcon
+                  sx={{ fontSize: "24px" }}
+                  className=" text-gray-500"
+                />
+              </button> */}
               <button
                 type="button"
-                className="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                aria-controls="mobile-menu"
-                aria-expanded="false"
-              ></button>
-            </div>
-            <div className="  lg:hidden  ">
-              <MenuOutlinedIcon />
-            </div>
-            <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
-              <button
-                type="button"
-                className="flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className=" flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <FavoriteBorderOutlinedIcon
-                  sx={{ fontSize: "27px" }}
-                  className=" text-gray-900"
+                  sx={{ fontSize: "24px" }}
+                  className=" text-gray-500"
                 />
               </button>
               <Link
@@ -100,8 +103,18 @@ export const Header = () => {
                 className="flex-shrink-0 bg-white rounded-full ml-4 text-gray-400 hover:text-gray-500 "
               >
                 <ShoppingBagOutlinedIcon
-                  sx={{ fontSize: "27px" }}
-                  className=" text-gray-900"
+                  sx={{ fontSize: "24px" }}
+                  className=" text-gray-500"
+                />
+              </Link>
+              <Link
+                href={"/cart"}
+                type="button"
+                className="flex-shrink-0 hidden bg-white rounded-full ml-4 text-gray-400 hover:text-gray-500 "
+              >
+                <HeadsetMicOutlinedIcon
+                  sx={{ fontSize: "24px" }}
+                  className=" text-gray-500"
                 />
               </Link>
 
@@ -129,7 +142,10 @@ export const Header = () => {
                   </div>
                 ) : (
                   <div>
-                    <AccountCircleOutlinedIcon sx={{ fontSize: "27px" }} />
+                    <AccountCircleOutlinedIcon
+                      sx={{ fontSize: "24px" }}
+                      className=" text-gray-500"
+                    />
                   </div>
                 )}
                 {isOpen && (
@@ -143,12 +159,9 @@ export const Header = () => {
               </div>
             </div>
           </div>
-          <nav className="   " aria-label="Global">
-            <Example />
-          </nav>
         </div>
-
-        <nav className="hidden" aria-label="Global" id="mobile-menu">
+        {/* 
+        <nav className=" " aria-label="Global">
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="px-4 flex items-center">
               <div className="flex-shrink-0">
@@ -200,7 +213,7 @@ export const Header = () => {
               </a>
             </div>
           </div>
-        </nav>
+        </nav> */}
       </header>
     </div>
   );

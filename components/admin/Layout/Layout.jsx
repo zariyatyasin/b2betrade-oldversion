@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import { Navbar } from "./sidebar/Navbar";
-import { toggleSidebar } from "@/store/ExpandSlice";
-import { hideDialog } from "@/store/DialogSlice";
-import DialogModal from "@/components/dilogModel/DialogModal";
 
 const Layout = ({ children }) => {
   const { expandSidebar } = useSelector((state) => ({ ...state }));
@@ -24,7 +21,7 @@ const Layout = ({ children }) => {
         onClick={() => dispatch(toggleSidebar(!expand))}
       ></div> */}
       <div
-        className={`mt-24 transition-all ease-in-out duration-300  overflow-hidden ${
+        className={`pt-24 transition-all ease-in-out duration-300 bg-gray-100  w-full  overflow-hidden ${
           expand ? "ml-64" : "ml-0"
         }`}
       >

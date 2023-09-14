@@ -1,3 +1,4 @@
+import Example from "../../../components/Header/Example";
 import { Header } from "../../../components/Header/Header";
 
 import ProductMain from "../../../components/productPage/ProductMain";
@@ -103,6 +104,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <Header />
+      <Example />
 
       <div className="pt-8 px-2 sm:px-4 lg:px-8 max-w-7xl mx-auto  ">
         <div className="flex items-center  ">

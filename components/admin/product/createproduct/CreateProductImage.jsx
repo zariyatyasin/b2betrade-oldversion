@@ -1,7 +1,7 @@
 import { ErrorMessage, useField } from "formik";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { showDialog } from "@/store/DialogSlice";
+import { showDialog } from "../../../../store/DialogSlice";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PaletteIcon from "@mui/icons-material/Palette";

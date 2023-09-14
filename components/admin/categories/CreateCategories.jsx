@@ -1,6 +1,6 @@
 "use client";
 
-import CrudTable from "@/components/Table/CrudTable";
+import CrudTable from "../../../components/Table/CrudTable";
 import React, { useState } from "react";
 
 import {
@@ -11,10 +11,10 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import CreateForm from "@/components/form/CreateForm";
+import CreateForm from "../../../components/form/CreateForm";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "@/components/loading/FullScreenLoading";
+import FullScreenLoading from "../../../components/loading/FullScreenLoading";
 export default function CreateCategories({ categories }) {
   const [data, setData] = useState(categories);
   const [loading, setLoading] = useState(false);

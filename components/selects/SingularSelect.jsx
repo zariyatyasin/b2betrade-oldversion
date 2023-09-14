@@ -11,6 +11,8 @@ export default function SingularSelect({
   touched,
   ...rest
 }) {
+  console.log(data);
+
   const [field, meta] = useField(rest);
   const isDisabled = disabled === true || disabled === "true";
 

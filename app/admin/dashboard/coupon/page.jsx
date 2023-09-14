@@ -1,10 +1,10 @@
-import Layout from "@/components/admin/Layout/Layout";
-import CreateCoupon from "@/components/admin/coupon/CreateCoupon";
-import Category from "@/model/Category";
-import Coupon from "@/model/Coupon";
-import db from "@/utils/db";
+import Layout from "../../../../components/admin/Layout/Layout";
+import CreateCoupon from "../../../../components/admin/coupon/CreateCoupon";
+import Category from "../../../../model/Category";
+import Coupon from "../../../../model/Coupon";
 
 import React from "react";
+import db from "../../../../utils/db";
 async function getData() {
   db.connectDb();
 

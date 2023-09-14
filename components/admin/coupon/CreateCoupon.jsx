@@ -1,6 +1,5 @@
 "use client";
 
-import CrudTable from "@/components/Table/CrudTable";
 import React, { useState } from "react";
 
 import {
@@ -12,13 +11,14 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "@/components/loading/FullScreenLoading";
-import CreateSubCategoryForm from "@/components/form/CreateSubCategoryForm";
-import CreateCouponForm from "@/components/form/CreateCouponForm";
-import ViewCouponDetails from "@/components/viewDetails/ViewCouponDetails";
+import FullScreenLoading from "../../loading/FullScreenLoading";
+
+import CreateCouponForm from "../../form/CreateCouponForm";
+import ViewCouponDetails from "../../viewDetails/ViewCouponDetails";
+import CrudTable from "../../Table/CrudTable";
 export default function CreateCoupon({ categories, coupon }) {
   const [data, setData] = useState(coupon);
   const [loading, setLoading] = useState(false);

@@ -8,11 +8,6 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 import { redirect, useSearchParams } from "next/navigation";
 const validationSchema = Yup.object({
-  // isRegistering: Yup.boolean(),
-  // name: Yup.string().when("isRegistering", {
-  //   is: true,
-  //   then: Yup.string().required("Name is required"),
-  // }),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
@@ -153,32 +148,6 @@ const page = () => {
             >
               {({ errors, touched, setFieldValue }) => (
                 <Form className="space-y-6">
-                  {/* {isRegistering && (
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-900"
-                      >
-                        Name
-                      </label>
-                      <div className="mt-1">
-                        <Field
-                          id="name"
-                          name="name"
-                          type="text"
-                          autoComplete="name"
-                          required
-                          className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
-                        />
-                      </div>
-                      <ErrorMessage
-                        name="name"
-                        component="div"
-                        className="text-red-500 text-sm"
-                      />
-                    </div>
-                  )} */}
-
                   <div>
                     <label
                       htmlFor="email"
@@ -308,19 +277,7 @@ const page = () => {
                   </span>
                 </div>
               </div>
-              {providers &&
-                Object.values(providers).map((provider) => (
-                  <button
-                    type="button"
-                    key={provider.name}
-                    onClick={() => {
-                      signIn(provider.id);
-                    }}
-                    className="black_btn ml-11"
-                  >
-                    Sign test
-                  </button>
-                ))}
+
               <div
                 className="mt-6  "
                 onClick={() => {
@@ -381,7 +338,7 @@ const page = () => {
                     />
                   </svg>
                   <p className="text-base font-medium ml-4 text-gray-700">
-                    Continue with Google
+                    Continue with Facebook
                   </p>
                 </div>
               </div>

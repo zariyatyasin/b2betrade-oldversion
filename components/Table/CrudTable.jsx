@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Table } from "@mui/material";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 
 export default function CrudTable({
   columns,
@@ -12,7 +12,7 @@ export default function CrudTable({
   onSubmitView,
   onEdit,
 }) {
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
   const filteredData = data?.filter((row) =>
     Object.values(row).some((value) =>
       value.toString().toLowerCase().includes(searchQuery.toLowerCase())

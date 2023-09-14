@@ -142,7 +142,7 @@ export default function Example() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white max-w-9xl mx-auto  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -348,7 +348,7 @@ export default function Example() {
                                 open
                                   ? "border-gray-900 text-gray-900"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
-                                "relative z-10  text-sm  flex items-center transition-colors ease-out duration-200  font-medium border-b-2 -mb-px pt-px"
+                                "relative z-10    flex items-center text-base transition-colors ease-out duration-200  font-medium border-b-2 -mb-px pt-px"
                               )}
                             >
                               {category.name}
@@ -450,7 +450,7 @@ export default function Example() {
                     <a
                       key={page.name}
                       href={page.href}
-                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                      className="flex items-center text-base font-medium text-gray-700 hover:text-gray-800"
                     >
                       {page.name}
                     </a>

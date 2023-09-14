@@ -1,8 +1,8 @@
-import Layout from "@/components/admin/Layout/Layout";
-import AllProductList from "@/components/admin/allproduct/AllProductList";
-import Category from "@/model/Category";
-import Product from "@/model/Product";
-import db from "@/utils/db";
+import Layout from "../../../../../components/admin/Layout/Layout";
+import AllProductList from "../../../../../components/admin/allproduct/AllProductList";
+import Category from "../../../../../model/Category";
+import Product from "../../../../../model/Product";
+import db from "../../../../../utils/db";
 import React from "react";
 async function getData() {
   db.connectDb();

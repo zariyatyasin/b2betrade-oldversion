@@ -1,7 +1,7 @@
-import Layout from "@/components/admin/Layout/Layout";
-import db from "@/utils/db";
+import Layout from "../../../../components/admin/Layout/Layout";
+import db from "../../../../utils/db";
 import React from "react";
-import Category from "@/model/Category";
+import Category from "../../../../model/Category";
 import CreateCategories from "@/components/admin/categories/CreateCategories";
 
 async function getData() {

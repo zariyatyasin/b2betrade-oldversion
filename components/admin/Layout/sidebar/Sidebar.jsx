@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { signOut } from "next-auth/react";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import { toggleSidebar } from "@/store/ExpandSlice";
+import { toggleSidebar } from "../../../../store/ExpandSlice";
 import { usePathname } from "next/navigation";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";

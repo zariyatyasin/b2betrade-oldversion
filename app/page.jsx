@@ -1,7 +1,9 @@
 import Footer from "../components/Footer/Footer";
+import Example from "../components/Header/Example";
 
 import { Header } from "../components/Header/Header";
 import { HeaderPolicy } from "../components/Header/HeaderPolicy";
+import { HeaderAds } from "../components/Header/HeaderAds";
 import Discount from "../components/home/Discount/Discount";
 import { Categories } from "../components/home/category/Categories";
 import FlashDeals from "../components/home/flashDeals/FlashDeals";
@@ -24,7 +26,9 @@ export default async function Home() {
 
   return (
     <div>
+      <HeaderAds />
       <Header />
+      <Example />
 
       <HeaderPolicy />
 

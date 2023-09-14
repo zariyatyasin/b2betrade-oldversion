@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/utils/session";
-import db from "@/utils/db";
-import Category from "@/model/Category";
+import db from "../../../../../utils/db";
+import Category from "../../../../../model/Category";
 import slugify from "slugify";
-import SubCategory from "@/model/SubCategory";
+import SubCategory from "../../../../../model/SubCategory";
 export const DELETE = async (request, { params }) => {
   try {
     db.connectDb();

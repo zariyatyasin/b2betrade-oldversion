@@ -3,11 +3,8 @@ import React from "react";
 export const HeaderPolicy = () => {
   return (
     <div>
-      <nav
-        aria-label="Offers"
-        className="order-last bg-gray-50  lg:order-first"
-      >
-        <div className="max-w-7xl mx-auto lg:px-8 ">
+      <nav aria-label="Offers" className="order-last   lg:order-first">
+        <div className="max-w-7xl bg-gray-100 mx-auto lg:px-8 my-2 ">
           <ul
             role="list"
             className="lg:grid hidden grid-cols-1 divide-y divide-gray-300 lg:grid-cols-3 lg:divide-y-0 lg:divide-x"

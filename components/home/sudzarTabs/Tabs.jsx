@@ -20,9 +20,9 @@ const Tabs = () => {
   return (
     <div className="text-center  px-2 sm:px-4 lg:px-8 mb-12 md:mb-14 lg:mb-16">
       <div className="flex box-content py-2 relative justify-center overflow-x-auto xl:overflow-visible   rounded-lg">
-        {tabs.map((tab) => (
+        {tabs.map((tab, id) => (
           <div
-            key={tab.name}
+            key={id}
             className={`cursor-pointer whitespace-nowrap ml-8 py-2 px-4 rounded  font-medium text-lg transition ${
               activeTab === tab.name
                 ? "text-gray-900 underline underline-offset-8"

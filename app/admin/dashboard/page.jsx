@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "@/components/admin/Layout/Layout";
+import Layout from "../../../components/admin/Layout/Layout";
 import React from "react";
 import { toast } from "react-toastify";
 

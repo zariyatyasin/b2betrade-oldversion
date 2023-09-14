@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/utils/session";
+ 
 import db from "@/utils/db";
  
 import Coupon from "@/model/Coupon";

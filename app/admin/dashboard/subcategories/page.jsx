@@ -1,9 +1,9 @@
-import Layout from "@/components/admin/Layout/Layout";
-import db from "@/utils/db";
+import Layout from "../../../../components/admin/Layout/Layout";
+import db from "../../../../utils/db";
 import React from "react";
-import Category from "@/model/Category";
-import SubCategory from "@/model/SubCategory";
-import CreateSubCategory from "@/components/admin/subcategory/CreateSubCategory";
+import Category from "../../../../model/Category";
+import SubCategory from "../../../../model/SubCategory";
+import CreateSubCategory from "../../../../components/admin/subcategory/CreateSubCategory";
 
 async function getData() {
   db.connectDb();

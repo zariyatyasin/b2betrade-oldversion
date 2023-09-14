@@ -25,7 +25,7 @@ export async function middleware(req) {
     }
     if (req.nextUrl.pathname.startsWith('/admin')) {
        if(!session){
-        return NextResponse.redirect(new URL(origin, req.url));
+         return NextResponse.redirect(new URL('/', req.url))
        }
        if(session.role !== "admin") return NextResponse.redirect(new URL(origin, req.url));
     }
