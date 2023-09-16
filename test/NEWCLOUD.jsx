@@ -11,7 +11,8 @@ import {
   Input,
   Chip,
 } from "@mui/material";
-import { CreateSubProduct } from "./createSubProduct/CreateSubProduct";
+import CreateSubProduct from "./createSubProduct/CreateSubProduct";
+import { Uploadimages } from "../../../../request/uploadimg";
 
 export default function CreateProduct({ parents, categories }) {
   const [productName, setProductName] = useState("");
@@ -21,15 +22,52 @@ export default function CreateProduct({ parents, categories }) {
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [subProducts, setSubProducts] = useState([]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log({
-      images,
       productName,
       selectedCategory,
       selectedSubCategories,
       subProducts,
     });
+    try {
+      const formData = new FormData();
+      subProducts.forEach((subProduct) => {
+        subProduct.images.forEach((file) => {
+          formData.append("file", file.blob);
+        });
+      });
+      console.log("Updated Sub Products with Cloudinary Images:", formData);
+      const cloudinaryResponse = await Uploadimages(formData);
+
+      const cloudinaryImages = cloudinaryResponse.map((response) => ({
+        url: response.secure_url,
+        secure_url: response.secure_url,
+        public_id: response.public_id,
+      }));
+
+      const updatedSubProducts = subProducts.map((subProduct) => {
+        const updatedImages = subProduct.images.concat(cloudinaryImages);
+
+        console.log("this upimage", updatedImages);
+        return { ...subProduct, images: updatedImages };
+      });
+
+      console.log(
+        "Updated Sub Products with Cloudinary Images:",
+        updatedSubProducts
+      );
+    } catch (error) {
+      console.error("Error uploading images to Cloudinary:", error);
+    }
+
+    // Reset subProducts state
     setSubProducts([]);
+    console.log({
+      productName,
+      selectedCategory,
+      selectedSubCategories,
+      subProducts,
+    });
   };
 
   return (
@@ -76,24 +114,49 @@ export default function CreateProduct({ parents, categories }) {
     </Box>
   );
 }
-/////
+////
 
-import React, { useState, useEffect } from "react";
+
+
+
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, Input } from "@mui/material";
-import CreateProductImageSub from "./CreateProductImageSub";
-export const CreateSubProduct = ({
-  subProducts,
-  setSubProducts,
-  setImages,
-  images,
-}) => {
+import { Uploadimages } from "../../../../../request/uploadimg";
+const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
-  const [colorImage, setColorImage] = useState("");
+  const [noSize, setNoSize] = useState(false);
+  const fileInput = useRef(null);
 
-  const handleSubProductChange = (index, field, value) => {
+  const handleAddImage = (subProductIndex) => {
+    fileInput.current.click();
+  };
+
+  const handleRemoveImage = (subProductIndex, imageIndex) => {
     const updatedSubProducts = [...subProducts];
-    updatedSubProducts[index][field] = value;
+    updatedSubProducts[subProductIndex].images.splice(imageIndex, 1);
     setSubProducts(updatedSubProducts);
+  };
+
+  const handleImages = (subProductIndex, e) => {
+    let files = Array.from(e.target.files);
+    const newImages = [];
+
+    files.forEach((img, i) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+
+      reader.onload = () => {
+        const url = reader.result; // Data URL
+
+        newImages.push({ blob: img, url });
+
+        if (newImages.length === files.length) {
+          const updatedSubProducts = [...subProducts];
+          updatedSubProducts[subProductIndex].images.push(...newImages);
+          setSubProducts(updatedSubProducts);
+        }
+      };
+    });
   };
 
   const toggleSubProductVisibility = (index) => {
@@ -106,7 +169,6 @@ export const CreateSubProduct = ({
 
   const handleAddSubProduct = () => {
     const newSubProduct = {
-      sku: "",
       images: [],
       description_images: [],
       colors: [{ color: "", image: "" }],
@@ -119,7 +181,6 @@ export const CreateSubProduct = ({
     );
 
     setSubProducts([...subProducts, newSubProduct]);
-
     setSubProductVisibility([...subProductVisibility, true]);
   };
 
@@ -128,7 +189,6 @@ export const CreateSubProduct = ({
     updatedSubProducts.splice(index, 1);
     setSubProducts(updatedSubProducts);
   };
-
   const handleSizeChange = (subProductIndex, sizeIndex, field, value) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts[subProductIndex].sizes[sizeIndex][field] = value;
@@ -144,11 +204,7 @@ export const CreateSubProduct = ({
     });
     setSubProducts(updatedSubProducts);
   };
-  const handleRemoveSizeOption = (subProductIndex) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].sizes = []; // Remove all sizes
-    setSubProducts(updatedSubProducts);
-  };
+
   const handleRemoveSize = (subProductIndex, sizeIndex) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts[subProductIndex].sizes.splice(sizeIndex, 1);
@@ -184,25 +240,6 @@ export const CreateSubProduct = ({
               </Button>
               <h3>Sub Product {index + 1}</h3>
 
-              <CreateProductImageSub
-                name="file"
-                header="Product Carousel Images"
-                text="Add images"
-                images={images}
-                setImages={setImages}
-                setColorImage={setColorImage}
-              />
-              <div>
-                <label>SKU</label>
-                <Input
-                  type="text"
-                  className="border border-gray-950"
-                  value={subProduct.sku}
-                  onChange={(e) =>
-                    handleSubProductChange(index, "sku", e.target.value)
-                  }
-                />
-              </div>
               <div>
                 <Button
                   variant="contained"
@@ -216,37 +253,77 @@ export const CreateSubProduct = ({
                   color="primary"
                   onClick={() => handleAddSize(index)}
                 >
-                  Add Size
+                  Add Quantity
                 </Button>
+              </div>
+              <div>
+                <label>Images</label>
+                {subProduct.images.map((image, imageIndex) => (
+                  <div key={imageIndex}>
+                    <img
+                      src={image.url}
+                      alt={`Image ${imageIndex}`}
+                      style={{ maxWidth: "100px", maxHeight: "100px" }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleRemoveImage(index, imageIndex)}
+                    >
+                      Remove Image
+                    </Button>
+                  </div>
+                ))}
+
                 <Button
                   variant="contained"
-                  color="secondary"
-                  onClick={() => handleRemoveSizeOption(index)}
+                  color="primary"
+                  onClick={() => handleAddImage(index)}
                 >
-                  This product has no size
+                  Add Image
                 </Button>
+                <input
+                  type="file"
+                  ref={fileInput}
+                  hidden
+                  multiple
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => handleImages(index, e)}
+                />
               </div>
               {subProduct.sizes.map((size, sizeIndex) => (
                 <Box
                   key={sizeIndex}
                   sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}
                 >
-                  <h4>Size {sizeIndex + 1}</h4>
-                  <div>
-                    <label>Size</label>
-                    <Input
-                      type="text"
-                      value={size.size}
-                      onChange={(e) =>
-                        handleSizeChange(
-                          index,
-                          sizeIndex,
-                          "size",
-                          e.target.value
-                        )
-                      }
-                    />
-                  </div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setNoSize((prev) => !prev)}
+                  >
+                    {!noSize
+                      ? "Click if product has size"
+                      : "Click if product has no size"}
+                  </Button>
+                  <h4>QTY {sizeIndex + 1}</h4>
+                  {noSize && (
+                    <div>
+                      <label>Size</label>
+
+                      <Input
+                        type="text"
+                        value={size.size}
+                        onChange={(e) =>
+                          handleSizeChange(
+                            index,
+                            sizeIndex,
+                            "size",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                   <div>
                     <label>Quantity</label>
                     <Input
@@ -321,38 +398,4 @@ export const CreateSubProduct = ({
   );
 };
 
-
-
-
-
-
-/////
-
-
-<TextField
-label="Product Name"
-fullWidth
-value={productName}
-onChange={(e) => setProductName(e.target.value)}
-variant="outlined"
-margin="normal"
-/>
-<FormControl fullWidth variant="outlined" margin="normal">
-<InputLabel id="category-label">Category</InputLabel>
-<Select
-  labelId="category-label"
-  id="category"
-  label="Category"
-  value={selectedCategory}
-  onChange={(e) => setSelectedCategory(e.target.value)}
->
-  <MenuItem value="">
-    <em>None</em>
-  </MenuItem>
-  {categories.map((category) => (
-    <MenuItem key={category._id} value={category._id}>
-      {category.name}
-    </MenuItem>
-  ))}
-</Select>
-</FormControl>
+export default CreateSubProduct;

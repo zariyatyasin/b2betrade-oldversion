@@ -1,18 +1,11 @@
 import React, { useRef } from "react";
-import { Button, Input } from "@mui/material";
+import { Button } from "@mui/material";
 
-const CreateProductImageSub = ({
-  name,
-  header,
-  text,
-  images,
-  setImages,
-  setColorImage,
-}) => {
+const CreateProductImageSub = ({ header, text, images, setImages }) => {
   const fileInput = useRef(null);
 
   const handleAddImage = () => {
-    fileInput.current.click(); // Trigger the file input
+    fileInput.current.click();
   };
 
   const handleRemoveImage = (index) => {
@@ -23,11 +16,15 @@ const CreateProductImageSub = ({
 
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
+    const newImages = [];
     files.forEach((img, i) => {
       const reader = new FileReader();
       reader.readAsDataURL(img);
       reader.onload = (e) => {
-        setImages((images) => [...images, e.target.result]);
+        newImages.push(e.target.result);
+        if (newImages.length === files.length) {
+          setImages((images) => [...images, ...newImages]);
+        }
       };
     });
   };
@@ -40,29 +37,29 @@ const CreateProductImageSub = ({
       </Button>
       <input
         type="file"
-        name={name}
         ref={fileInput}
         hidden
         multiple
         accept="image/jpeg,image/png,image/webp"
         onChange={handleImages}
       />
-      {images.map((image, index) => (
-        <div key={index}>
-          <img
-            src={image}
-            alt={`Image ${index}`}
-            style={{ maxWidth: "100px", maxHeight: "100px" }}
-          />
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleRemoveImage(index)}
-          >
-            Remove Image
-          </Button>
-        </div>
-      ))}
+      {images &&
+        images.map((image, index) => (
+          <div key={index}>
+            <img
+              src={image}
+              alt={`Image ${index}`}
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleRemoveImage(index)}
+            >
+              Remove Image
+            </Button>
+          </div>
+        ))}
     </div>
   );
 };
