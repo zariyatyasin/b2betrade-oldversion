@@ -145,10 +145,6 @@ export default function CreateProduct({ parents, categories }) {
       const { data } = await axios.post("/api/admin/product", {
         ...product,
         images: uploadedImages,
-        color: {
-          image: style_img,
-          color: product.color.color,
-        },
       });
 
       console.log("Product created successfully:", data);

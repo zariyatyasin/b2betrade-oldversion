@@ -60,7 +60,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
     const newSubProduct = {
       images: [],
       description_images: [],
-      colors: [{ color: "", image: "" }],
+      color: { color: "", image: "" },
       sizes: [],
       discount: 0,
       sold: 0,
@@ -102,7 +102,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
 
   const handleColorChange = (subProductIndex, field, value) => {
     const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].colors[0][field] = value;
+    updatedSubProducts[subProductIndex].color[field] = value;
     setSubProducts(updatedSubProducts);
   };
 
@@ -264,7 +264,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
                   style={{
                     width: "50px",
                     height: "20px",
-                    backgroundColor: subProduct.colors[0].color,
+                    backgroundColor: subProduct.color.color,
                     marginTop: "10px",
                   }}
                 ></div>
@@ -273,7 +273,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
                     <label>Color</label>
                     <div>
                       <SketchPicker
-                        color={subProduct.colors[0].color}
+                        color={subProduct.color.color}
                         onChangeComplete={(newColor) =>
                           handleColorChange(index, "color", newColor.hex)
                         }
@@ -286,7 +286,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
 
                   <Input
                     type="text"
-                    value={subProduct.colors[0].image} // Only one color
+                    value={subProduct.color.image} // Only one color
                     onChange={(e) =>
                       handleColorChange(index, "image", e.target.value)
                     }

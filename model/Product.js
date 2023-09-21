@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema(
     brand: {
       type: String,
     },
+    vendor: {
+      type: ObjectId,
+      ref: "User",
+      required: true,
+    },
     slug: {
       type: String,
       required: true,
