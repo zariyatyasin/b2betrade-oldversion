@@ -49,11 +49,10 @@ const initialState = {
 };
 export default function CreateProduct({ parents, categories }) {
   const [product, setProduct] = useState(initialState);
-  const [productName, setProductName] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
-  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+
   const [subProducts, setSubProducts] = useState([]);
   useEffect(() => {
     async function getSubs() {
@@ -92,9 +91,11 @@ export default function CreateProduct({ parents, categories }) {
         public_id: response.public_id,
       }));
 
-      const updatedImages = subProduct.images.concat(cloudinaryImages);
+      console.log("this is reponc", cloudinaryImages);
+      // const updatedImages = subProduct.images.concat(cloudinaryImages);
+      // console.log("img", updatedImages);
 
-      updatedSubProducts.push({ ...subProduct, images: updatedImages });
+      updatedSubProducts.push({ ...subProduct, images: cloudinaryImages });
     }
 
     console.log({ ...product, updatedSubProducts });

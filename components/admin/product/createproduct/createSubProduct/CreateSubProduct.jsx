@@ -6,12 +6,8 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
   const [noSize, setNoSize] = useState(false);
   const fileInput = useRef(null);
-  const [color, setColor] = useState();
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [showCOlor, setShowColor] = useState(false);
-  const handleChangeComplete = (newColor) => {
-    setColor(newColor.hex);
-    handleColorChange(index, "color", newColor.hex);
-  };
 
   const handleAddImage = (subProductIndex) => {
     fileInput.current.click();
@@ -26,7 +22,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   const handleImages = (subProductIndex, e) => {
     let files = Array.from(e.target.files);
     const newImages = [];
-
+    const newPreviews = []; // New
     const updateSubProductImages = (index) => {
       const updatedSubProducts = [...subProducts];
       updatedSubProducts[index].images = newImages.map((img) => ({
@@ -41,11 +37,12 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
 
       reader.onload = () => {
         const url = reader.result; // Data URL
-
+        newPreviews.push(url); // New
         newImages.push(img);
 
         if (newImages.length === files.length) {
           updateSubProductImages(subProductIndex);
+          setImagePreviews(newPreviews); // Ne
         }
       };
     });
@@ -105,17 +102,17 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
 
   const handleColorChange = (subProductIndex, field, value) => {
     const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].colors[0][field] = value; // Only one color
+    updatedSubProducts[subProductIndex].colors[0][field] = value;
     setSubProducts(updatedSubProducts);
   };
 
   return (
     <div>
-      <h2>Sub Products</h2>
+      <h2>Add Product</h2>
       {subProducts.map((subProduct, index) => (
         <div key={index}>
           <h3 onClick={() => toggleSubProductVisibility(index)}>
-            Sub Product {index + 1}
+            Product {index + 1}
           </h3>
           {subProductVisibility[index] && (
             <Box key={index} sx={{ border: "1px solid #ccc", p: 2, mb: 2 }}>
@@ -130,7 +127,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
               >
                 Toggle Visibility
               </Button>
-              <h3>Sub Product {index + 1}</h3>
+              <h3> Product {index + 1}</h3>
 
               <div>
                 <Button
@@ -138,7 +135,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
                   color="error"
                   onClick={() => handleRemoveSubProduct(index)}
                 >
-                  Remove Sub Product
+                  Remove Product
                 </Button>
                 <Button
                   variant="contained"
@@ -150,10 +147,10 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
               </div>
               <div>
                 <label>Images</label>
-                {subProduct.images.map((image, imageIndex) => (
+                {imagePreviews.map((preview, imageIndex) => (
                   <div key={imageIndex}>
                     <img
-                      src={image.url}
+                      src={preview}
                       alt={`Image ${imageIndex}`}
                       style={{ maxWidth: "100px", maxHeight: "100px" }}
                     />

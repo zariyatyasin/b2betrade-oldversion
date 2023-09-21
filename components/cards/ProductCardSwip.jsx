@@ -24,11 +24,11 @@ function ProductCardSwip({ products }) {
   return (
     <div>
       <div className=" relative h-auto h- ">
-        <Link href={`/product/${products.slug}/${active} `}>
+        <Link href={`/product/${products?.slug}/${active} `}>
           <ProductSwiper images={images} />
         </Link>
         <div className=" absolute right-0 top-0 z-10 ">
-          {products.subProducts[active].discount ? (
+          {products?.subProducts[active]?.discount ? (
             <div className=" bg-green-400 text-white text-xs px-2 py-1 ml-3  ">
               {products.subProducts[active].discount + "%"}
             </div>
@@ -37,24 +37,24 @@ function ProductCardSwip({ products }) {
           )}
         </div>
         <div className="  "></div>
-        {prices.length === 1 ? (
+        {prices?.length === 1 ? (
           <div className=" text-red-500 text-left text-sm mt-2  font-semibold  ">{`USD${prices[0]}$`}</div>
         ) : (
           <div className=" text-red-500 text-left text-sm mt-2  font-semibold  ">{`USD${
             prices[0]
-          }$ - ${prices[prices.length - 1]}$`}</div>
+          }$ - ${prices[prices?.length - 1]}$`}</div>
         )}
         <div className="w-full flex-none text-sm flex items-center text-gray-600">
           <ul className="flex flex-row justify-center items-center space-x-2">
             {style &&
-              style.map((style, i) =>
-                style.image ? (
+              style?.map((style, i) =>
+                style?.image ? (
                   <span
                     key={i}
                     className="block p-1 border-2 border-gray-100 hover:border-blue-600 rounded-full transition ease-in duration-300"
                   >
                     <img
-                      src={style.image}
+                      src={style?.image}
                       className="block w-5 h-5  0 rounded-full"
                       onMouseOver={() => {
                         setImages(products.subProducts[i].images);
@@ -65,11 +65,11 @@ function ProductCardSwip({ products }) {
                 ) : (
                   <span
                     key={i}
-                    className={`block p-1 border-2 border-gray-100 hover:${style.color} rounded-full transition ease-in duration-300`}
+                    className={`block p-1 border-2 border-gray-100 hover:${style?.color} rounded-full transition ease-in duration-300`}
                   >
                     <a
                       href="#blue"
-                      className={`block w-5 h-5 ${style.color} rounded-full`}
+                      className={`block w-5 h-5 ${style?.color} rounded-full`}
                     ></a>
                   </span>
                 )
