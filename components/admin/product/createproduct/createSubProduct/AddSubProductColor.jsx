@@ -23,26 +23,52 @@ export default function AddSubProductColor({
     updatedSubProducts[subProductIndex].color[field] = value;
     setSubProducts(updatedSubProducts);
   };
-  const handleColorImageChange = (subProductIndex, e) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].color.image = e.target.value;
-    setSubProducts(updatedSubProducts);
-  };
-  const handleUploadColorImage = (subProductIndex, e) => {
-    const updatedSubProducts = [...subProducts];
-    const file = e.target.files[0];
+  function dataURLtoBlob(dataURL) {
+    const parts = dataURL.split(";base64,");
+    const contentType = parts[0].split(":")[1];
+    const raw = window.atob(parts[1]);
+    const array = new Uint8Array(raw.length);
 
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        const blob = reader.result; // Now, it's a Data URL
-        updatedSubProducts[subProductIndex].color.image = blob;
-        setSubProducts(updatedSubProducts);
-      };
+    for (let i = 0; i < raw.length; i++) {
+      array[i] = raw.charCodeAt(i);
     }
+
+    return new Blob([array], { type: contentType });
+  }
+  const handleUploadColorImage = (subProductIndex, e) => {
+    let files = Array.from(e.target.files);
+    const updatedSubProducts = [...subProducts];
+    const newImages = [];
+
+    files.forEach((file, i) => {
+      // Check if the file type is accepted
+      const acceptedTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/webp",
+      ];
+      if (acceptedTypes.includes(file.type)) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          const blob = dataURLtoBlob(reader.result);
+          updatedSubProducts[subProductIndex].color.image = blob;
+          newImages.push(blob);
+
+          if (newImages.length === files.length) {
+            setSubProducts(updatedSubProducts);
+          }
+        };
+      } else {
+        alert(
+          `File ${file.name} has an invalid format. Only PNG, JPEG, JPG, and WebP are allowed.`
+        );
+      }
+    });
   };
+
   return (
     <Box sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}>
       <Button
@@ -97,7 +123,7 @@ export default function AddSubProductColor({
           {subProduct.color.image && (
             <div>
               <img
-                src={subProduct.color.image}
+                src={URL000.createObjectURL(subProduct.color.image)}
                 alt="Color Image"
                 style={{ maxWidth: "100px", maxHeight: "100px" }}
               />

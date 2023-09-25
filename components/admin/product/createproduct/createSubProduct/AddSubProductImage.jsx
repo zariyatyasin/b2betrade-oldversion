@@ -24,6 +24,17 @@ export default function AddSubProductImage({
   };
   const handleImages = (subProductIndex, e) => {
     let files = Array.from(e.target.files);
+
+    const currentImagesCount = subProducts[subProductIndex].images.length;
+    const remainingSlots = 6 - currentImagesCount;
+
+    if (files.length > remainingSlots) {
+      alert(
+        `You can only upload ${remainingSlots} more images for this sub-product.`
+      );
+      return;
+    }
+
     const newImages = [];
     const newPreviews = [...imagePreviews];
 
@@ -39,15 +50,17 @@ export default function AddSubProductImage({
 
         if (newImages.length === files.length) {
           const updatedSubProducts = [...subProducts];
-          updatedSubProducts[subProductIndex].images = newImages.map((img) => ({
-            blob: img,
-          }));
+          updatedSubProducts[subProductIndex].images = [
+            ...updatedSubProducts[subProductIndex].images,
+            ...newImages.map((img) => ({ blob: img })),
+          ];
           setSubProducts(updatedSubProducts);
           setImagePreviews(newPreviews);
         }
       };
     });
   };
+
   return (
     <div>
       <label>Images</label>
