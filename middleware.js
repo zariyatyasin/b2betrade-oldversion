@@ -9,6 +9,10 @@ export async function middleware(req) {
         secret: process.env.JWT_SECRET,
         secureCookie: process.env.NODE_ENV === "production"
     });
+
+
+ 
+
     const origin = req.headers.get('origin');
  
     

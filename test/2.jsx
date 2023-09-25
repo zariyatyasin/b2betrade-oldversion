@@ -8,14 +8,9 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   const fileInput = useRef(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [showCOlor, setShowColor] = useState(false);
-  const [isImgorCOlor, setIsImgOrCOlor] = useState();
+
   const handleAddImage = (subProductIndex) => {
     fileInput.current.click();
-  };
-  const handleRemoveColorImage = (subProductIndex) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].color.image = "";
-    setSubProducts(updatedSubProducts);
   };
 
   const handleRemoveImage = (subProductIndex, imageIndex) => {
@@ -23,26 +18,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
     updatedSubProducts[subProductIndex].images.splice(imageIndex, 1);
     setSubProducts(updatedSubProducts);
   };
-  const handleColorImageChange = (subProductIndex, e) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].color.image = e.target.value;
-    setSubProducts(updatedSubProducts);
-  };
 
-  const handleUploadColorImage = (subProductIndex, e) => {
-    const updatedSubProducts = [...subProducts];
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        updatedSubProducts[subProductIndex].color.image = reader.result;
-        setSubProducts(updatedSubProducts);
-      };
-    }
-  };
   const handleImages = (subProductIndex, e) => {
     let files = Array.from(e.target.files);
     const newImages = [];
@@ -277,79 +253,45 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
                 </Box>
               ))}
               <Box sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}>
+                <h4>Color code</h4>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setIsImgOrCOlor((prev) => !prev)}
+                  sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}
+                  onClick={() => setShowColor(!showCOlor)}
                 >
-                  {!isImgorCOlor
-                    ? "Click if product has Color"
-                    : "Click if product has Image"}
+                  add color
                 </Button>
-                {isImgorCOlor ? (
+                <div
+                  style={{
+                    width: "50px",
+                    height: "20px",
+                    backgroundColor: subProduct.color.color,
+                    marginTop: "10px",
+                  }}
+                ></div>
+                {showCOlor && (
                   <div>
-                    <h4>Color code</h4>
-                    <Button
-                      sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}
-                      onClick={() => setShowColor(!showCOlor)}
-                    >
-                      add color
-                    </Button>
-                    <div
-                      style={{
-                        width: "50px",
-                        height: "20px",
-                        backgroundColor: subProduct.color.color,
-                        marginTop: "10px",
-                      }}
-                    ></div>
-                    {showCOlor && (
-                      <div>
-                        <label>Color</label>
-                        <div>
-                          <SketchPicker
-                            color={subProduct.color.color}
-                            onChangeComplete={(newColor) =>
-                              handleColorChange(index, "color", newColor.hex)
-                            }
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div>
-                    <label>Color Image</label>
-                    {/* <Input
-                      type="text"
-                      value={subProduct.color.image}
-                      onChange={(e) => handleColorImageChange(index, e)}
-                    /> */}
-                    <Input
-                      type="file"
-                      ref={fileInput}
-                      hidden
-                      accept="image/jpeg,image/png,image/webp"
-                      onChange={(e) => handleUploadColorImage(index, e)}
-                    />
-                    {subProduct.color.image && (
-                      <div>
-                        <img
-                          src={subProduct.color.image}
-                          alt="Color Image"
-                          style={{ maxWidth: "100px", maxHeight: "100px" }}
-                        />
-                        <Button
-                          variant="contained"
-                          color="error"
-                          onClick={() => handleRemoveColorImage(index)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    )}
+                    <label>Color</label>
+                    <div>
+                      <SketchPicker
+                        color={subProduct.color.color}
+                        onChangeComplete={(newColor) =>
+                          handleColorChange(index, "color", newColor.hex)
+                        }
+                      />
+                    </div>
                   </div>
                 )}
+                <div>
+                  <label>Image</label>
+
+                  <Input
+                    type="text"
+                    value={subProduct.color.image} // Only one color
+                    onChange={(e) =>
+                      handleColorChange(index, "image", e.target.value)
+                    }
+                  />
+                </div>
               </Box>
             </Box>
           )}

@@ -57,6 +57,8 @@ const productSchema = new mongoose.Schema(
       required: true,
       ref: "Category",
     },
+    // Array of tags for categorizing products (e.g., ["new", "sale", "featured"])
+    tags: [String],
     subCategories: [
       {
         type: ObjectId,

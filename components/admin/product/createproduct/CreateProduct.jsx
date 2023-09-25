@@ -76,39 +76,39 @@ export default function CreateProduct({ parents, categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    for (const subProduct of subProducts) {
-      const formData = new FormData();
+    // for (const subProduct of subProducts) {
+    //   const formData = new FormData();
 
-      for (const image of subProduct.images) {
-        formData.append("file", image.blob);
-      }
+    //   for (const image of subProduct.images) {
+    //     formData.append("file", image.blob);
+    //   }
 
-      const cloudinaryResponse = await Uploadimages(formData);
+    //   const cloudinaryResponse = await Uploadimages(formData);
 
-      const cloudinaryImages = cloudinaryResponse.map((response) => ({
-        url: response.secure_url,
-        secure_url: response.secure_url,
-        public_id: response.public_id,
-      }));
+    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
+    //     url: response.secure_url,
+    //     secure_url: response.secure_url,
+    //     public_id: response.public_id,
+    //   }));
 
-      console.log("this is reponc", cloudinaryImages);
-      // const updatedImages = subProduct.images.concat(cloudinaryImages);
-      // console.log("img", updatedImages);
+    //   console.log("this is reponc", cloudinaryImages);
+    //   // const updatedImages = subProduct.images.concat(cloudinaryImages);
+    //   // console.log("img", updatedImages);
 
-      updatedSubProducts.push({ ...subProduct, images: cloudinaryImages });
-    }
+    //   updatedSubProducts.push({ ...subProduct, images: cloudinaryImages });
+    // }
 
-    console.log({ ...product, updatedSubProducts });
+    console.log({ ...product, subProducts });
 
-    try {
-      const { data } = await axios.post("/api/admin/product", {
-        ...product,
-        updatedSubProducts,
-      });
-      console.log("Product created successfully:", data);
-    } catch (error) {
-      console.error("Error creating product:", error);
-    }
+    // try {
+    //   const { data } = await axios.post("/api/admin/product", {
+    //     ...product,
+    //     updatedSubProducts,
+    //   });
+    //   console.log("Product created successfully:", data);
+    // } catch (error) {
+    //   console.error("Error creating product:", error);
+    // }
 
     // Reset subProducts state
   };

@@ -7,7 +7,7 @@ import User from "../../../../model/User";
 import bcrypt from "bcrypt";
 import db from "../../../../utils/db";
 
-const authOptions = {
+export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
