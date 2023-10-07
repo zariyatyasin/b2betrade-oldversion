@@ -67,7 +67,6 @@ export default function ProductReviews() {
 
   return (
     <div className=" col-span-5 ">
-      {/* Filter Section */}
       <div className="mb-8 p-4 border rounded-md bg-gray-100">
         <h3 className="text-lg font-medium text-gray-900 mb-2">
           Filter Reviews

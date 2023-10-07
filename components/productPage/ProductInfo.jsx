@@ -183,7 +183,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               key={i}
             >
               <Link href={`/product/${product.slug}/${i}`}>
-                <img src={color?.image} className="h-10 w-10 rounded-full" />
+                {color?.image ? (
+                  <img src={color?.image} className="h-10 w-10 rounded-full" />
+                ) : (
+                  <div
+                    className={`   h-10 w-10 rounded-full`}
+                    style={{ backgroundColor: color.color }}
+                  ></div>
+                )}
               </Link>
             </div>
           ))}

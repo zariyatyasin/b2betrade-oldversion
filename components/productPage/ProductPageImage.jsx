@@ -9,17 +9,19 @@ const ProductPageImage = ({ images, activeImg }) => {
       <div className="    lg:items-start">
         <div className="lg:order-2  ">
           <div className=" max-w-[640px] max-h-[640px]  rounded-lg flex  justify-center ">
-            <img
-              className="  rounded-lg   w-full  object-cover object-center"
-              src={activeImg || images[active].url}
-              alt=""
-            />
+            {images && (
+              <img
+                className="  rounded-lg   w-full  object-cover object-center"
+                src={activeImg || images[active].url}
+                alt=""
+              />
+            )}
           </div>
         </div>
 
         <div className="mt-2    w-full    ">
           <div className="flex   items-start        ">
-            {images.map((img, i) => (
+            {images?.map((img, i) => (
               <div
                 className={`flex-0 aspect-square mb-3  h-20   ${
                   i == active && "border-2 border-gray-900"

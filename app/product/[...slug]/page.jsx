@@ -20,6 +20,15 @@ async function getData(url) {
       .populate({ path: "subCategories", model: SubCategory })
       .lean();
 
+    function calculatePercentage(num) {
+      const totalReviews = product.reviews.length;
+      const numReviews = product.reviews.filter(
+        (review) =>
+          review.rating === Number(num) || review.rating === Number(num) + 0.5
+      ).length;
+      return ((numReviews / totalReviews) * 100).toFixed(1);
+    }
+
     let subProduct = product.subProducts[style];
     let prices = subProduct.sizes
       .map((s) => {
@@ -58,16 +67,11 @@ async function getData(url) {
       priceBefore: subProduct.sizes[size].price,
       quantity: subProduct.sizes[size].qty,
       ratings: [
-        {
-          percentage: 10,
-        },
-
-        {
-          percentage: 75,
-        },
-        {
-          percentage: 0,
-        },
+        { percentage: calculatePercentage("5") },
+        { percentage: calculatePercentage("4") },
+        { percentage: calculatePercentage("3") },
+        { percentage: calculatePercentage("2") },
+        { percentage: calculatePercentage("1") },
       ],
 
       allSizes: product.subProducts

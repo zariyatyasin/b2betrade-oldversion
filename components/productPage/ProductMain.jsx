@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import ProductPageImage from "./ProductPageImage";
 import ProductInfo from "./ProductInfo";
-import ProductReviews from "./ProductReviews";
+import ProductReviews from "./reviews/ProductReviews";
 import StoreSide from "./StoreSide";
 import SideImage from "./SideImage";
 import SideProductInfo from "./SideProductInfo";
@@ -22,7 +22,7 @@ const ProductMain = ({ product, params }) => {
         />
         {/* <StoreSide /> */}
       </div>
-      <ProductReviews />
+      <ProductReviews product={product} />
     </div>
 
     // <main class="  mx-auto sm:pt-16 sm:px-6 lg:px-8">
