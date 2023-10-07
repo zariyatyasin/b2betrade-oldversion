@@ -103,8 +103,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   return (
-    <div className="flex-1">
-      <h1 className="text-2xl font-semibold text-gray-900">{product.name}</h1>
+    <div className=" flex-1   ">
+      <h1 className="text-xl font-semibold  text-gray-900 ">{product.name}</h1>
       <div className="mt-2 flex items-center">
         <Rating
           name="hover-feedback"
@@ -113,26 +113,32 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           sx={{ fontSize: 24 }}
           precision={0.5}
         />
-        <p className="ml-2 text-sm font-medium text-gray-600">
+        <p className="ml-2 text-sm  font-bold text-gray-950">
           {product.numReviews} {product.numReviews > 1 ? "reviews" : "review"}
         </p>
       </div>
       <div className="flex items-end mt-4 mb-4">
-        <h1 className="text-4xl font-bold text-[#ff6f61]">
-          {!size ? product.priceRange : `৳${product.price}`}
-        </h1>
+        {!size ? (
+          <h1 className="text-3xl font-bold text-[#ff6f61]">
+            {product.priceRange}
+          </h1>
+        ) : (
+          <h1 className="text-3xl font-bold text-[#ff6f61]">
+            ৳{product.price}
+          </h1>
+        )}
         {product.discount > 0 && size && (
           <div className="ml-2">
-            <span className="text-xs line-through text-gray-500 mr-2">
+            <span className="text-sm line-through mr-2">
               ${product.priceBefore}
             </span>
-            <span className="text-red-500 text-xs rounded-full bg-[#ff6f61] px-2">
+            <span className=" text-red-500  rounded  s   ">
               {product.discount}%
             </span>
           </div>
         )}
       </div>
-      <div className="mt-1 text-green-500 text-sm font-semibold">
+      <div className="mt-1 text-green-500 rounded text-sm font-semibold">
         {product.shipping ? `+${product.shipping}$ shipping` : "Free Shipping"}
       </div>
       <p className="mt-2 text-sm text-gray-600">
@@ -141,23 +147,21 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           : `Total available: ${product.size.reduce(
               (start, next) => start + next.qty,
               0
-            )} pieces.`}
+            )} pieces. `}
       </p>
-      <h2 className="mt-3 text-lg font-semibold text-gray-900">
-        Select the Size
-      </h2>
+      <h2 className=" mt-2 text-base text-gray-900">Select the Size</h2>
       <div className="mt-3 flex select-none flex-wrap items-center gap-2">
         {product.size.map((size, i) => (
           <Link
-            href={`/product/${product.slug}/${UrlStyle}/${i}`}
+            href={`/product/${product.slug}/${UrlStyle}/${i} `}
             key={i}
             onClick={() => setStaySize(i)}
           >
             <div
               key={i}
-              className={`rounded-lg border ${
+              className={`peer-checked:bg-black peer-checked:text-white rounded-lg border ${
                 i === staySize ? "bg-black text-white" : "border-black"
-              } px-6 py-3 font-medium cursor-pointer hover:bg-black hover:text-white transition-all duration-300 ease-in-out`}
+              } px-6 py-2 font-bold cursor-pointer`}
               onClick={() => handleSizeSelection({ size: size.size, index: i })}
             >
               {size.size}
@@ -165,8 +169,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-      <h2 className="mt-4 text-lg font-semibold text-gray-900">Color</h2>
-      <div className="mt-3 flex select-none flex-wrap items-center gap-2">
+      <h2 className="mt-3 text-base text-gray-900">Color</h2>
+      <div className="mt-3 flex select-none flex-wrap items-center gap-1">
         {product.colors &&
           product.colors.map((color, i) => (
             <div
@@ -181,7 +185,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                   <img src={color?.image} className="h-10 w-10 rounded-full" />
                 ) : (
                   <div
-                    className={`h-10 w-10 rounded-full`}
+                    className={`   h-10 w-10 rounded-full`}
                     style={{ backgroundColor: color.color }}
                   ></div>
                 )}
@@ -189,40 +193,39 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             </div>
           ))}
       </div>
-      <div className="mt-3 flex select-none flex-wrap items-center gap-2">
-        <div className="bg-gray-100 h-10 p-1 rounded-lg flex flex-row relative mt-1">
+      <div className="mt-3  flex select-none flex-wrap items-center gap-1">
+        <div className=" bg-gray-100 h-10 p-1 rounded-lg flex flex-row   relative mt-1">
           <button
-            className="inline-flex items-center px-3 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out"
+            className="inline-flex items-center px-3   border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50    "
             onClick={handleQtyDecrease}
           >
             <RemoveOutlinedIcon sx={{ fontSize: 14 }} />
           </button>
-          <div className="p-4 flex items-center text-lg font-semibold">
-            {qty}
-          </div>
+          <div className="p-4 flex   items-center ">{qty}</div>
           <button
-            className="inline-flex items-center px-3 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out"
+            className=" inline-flex items-center px-3  border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50   "
             onClick={handleQtyIncrease}
           >
             <AddOutlinedIcon sx={{ fontSize: 14 }} />
           </button>
         </div>
       </div>
-      <div className="mt-6 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
+      <div className="mt-8 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
         <button
           disabled={product.quantity < 1}
           type="button"
-          className="inline-flex items-center justify-center border-2 border-transparent bg-gray-950 rounded-lg bg-none px-12 py-3 text-center text-lg font-semibold text-white transition-all duration-300 ease-in-out hover:bg-gray-800"
+          className="inline-flex items-center justify-center  border-2 border-transparent bg-gray-950 rounded-lg 0 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
           onClick={() => addToCartHandler()}
         >
           Add to cart
         </button>
         <div className="ml-6">
-          <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
+          <FavoriteBorderOutlinedIcon sx={{ fontSize: 28 }} />
         </div>
       </div>
-      {error && <span className="text-red-600 mt-2">{error}</span>}
+      {error && <span className=" text-red-600"> {error}</span>}
       <ul className="mt-5 flex items-center">
+        {" "}
         <li className="flex items-center text-left text-sm font-medium text-gray-600">
           <svg
             className="mr-2 block h-5 w-5 align-middle text-gray-500"

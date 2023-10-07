@@ -6,18 +6,20 @@ import ProductMain from "../../../components/productPage/ProductMain";
 import Category from "../../../model/Category";
 import Product from "../../../model/Product";
 import SubCategory from "../../../model/SubCategory";
+import User from "../../../model/User";
 import db from "../../../utils/db";
 
 async function getData(url) {
   const slug = url.slug[0];
   const style = parseInt(url.slug[1]) || 0;
   const size = parseInt(url.slug[2]) || 0;
-  console.log(style);
+
   await db.connectDb();
   try {
     let product = await Product.findOne({ slug: slug })
       .populate({ path: "category", model: Category })
       .populate({ path: "subCategories", model: SubCategory })
+      .populate({ path: "reviews.reviewBy", model: User })
       .lean();
 
     function calculatePercentage(num) {
@@ -108,7 +110,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <Header />
-      <Example />
+      {/* <Example /> */}
 
       <div className="pt-8 px-2 sm:px-4 lg:px-8 max-w-7xl mx-auto  ">
         <div className="flex items-center  ">

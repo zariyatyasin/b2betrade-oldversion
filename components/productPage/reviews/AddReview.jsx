@@ -19,10 +19,9 @@ export default function AddReview({ product, setReviews }) {
   const fits = ["Small", "True to size", "Large"];
 
   const handleSubmit = () => {
-    // Your handleSubmit logic goes here
     setLoading(true);
 
-    // Rest of your handleSubmit logic
+    console.log({ images, size, fit, review, style, rating });
 
     setLoading(false);
   };

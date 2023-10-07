@@ -2,11 +2,12 @@ import { Rating } from "@mui/material";
 import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import AddReview from "./AddReview";
+import Table from "./Table";
 export default function ProductReviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState("");
   const [reviews, setReviews] = useState(product.reviews);
-  console.log(product.reviews);
+
   return (
     <div className="bg-gray-100 p-4">
       <div className="container mx-auto">
@@ -59,7 +60,11 @@ export default function ProductReviews({ product }) {
             Login to add review
           </button>
         )}
-        {/* <Table reviews={reviews} allSizes={product.allSizes} colors={product.colors} /> */}
+        <Table
+          reviews={reviews}
+          allSizes={product.allSizes}
+          colors={product.colors}
+        />
       </div>
     </div>
   );

@@ -4,8 +4,13 @@ import styles from "./styles.module.css";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCart } from "../../store/cartSlice";
-const CartProduct = ({ product, selected, setSelected }) => {
+import { updateCart, removeFromCart } from "../../store/cartSlice";
+const CartProduct = ({
+  product,
+  selected,
+  setSelected,
+  handleQuantityChange,
+}) => {
   const [active, setActive] = useState();
 
   useEffect(() => {
@@ -17,9 +22,13 @@ const CartProduct = ({ product, selected, setSelected }) => {
   const updateQty = (type) => {
     let newCart = cart.cartItems.map((p) => {
       if (p._uid == product._uid) {
+        const newQuantity = type === "plus" ? product.qty + 1 : product.qty - 1;
+        if (newQuantity >= 1) {
+          handleQuantityChange(product._uid, newQuantity);
+        }
         return {
           ...p,
-          qty: type == "plus" ? product.qty + 1 : product.qty - 1,
+          qty: newQuantity,
         };
       }
       return p;
@@ -28,10 +37,8 @@ const CartProduct = ({ product, selected, setSelected }) => {
   };
 
   const removeProduct = (id) => {
-    let newCart = cart.cartItems.filter((p) => {
-      return p._uid != id;
-    });
-    dispatch(updateCart(newCart));
+    dispatch(removeFromCart(id)); // Dispatch the removeFromCart action
+    setSelected([]);
   };
 
   const handleSelect = () => {
@@ -46,7 +53,6 @@ const CartProduct = ({ product, selected, setSelected }) => {
 
   return (
     <li className="flex  py-6 sm:py-10 bg-white md:px-4 px-2">
-      {" "}
       <div
         className={`h-4 w-4 mr-2 md:mr-4 border border-gray-950 hover:border-2 rounded cursor-pointer ${
           active ? styles.cartCheckActive : ""

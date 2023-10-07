@@ -18,7 +18,8 @@ export default function page() {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const { data: session, status } = useSession();
-  useEffect(() => {
+
+  const updateTotal = () => {
     setShippingFee(
       selected.reduce((a, c) => a + Number(c.shipping), 0).toFixed(2)
     );
@@ -29,7 +30,30 @@ export default function page() {
         selected.reduce((a, c) => a + Number(c.shipping), 0)
       ).toFixed(2)
     );
+  };
+
+  useEffect(() => {
+    updateTotal();
   }, [selected]);
+
+  const handleQuantityChange = (productId, newQuantity) => {
+    const updatedSelected = selected.map((p) => {
+      if (p._uid === productId) {
+        return {
+          ...p,
+          qty: newQuantity,
+        };
+      }
+      return p;
+    });
+
+    // Update the selected state
+    setSelected(updatedSelected);
+
+    // Update the totals
+    updateTotal();
+  };
+
   const saveCartToDbHandler = async () => {
     if (session) {
       const res = saveCart(selected, session.user.id);
@@ -38,6 +62,8 @@ export default function page() {
       signIn();
     }
   };
+
+  console.log("this is totla", total);
 
   return (
     <div className="">
@@ -62,6 +88,7 @@ export default function page() {
                     <CartProdcut
                       product={product}
                       key={id}
+                      handleQuantityChange={handleQuantityChange}
                       selected={selected}
                       setSelected={setSelected}
                     />
