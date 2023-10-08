@@ -28,7 +28,7 @@ export const Header = () => {
 
   return (
     <div>
-      <header className="bg-white  border-b">
+      <header className="bg-white ">
         <div className="max-w-9xl mx-auto  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
           <div className="relative   h-16 flex justify-between items-center">
             <div className="relative z-10 px-2 flex lg:px-0 items-center">

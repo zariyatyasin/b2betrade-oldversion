@@ -81,11 +81,11 @@ export const POST = async (request  ) => {
 export const PUT = async (request  ) => {
   const session = await getCurrentUser();
 
-  // if(!session){
-  //   return NextResponse.json( "you must be login in" ,{
-  //          status: 201,
-  //        })
-  //   }
+  if(!session){
+    return NextResponse.json( "you must be login in" ,{
+           status: 201,
+         })
+    }
  
     try {
     db.connectDb()

@@ -5,12 +5,12 @@ import React, { useState } from "react";
 const ProductPageImage = ({ images, activeImg }) => {
   const [active, setActive] = useState(0);
   return (
-    <div className="    flex-2  flex justify-center   ">
+    <div className="     flex-2  flex justify-center   ">
       <div className=" lg:flex   ">
-        <div className=" mw-full max-w-[640px] max-h-[640px] flex justify-center ">
+        <div className=" mw-full  w-[660px]  h-auto flex justify-center ">
           {images && (
             <img
-              className="    w-full max-h-[640px] object-cover"
+              className="    w-full object-cover"
               src={activeImg || images[active].url}
               alt=""
             />

@@ -37,7 +37,7 @@ const CartProduct = ({
   };
 
   const removeProduct = (id) => {
-    dispatch(removeFromCart(id)); // Dispatch the removeFromCart action
+    dispatch(removeFromCart(id));
     setSelected([]);
   };
 

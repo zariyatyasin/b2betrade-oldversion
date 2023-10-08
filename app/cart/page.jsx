@@ -7,6 +7,8 @@ import CartProdcut from "../../components/cart/CartProduct";
 import OrderSummary from "../../components/cart/OrderSummary";
 import ProductListCart from "../../components/cart/ProductListCart";
 import CartHeader from "../../components/cart/CartHeader";
+import axios from "axios";
+
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { saveCart } from "../../request/user";
@@ -47,17 +49,29 @@ export default function page() {
       return p;
     });
 
-    // Update the selected state
     setSelected(updatedSelected);
 
-    // Update the totals
     updateTotal();
   };
 
   const saveCartToDbHandler = async () => {
     if (session) {
-      const res = saveCart(selected, session.user.id);
-      router.push("/checkout");
+      try {
+        const data = await axios.post("/api/user/savecart", {
+          cart: selected,
+        });
+
+        if (data.status === 201) {
+          router.push("/checkout");
+        } else {
+          // Handle other success cases here if needed
+          // For now, let's show an alert for any other status code
+          alert("An error occurred while saving the cart.");
+        }
+      } catch (error) {
+        console.log("this si error", error);
+        return error;
+      }
     } else {
       signIn();
     }

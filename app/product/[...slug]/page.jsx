@@ -110,7 +110,7 @@ export default async function Page({ params }) {
   return (
     <div>
       <Header />
-      {/* <Example /> */}
+      <Example />
 
       <div className="pt-8 px-2 sm:px-4 lg:px-8 max-w-7xl mx-auto  ">
         <div className="flex items-center  ">

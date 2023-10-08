@@ -24,6 +24,8 @@ export default function Checkout({ cart, user }) {
   const [selectedAddress, setSelectedAddress] = useState();
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
 
+  console.log("thisu si checkout", cart);
+
   const [formData, setFormData] = useState({
     fullName: "",
 

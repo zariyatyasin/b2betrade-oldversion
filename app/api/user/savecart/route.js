@@ -3,21 +3,28 @@ import User from "../../../../model/User";
 import Cart from "../../../../model/Cart";
 import Product from "../../../../model/Product";
 import db from "../../../../utils/db";
+import { getCurrentUser } from "../../../../utils/session";
 
 
 export const POST = async (request  ) => {
  
- 
+  const session = await getCurrentUser();
+    if(!session){
+    return NextResponse.json( "you must be login in" ,{
+           status: 201,
+         })
+    }
     try {
     db.connectDb()
-    const {cart,id} = await request.json();
+    const {cart} = await request.json();
   
      let products = [];
-     let user = await User.findById(id);
+     let user = await User.findById(session.id);
      let existing_cart = await Cart.findOne({ user: user._id });
      if (existing_cart) {
-       await existing_cart.remove();
-     }
+      await Cart.findByIdAndRemove(existing_cart._id);
+    }
+    
      for (let i = 0; i < cart.length; i++) {
        let dbProduct = await Product.findById(cart[i]._id).lean();
        let subProduct = dbProduct.subProducts[cart[i].style];
@@ -57,6 +64,6 @@ export const POST = async (request  ) => {
         status: 201,
       })
     } catch (err) {
-      return new NextResponse({message:err.message}, { status: 500 });
+      return new NextResponse(  err.message , { status: 500 });
     }
   };

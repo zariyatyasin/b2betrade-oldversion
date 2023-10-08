@@ -142,7 +142,7 @@ export default function Example() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-white max-w-9xl mx-auto shadow  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
+    <div className="bg-white max-w-9xl mx-auto border-b  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
