@@ -4,7 +4,7 @@ import ProductCardSwip from "../cards/ProductCardSwip";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import CategoryFilter from "./filter/CategoryFilter";
-
+import Brand from "./filter/Brand";
 import ColorsFilter from "./filter/ColorsFilter";
 import { useSearchParams } from "next/navigation";
 import Filters from "./filter/Filters";
@@ -22,13 +22,11 @@ export default function BrowsePage({
   patterns,
   materials,
 }) {
-  console.log(products);
-
+  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const search = searchParams.get("search");
+  console.log(pathname);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [sort, setSort] = useState("");
   const [priceLimit, setPriceLimit] = useState("");
@@ -41,6 +39,51 @@ export default function BrowsePage({
     Category: [],
     Sizes: [],
   });
+  const filterUrl = ({
+    category,
+    brand,
+    style,
+    size,
+    color,
+    pattern,
+    material,
+    gender,
+    price,
+    shipping,
+    rating,
+    sort,
+    page,
+  }) => {
+    console.log("th", brand);
+    console.log("cat", category);
+
+    const currentQuery = new URLSearchParams(searchParams.toString());
+    if (brand) {
+      console.log("lo", brand);
+      currentQuery.set("brand", brand);
+    }
+    if (category) {
+      console.log("ld o", category);
+      currentQuery.set("category", category);
+    }
+
+    // Convert the URLSearchParams object back to a string
+    const queryStr = currentQuery.toString();
+
+    // Generate the new URL
+    const newUrl = `${pathname}?${queryStr}`;
+
+    // Push the new URL to the router
+    router.push(newUrl);
+  };
+
+  const categoryHandle = (category) => {
+    filterUrl({ category });
+  };
+  const brandHandle = (brand) => {
+    filterUrl({ brand });
+  };
+
   const handleFilterChange = (filterCategory, selectedValues) => {
     setSelectedFilters({
       ...selectedFilters,
@@ -146,10 +189,11 @@ export default function BrowsePage({
                 </button>
 
                 <div className="hidden lg:block   ">
-                  <form className="divide-y divide-gray-200 space-y-10    ">
+                  <div className="divide-y divide-gray-200 space-y-10    ">
                     <CategoryFilter
                       categories={categories}
                       subCategories={subCategories}
+                      categoryHandle={categoryHandle}
                     />
 
                     <Filters
@@ -159,11 +203,7 @@ export default function BrowsePage({
                     />
                     <ColorsFilter colors={colors} />
 
-                    <Filters
-                      data={brands}
-                      name={"Brands"}
-                      onFilterChange={handleFilterChange}
-                    />
+                    <Brand brands={brands} brandHandle={brandHandle} />
                     <Filters
                       data={styles}
                       name={"Styles"}
@@ -179,7 +219,7 @@ export default function BrowsePage({
                       name={"Materials"}
                       onFilterChange={handleFilterChange}
                     />
-                  </form>
+                  </div>
                 </div>
               </aside>
 

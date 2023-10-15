@@ -1,12 +1,20 @@
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-export default function Card({ category, categoryHandler }) {
+export default function Card({ category, categoryHandle }) {
   const [show, setShow] = useState(false);
-
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentQuery = { ...searchParams };
   return (
     <>
-      <section className=" flex items-center mt-2 cursor-pointer   ">
+      <div
+        className=" flex items-center mt-2 cursor-pointer   "
+        onClick={() => categoryHandle(category._id)}
+      >
         <input
           name="filter"
           id={category._id}
@@ -25,7 +33,7 @@ export default function Card({ category, categoryHandler }) {
             )}
           </span>
         </div>
-      </section>
+      </div>
     </>
   );
 }

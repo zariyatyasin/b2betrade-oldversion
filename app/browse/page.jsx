@@ -11,6 +11,8 @@ import BrowsePage from "../../components/browse/BrowsePage";
 async function getData({ params, searchParams }) {
   db.connectDb();
   const searchQuery = searchParams.search || "";
+  const categoryQuery = searchParams.category || "";
+  const brandQuery = searchParams.brand || "";
   const search =
     searchQuery && searchQuery !== ""
       ? {
@@ -20,8 +22,11 @@ async function getData({ params, searchParams }) {
           },
         }
       : {};
+  const category =
+    categoryQuery && categoryQuery !== "" ? { category: categoryQuery } : {};
 
-  let productDb = await Product.find({ ...search })
+  const brand = brandQuery && brandQuery !== "" ? { brand: brandQuery } : {};
+  let productDb = await Product.find({ ...search, ...category, ...brand })
     .sort({ createdAt: -1 })
     .lean();
   let products = randomize(productDb);
@@ -30,10 +35,14 @@ async function getData({ params, searchParams }) {
     path: "parent",
     model: Category,
   });
-  let sizes = await Product.find().distinct("subProducts.sizes.size");
-  let colors = await Product.find().distinct("subProducts.color.color");
-  let brandsDb = await Product.find().distinct("brand");
-  let details = await Product.find().distinct("details");
+  let sizes = await Product.find({ ...category }).distinct(
+    "subProducts.sizes.size"
+  );
+  let colors = await Product.find({ ...category }).distinct(
+    "subProducts.color.color"
+  );
+  let brandsDb = await Product.find({ ...category }).distinct("brand");
+  let details = await Product.find({ ...category }).distinct("details");
   let stylesDb = filterArray(details, "Style");
   let patternsDb = filterArray(details, "Pattern Type");
   let materialsDb = filterArray(details, "Material");

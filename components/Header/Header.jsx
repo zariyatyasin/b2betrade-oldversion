@@ -98,7 +98,6 @@ export const Header = () => {
                       <input
                         id="search"
                         name="search"
-                        value={quary}
                         className="block w-full  bg-gray-100    rounded-md py-3 h-10  p-4 text-sm placeholder-gray-900 focus:outline-none focus:text-gray-900 focus:placeholder-gray-900   sm:text-sm"
                         placeholder="Search"
                         onChange={(e) => setQuary(e.target.value)}

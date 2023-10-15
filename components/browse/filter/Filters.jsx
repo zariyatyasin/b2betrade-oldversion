@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Size from "./Size";
 
-export default function Filters({ data, name, onFilterChange }) {
+export default function Filters({ data, name, onFilterChange, AllHandle }) {
   const [show, setShow] = useState(true);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
@@ -36,7 +36,11 @@ export default function Filters({ data, name, onFilterChange }) {
       {show && (
         <div>
           {data?.map((data, i) => (
-            <div className="grid grid-cols-2 gap-4" key={i}>
+            <div
+              className="grid grid-cols-2 gap-4"
+              key={i}
+              onClick={() => AllHandle(data)}
+            >
               <div className="flex items-center mt-2 cursor-pointer">
                 <input
                   name={name}
