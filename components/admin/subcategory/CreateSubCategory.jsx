@@ -1,6 +1,6 @@
 "use client";
 
-import CrudTable from "@/components/Table/CrudTable";
+import CrudTable from "../../../components/Table/CrudTable";
 import React, { useState } from "react";
 
 import {

@@ -1,25 +1,52 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 import Usermenu from "./Usermenu";
+
 import Example from "./Example";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 export const Header = () => {
   const session = useSession();
-  console.log(session);
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const router = useRouter();
+  const [quary, setQuary] = useState(search);
   const [isLogin, setLogin] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const handleUserMenuOpen = () => {
     setOpen(true);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (quary.length > 1) {
+      const currentSearchParams = new URLSearchParams(window.location.search);
+
+      // Modify the search parameter
+      currentSearchParams.set("search", quary);
+
+      // Generate the new URL with the modified search parameter
+      const newURL = `${
+        window.location.pathname
+      }?${currentSearchParams.toString()}`;
+
+      // Use the `router.push` function to navigate to the new URL
+      router.push(newURL, undefined, { shallow: true });
+    } else {
+      router.push("/browse", { shallow: true });
+    }
   };
 
   const handleUserMenuClose = () => {
@@ -60,7 +87,10 @@ export const Header = () => {
             <div className=" z-40   lg:relative lg:z-10 lg:ml-4  flex items-center">
               <div className=" hidden     transition-all duration-100 ease-in-out lg:flex  ">
                 <div className="relative hidden mr-8  z-0 flex-1 px-2 md:flex items-center justify-center  ml">
-                  <div className="w-full sm:max-w-xs border flex items-center">
+                  <form
+                    onSubmit={(e) => handleSearch(e)}
+                    className="w-full sm:max-w-xs border flex items-center"
+                  >
                     <label htmlFor="search" className="sr-only">
                       Search
                     </label>
@@ -68,15 +98,20 @@ export const Header = () => {
                       <input
                         id="search"
                         name="search"
+                        value={quary}
                         className="block w-full  bg-gray-100    rounded-md py-3 h-10  p-4 text-sm placeholder-gray-900 focus:outline-none focus:text-gray-900 focus:placeholder-gray-900   sm:text-sm"
                         placeholder="Search"
+                        onChange={(e) => setQuary(e.target.value)}
                         type="search"
                       />
                     </div>
-                    <div className="pointer-events-none h-10 bg-gray-950  w-10 justify-center  flex items-center">
+                    <button
+                      type="submit"
+                      className=" h-10  bg-gray-950  w-10 justify-center  flex items-center"
+                    >
                       <SearchIcon className="  text-white" />
-                    </div>
-                  </div>
+                    </button>
+                  </form>
                 </div>
               </div>
               {/* <button

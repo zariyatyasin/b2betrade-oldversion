@@ -31,7 +31,11 @@ const ProductSwiper = ({ images }) => {
       >
         {images?.map((img, id) => (
           <SwiperSlide key={id} className=" ">
-            <img src={img.url} alt="" className="w-full h-full object-cover " />
+            <img
+              src={img.url}
+              alt=""
+              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+            />
           </SwiperSlide>
         ))}
       </Swiper>

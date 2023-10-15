@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/utils/session";
-import db from "@/utils/db";
-import Category from "@/model/Category";
+import { getCurrentUser } from "../../../../utils/session";
+import db from "../../../../utils/db";
+import Category from "../../../../model/Category";
 import slugify from "slugify";
 
 export const POST = async (request) => {
-  //   const session = await getCurrentUser();
+  const session = await getCurrentUser();
 
-  // if(!session){
-  //   return NextResponse.json( "you must be login in" ,{
-  //          status: 201,
-  //        })
-  //   }
+  if (!session) {
+    return NextResponse.json("you must be login in", {
+      status: 201,
+    });
+  }
 
   try {
     db.connectDb();
