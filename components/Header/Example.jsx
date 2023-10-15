@@ -138,11 +138,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Example({ categories, subCategories }) {
   const [open, setOpen] = useState(false);
-
+  console.log(categories, subCategories);
   return (
-    <div className="bg-white max-w-9xl mx-auto border-b  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
+    <div className="bg-white  ">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -183,7 +183,7 @@ export default function Example() {
                 </button>
               </div>
 
-              {/* Links */}
+              {/* Links mobile*/}
               <Tab.Group as="div" className="mt-2 ">
                 <div className="border-b border-gray-200">
                   <Tab.List className="-mb-px flex px-4 space-x-8  ">
@@ -338,7 +338,7 @@ export default function Example() {
               {/* Flyout menus */}
               <Popover.Group className="hidden   lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
-                  {navigation.categories.map((category) => (
+                  {categories.map((category) => (
                     <Popover key={category.name} className="flex ">
                       {({ open }) => (
                         <>
@@ -348,7 +348,7 @@ export default function Example() {
                                 open
                                   ? "border-gray-900 text-gray-900"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
-                                "relative z-10    flex items-center text-base transition-colors ease-out duration-200  font-medium border-b-2 -mb-px pt-px"
+                                "relative z-10    flex items-center text-sm transition-colors ease-out duration-200  font-medium border-b-2 -mb-px pt-px"
                               )}
                             >
                               {category.name}
@@ -373,40 +373,9 @@ export default function Example() {
                               <div className="relative bg-white">
                                 <div className="max-w-7xl mx-auto px-8">
                                   <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
-                                    <div className="col-start-2 grid grid-cols-2 gap-x-8">
-                                      {category.featured.map((item) => (
-                                        <div
-                                          key={item.name}
-                                          className="group relative text-base sm:text-sm"
-                                        >
-                                          <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                              src={item.imageSrc}
-                                              alt={item.imageAlt}
-                                              className="object-center object-cover"
-                                            />
-                                          </div>
-                                          <a
-                                            href={item.href}
-                                            className="mt-6 block font-medium text-gray-900"
-                                          >
-                                            <span
-                                              className="absolute z-10 inset-0"
-                                              aria-hidden="true"
-                                            />
-                                            {item.name}
-                                          </a>
-                                          <p
-                                            aria-hidden="true"
-                                            className="mt-1"
-                                          >
-                                            Shop now
-                                          </p>
-                                        </div>
-                                      ))}
-                                    </div>
+                                    <div className="col-start-2 grid grid-cols-2 gap-x-8"></div>
                                     <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-                                      {category.sections.map((section) => (
+                                      {subCategories.map((section) => (
                                         <div key={section.name}>
                                           <p
                                             id={`${section.name}-heading`}
@@ -418,21 +387,7 @@ export default function Example() {
                                             role="list"
                                             aria-labelledby={`${section.name}-heading`}
                                             className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          >
-                                            {section.items.map((item) => (
-                                              <li
-                                                key={item.name}
-                                                className="flex"
-                                              >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
-                                                >
-                                                  {item.name}
-                                                </a>
-                                              </li>
-                                            ))}
-                                          </ul>
+                                          ></ul>
                                         </div>
                                       ))}
                                     </div>
@@ -458,7 +413,7 @@ export default function Example() {
                 </div>
               </Popover.Group>
 
-              <div className="ml-auto flex items-center">
+              {/* <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   <a
                     href="#"
@@ -490,7 +445,7 @@ export default function Example() {
                   </a>
                 </div>
 
-                {/* Search */}
+               
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
@@ -498,7 +453,7 @@ export default function Example() {
                   </a>
                 </div>
 
-                {/* Cart */}
+               
                 <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 p-2 flex items-center">
                     icon
@@ -508,7 +463,7 @@ export default function Example() {
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </nav>

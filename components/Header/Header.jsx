@@ -16,7 +16,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
-export const Header = () => {
+export const Header = ({ categories, subCategories }) => {
   const session = useSession();
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
@@ -56,7 +56,7 @@ export const Header = () => {
   return (
     <div>
       <header className="bg-white ">
-        <div className="max-w-9xl mx-auto  px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">
+        <div className="max-w-9xl mx-auto  px-2 sm:px-4  lg:px-8">
           <div className="relative   h-16 flex justify-between items-center">
             <div className="relative z-10 px-2 flex lg:px-0 items-center">
               <div className=" z-40   lg:relative lg:z-10    flex items-center">
@@ -193,6 +193,7 @@ export const Header = () => {
               </div>
             </div>
           </div>
+          <Example categories={categories} subCategories={subCategories} />
         </div>
         {/* 
         <nav className=" " aria-label="Global">

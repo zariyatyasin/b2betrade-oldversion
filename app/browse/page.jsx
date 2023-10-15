@@ -35,6 +35,8 @@ async function getData({ params, searchParams }) {
     path: "parent",
     model: Category,
   });
+
+  console.log({ categories, subCategories });
   let sizes = await Product.find({ ...category }).distinct(
     "subProducts.sizes.size"
   );

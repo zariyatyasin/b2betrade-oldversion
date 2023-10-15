@@ -12,23 +12,31 @@ import NewProducts from "../components/home/newProducts/NewProducts";
 import Tabs from "../components/home/sudzarTabs/Tabs";
 import Product from "../model/Product";
 import db from "../utils/db";
+import Category from "../model/Category";
+import SubCategory from "../model/SubCategory";
 
 async function getData() {
   db.connectDb();
   let products = await Product.find().sort({ createdAt: -1 }).lean();
-
+  let categories = await Category.find().lean();
+  let subCategories = await SubCategory.find().populate({
+    path: "parent",
+    model: Category,
+  });
   return {
     products: JSON.parse(JSON.stringify(products)),
+    categories: JSON.parse(JSON.stringify(categories)),
+
+    subCategories: JSON.parse(JSON.stringify(subCategories)),
   };
 }
 export default async function Home() {
-  const { products } = await getData();
+  const { products, categories, subCategories } = await getData();
 
   return (
     <div>
       <HeaderAds />
-      <Header />
-      <Example />
+      <Header categories={categories} subCategories={subCategories} />
 
       <HeaderPolicy />
 
