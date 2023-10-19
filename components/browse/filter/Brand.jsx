@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-export default function Brand({ brands, brandHandle }) {
+export default function Brand({ brands, brandHandle, replaceQuery }) {
   const [show, setShow] = useState(true);
-
+  console.log(brands);
   const toggleShow = () => {
     setShow(!show);
   };
@@ -19,15 +19,18 @@ export default function Brand({ brands, brandHandle }) {
       </h3>
       {show && (
         <div>
-          {brands.map((brand, i) => (
-            <button
-              className="grid grid-cols-2 gap-4"
-              key={i}
-              onClick={() => brandHandle(brand)}
-            >
-              {brand}
-            </button>
-          ))}
+          {brands.map((brand, i) => {
+            const check = replaceQuery("brand", brand);
+            return (
+              <button
+                className="grid grid-cols-2 gap-4"
+                key={i}
+                onClick={() => brandHandle(check.result)}
+              >
+                {brand}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

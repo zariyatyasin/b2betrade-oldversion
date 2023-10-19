@@ -7,8 +7,7 @@ export default function SizeFilter({ sizes }) {
   return (
     <div className="filter p-4   ">
       <h3 className="text-xl font-semibold">
-        Category{" "}
-        <span className="ml-2">{show ? <RemoveIcon /> : <AddIcon />}</span>
+        Size <span className="ml-2">{show ? <RemoveIcon /> : <AddIcon />}</span>
       </h3>
       {show && (
         <div>

@@ -140,7 +140,7 @@ function classNames(...classes) {
 
 export default function Example({ categories, subCategories }) {
   const [open, setOpen] = useState(false);
-  console.log(categories, subCategories);
+
   return (
     <div className="bg-white  ">
       {/* Mobile menu */}
@@ -338,7 +338,7 @@ export default function Example({ categories, subCategories }) {
               {/* Flyout menus */}
               <Popover.Group className="hidden   lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
-                  {categories.map((category) => (
+                  {categories?.map((category) => (
                     <Popover key={category.name} className="flex ">
                       {({ open }) => (
                         <>

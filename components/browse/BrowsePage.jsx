@@ -5,12 +5,16 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import CategoryFilter from "./filter/CategoryFilter";
 import Brand from "./filter/Brand";
+import Sizes from "./filter/Sizes";
 import ColorsFilter from "./filter/ColorsFilter";
 import { useSearchParams } from "next/navigation";
 import Filters from "./filter/Filters";
-import HeaderFilter from "./filter/HeaderFilter";
+import Pattern from "./filter/Pattern";
+import Material from "./filter/Material";
+import HeaderFilters from "./filter/HeaderFilters";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import Style from "./filter/Styles";
 export default function BrowsePage({
   categories,
   products,
@@ -26,7 +30,8 @@ export default function BrowsePage({
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log(pathname);
+  console.log(products);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [sort, setSort] = useState("");
   const [priceLimit, setPriceLimit] = useState("");
@@ -34,11 +39,43 @@ export default function BrowsePage({
     freeShipping: false,
     rating: "",
   });
-  const [selectedFilters, setSelectedFilters] = useState({
-    Color: [],
-    Category: [],
-    Sizes: [],
-  });
+
+  function checkChecked(queryName, value) {
+    if (searchParams.get(queryName)?.search(value) !== -1) {
+      return true;
+    }
+    return false;
+  }
+  function replaceQuery(queryName, value) {
+    const existedQuery = searchParams.get(queryName);
+    const valueCheck = existedQuery?.search(value);
+    const _check = existedQuery?.search(`_${value}`);
+    let result = "";
+    if (existedQuery) {
+      if (existedQuery == value) {
+        result = {};
+      } else {
+        if (valueCheck !== -1) {
+          if (_check !== -1) {
+            result = existedQuery?.replace(`_${value}`, "");
+          } else if (valueCheck == 0) {
+            result = existedQuery?.replace(`${value}_`, "");
+          } else {
+            result = existedQuery?.replace(value, "");
+          }
+        } else {
+          result = `${existedQuery}_${value}`;
+        }
+      }
+    } else {
+      result = value;
+    }
+    return {
+      result,
+      active: existedQuery && valueCheck !== -1 ? true : false,
+    };
+  }
+
   const filterUrl = ({
     category,
     brand,
@@ -54,54 +91,87 @@ export default function BrowsePage({
     sort,
     page,
   }) => {
-    console.log("th", brand);
-    console.log("cat", category);
-
     const currentQuery = new URLSearchParams(searchParams.toString());
     if (brand) {
-      console.log("lo", brand);
       currentQuery.set("brand", brand);
     }
     if (category) {
-      console.log("ld o", category);
       currentQuery.set("category", category);
     }
+    if (style) {
+      currentQuery.set("style", style);
+    }
+    if (size) {
+      currentQuery.set("size", size);
+    }
+    if (color) {
+      currentQuery.set("color", color);
+    }
+    if (pattern) {
+      currentQuery.set("pattern", pattern);
+    }
+    if (material) {
+      currentQuery.set("material", material);
+    }
+    if (price) {
+      currentQuery.set("price", price);
+    }
 
-    // Convert the URLSearchParams object back to a string
     const queryStr = currentQuery.toString();
 
-    // Generate the new URL
     const newUrl = `${pathname}?${queryStr}`;
 
-    // Push the new URL to the router
-    router.push(newUrl);
+    router.push(newUrl, { scroll: false });
   };
 
   const categoryHandle = (category) => {
     filterUrl({ category });
   };
+  const priceHandler = (price, type) => {
+    let priceQuery = searchParams.get("price")?.split("_") || "";
+    let min = priceQuery[0] || "";
+    let max = priceQuery[1] || "";
+    let newPrice = "";
+    if (type == "min") {
+      newPrice = `${price}_${max}`;
+    } else {
+      newPrice = `${min}_${price}`;
+    }
+    filterUrl({ price: newPrice });
+  };
+  const multiPriceHandler = (min, max) => {
+    filterUrl({ price: `${min}_${max}` });
+  };
+  const shippingHandler = (shipping) => {
+    filterUrl({ shipping });
+  };
+  const ratingHandler = (rating) => {
+    filterUrl({ rating });
+  };
+  const sortHandler = (sort) => {
+    if (sort == "") {
+      filterUrl({ sort: {} });
+    } else {
+      filterUrl({ sort });
+    }
+  };
   const brandHandle = (brand) => {
     filterUrl({ brand });
   };
-
-  const handleFilterChange = (filterCategory, selectedValues) => {
-    setSelectedFilters({
-      ...selectedFilters,
-      [filterCategory]: selectedValues,
-    });
+  const styleHandle = (style) => {
+    filterUrl({ style });
   };
-  const handleHeaderFilterChange = (filterKey, value) => {
-    if (filterKey === "freeShipping") {
-      setFilter({ ...filter, freeShipping: !filter.freeShipping });
-    } else if (filterKey === "rating") {
-      setFilter({ ...filter, rating: value });
-    }
+  const sizeHandle = (size) => {
+    filterUrl({ size });
   };
-  const handleSortChange = (value) => {
-    setSort(value);
+  const patternHandle = (pattern) => {
+    filterUrl({ pattern });
   };
-  const handlePriceLimitChange = (value) => {
-    setPriceLimit(value);
+  const materialHandle = (material) => {
+    filterUrl({ material });
+  };
+  const colorHandle = (color) => {
+    filterUrl({ color });
   };
 
   return (
@@ -164,13 +234,13 @@ export default function BrowsePage({
                 with four openings!
               </p>
             </div>
-            <HeaderFilter
-              onFilterChange={handleHeaderFilterChange}
-              onSortChange={handleSortChange}
-              filter={filter}
-              sort={sort}
-              priceLimit={priceLimit}
-              onPriceLimitChange={handlePriceLimitChange}
+
+            <HeaderFilters
+              priceHandler={priceHandler}
+              multiPriceHandler={multiPriceHandler}
+              shippingHandler={shippingHandler}
+              ratingHandler={ratingHandler}
+              sortHandler={sortHandler}
             />
 
             <div className=" lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-5 ">
@@ -196,28 +266,40 @@ export default function BrowsePage({
                       categoryHandle={categoryHandle}
                     />
 
-                    <Filters
+                    <Sizes
                       data={sizes}
                       name={"Sizes"}
-                      onFilterChange={handleFilterChange}
+                      sizeHandle={sizeHandle}
+                      replaceQuery={replaceQuery}
                     />
-                    <ColorsFilter colors={colors} />
+                    <ColorsFilter
+                      colors={colors}
+                      replaceQuery={replaceQuery}
+                      colorHandle={colorHandle}
+                    />
 
-                    <Brand brands={brands} brandHandle={brandHandle} />
-                    <Filters
+                    <Brand
+                      brands={brands}
+                      brandHandle={brandHandle}
+                      replaceQuery={replaceQuery}
+                    />
+                    <Style
                       data={styles}
                       name={"Styles"}
-                      onFilterChange={handleFilterChange}
+                      replaceQuery={replaceQuery}
+                      styleHandle={styleHandle}
                     />
-                    <Filters
+                    <Pattern
                       data={patterns}
                       name={"Patterns"}
-                      onFilterChange={handleFilterChange}
+                      patternHandle={patternHandle}
+                      replaceQuery={replaceQuery}
                     />
-                    <Filters
+                    <Material
                       data={materials}
                       name={"Materials"}
-                      onFilterChange={handleFilterChange}
+                      materialHandle={materialHandle}
+                      replaceQuery={replaceQuery}
                     />
                   </div>
                 </div>

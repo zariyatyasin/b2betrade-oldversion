@@ -7,12 +7,55 @@ import { filterArray, randomize, removeDuplicates } from "../../utils/Array";
 
 import { Header } from "../../components/Header/Header";
 import BrowsePage from "../../components/browse/BrowsePage";
-
+function createRegex(data, styleRegex) {
+  if (data.length > 1) {
+    for (var i = 1; i < data.length; i++) {
+      styleRegex += `|^${data[i]}`;
+    }
+  }
+  return styleRegex;
+}
 async function getData({ params, searchParams }) {
   db.connectDb();
   const searchQuery = searchParams.search || "";
   const categoryQuery = searchParams.category || "";
-  const brandQuery = searchParams.brand || "";
+
+  //style
+
+  const priceQuery = searchParams.price?.split("_") || "";
+  const styleQuery = searchParams.style?.split("_") || "";
+  const styleRegex = `^${styleQuery[0]}`;
+  const styleSearchRegex = createRegex(styleQuery, styleRegex);
+
+  const sizeQuery = searchParams.size?.split("_") || "";
+  const sizeRegex = `^${sizeQuery[0]}`;
+  const sizeSearchRegex = createRegex(sizeQuery, sizeRegex);
+
+  const brandQuery = searchParams.brand?.split("_") || "";
+  const brandRegex = `^${brandQuery[0]}`;
+  const brandSearchRegex = createRegex(brandQuery, brandRegex);
+
+  const patternQuery = searchParams.pattern?.split("_") || "";
+  const patternRegex = `^${patternQuery[0]}`;
+  const patternSearchRegex = createRegex(patternQuery, patternRegex);
+
+  const materialQuery = searchParams.material?.split("_") || "";
+  const materialRegex = `^${materialQuery[0]}`;
+  const materialSearchRegex = createRegex(materialQuery, materialRegex);
+
+  const colorQuery = searchParams.color?.split("_") || "";
+  const colorRegex = `^${colorQuery[0]}`;
+  const colorSearchRegex = createRegex(colorQuery, colorRegex);
+
+  const price =
+    priceQuery && priceQuery !== ""
+      ? {
+          "subProducts.sizes.price": {
+            $gte: Number(priceQuery[0]) || 0,
+            $lte: Number(priceQuery[1]) || Infinity,
+          },
+        }
+      : {};
   const search =
     searchQuery && searchQuery !== ""
       ? {
@@ -25,8 +68,76 @@ async function getData({ params, searchParams }) {
   const category =
     categoryQuery && categoryQuery !== "" ? { category: categoryQuery } : {};
 
-  const brand = brandQuery && brandQuery !== "" ? { brand: brandQuery } : {};
-  let productDb = await Product.find({ ...search, ...category, ...brand })
+  const style =
+    styleQuery && styleQuery !== ""
+      ? {
+          "details.value": {
+            $regex: styleSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+
+  const size =
+    sizeQuery && sizeQuery !== ""
+      ? {
+          "subProducts.sizes.size": {
+            $regex: sizeSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+
+  const color =
+    colorQuery && colorQuery !== ""
+      ? {
+          "subProducts.color.color": {
+            $regex: colorSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+  const pattern =
+    patternQuery && patternQuery !== ""
+      ? {
+          "details.value": {
+            $regex: patternSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+  const material =
+    materialQuery && materialQuery !== ""
+      ? {
+          "details.value": {
+            $regex: materialSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+
+  const brand =
+    brandQuery && brandQuery !== ""
+      ? {
+          brand: {
+            $regex: brandSearchRegex,
+            $options: "i",
+          },
+        }
+      : {};
+
+  console.log(" this si stykw", brand);
+  let productDb = await Product.find({
+    ...search,
+    ...category,
+    ...brand,
+    ...style,
+    ...size,
+    ...color,
+    ...material,
+    ...pattern,
+    ...price,
+  })
     .sort({ createdAt: -1 })
     .lean();
   let products = randomize(productDb);
@@ -36,7 +147,6 @@ async function getData({ params, searchParams }) {
     model: Category,
   });
 
-  console.log({ categories, subCategories });
   let sizes = await Product.find({ ...category }).distinct(
     "subProducts.sizes.size"
   );
