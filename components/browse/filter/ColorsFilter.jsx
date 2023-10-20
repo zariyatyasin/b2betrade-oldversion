@@ -12,7 +12,6 @@ export default function ColorsFilter({ colors, replaceQuery, colorHandle }) {
       {show && (
         <div className="flex flex-wrap -mx-2">
           {colors?.map((color, i) => {
-            console.log(color);
             const check = replaceQuery("color", color);
             return (
               <div key={i} className="w-1/5 p-2">

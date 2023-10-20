@@ -1,70 +1,97 @@
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function HeadingFilters({
   priceHandler,
-  multiPriceHandler,
   shippingHandler,
   replaceQuery,
   ratingHandler,
   sortHandler,
 }) {
   const searchParams = useSearchParams();
-
+  const router = useRouter();
   const [show, setShow] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
+  const check = replaceQuery(
+    "shipping",
+    searchParams.shipping === "0" ? false : "0"
+  );
+
+  const applyPriceFilter = () => {
+    // Validate the input values if needed
+    if (minPrice !== "" || maxPrice !== "") {
+      priceHandler(minPrice, maxPrice);
+    }
+  };
+
+  const checkRating = replaceQuery("rating", "4");
   const sortQuery = searchParams.get("sort") || "";
 
   return (
     <div className="p-4 bg-gray-100 rounded-md">
-      <div className="mb-4">
-        <span className="font-bold">Price :</span>
+      <div className="mb-4 flex items-center space-x-2">
+        <span className="text-sm">Price:</span>
         <input
           type="number"
           placeholder="min"
           min="0"
-          onChange={(e) => priceHandler(e.target.value, "min")}
-          className="p-2 mx-2 border rounded-md"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+          className="p-2 border w-28 text-sm border-gray-300 rounded ml-2"
         />
+        <span className="text-gray-500">to</span>
         <input
           type="number"
           placeholder="max"
           min="0"
-          onChange={(e) => priceHandler(e.target.value, "max")}
-          className="p-2 mx-2 border rounded-md"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          className="p-2 border w-28 text-sm border-gray-300 rounded"
         />
+        <button
+          onClick={applyPriceFilter}
+          className="p-2 bg-gray-900 text-white text-sm rounded hover:bg-blue-600 ml-2"
+        >
+          Apply
+        </button>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center space-x-2">
         <input
           type="checkbox"
           name="shipping"
           id="shipping"
           checked={searchParams.get("shipping") === "0"}
-          className="mr-2"
+          onChange={() => shippingHandler(check.result)}
+          className="w-4 h-4 text-blue-600 border border-gray-300 rounded-sm"
         />
-        <label htmlFor="shipping" className="font-bold">
+        <label htmlFor="shipping" className="text-sm">
           Free Shipping
         </label>
       </div>
-      <div className="mb-4">
+
+      <div className="mb-4 flex items-center space-x-2">
         <input
           type="checkbox"
           name="rating"
           id="rating"
           checked={searchParams.get("rating") === "4"}
-          className="mr-2"
+          onChange={() => ratingHandler(checkRating.result)}
+          className="w-4 h-4 text-blue-600 border border-gray-300 rounded-sm"
         />
-        <label htmlFor="rating" className="font-bold">
+        <label htmlFor="rating" className="text-sm">
           4 stars & up
         </label>
       </div>
+
       <div className="mb-4">
-        <span className="font-bold">Sort by</span>
+        <span className="text-sm">Sort by</span>
         <div className="relative">
           <button
-            className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded-md m-1"
+            className="bg-gray-200 hover:bg-gray-300 text-black text-sm p-2 px-4 rounded-md m-1"
             onMouseOver={() => setShow(true)}
             onMouseLeave={() => setShow(false)}
           >
@@ -75,21 +102,30 @@ export default function HeadingFilters({
           <ul
             className={`transition-transform ${
               show ? "scale-100" : "scale-0"
-            } absolute bg-white p-2 rounded-md shadow-md`}
+            } absolute bg-white p-2 rounded-md shadow-md z-50`}
+            onMouseOver={() => setShow(true)}
+            onMouseLeave={() => setShow(false)}
           >
             {sortingOptions.map((option, i) => (
-              <li key={i} onClick={() => sortHandler(option.value)}>
-                <a className="cursor-pointer">
-                  {sortQuery === option.value ? (
-                    <b>{option.name}</b>
-                  ) : (
-                    option.name
-                  )}
-                </a>
+              <li
+                key={i}
+                onClick={() => sortHandler(option.value)}
+                className="p-2 hover:bg-slate-100 cursor-pointer"
+              >
+                <a>{sortQuery === option.value ? option.name : option.name}</a>
               </li>
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="mb-4">
+        <button
+          className="border text-sm border-gray-300 p-2 hover:bg-gray-100 rounded"
+          onClick={() => router.push("/browse")}
+        >
+          Clear All ({Array.from(searchParams).length})
+        </button>
       </div>
     </div>
   );

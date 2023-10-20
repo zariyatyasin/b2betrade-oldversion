@@ -117,8 +117,6 @@ export default function BrowsePage({
     }
     if (shipping) {
       currentQuery.set("shipping", shipping);
-
-      console.log("new", currentQuery.set("shipping", shipping));
     }
     if (rating) {
       currentQuery.set("rating", rating);
@@ -135,7 +133,7 @@ export default function BrowsePage({
     console.log("sdfsdf", queryStr);
 
     const newUrl = `${pathname}?${queryStr}`;
-    console.log("tghis is url", newUrl);
+
     router.push(newUrl, { scroll: false });
   };
 
@@ -164,11 +162,11 @@ export default function BrowsePage({
     filterUrl({ price: newPrice });
   };
 
-  const multiPriceHandler = (min, max) => {
-    filterUrl({ price: `${min}_${max}` });
-  };
   const shippingHandler = (shipping) => {
-    filterUrl({ shipping });
+    // Ensure shipping is a string
+    const shippingParam = shipping.toString();
+
+    filterUrl({ shipping: shippingParam });
   };
   const ratingHandler = (rating) => {
     filterUrl({ rating });
@@ -248,54 +246,12 @@ export default function BrowsePage({
                       close
                     </button>
                   </div>
-                  <CategoryFilter
-                    categories={categories}
-                    subCategories={subCategories}
-                    categoryHandle={categoryHandle}
-                    checkChecked={checkChecked}
-                  />
-
-                  <Sizes
-                    data={sizes}
-                    name={"Sizes"}
-                    sizeHandle={sizeHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <ColorsFilter
-                    colors={colors}
-                    replaceQuery={replaceQuery}
-                    colorHandle={colorHandle}
-                  />
-
-                  <Brand
-                    brands={brands}
-                    brandHandle={brandHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <Style
-                    data={styles}
-                    name={"Styles"}
-                    replaceQuery={replaceQuery}
-                    styleHandle={styleHandle}
-                  />
-                  <Pattern
-                    data={patterns}
-                    name={"Patterns"}
-                    patternHandle={patternHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <Material
-                    data={materials}
-                    name={"Materials"}
-                    materialHandle={materialHandle}
-                    replaceQuery={replaceQuery}
-                  />
                 </div>
               </Transition.Child>
             </Dialog>
           </Transition.Root>
 
-          <main className="max-w-3xl mx-auto py-16 px-4 sm:py-24 sm:px-6  lg:max-w-[1500px] lg:px-8">
+          <main className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6  lg:max-w-[1500px] lg:px-8">
             <div className="  border-gray-200 pb-10">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
                 New Arrivals
@@ -308,7 +264,6 @@ export default function BrowsePage({
 
             <HeaderFilters
               priceHandler={priceHandler}
-              multiPriceHandler={multiPriceHandler}
               shippingHandler={shippingHandler}
               ratingHandler={ratingHandler}
               sortHandler={sortHandler}

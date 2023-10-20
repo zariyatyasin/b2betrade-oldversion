@@ -4,7 +4,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function Brand({ brands, brandHandle, replaceQuery }) {
   const [show, setShow] = useState(true);
-  console.log(brands);
+
   const toggleShow = () => {
     setShow(!show);
   };
@@ -21,6 +21,7 @@ export default function Brand({ brands, brandHandle, replaceQuery }) {
         <div>
           {brands.map((brand, i) => {
             const check = replaceQuery("brand", brand);
+
             return (
               <button
                 className="grid grid-cols-2 gap-4"

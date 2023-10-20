@@ -5,8 +5,6 @@ import RemoveIcon from "@mui/icons-material/Remove";
 export default function Pattern({ data, name, patternHandle, replaceQuery }) {
   const [show, setShow] = useState(true);
 
-  console.log(data);
-
   const toggleShow = () => {
     setShow(!show);
   };

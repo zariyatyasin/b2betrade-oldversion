@@ -22,6 +22,11 @@ async function getData({ params, searchParams }) {
 
   //style
 
+  const shippingQuery = searchParams.shipping || 0;
+  const ratingQuery = searchParams.rating || "";
+  const page = searchParams.page || 1;
+  const pageSize = 50;
+  const sortQuery = searchParams.sort || "";
   const priceQuery = searchParams.price?.split("_") || "";
   const styleQuery = searchParams.style?.split("_") || "";
   const styleRegex = `^${styleQuery[0]}`;
@@ -125,9 +130,38 @@ async function getData({ params, searchParams }) {
           },
         }
       : {};
+  const rating =
+    ratingQuery && ratingQuery !== ""
+      ? {
+          rating: {
+            $gte: Number(ratingQuery),
+          },
+        }
+      : {};
+  const shipping =
+    shippingQuery && shippingQuery == "0"
+      ? {
+          shipping: 0,
+        }
+      : {};
 
-  console.log(" this si stykw", brand);
-  let productDb = await Product.find({
+  const sort =
+    sortQuery == ""
+      ? {}
+      : sortQuery == "popular"
+      ? { rating: -1, "subProducts.sold": -1 }
+      : sortQuery == "newest"
+      ? { createdAt: -1 }
+      : sortQuery == "topSelling"
+      ? { "subProducts.sold": -1 }
+      : sortQuery == "topReviewed"
+      ? { rating: -1 }
+      : sortQuery == "priceHighToLow"
+      ? { "subProducts.sizes.price": -1 }
+      : sortQuery == "priceLowToHigh"
+      ? { "subProducts.sizes.price": 1 }
+      : {};
+  let productsDb = await Product.find({
     ...search,
     ...category,
     ...brand,
@@ -137,10 +171,16 @@ async function getData({ params, searchParams }) {
     ...material,
     ...pattern,
     ...price,
+    ...shipping,
+    ...rating,
   })
-    .sort({ createdAt: -1 })
+    .skip(pageSize * (page - 1))
+    .limit(pageSize)
+    .sort(sort)
     .lean();
-  let products = randomize(productDb);
+
+  let products =
+    sortQuery && sortQuery !== "" ? productsDb : randomize(productsDb);
   let categories = await Category.find().lean();
   let subCategories = await SubCategory.find().populate({
     path: "parent",
@@ -162,6 +202,20 @@ async function getData({ params, searchParams }) {
   let patterns = removeDuplicates(patternsDb);
   let materials = removeDuplicates(materialsDb);
   let brands = removeDuplicates(brandsDb);
+  let totalProducts = await Product.countDocuments({
+    ...search,
+    ...category,
+    ...brand,
+    ...style,
+    ...size,
+    ...color,
+    ...pattern,
+    ...material,
+
+    ...price,
+    ...shipping,
+    ...rating,
+  });
 
   return {
     categories: JSON.parse(JSON.stringify(categories)),
@@ -173,6 +227,9 @@ async function getData({ params, searchParams }) {
     styles: JSON.parse(JSON.stringify(styles)),
     patterns: JSON.parse(JSON.stringify(patterns)),
     materials: JSON.parse(JSON.stringify(materials)),
+    shipping: JSON.parse(JSON.stringify(shipping)),
+    rating: JSON.parse(JSON.stringify(rating)),
+    paginationCount: Math.ceil(totalProducts / pageSize),
   };
 }
 export default async function page({ searchParams }) {
@@ -186,6 +243,9 @@ export default async function page({ searchParams }) {
     styles,
     patterns,
     materials,
+    shipping,
+    rating,
+    paginationCount,
   } = await getData({ searchParams });
 
   return (
@@ -198,9 +258,12 @@ export default async function page({ searchParams }) {
         brands={brands}
         colors={colors}
         sizes={sizes}
+        shipping={shipping}
         categories={categories}
         products={products}
         subCategories={subCategories}
+        rating={rating}
+        paginationCount={paginationCount}
       />
     </div>
   );

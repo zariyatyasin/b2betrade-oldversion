@@ -61,10 +61,15 @@ function ProductCardSwip({ products }) {
                 >
                   <img
                     src={style?.image}
-                    className="block w-5 h-5  0 rounded-full"
+                    className="block w-5 h-5 0 rounded-full"
                     onMouseOver={() => {
-                      setImages(products.subProducts[i].images);
-                      setActive(i);
+                      if (
+                        products.subProducts[i] &&
+                        products.subProducts[i].images
+                      ) {
+                        setImages(products.subProducts[i].images);
+                        setActive(i);
+                      }
                     }}
                   ></img>
                 </span>

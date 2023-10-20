@@ -31,7 +31,7 @@ export const Header = ({ categories, subCategories }) => {
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (quary.length > 1) {
+    if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
       // Modify the search parameter
