@@ -248,48 +248,58 @@ export default function BrowsePage({
                       close
                     </button>
                   </div>
-                  <CategoryFilter
-                    categories={categories}
-                    subCategories={subCategories}
-                    categoryHandle={categoryHandle}
-                    checkChecked={checkChecked}
-                  />
+                  <div className="p-4 space-y-6">
+                    <HeaderFilters
+                      priceHandler={priceHandler}
+                      multiPriceHandler={multiPriceHandler}
+                      shippingHandler={shippingHandler}
+                      ratingHandler={ratingHandler}
+                      sortHandler={sortHandler}
+                      replaceQuery={replaceQuery}
+                    />
+                    <CategoryFilter
+                      categories={categories}
+                      subCategories={subCategories}
+                      categoryHandle={categoryHandle}
+                      checkChecked={checkChecked}
+                    />
 
-                  <Sizes
-                    data={sizes}
-                    name={"Sizes"}
-                    sizeHandle={sizeHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <ColorsFilter
-                    colors={colors}
-                    replaceQuery={replaceQuery}
-                    colorHandle={colorHandle}
-                  />
+                    <Sizes
+                      data={sizes}
+                      name={"Sizes"}
+                      sizeHandle={sizeHandle}
+                      replaceQuery={replaceQuery}
+                    />
+                    <ColorsFilter
+                      colors={colors}
+                      replaceQuery={replaceQuery}
+                      colorHandle={colorHandle}
+                    />
 
-                  <Brand
-                    brands={brands}
-                    brandHandle={brandHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <Style
-                    data={styles}
-                    name={"Styles"}
-                    replaceQuery={replaceQuery}
-                    styleHandle={styleHandle}
-                  />
-                  <Pattern
-                    data={patterns}
-                    name={"Patterns"}
-                    patternHandle={patternHandle}
-                    replaceQuery={replaceQuery}
-                  />
-                  <Material
-                    data={materials}
-                    name={"Materials"}
-                    materialHandle={materialHandle}
-                    replaceQuery={replaceQuery}
-                  />
+                    <Brand
+                      brands={brands}
+                      brandHandle={brandHandle}
+                      replaceQuery={replaceQuery}
+                    />
+                    <Style
+                      data={styles}
+                      name={"Styles"}
+                      replaceQuery={replaceQuery}
+                      styleHandle={styleHandle}
+                    />
+                    <Pattern
+                      data={patterns}
+                      name={"Patterns"}
+                      patternHandle={patternHandle}
+                      replaceQuery={replaceQuery}
+                    />
+                    <Material
+                      data={materials}
+                      name={"Materials"}
+                      materialHandle={materialHandle}
+                      replaceQuery={replaceQuery}
+                    />
+                  </div>
                 </div>
               </Transition.Child>
             </Dialog>
@@ -305,15 +315,6 @@ export default function BrowsePage({
                 with four openings!
               </p>
             </div>
-
-            <HeaderFilters
-              priceHandler={priceHandler}
-              multiPriceHandler={multiPriceHandler}
-              shippingHandler={shippingHandler}
-              ratingHandler={ratingHandler}
-              sortHandler={sortHandler}
-              replaceQuery={replaceQuery}
-            />
 
             <div className=" lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-5 ">
               <aside>
@@ -378,7 +379,17 @@ export default function BrowsePage({
                 </div>
               </aside>
 
-              <div className=" mt-6 lg:mt-0 lg:col-span-2 xl:col-span-4  ">
+              <div className=" lg:ml-5   mt-6 lg:mt-0 lg:col-span-2 xl:col-span-4   ">
+                <div className=" hidden lg:block">
+                  <HeaderFilters
+                    priceHandler={priceHandler}
+                    multiPriceHandler={multiPriceHandler}
+                    shippingHandler={shippingHandler}
+                    ratingHandler={ratingHandler}
+                    sortHandler={sortHandler}
+                    replaceQuery={replaceQuery}
+                  />
+                </div>
                 <div className=" h-screen  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {products?.map((item, id) => (
                     <div className="   " key={id}>

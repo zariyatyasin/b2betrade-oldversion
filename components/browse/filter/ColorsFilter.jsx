@@ -4,10 +4,16 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function ColorsFilter({ colors, replaceQuery, colorHandle }) {
   const [show, setShow] = useState(true);
+  const toggleShow = () => {
+    setShow(!show);
+  };
   return (
     <div>
-      <h3>
-        Colors <span>{show ? <RemoveIcon /> : <AddIcon />}</span>
+      <h3 className=" text-lg font-bold flex justify-between mb-4">
+        <div>Color</div>
+        <span className="ml-2" onClick={toggleShow}>
+          {show ? <RemoveIcon sx={{ fontSize: 24 }} /> : <AddIcon />}
+        </span>
       </h3>
       {show && (
         <div className="flex flex-wrap -mx-2">

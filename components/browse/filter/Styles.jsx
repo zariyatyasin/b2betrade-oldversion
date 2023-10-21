@@ -13,11 +13,11 @@ export default function Style({ data, name, replaceQuery, styleHandle }) {
   };
 
   return (
-    <div className="filter p-4">
-      <h3 className="flex justify-between w-full text-xl font-semibold">
-        <div>{name}</div>
+    <div className="filter ">
+      <h3 className=" text-lg font-bold flex justify-between mb-4">
+        <div>Style</div>
         <span className="ml-2" onClick={toggleShow}>
-          {show ? <RemoveIcon /> : <AddIcon />}
+          {show ? <RemoveIcon sx={{ fontSize: 24 }} /> : <AddIcon />}
         </span>
       </h3>
       {show && (

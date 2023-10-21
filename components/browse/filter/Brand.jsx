@@ -10,11 +10,11 @@ export default function Brand({ brands, brandHandle, replaceQuery }) {
   };
 
   return (
-    <div className="filter p-4">
-      <h3 className="text-xl font-semibold">
-        Brand
+    <div className="filter ">
+      <h3 className=" text-lg font-bold flex justify-between mb-4">
+        <div>Brand</div>
         <span className="ml-2" onClick={toggleShow}>
-          {show ? <RemoveIcon /> : <AddIcon />}
+          {show ? <RemoveIcon sx={{ fontSize: 24 }} /> : <AddIcon />}
         </span>
       </h3>
       {show && (

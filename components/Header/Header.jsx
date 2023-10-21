@@ -193,7 +193,7 @@ export const Header = ({ categories, subCategories }) => {
               </div>
             </div>
           </div>
-          <Example categories={categories} subCategories={subCategories} />
+          {/* <Example categories={categories} subCategories={subCategories} /> */}
         </div>
         {/* 
         <nav className=" " aria-label="Global">

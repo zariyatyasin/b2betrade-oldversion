@@ -10,12 +10,17 @@ export default function CategoryFilter({
   checkChecked,
 }) {
   const [show, setShow] = useState(true);
+  const toggleShow = () => {
+    setShow(!show);
+  };
 
   return (
-    <div className="filter p-4   ">
-      <h3 className="text-xl font-semibold">
-        Category{" "}
-        <span className="ml-2">{show ? <RemoveIcon /> : <AddIcon />}</span>
+    <div className="filter      ">
+      <h3 className=" text-lg font-bold flex justify-between mb-4">
+        <div>Category</div>
+        <span className="ml-2" onClick={toggleShow}>
+          {show ? <RemoveIcon sx={{ fontSize: 24 }} /> : <AddIcon />}
+        </span>
       </h3>
       {show &&
         categories.map((category, i) => (

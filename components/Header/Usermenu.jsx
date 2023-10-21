@@ -5,7 +5,7 @@ const Usermenu = ({ isLogin, session }) => {
     <div>
       {session.status == "authenticated" ? (
         <div
-          className="origin-top-right absolute right-0   -mt-1   w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none"
+          className="origin-top-right z-50 absolute right-0   -mt-1   w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="user-menu-button"

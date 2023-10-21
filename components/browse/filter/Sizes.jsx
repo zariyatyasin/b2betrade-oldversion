@@ -16,11 +16,11 @@ export default function Size({ data, name, sizeHandle, replaceQuery }) {
   };
 
   return (
-    <div className="filter p-4">
-      <h3 className="flex justify-between w-full text-xl font-semibold">
-        <div>{name}</div>
+    <div className="   ">
+      <h3 className=" text-lg font-bold flex justify-between mb-4">
+        <div>Size</div>
         <span className="ml-2" onClick={toggleShow}>
-          {show ? <RemoveIcon /> : <AddIcon />}
+          {show ? <RemoveIcon sx={{ fontSize: 24 }} /> : <AddIcon />}
         </span>
       </h3>
       {show && (
@@ -33,14 +33,14 @@ export default function Size({ data, name, sizeHandle, replaceQuery }) {
                 key={i}
                 onClick={() => handleCheckboxChange(size)}
               >
-                <div className="flex items-center mt-2 cursor-pointer">
+                <div className="flex items-center   cursor-pointer">
                   <input
                     type="checkbox"
                     name="style"
                     id={size}
                     checked={check.active}
                     onChange={() => handleCheckboxChange(size)}
-                    className="mr-2 h-4 w-4 border-gray-300 rounded text-gray-600 focus:ring-gray-500"
+                    className="mr-2 h-4 w-4  0 rounded text-gray-600 focus:ring-gray-500"
                   />
 
                   <label htmlFor={size}>
