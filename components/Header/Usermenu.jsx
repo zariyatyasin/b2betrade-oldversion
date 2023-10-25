@@ -1,5 +1,6 @@
 import React from "react";
 import { signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 const Usermenu = ({ isLogin, session }) => {
   return (
     <div>
@@ -11,15 +12,41 @@ const Usermenu = ({ isLogin, session }) => {
           aria-labelledby="user-menu-button"
           tabIndex="-1"
         >
-          <a
-            href="#"
-            className="block py-2 px-4 text-sm text-gray-700"
-            role="menuitem"
-            tabIndex="-1"
-            id="user-menu-item-0"
-          >
-            Your Profile
-          </a>
+          {session.data.user.role === "admin" && (
+            <Link
+              href="/admin/dashboard"
+              className="block py-2 px-4 text-sm text-gray-700"
+              role="menuitem"
+              tabIndex="-1"
+              id="user-menu-item-0"
+            >
+              Admin
+            </Link>
+          )}
+
+          {session.data.user.role === "vendor" && (
+            <Link
+              href="/vendor"
+              className="block py-2 px-4 text-sm text-gray-700"
+              role="menuitem"
+              tabIndex="-1"
+              id="user-menu-item-1"
+            >
+              Vendor
+            </Link>
+          )}
+
+          {session.data.user.role === "user" && (
+            <Link
+              href="/profile"
+              className="block py-2 px-4 text-sm text-gray-700"
+              role="menuitem"
+              tabIndex="-1"
+              id="user-menu-item-2"
+            >
+              Profile
+            </Link>
+          )}
 
           <a
             href="#"

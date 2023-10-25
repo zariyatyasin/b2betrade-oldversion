@@ -20,18 +20,18 @@ function SideBarItems({ item, visible, index }) {
           Sign out
         </b>
       ) : (
-        <div className="flex items-center justify-between">
-          <b
-            onClick={() => setShow((prev) => !prev)}
-            className="cursor-pointer hover:text-blue-700"
-          >
-            {item.heading}{" "}
+        <div
+          className="flex items-center justify-between  w-full"
+          onClick={() => setShow((prev) => !prev)}
+        >
+          <div className=" cursor-pointer  font-medium ">{item.heading}</div>
+          <div>
             {show ? (
               <RemoveIcon className="w-6 h-6" />
             ) : (
               <AddIcon className="w-6 h-6" />
             )}
-          </b>
+          </div>
         </div>
       )}
 

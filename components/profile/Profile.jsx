@@ -3,7 +3,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { sidebarData } from "../../data/ProfileData";
-import SideBarItem from "./SideBarItems";
+import SideBarItem from "./layout/SideBarItems";
 
 const navigation = [
   { name: "Overview", href: "#", icon: "HomeIcon", current: true },

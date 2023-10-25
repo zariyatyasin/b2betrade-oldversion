@@ -27,11 +27,22 @@ export async function middleware(req) {
         return NextResponse.redirect(new URL(origin, req.url));
        }
     }
+    if (req.nextUrl.pathname.startsWith('/profile')) {
+       if(!session){
+        return NextResponse.redirect(new URL(origin, req.url));
+       }
+    }
     if (req.nextUrl.pathname.startsWith('/admin')) {
        if(!session){
          return NextResponse.redirect(new URL('/', req.url))
        }
-       if(session.role !== "admin") return NextResponse.redirect(new URL(origin, req.url));
+       if(session.role !== "admin") return NextResponse.redirect(new URL("/", req.url));
+    }
+    if (req.nextUrl.pathname.startsWith('/vendor')) {
+       if(!session){
+         return NextResponse.redirect(new URL('/', req.url))
+       }
+       if(session.role !== "vendor") return NextResponse.redirect(new URL("/", req.url));
     }
 
     

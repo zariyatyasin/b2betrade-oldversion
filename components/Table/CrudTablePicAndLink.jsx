@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Table } from "@mui/material";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 
 export default function CrudTablePicAndLink({
   columns,

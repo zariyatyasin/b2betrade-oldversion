@@ -22,7 +22,7 @@ export default function OrderSummary({
   useEffect(() => {}, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
-    console.log("this is re", res);
+
     if (res?.message) {
       setError(res.message);
       setTotalAfterDiscount(0);
@@ -50,7 +50,7 @@ export default function OrderSummary({
       setOrderError(error.response.data.message);
     }
   };
-  console.log(selectedAddress);
+
   return (
     <div>
       <div className="mt-10 lg:mt-0  lg:col-span-1">

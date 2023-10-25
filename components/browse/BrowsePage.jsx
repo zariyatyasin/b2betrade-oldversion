@@ -92,7 +92,7 @@ export default function BrowsePage({
     const currentQuery = new URLSearchParams(searchParams.toString());
 
     if (brand) {
-      currentQuery.set("brand", brand);
+      currentQuery.set("brand", brand.toString());
     }
     if (category) {
       currentQuery.set("category", category);

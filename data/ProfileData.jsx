@@ -80,6 +80,19 @@ export const sidebarData = [
     ],
   },
   {
+    heading: "My Assets",
+    links: [
+      {
+        name: "Whishlist",
+        link: "/profile/wishlist",
+      },
+      {
+        name: "Recently Viewed",
+        link: "/profile/recent",
+      },
+    ],
+  },
+  {
     heading: "Customer Service",
     links: [
       {

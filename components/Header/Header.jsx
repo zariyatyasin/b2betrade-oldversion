@@ -53,11 +53,13 @@ export const Header = ({ categories, subCategories }) => {
     setOpen(false);
   };
 
+  console.log(session);
+
   return (
     <div>
-      <header className="bg-white ">
-        <div className="max-w-9xl mx-auto  px-2 sm:px-4  lg:px-8">
-          <div className="relative   h-16 flex justify-between items-center">
+      <header className="bg-white  ">
+        <div className="max-w-9xl mx-auto  px-2 sm:px-4  lg:px-8 z-50">
+          <div className="    h-16 flex justify-between items-center sticky top-0  flex-shrink-0  ">
             <div className="relative z-10 px-2 flex lg:px-0 items-center">
               <div className=" z-40   lg:relative lg:z-10    flex items-center">
                 <div className=" hidden     transition-all duration-100 ease-in-out lg:flex  ">
@@ -153,7 +155,7 @@ export const Header = ({ categories, subCategories }) => {
               </Link>
 
               <div
-                className="  relative ml-4 cursor-pointer  "
+                className="  relative ml-4 cursor-pointer  z-50"
                 onMouseEnter={handleUserMenuOpen}
                 onMouseLeave={handleUserMenuClose}
               >
@@ -169,7 +171,7 @@ export const Header = ({ categories, subCategories }) => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={session.data.user.image}
                         alt=""
                       />
                     </button>
