@@ -35,8 +35,9 @@ export default async function Home() {
 
   return (
     <div>
-      <HeaderAds />
+      {/* <HeaderAds /> */}
       <Header categories={categories} subCategories={subCategories} />
+      {/* <Example categories={categories} subCategories={subCategories} /> */}
 
       <HeaderPolicy />
 

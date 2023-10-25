@@ -323,7 +323,7 @@ export default function Example({ categories, subCategories }) {
       <header className="relative bg-white">
         <nav aria-label="Top" className="  ">
           <div>
-            <div className="h-16 flex items-center">
+            <div className="flex items-center justify-between h-16 py-3 border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10">
               <button
                 type="button"
                 className="bg-white p-2 rounded-md text-gray-400 lg:hidden"
@@ -413,7 +413,7 @@ export default function Example({ categories, subCategories }) {
                 </div>
               </Popover.Group>
 
-              {/* <div className="ml-auto flex items-center">
+              <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   <a
                     href="#"
@@ -445,7 +445,6 @@ export default function Example({ categories, subCategories }) {
                   </a>
                 </div>
 
-               
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
@@ -453,7 +452,6 @@ export default function Example({ categories, subCategories }) {
                   </a>
                 </div>
 
-               
                 <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 p-2 flex items-center">
                     icon
@@ -463,7 +461,7 @@ export default function Example({ categories, subCategories }) {
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         </nav>
