@@ -2,137 +2,12 @@
 
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-const navigation = {
-  categories: [
-    {
-      id: "women",
-      name: "Women",
-      featured: [
-        {
-          name: "New Arrivals",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
-          imageAlt:
-            "Models sitting back to back, wearing Basic Tee in black and bone.",
-        },
-        {
-          name: "Basic Tees",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
-          imageAlt:
-            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
-        },
-      ],
-      sections: [
-        {
-          id: "clothing",
-          name: "Clothing",
-          items: [
-            { name: "Tops", href: "#" },
-            { name: "Dresses", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Denim", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
-          ],
-        },
-        {
-          id: "accessories",
-          name: "Accessories",
-          items: [
-            { name: "Watches", href: "#" },
-            { name: "Wallets", href: "#" },
-            { name: "Bags", href: "#" },
-            { name: "Sunglasses", href: "#" },
-            { name: "Hats", href: "#" },
-            { name: "Belts", href: "#" },
-          ],
-        },
-        {
-          id: "brands",
-          name: "Brands",
-          items: [
-            { name: "Full Nelson", href: "#" },
-            { name: "My Way", href: "#" },
-            { name: "Re-Arranged", href: "#" },
-            { name: "Counterfeit", href: "#" },
-            { name: "Significant Other", href: "#" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "men",
-      name: "Men",
-      featured: [
-        {
-          name: "New Arrivals",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-          imageAlt:
-            "Drawstring top with elastic loop closure and textured interior padding.",
-        },
-        {
-          name: "Artwork Tees",
-          href: "#",
-          imageSrc:
-            "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
-          imageAlt:
-            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
-        },
-      ],
-      sections: [
-        {
-          id: "clothing",
-          name: "Clothing",
-          items: [
-            { name: "Tops", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
-          ],
-        },
-        {
-          id: "accessories",
-          name: "Accessories",
-          items: [
-            { name: "Watches", href: "#" },
-            { name: "Wallets", href: "#" },
-            { name: "Bags", href: "#" },
-            { name: "Sunglasses", href: "#" },
-            { name: "Hats", href: "#" },
-            { name: "Belts", href: "#" },
-          ],
-        },
-        {
-          id: "brands",
-          name: "Brands",
-          items: [
-            { name: "Re-Arranged", href: "#" },
-            { name: "Counterfeit", href: "#" },
-            { name: "Full Nelson", href: "#" },
-            { name: "My Way", href: "#" },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
-};
+import FactoryOutlinedIcon from "@mui/icons-material/FactoryOutlined";
+
+import { Navigation } from "../../data/Navigation";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -187,7 +62,7 @@ export default function Example({ categories, subCategories }) {
               <Tab.Group as="div" className="mt-2 ">
                 <div className="border-b border-gray-200">
                   <Tab.List className="-mb-px flex px-4 space-x-8  ">
-                    {navigation.categories.map((category) => (
+                    {Navigation.categories.map((category) => (
                       <Tab
                         key={category.name}
                         className={({ selected }) =>
@@ -205,7 +80,7 @@ export default function Example({ categories, subCategories }) {
                   </Tab.List>
                 </div>
                 <Tab.Panels as={Fragment}>
-                  {navigation.categories.map((category) => (
+                  {Navigation.categories.map((category) => (
                     <Tab.Panel
                       key={category.name}
                       className="pt-10 pb-8 px-4 space-y-10 "
@@ -271,7 +146,7 @@ export default function Example({ categories, subCategories }) {
               </Tab.Group>
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
-                {navigation.pages.map((page) => (
+                {Navigation.pages.map((page) => (
                   <div key={page.name} className="flow-root">
                     <a
                       href={page.href}
@@ -326,29 +201,36 @@ export default function Example({ categories, subCategories }) {
             <div className="flex items-center justify-between h-16 py-3 border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10">
               <button
                 type="button"
-                className="bg-white p-2 rounded-md text-gray-400 lg:hidden"
+                className=" bg-[#000080] mr-5 rounded-md text-gray-400  "
                 onClick={() => setOpen(true)}
               >
-                <div className=" flex items-center  text-sm bg-gray-900 text-white p-2 rounded">
+                <div className=" flex items-center  text-sm bg-[#000080] text-white font-bold p-2 rounded">
                   <MenuOutlinedIcon sx={{ fontSize: "18px" }} />{" "}
                   <span className="ml-2">All Categories</span>
                 </div>
               </button>
-
+              <div className="hidden lg:flex  lg:items-center  mr-5 ">
+                <a
+                  href="#"
+                  className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
+                >
+                  <span> Browse Project</span>
+                </a>
+              </div>
               {/* Flyout menus */}
-              <Popover.Group className="hidden   lg:block lg:self-stretch">
-                <div className="h-full flex space-x-8">
-                  {categories?.map((category) => (
-                    <Popover key={category.name} className="flex ">
+              <Popover.Group className="hidden   lg:block lg:self-stretch z-10">
+                <div className="h-full flex space-x-8  ">
+                  {Navigation?.categories.map((category) => (
+                    <Popover key={category.name} className="flex">
                       {({ open }) => (
                         <>
                           <div className="relative flex">
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? "border-gray-900 text-gray-900"
+                                  ? "border-indigo-600 text-indigo-600"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
-                                "relative z-10    flex items-center text-sm transition-colors ease-out duration-200  font-medium border-b-2 -mb-px pt-px"
+                                "relative z-10 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px"
                               )}
                             >
                               {category.name}
@@ -364,7 +246,8 @@ export default function Example({ categories, subCategories }) {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500 z-10">
+                            <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
+                              {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                               <div
                                 className="absolute inset-0 top-1/2 bg-white shadow"
                                 aria-hidden="true"
@@ -373,9 +256,40 @@ export default function Example({ categories, subCategories }) {
                               <div className="relative bg-white">
                                 <div className="max-w-7xl mx-auto px-8">
                                   <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
-                                    <div className="col-start-2 grid grid-cols-2 gap-x-8"></div>
+                                    <div className="col-start-2 grid grid-cols-2 gap-x-8">
+                                      {category.featured.map((item) => (
+                                        <div
+                                          key={item.name}
+                                          className="group relative text-base sm:text-sm"
+                                        >
+                                          <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
+                                            <img
+                                              src={item.imageSrc}
+                                              alt={item.imageAlt}
+                                              className="object-center object-cover"
+                                            />
+                                          </div>
+                                          <a
+                                            href={item.href}
+                                            className="mt-6 block font-medium text-gray-900"
+                                          >
+                                            <span
+                                              className="absolute z-10 inset-0"
+                                              aria-hidden="true"
+                                            />
+                                            {item.name}
+                                          </a>
+                                          <p
+                                            aria-hidden="true"
+                                            className="mt-1"
+                                          >
+                                            Shop now
+                                          </p>
+                                        </div>
+                                      ))}
+                                    </div>
                                     <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-                                      {subCategories.map((section) => (
+                                      {category.sections.map((section) => (
                                         <div key={section.name}>
                                           <p
                                             id={`${section.name}-heading`}
@@ -387,7 +301,21 @@ export default function Example({ categories, subCategories }) {
                                             role="list"
                                             aria-labelledby={`${section.name}-heading`}
                                             className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          ></ul>
+                                          >
+                                            {section.items.map((item) => (
+                                              <li
+                                                key={item.name}
+                                                className="flex"
+                                              >
+                                                <a
+                                                  href={item.href}
+                                                  className="hover:text-gray-800"
+                                                >
+                                                  {item.name}
+                                                </a>
+                                              </li>
+                                            ))}
+                                          </ul>
                                         </div>
                                       ))}
                                     </div>
@@ -401,7 +329,7 @@ export default function Example({ categories, subCategories }) {
                     </Popover>
                   ))}
 
-                  {navigation.pages.map((page) => (
+                  {/* {navigation.pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
@@ -409,56 +337,36 @@ export default function Example({ categories, subCategories }) {
                     >
                       {page.name}
                     </a>
-                  ))}
+                  ))} */}
                 </div>
               </Popover.Group>
 
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
                   <a
                     href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
                   >
-                    Sign in
+                    <FactoryOutlinedIcon
+                      sx={{ fontSize: "18px", marginRight: 1 }}
+                    />
+                    <span> Manufacturer</span>
                   </a>
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   <a
                     href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    className="text-sm flex items-center font-medium text-gray-700 ml-2 hover:text-gray-800"
                   >
-                    Create account
-                  </a>
-                </div>
-
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a
-                    href="#"
-                    className="text-gray-700 hover:text-gray-800 flex items-center"
-                  >
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
-                      alt=""
-                      className="w-5 h-auto block flex-shrink-0"
+                    <PersonOutlineOutlinedIcon
+                      sx={{ fontSize: "18px", marginRight: 1 }}
                     />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
-                    <span className="sr-only">, change currency</span>
+                    <span> Supplier</span>
                   </a>
                 </div>
 
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    icon
-                  </a>
-                </div>
-
-                <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 p-2 flex items-center">
-                    icon
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
-                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
+                <div className="hidden ml-5  lg:flex">
+                  <a href="#" className="text-[#000080]   flex items-center">
+                    Become a Supplier
                   </a>
                 </div>
               </div>

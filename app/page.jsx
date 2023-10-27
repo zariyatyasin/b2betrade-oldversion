@@ -38,10 +38,10 @@ export default async function Home() {
       {/* <HeaderAds /> */}
       <Header categories={categories} subCategories={subCategories} />
       {/* <Example categories={categories} subCategories={subCategories} /> */}
+      {/* 
+      <HeaderPolicy /> */}
 
-      <HeaderPolicy />
-
-      <div className=" max-w-[1400px]  mx-auto">
+      <div className=" max-w-[1600px]  mx-auto">
         <Main />
         <Categories />
         <FlashDeals />

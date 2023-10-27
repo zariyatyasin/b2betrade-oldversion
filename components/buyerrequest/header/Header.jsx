@@ -2,21 +2,16 @@
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
-import Usermenu from "./Usermenu";
+
+import Usermenu from "../../Header/Usermenu";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import Example from "./Example";
+
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getServerSession } from "next-auth/next";
+
 import Link from "next/link";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 const publishingOptions = [
@@ -264,7 +259,6 @@ export const Header = ({ categories, subCategories }) => {
           </div>
         </div>
       </div>
-      <Example categories={categories} subCategories={subCategories} />
     </div>
   );
 };

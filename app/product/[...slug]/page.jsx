@@ -110,9 +110,8 @@ export default async function Page({ params }) {
   return (
     <div>
       <Header />
-      <Example />
 
-      <div className="pt-8 px-2 sm:px-4 lg:px-8 max-w-7xl mx-auto  ">
+      <div className="pt-8 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
         <div className="flex items-center  ">
           <ol className="flex items-center w-full overflow-hidden">
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">

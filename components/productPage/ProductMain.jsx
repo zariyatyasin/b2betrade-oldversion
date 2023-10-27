@@ -13,16 +13,16 @@ const ProductMain = ({ product, params }) => {
   const [show2, setShow2] = useState(false);
   return (
     <div>
-      <div className="   gap-8 flex flex-col justify-center md:justify-normal md:flex-row   ">
+      <div className="    flex flex-col justify-center md:justify-normal md:flex-row gap-4  ">
         <ProductPageImage images={product?.images} activeImg={activeImg} />
         <ProductInfo
           product={product}
           setActiveImg={setActiveImg}
           params={params}
         />
-        {/* <StoreSide /> */}
+        <StoreSide />
       </div>
-      <ProductReviews product={product} />
+      {/* <ProductReviews product={product} /> */}
     </div>
 
     // <main class="  mx-auto sm:pt-16 sm:px-6 lg:px-8">
