@@ -1,9 +1,12 @@
 import React from "react";
 import { Header } from "../../../components/buyerrequest/header/Header";
+import BuyerRequest from "../../../components/buyerrequest/BuyerRequest";
 function page() {
   return (
-    <div>
+    <div className=" ">
       <Header />
+
+      <BuyerRequest />
     </div>
   );
 }

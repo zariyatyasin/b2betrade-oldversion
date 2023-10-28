@@ -8,6 +8,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import FactoryOutlinedIcon from "@mui/icons-material/FactoryOutlined";
 
 import { Navigation } from "../../data/Navigation";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -210,12 +211,12 @@ export default function Example({ categories, subCategories }) {
                 </div>
               </button>
               <div className="hidden lg:flex  lg:items-center  mr-5 ">
-                <a
-                  href="#"
+                <Link
+                  href="browse/buyerrequest"
                   className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>
-                </a>
+                </Link>
               </div>
               {/* Flyout menus */}
               <Popover.Group className="hidden   lg:block lg:self-stretch z-10">

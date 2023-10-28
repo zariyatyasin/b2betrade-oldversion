@@ -31,7 +31,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const { cart } = useSelector((state) => ({ ...state }));
   const [size, setSize] = useState(UrlSize);
   const [qty, setQty] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(product.price);
+  const [totalPrice, setTotalPrice] = useState(product?.price);
   const [staySize, setStaySize] = useState(
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
@@ -103,13 +103,15 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   const handleQtyIncrease = () => {
     if (qty < product.quantity) {
-      setQty((prev) => prev + 1);
+      const newQty = Math.min(qty + 1, product.quantity); // Ensure qty doesn't exceed product.quantity
+      setQty(newQty);
+
       const selectedPriceRange = priceRanges.find(
-        (range) => qty + 1 >= range.minQty && qty + 1 <= range.maxQty
+        (range) => newQty >= range.minQty && newQty <= range.maxQty
       );
 
       if (selectedPriceRange) {
-        setTotalPrice(selectedPriceRange.price * (qty + 1));
+        setTotalPrice(selectedPriceRange.price * newQty);
         setSelectedRange(selectedPriceRange);
       }
     }
@@ -188,14 +190,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       {/* <div className="mt-1 text-green-500 text-sm font-semibold">
         {product.shipping ? `+${product.shipping}$ shipping` : "Free Shipping"}
       </div> */}
-      {/* <p className="mt-2 text-sm text-gray-600">
+      <p className="mt-2 text-sm text-gray-600">
         {size
           ? `${product.quantity} pieces available.`
           : `Total available: ${product.size.reduce(
               (start, next) => start + next.qty,
               0
             )} pieces.`}
-      </p> */}
+      </p>
       <h2 className="mt-2 text-lg font-medium  text-gray-900">
         Select the Size
       </h2>
@@ -242,19 +244,30 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             </div>
           ))}
       </div>
-      {priceRanges.map((range, index) => (
-        <div
-          key={index}
-          onClick={() => handleRangeSelect(range)}
-          className={`rounded-lg border p-2 font-medium cursor-pointer ${
-            range === selectedRange ? "bg-black text-white" : "border-black"
-          }`}
-        >
-          {`Quantity ${range.minQty} - ${range.maxQty}: $${range.price.toFixed(
-            2
-          )}`}
+
+      <div className="border max-w-[250px] mt-2 divide-y divide-gray-200 ">
+        <div className="flex flex-row bg-green-500 text-white  justify-between items-center p-2 font-medium">
+          <div>Quantity</div>
+          <div>Price</div>
         </div>
-      ))}
+        {priceRanges.map((range, index) => (
+          <div
+            key={index}
+            onClick={() => handleRangeSelect(range)}
+            className={`   d p-2 font-medium cursor-pointer ${
+              range === selectedRange
+                ? "bg-green-500 text-white"
+                : "border-green-500"
+            }`}
+          >
+            <div className="flex flex-row justify-between items-center mb-2">
+              <div>{`${range.minQty} - ${range.maxQty}`}</div>
+              <div>${range.price.toFixed(2)}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="text-2xl font-bold mt-4 text-green-500">
         Total Price: {totalPrice}
       </div>
@@ -266,9 +279,16 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           >
             <RemoveOutlinedIcon sx={{ fontSize: 14 }} />
           </button>
-          <div className="p-4 flex items-center text-lg font-semibold">
-            {qty}
-          </div>
+          <input
+            type="number"
+            value={qty > product.quantity ? product.quantity : qty}
+            min="1"
+            max={product.quantity}
+            onChange={(e) => setQty(Number(e.target.value))} // Convert input to a number
+            className="p-4 flex items-center text-lg font-semibold"
+            disabled={qty >= product.quantity}
+          />
+
           <button
             className="inline-flex items-center px-3 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out"
             onClick={handleQtyIncrease}
@@ -277,6 +297,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </button>
         </div>
       </div>
+
       <div className="mt-2 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
         <button
           disabled={product.quantity < 1}

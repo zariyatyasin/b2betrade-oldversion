@@ -22,7 +22,7 @@ const ProductMain = ({ product, params }) => {
         />
         <StoreSide />
       </div>
-      {/* <ProductReviews product={product} /> */}
+      <ProductReviews product={product} />
     </div>
 
     // <main class="  mx-auto sm:pt-16 sm:px-6 lg:px-8">

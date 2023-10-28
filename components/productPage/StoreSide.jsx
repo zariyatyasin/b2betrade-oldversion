@@ -56,81 +56,69 @@ export default function StoreSide() {
     //     </div>
     //   </div>
     // </div>
-    <div className=" mt-10 ">
-      <div>
-        <div className="bg-white relative shadow rounded-lg  mx-auto">
-          <div className="flex justify-center">
+    <div className="my-10 mx-auto max-w-md">
+      <div className="bg-white shadow-lg rounded-md p-4">
+        <div className="flex justify-center">
+          <img
+            src="https://avatars0.githubusercontent.com/u/35900628?v=4"
+            alt=""
+            className="rounded-full w-24 h-24 shadow-md border-4 border-white transform hover:scale-110"
+          />
+        </div>
+
+        <div className="mt-6 text-center">
+          <div className="font-bold text-xl">Pantazi Software</div>
+          <div className="flex items-center justify-center mt-2">
             <img
-              src="https://avatars0.githubusercontent.com/u/35900628?v=4"
-              alt=""
-              className="rounded-full mx-auto absolute -top-5 w-14 h-14 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
+              src="https://www.cdnlogo.com/logos/t/77/twitter-verified-badge.svg"
+              className="h-4 w-4 mr-2 rounded-full"
+              alt="Verified Badge"
             />
+            <span className="text-gray-500">Verified</span>
           </div>
+          <p className="text-gray-400 font-medium text-sm mt-2">
+            UI Components Factory
+          </p>
+        </div>
 
-          <div className="mt-16">
-            <h1 className="font-bold text-center text-sm text-gray-900">
-              Pantazi Software
-            </h1>
-            <p className="text-center text-sm text-gray-400 font-medium">
-              UI Components Factory
-            </p>
-            <p>
-              <span></span>
-            </p>
-            <div className=" w-full flex items-center justify-evenly my-2 ">
-              <button className="py-2  w-32 bg-green-500 text-sm border border-green-500 text-white">
-                View Store
-              </button>
-              <button className="py-2  w-32 bg-green-500 text-sm border border-green-500 text-white">
-                Message
-              </button>
-            </div>
-            <div className="flex justify-between items-center my-5 px-6">
-              <a
-                href=""
-                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-              >
-                Facebook
-              </a>
-              <a
-                href=""
-                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-              >
-                Twitter
-              </a>
-              <a
-                href=""
-                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-              >
-                Instagram
-              </a>
-              <a
-                href=""
-                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-              >
-                Email
-              </a>
-            </div>
+        <div className="flex justify-center mt-4">
+          <button className="py-2 w-32 bg-green-500 text-sm rounded-md border border-green-500 text-white mr-2">
+            View Store
+          </button>
+          <button className="py-2 w-32 bg-green-500 text-sm rounded-md border border-green-500 text-white">
+            Message
+          </button>
+        </div>
 
-            <div className="w-full">
-              <h3 className="font-medium text-gray-900 text-left px-6">
-                Recent activites
-              </h3>
-              <div className="mt-5 w-full flex flex-col items-center overflow-hidden text-sm">
-                <a
-                  href="#"
-                  className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
-                >
-                  <img
-                    src="https://avatars0.githubusercontent.com/u/35900628?v=4"
-                    alt=""
-                    className="rounded-full h-6 shadow-md inline-block mr-2"
-                  />
-                  Updated his status
-                  <span className="text-gray-500 text-xs">24 min ago</span>
-                </a>
-              </div>
-            </div>
+        <div className="flex items-center justify-between mt-6 px-2">
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">Store rating</p>
+            <div className="text-sm font-bold">4.9/5</div>
+          </div>
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">
+              On-time delivery rate
+            </p>
+            <div className="text-sm font-bold">100.0%</div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mt-6 px-2">
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">Response time</p>
+            <div className="text-sm font-bold">&le;3h</div>
+          </div>
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">Floorspace</p>
+            <div className="text-sm font-bold">7000m²</div>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h3 className="font-medium text-gray-900">Services</h3>
+          <div className="mt-2 text-sm text-center">
+            <p>Custom UI Design</p>
+            <p>Responsive Web Development</p>
           </div>
         </div>
       </div>
