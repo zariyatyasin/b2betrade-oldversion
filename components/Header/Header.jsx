@@ -21,9 +21,14 @@ import Link from "next/link";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 const publishingOptions = [
   {
-    title: "B2B",
+    title: "B2B+B2C",
     description: "Tailored for business-to-business interactions.",
     current: true,
+  },
+  {
+    title: "B2B",
+    description: "Tailored for business-to-business interactions.",
+    current: false,
   },
   {
     title: "B2C",
@@ -49,6 +54,8 @@ export const Header = ({ categories, subCategories }) => {
     setOpen(true);
   };
 
+  console.log(searchParams.get("productType"));
+
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -68,6 +75,23 @@ export const Header = ({ categories, subCategories }) => {
     } else {
       router.push("/browse", { shallow: true });
     }
+  };
+  // Add this code inside your component
+  useEffect(() => {
+    const searchParam = searchParams.get("productType");
+    if (searchParam) {
+      const selectedOption = publishingOptions.find(
+        (option) => option.title === searchParam
+      );
+      if (selectedOption) {
+        setSelected(selectedOption);
+      }
+    }
+  }, []);
+
+  const handleSelectionChange = (option) => {
+    setSelected(option);
+    router.push(`?productType=${option.title}`);
   };
 
   const handleUserMenuClose = () => {
@@ -105,12 +129,9 @@ export const Header = ({ categories, subCategories }) => {
                   htmlFor="top-bar-search"
                   className="flex flex-1 items-center py-0.5"
                 >
-                  <Listbox value={selected} onChange={setSelected}>
+                  <Listbox value={selected} onChange={handleSelectionChange}>
                     {({ open }) => (
                       <div className="">
-                        <Listbox.Label className="sr-only">
-                          Change published status
-                        </Listbox.Label>
                         <div className="relative ">
                           <div className="inline-flex  h-[52px]  shadow-sm rounded-md   ">
                             <div className="relative z-0 inline-flex shadow-sm rounded-md   ">

@@ -104,7 +104,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   const { product } = await getData(params);
 
   return (

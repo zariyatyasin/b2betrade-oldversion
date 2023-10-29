@@ -16,6 +16,7 @@ import {
 import CreateSubProduct from "./createSubProduct/CreateSubProduct";
 import SingularSelect from "../../../selects/SingularSelect";
 import MultipleSelect from "../../../selects/MultipleSelect";
+import MaxminPrice from "./addToClick/MaxminPrice";
 import Details from "./addToClick/Details";
 import Questions from "./addToClick/Questions";
 import AdminInput from "../../../selects/AdminPut";
@@ -27,7 +28,7 @@ const initialState = {
   brand: "",
   sku: "",
   discount: 0,
-
+  productType: "",
   description_images: [],
   parent: "",
   category: "",
@@ -37,6 +38,13 @@ const initialState = {
     {
       name: "",
       value: "",
+    },
+  ],
+  bulkPricing: [
+    {
+      minQty: "",
+      maxQty: "",
+      price: "",
     },
   ],
   questions: [
@@ -52,6 +60,14 @@ export default function CreateProduct({ parents, categories }) {
 
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
+  const productType = [
+    {
+      name: "B2B",
+    },
+    {
+      name: "B2C",
+    },
+  ];
 
   const [subProducts, setSubProducts] = useState([]);
   useEffect(() => {
@@ -147,6 +163,14 @@ export default function CreateProduct({ parents, categories }) {
         {(formik) => (
           <Form className=" ">
             <h1>Create Product</h1>
+            <SingularSelect
+              name="Product Type"
+              value={product.productType} // Assuming `productType` is a state variable
+              placeholder="Product Type"
+              data={productType} // Provide the options for product type
+              header="Select Product Type"
+              handleChange={handleChange}
+            />
             <AdminInput
               type="text"
               label="Name"
@@ -201,6 +225,11 @@ export default function CreateProduct({ parents, categories }) {
               placholder="Product discount"
               onChange={handleChange}
             />
+            <MaxminPrice
+              bulkPricing={product.bulkPricing}
+              product={product}
+              setProduct={setProduct}
+            />{" "}
             <CreateSubProduct
               setSubProducts={setSubProducts}
               subProducts={subProducts}

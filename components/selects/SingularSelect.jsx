@@ -15,40 +15,27 @@ export default function SingularSelect({
   const isDisabled = disabled === true || disabled === "true";
 
   return (
-    <div style={{ marginBottom: "1rem" }}>
-      {header && (
-        <div>
-          <div>
-            {meta.error && (
-              <img src="../../../images/warning.png" alt="warning" />
-            )}
-            {header}
-          </div>
-        </div>
-      )}
+    <div className="mb-4">
+      {header && <div className="mb-2 font-bold">{header}</div>}
       <TextField
         variant="outlined"
         name={field.name}
         select
+        fullWidth
         disabled={isDisabled}
         label={placeholder}
         value={field.value || ""}
         onChange={handleChange}
+        error={meta.touched && meta.error ? true : false}
+        helperText={meta.touched && meta.error ? meta.error : ""}
       >
-        <MenuItem key="" value="">
-          No Selected / Or Empty
-        </MenuItem>
+        <MenuItem value="">Select an option</MenuItem>
         {data?.map((option) => (
           <MenuItem key={option._id} value={option._id || option.name}>
             {option.name}
           </MenuItem>
         ))}
       </TextField>
-      {meta.touched && meta.error && (
-        <p>
-          <ErrorMessage name={field.name} />
-        </p>
-      )}
     </div>
   );
 }
