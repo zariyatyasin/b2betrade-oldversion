@@ -22,8 +22,6 @@ export default function CreateForm({
     }, {})
   );
 
-  console.log(selecetFromIput);
-
   const handleChange = (event, field) => {
     setFormData({
       ...formData,

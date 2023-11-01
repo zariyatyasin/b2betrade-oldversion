@@ -1,132 +1,195 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Input } from "@mui/material";
+// components/RequestProductForm.js
+"use client";
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
-const CreateSubProduct = ({ subProducts, setSubProducts }) => {
-  const [subProductVisibility, setSubProductVisibility] = useState([]);
-
-  const fileInput = useRef(null);
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const [showCOlor, setShowColor] = useState(false);
-  const [isImgorCOlor, setIsImgOrCOlor] = useState();
-  const handleAddImage = (subProductIndex) => {
-    fileInput.current.click();
-  };
-  const handleRemoveImage = (subProductIndex, imageIndex) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].images.splice(imageIndex, 1);
-    setSubProducts(updatedSubProducts);
-
-    const newPreviews = [...imagePreviews];
-    newPreviews[subProductIndex] = newPreviews[subProductIndex] || [];
-    newPreviews[subProductIndex].splice(imageIndex, 1);
-    setImagePreviews(newPreviews);
+import * as Yup from "yup";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import { Grid } from "@mui/material";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+const SubmitForm = () => {
+  const initialValues = {
+    productName: "",
+    quantity: "",
+    description: "",
+    budget: "",
+    deliveryDate: "",
   };
 
-  const handleImages = (subProductIndex, e) => {
-    let files = Array.from(e.target.files);
-    const newImages = [];
-    const newPreviews = [...imagePreviews];
+  const validationSchema = Yup.object({
+    productName: Yup.string().required("Product Name is required"),
+    quantity: Yup.number()
+      .required("Quantity is required")
+      .min(1, "Quantity must be at least 1"),
+  });
 
-    files.forEach((img, i) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(img);
-
-      reader.onload = () => {
-        const url = reader.result;
-        newPreviews[subProductIndex] = newPreviews[subProductIndex] || [];
-        newPreviews[subProductIndex].push(url);
-        newImages.push(img);
-
-        if (newImages.length === files.length) {
-          const updatedSubProducts = [...subProducts];
-          updatedSubProducts[subProductIndex].images = newImages.map((img) => ({
-            blob: img,
-          }));
-          setSubProducts(updatedSubProducts);
-          setImagePreviews(newPreviews);
-        }
-      };
-    });
-  };
-
-  const handleAddSubProduct = () => {
-    const newSubProduct = {
-      images: [],
-      description_images: [],
-      color: { color: "", image: "" },
-      sizes: [],
-      discount: 0,
-      sold: 0,
-    };
-    setSubProductVisibility((prevVisibility) =>
-      prevVisibility.map(() => false)
-    );
-
-    setSubProducts([...subProducts, newSubProduct]);
-    setSubProductVisibility([...subProductVisibility, true]);
-  };
-
-  const handleColorChange = (subProductIndex, field, value) => {
-    const updatedSubProducts = [...subProducts];
-    updatedSubProducts[subProductIndex].color[field] = value;
-    setSubProducts(updatedSubProducts);
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    setSubmitting(false);
   };
 
   return (
     <div>
-      <h2>Add Product</h2>
-      {subProducts.map((subProduct, index) => (
-        <div key={index}>
-          <h3 onClick={() => toggleSubProductVisibility(index)}>
-            Product {index + 1}
-          </h3>
-          {subProductVisibility[index] && (
-            <Box key={index} sx={{ border: "1px solid #ccc", p: 2, mb: 2 }}>
+      <div className=" max-w-7xl mx-auto mt-8">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          Request a Post
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+          This information will be displayed publicly so be careful what you
+          share.
+        </p>
+      </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form className=" my-8 max-w-6xl mx-auto ">
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
               <div>
-                <label>Images</label>
-                {imagePreviews[index] &&
-                  imagePreviews[index].map((preview, imageIndex) => (
-                    <div key={imageIndex}>
-                      <img
-                        src={preview}
-                        alt={`Image ${imageIndex}`}
-                        style={{ maxWidth: "100px", maxHeight: "100px" }}
-                      />
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleRemoveImage(index, imageIndex)}
-                      >
-                        Remove Image
-                      </Button>
-                    </div>
-                  ))}
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleAddImage(index)}
+                <label
+                  htmlFor="productName"
+                  className="block text-gray-700 font-bold mb-2"
                 >
-                  Add Image
-                </Button>
-                <input
-                  type="file"
-                  ref={fileInput}
-                  hidden
-                  multiple
-                  accept="image/jpeg,image/png,image/webp"
-                  onChange={(e) => handleImages(index, e)}
+                  Product Name
+                </label>
+                <Field
+                  type="text"
+                  id="productName"
+                  name="productName"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="productName"
+                  component="div"
+                  className="text-red-500"
                 />
               </div>
-            </Box>
-          )}
-        </div>
-      ))}
-      <Button variant="contained" color="primary" onClick={handleAddSubProduct}>
-        Add Sub Product
-      </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <div>
+                <label
+                  htmlFor="quantity"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Quantity
+                </label>
+                <Field
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="quantity"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Description
+                </label>
+                <Field
+                  as="textarea"
+                  id="description"
+                  name="description"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div>
+                <label
+                  htmlFor="budget"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Budget
+                </label>
+                <Field
+                  type="number"
+                  id="budget"
+                  name="budget"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="budget"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <div>
+                <label
+                  htmlFor="deliveryDate"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Delivery Date
+                </label>
+                <Field
+                  type="date"
+                  id="deliveryDate"
+                  name="deliveryDate"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="deliveryDate"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </Grid>
+
+            <Grid item xs={6}>
+              <div>
+                <label
+                  htmlFor="attachmentUrls"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Attachment URLs (comma-separated)
+                </label>
+                <Field
+                  type="text"
+                  id="attachmentUrls"
+                  name="attachmentUrls"
+                  className="w-full border border-gray-300 rounded p-2"
+                />
+                <ErrorMessage
+                  name="attachmentUrls"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </Grid>
+          </Grid>
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Submit
+            </button>
+          </div>
+        </Form>
+      </Formik>
     </div>
   );
 };
 
-export default CreateSubProduct;
+export default SubmitForm;

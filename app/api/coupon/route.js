@@ -9,11 +9,11 @@ import Coupon from "@/model/Coupon";
 export const POST = async (request  ) => {
   const session = await getCurrentUser();
 
-  // if(!session){
-  //   return NextResponse.json( "you must be login in" ,{
-  //          status: 201,
-  //        })
-  //   }
+  if(!session){
+    return NextResponse.json( "you must be login in" ,{
+           status: 201,
+         })
+    }
  
     try {
     db.connectDb()
@@ -34,7 +34,7 @@ export const POST = async (request  ) => {
     } = await request.json();
 
 
-    console.log(coupon);
+ 
 
     const test = await Coupon.findOne({ coupon });
     if (test) {

@@ -91,7 +91,13 @@ export const Header = ({ categories, subCategories }) => {
 
   const handleSelectionChange = (option) => {
     setSelected(option);
-    router.push(`?productType=${option.title}`);
+    if (option.title) {
+      if (option.title === publishingOptions[0].title) {
+        router.push(`?productType= `);
+      } else {
+        router.push(`?productType=${option.title}`);
+      }
+    }
   };
 
   const handleUserMenuClose = () => {

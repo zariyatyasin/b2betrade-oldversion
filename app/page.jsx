@@ -15,9 +15,18 @@ import db from "../utils/db";
 import Category from "../model/Category";
 import SubCategory from "../model/SubCategory";
 
-async function getData() {
+async function getData({ searchParams }) {
   db.connectDb();
-  let products = await Product.find().sort({ createdAt: -1 }).lean();
+
+  const productTypeQuery = searchParams.productType || "";
+  const productType =
+    productTypeQuery && productTypeQuery !== ""
+      ? { productType: productTypeQuery }
+      : {};
+
+  let products = await Product.find({ ...productType })
+    .sort({ createdAt: -1 })
+    .lean();
   let categories = await Category.find().lean();
   let subCategories = await SubCategory.find().populate({
     path: "parent",
@@ -30,8 +39,10 @@ async function getData() {
     subCategories: JSON.parse(JSON.stringify(subCategories)),
   };
 }
-export default async function Home() {
-  const { products, categories, subCategories } = await getData();
+export default async function Home({ searchParams }) {
+  const { products, categories, subCategories } = await getData({
+    searchParams,
+  });
 
   return (
     <div>

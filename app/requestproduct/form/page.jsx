@@ -18,7 +18,7 @@ async function getData() {
   };
 }
 
-export default async function page() {
+export default async function page({}) {
   const { session } = await getData();
   return (
     <div>
