@@ -40,7 +40,7 @@ function SideBarItems({ item, visible, index }) {
           {item.links.map((link, i) => (
             <li
               key={i}
-              className={`${
+              className={`  ${
                 link.link.startsWith("/profile/orders")
                   ? searchParams.get("q")?.split("__")[0] ===
                     slugify(link.name, { lower: true })
@@ -54,6 +54,7 @@ function SideBarItems({ item, visible, index }) {
               }`}
             >
               <Link
+                className=""
                 href={
                   link.link.startsWith("/profile/orders")
                     ? `${link.link}?tab=${index}&q=${slugify(link.name, {

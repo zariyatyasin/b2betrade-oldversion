@@ -33,3 +33,17 @@ in here now everyone can make request if he/she is login
 \*\*in the single product image i have to fix the image side images. it going to the bottom
 
 max[1400px] for all
+
+///////////
+
+addd this when you are deleteing from the api. also check you can't delete by yourself
+
+if (!session) {
+return new NextResponse.json("You must be logged in", {
+status: 201,
+});
+}else if(session.id !== id[1]){
+return new NextResponse.json("You can't delete", {
+status: 201,
+});
+}

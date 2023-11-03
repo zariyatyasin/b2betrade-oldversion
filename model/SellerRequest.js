@@ -11,10 +11,10 @@ const sellerRequestSchema = new mongoose.Schema({
       ref: 'User',
       required: true,
     },
-    productName: {
-      type: String,
-      required: true,
-    },
+    // productName: {
+    //   type: String,
+    //   required: true,
+    // },
     quantity: {
       type: Number,
       required: true,

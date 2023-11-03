@@ -25,8 +25,20 @@ const requestProductSchema = new mongoose.Schema({
   paymentMethod: String,
   contactNumber: String,
   additionalRequirements: String,
+  category: {
+    type: ObjectId,
+    required: true,
+    ref: "Category",
+  },
+   
   tags: [String],
-  images: [String], // Array of image URLs
+  subCategories: [
+    {
+      type: ObjectId,
+      ref: "subCategory",
+    },
+  ],
+  images: [String],  
   shippingAddress: {
     street: String,
     city: String,
@@ -49,10 +61,11 @@ const requestProductSchema = new mongoose.Schema({
   isPaid: Boolean,
   paymentReference: String,
   // More fields
-  isBargainAllowed: Boolean, // Indicates if the buyer is open to negotiate prices
-  isSampleRequested: Boolean, // Indicates if the buyer wants a sample before placing a bulk order
-  supplierExperience: String, // Desired level of experience from the supplier
-  targetPrice: Number, // Specific price the buyer is aiming for
+  isBargainAllowed: Boolean,  
+  isActive: Boolean,  
+  isSampleRequested: Boolean,  
+  supplierExperience: String,  
+  targetPrice: Number,  
   estimatedOrderFrequency: String, // How often the buyer plans to place orders
   attachmentUrls: [String], // URLs to additional attachments or documents
   // Add other fields as needed

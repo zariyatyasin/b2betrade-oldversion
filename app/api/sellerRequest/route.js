@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
  
 import db from "../../../utils/db"
-import RequestProduct from "../../../model/RequestProduct";
+import SellerRequest from "../../../model/SellerRequest";
  import {getCurrentUser} from "../../../utils/session"
  
  
@@ -21,7 +21,7 @@ export const POST = async (request  ) => {
     
  
 
-      const newRequest = new RequestProduct( requestData );
+      const newRequest = new SellerRequest( requestData );
   
       await newRequest.save();
   

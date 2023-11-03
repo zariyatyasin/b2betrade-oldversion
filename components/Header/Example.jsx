@@ -212,7 +212,7 @@ export default function Example({ categories, subCategories }) {
               </button>
               <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
-                  href="browse/buyerrequest"
+                  href="/browse/buyerrequest"
                   className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>

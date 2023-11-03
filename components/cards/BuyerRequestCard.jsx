@@ -4,7 +4,7 @@ import React from "react";
 export default function BuyerRequestCard({ productData }) {
   return (
     <div className="bg-white hover:bg-slate-100 cursor-pointer p-6 ">
-      <Link href={`/buyerrequest/details/${productData._id}`} passHref>
+      <Link href={`/buyerrequest/details/${productData._id}`}>
         <div className="flex items-center mb-4">
           <div className="w-full">
             <div className="flex items-center justify-between">

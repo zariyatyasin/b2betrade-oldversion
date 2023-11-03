@@ -2,9 +2,11 @@ import React from "react";
 import { Header } from "../../../../components/Header/Header";
 import RequestProduct from "../../../../model/RequestProduct";
 import User from "../../../../model/User";
+import SellerRequest from "../../../../model/SellerRequest";
 import DetailsPageImage from "../../../../components/buyerrequest/detailsPage/DetailsPageImage";
 import SubmitForm from "../../../../components/buyerrequest/detailsPage/SubmitForm";
-
+import BuyProfile from "../../../../components/buyerrequest/detailsPage/BuyProfile";
+import SellerBiding from "../../../../components/buyerrequest/detailsPage/SellerBiding";
 import { getCurrentUser } from "../../../../utils/session";
 async function getData({ params }) {
   const session = await getCurrentUser();
@@ -15,17 +17,30 @@ async function getData({ params }) {
     path: "userId",
     model: User,
   });
+  let sellerRequest = await SellerRequest.find({
+    requestId: params.id[0],
+  }).populate({
+    path: "sellerId",
+    model: User,
+  });
 
   return {
     session,
     requestProductDetails: JSON.parse(JSON.stringify(requestProductDetails)),
+    sellerRequest: JSON.parse(JSON.stringify(sellerRequest)),
   };
 }
 
 export default async function page({ params }) {
-  const { session, requestProductDetails } = await getData({
+  const { session, requestProductDetails, sellerRequest } = await getData({
     params,
   });
+
+  const hasSubmittedOffer = sellerRequest.some(
+    (request) => request?.sellerId._id === session?.id
+  );
+
+  console.log(sellerRequest);
   return (
     <div>
       <Header />
@@ -35,11 +50,11 @@ export default async function page({ params }) {
           <div className="flex items-center space-x-5">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                {requestProductDetails.productName}
+                {requestProductDetails?.productName}
               </h1>
               <p className="text-sm font-medium text-gray-500">
                 on
-                <time>
+                <time className="ml-2">
                   {new Date(
                     requestProductDetails.createdAt
                   ).toLocaleDateString()}
@@ -54,20 +69,29 @@ export default async function page({ params }) {
             >
               Report
             </button>
-
-            <SubmitForm
-              session={session}
-              requestProductDetails={requestProductDetails.productName}
-              userId={requestProductDetails.userId._id}
-              ProductId={requestProductDetails._id}
-            />
+            {hasSubmittedOffer ? (
+              <button
+                type="button"
+                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600"
+              >
+                Submited
+              </button>
+            ) : (
+              <SubmitForm
+                sellerRequest={sellerRequest}
+                session={session}
+                productName={requestProductDetails.productName}
+                userId={requestProductDetails.userId._id}
+                ProductId={requestProductDetails._id}
+              />
+            )}
           </div>
         </div>
 
         <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
           <div className="space-y-6 lg:col-start-1 lg:col-span-2">
             <section aria-labelledby="applicant-information-title">
-              <div className="bg-white shadow sm:rounded-lg">
+              <div className="bg-white shadow border sm:rounded-md">
                 <div className="px-4 py-5 sm:px-6">
                   <h2
                     id="applicant-information-title"
@@ -75,9 +99,6 @@ export default async function page({ params }) {
                   >
                     Details Information
                   </h2>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                    Personal details and application.
-                  </p>
                 </div>
                 <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                   <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3">
@@ -168,49 +189,119 @@ export default async function page({ params }) {
                 </div>
               </div>
             </section>
+
+            {hasSubmittedOffer && (
+              <div className="bg-white shadow overflow-hidden sm:rounded-lg  border">
+                <div className="px-4 py-5 sm:px-6">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    Your form
+                  </h3>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                    Personal details and application.
+                  </p>
+                </div>
+                <div className="border-t border-gray-200">
+                  <dl>
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Full name
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        Margot Foster
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Application for
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        Backend Developer
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Email address
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        margotfoster@example.com
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Salary expectation
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        $120,000
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        About
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {sellerRequest.description}
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Attachments
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <ul
+                          role="list"
+                          className="border border-gray-200 rounded-md divide-y divide-gray-200"
+                        >
+                          <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                            <div className="w-0 flex-1 flex items-center">
+                              <span className="ml-2 flex-1 w-0 truncate">
+                                resume_back_end_developer.pdf
+                              </span>
+                            </div>
+                            <div className="ml-4 flex-shrink-0">
+                              <a
+                                href="#"
+                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                              >
+                                Download
+                              </a>
+                            </div>
+                          </li>
+                          <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                            <div className="w-0 flex-1 flex items-center">
+                              <span className="ml-2 flex-1 w-0 truncate">
+                                coverletter_back_end_developer.pdf
+                              </span>
+                            </div>
+                            <div className="ml-4 flex-shrink-0">
+                              <a
+                                href="#"
+                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                              >
+                                Download
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            )}
           </div>
 
           <section
             aria-labelledby="timeline-title"
             className="lg:col-start-3 lg:col-span-1"
           >
-            <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-              <div className="flex items-center space-x-5">
-                <div className="flex-shrink-0">
-                  <div className="relative">
-                    <img
-                      className="h-16 w-16 rounded-full"
-                      src={requestProductDetails.userId.image}
-                      alt={requestProductDetails.userId.name}
-                    />
-                    <span
-                      className="absolute inset-0 shadow-inner rounded-full"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    {requestProductDetails.userId.name}
-                  </h1>
-                  <p className="text-sm font-medium text-gray-500">
-                    Applied for{" "}
-                    <a href="#" className="text-gray-900">
-                      Front End Developer
-                    </a>{" "}
-                    on <time dateTime="2020-08-25">August 25, 2020</time>
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 flex flex-col justify-stretch">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  View Profile
-                </button>
-              </div>
-            </div>
+            {session && session?.id === requestProductDetails?.userId._id ? (
+              <SellerBiding
+                requestProductDetails={requestProductDetails}
+                sellerRequest={sellerRequest}
+              />
+            ) : (
+              <BuyProfile requestProductDetails={requestProductDetails} />
+            )}
           </section>
         </div>
       </main>

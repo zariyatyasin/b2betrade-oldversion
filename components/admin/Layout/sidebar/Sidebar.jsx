@@ -78,8 +78,8 @@ const Sidebar = () => {
                 <Link
                   href={"/admin/dashboard"}
                   className={` ${
-                    router == undefined ? "bg-gray-950 text-white" : ""
-                  } inline-flex items-center rounded-md  text- um hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == undefined ? "bg-[#000080] text-white" : ""
+                  } inline-flex items-center rounded-md  text- um hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <span className="inline-flex justify-center items-center ">
                     <HomeOutlinedIcon sx={{ fontSize: 18 }} />
@@ -92,8 +92,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/sales"
                   className={` ${
-                    router == "sales" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-s m hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "sales" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-s m hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <span className="inline-flex justify-center items-center ">
                     <MonetizationOnOutlinedIcon sx={{ fontSize: 18 }} />
@@ -105,8 +105,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/order"
                   className={`  ${
-                    router == "order" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "order" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <DvrOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">Order</span>
@@ -119,8 +119,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/user"
                   className={` ${
-                    router == "user" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "user" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <AccountCircleOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">User</span>
@@ -130,8 +130,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/message"
                   className={`  ${
-                    router == "message" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "message" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <MailOutlineOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">Message</span>
@@ -146,10 +146,23 @@ const Sidebar = () => {
               </li>
               <li className="px-2">
                 <Link
+                  href="/admin/dashboard/requestedproduct"
+                  className={`  ${
+                    router == "requestedproduct"
+                      ? "bg-[#000080] text-white"
+                      : ""
+                  } inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                >
+                  <Inventory2OutlinedIcon sx={{ fontSize: 18 }} />
+                  <span className="ml-1 text-sm  font-medium">
+                    Requested Product
+                  </span>
+                </Link>
+                <Link
                   href="/admin/dashboard/product/allproduct"
                   className={`  ${
-                    router == "allproduct" ? "bg-gray-950 text-white" : ""
-                  } inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "allproduct" ? "bg-[#000080] text-white" : ""
+                  } inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <Inventory2OutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">All Product</span>
@@ -159,8 +172,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/product/createproduct"
                   className={`  ${
-                    router == "createproduct" ? "bg-gray-950 text-white" : ""
-                  } inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "createproduct" ? "bg-[#000080] text-white" : ""
+                  } inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <ShoppingBasketOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">
@@ -179,8 +192,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/categories"
                   className={`  ${
-                    router == "categories" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "categories" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <CategoryOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">Categories</span>
@@ -190,8 +203,8 @@ const Sidebar = () => {
                 <Link
                   href="/admin/dashboard/subcategories"
                   className={`  ${
-                    router == "subcategories" ? "bg-gray-950 text-white" : ""
-                  }  inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                    router == "subcategories" ? "bg-[#000080] text-white" : ""
+                  }  inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <AppRegistrationOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">
@@ -210,7 +223,7 @@ const Sidebar = () => {
               <li className="px-2">
                 <Link
                   href="/admin/dashboard/coupon"
-                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <LocalAtmOutlinedIcon sx={{ fontSize: 18 }} />
                   <span className="ml-1 text-sm  font-medium">Coupons</span>
@@ -219,7 +232,7 @@ const Sidebar = () => {
               <li className="px-2">
                 <a
                   href="#"
-                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <span className="inline-flex justify-center items-center ">
                     <svg
@@ -249,7 +262,7 @@ const Sidebar = () => {
               <li onClick={() => signOut()}>
                 <a
                   href="#"
-                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-gray-950 hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
+                  className={`inline-flex items-center rounded-md  text-sm  hover:bg-[#000080] hover:text-white cursor-pointer h-9 px-4 py-2 w-full justify-start pl-8`}
                 >
                   <span className="inline-flex justify-center items-center ">
                     <svg
