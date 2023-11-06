@@ -18,6 +18,9 @@
   align-items: center;
 }
 
+body {
+  overflow-x: hidden;
+}
 /* .swiper-slide img {
   display: block;
   width: 100%;

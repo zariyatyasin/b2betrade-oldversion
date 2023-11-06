@@ -23,7 +23,9 @@ const userSchema = new mongoose.Schema(
       default: "user",
       enum: [
         "admin",
-        "vendor",
+        "supplier",
+         "manufacturer",
+        "seller",
         "user",
         
       ],
@@ -34,6 +36,10 @@ const userSchema = new mongoose.Schema(
         "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
     },
     emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    sellActive:{
       type: Boolean,
       default: false,
     },

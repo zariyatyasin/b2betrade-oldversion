@@ -54,7 +54,7 @@ const productSchema = new mongoose.Schema(
     brand: {
       type: String,
     },
-    vendor: {
+    userId: {
       type: ObjectId,
       ref: "User",
       required: true,
@@ -64,6 +64,11 @@ const productSchema = new mongoose.Schema(
       required: true,
       unique: true,
       //lowercase: true,
+    },
+    storeId: {
+      type: ObjectId,
+      required: true,
+      ref: "Store",
     },
     category: {
       type: ObjectId,

@@ -122,7 +122,7 @@ const Layout = ({ children, data }) => {
         </div>
       </div>
 
-      <div className="md:pl-64  pt-10">
+      <div className="md:pl-64  pt-8">
         <div className="max-w-6xl mx-auto flex flex-col md:px-8 xl:px-0">
           {/* <div className="sticky top-0  flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
             <button

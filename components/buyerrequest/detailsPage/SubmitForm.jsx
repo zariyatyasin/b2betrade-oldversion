@@ -79,18 +79,22 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
     setIsTagModalOpen(false);
   };
 
+  console.log("tyhis is ", session?.role === "user" && session?.id === userId);
+  console.log("tyhis is ", session?.id === userId);
+
   return (
     <div>
       <div className="  ">
         {session ? (
-          session?.role === "user" ? (
+          session?.role === "user" && session?.id !== userId ? (
             <button
               type="button"
               className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600"
             >
               Become a Seller
             </button>
-          ) : session?.role === "seller" ? (
+          ) : session?.role === "seller" ||
+            (session?.role === "admin" && session?.id !== userId) ? (
             <button
               onClick={handleOpenTagModal}
               type="button"
@@ -98,17 +102,15 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
             >
               Submit your Offer
             </button>
-          ) : (
-            session?.id === userId && (
-              <button
-                onClick={handleDelete}
-                type="button"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
-              >
-                Delete Your Request
-              </button>
-            )
-          )
+          ) : session?.role === "user" && session?.id === userId ? (
+            <button
+              onClick={handleDelete}
+              type="button"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
+            >
+              Delete Your Request
+            </button>
+          ) : null
         ) : (
           <button
             // Redirect to sign in page

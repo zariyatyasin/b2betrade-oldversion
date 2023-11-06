@@ -11,7 +11,7 @@ function SideBarItems({ item, visible, index }) {
   const [show, setShow] = useState(visible);
 
   return (
-    <div className="mb-4">
+    <div className="">
       {item.heading === "Sign out" ? (
         <b
           onClick={() => signOut()}
@@ -24,7 +24,7 @@ function SideBarItems({ item, visible, index }) {
           className="flex items-center justify-between  w-full"
           onClick={() => setShow((prev) => !prev)}
         >
-          <div className=" cursor-pointer  font-medium ">{item.heading}</div>
+          <div className=" cursor-pointer  font-medium   ">{item.heading}</div>
           <div>
             {show ? (
               <RemoveIcon className="w-6 h-6" />
@@ -36,7 +36,7 @@ function SideBarItems({ item, visible, index }) {
       )}
 
       {show && (
-        <ul className="mt-2">
+        <ul className="mt-2  ">
           {item.links.map((link, i) => (
             <li
               key={i}
