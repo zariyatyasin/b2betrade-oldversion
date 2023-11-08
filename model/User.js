@@ -10,9 +10,13 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: "Please enter your email address.",
+       
       trim: true,
       unique: true,
+    },
+    phoneNumber: {
+      type: String,
+  
     },
     password: {
       type: String,
@@ -39,10 +43,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    sellActive:{
-      type: Boolean,
-      default: false,
-    },
+   
     defaultPaymentMethod: {
       type: String,
       default: "",

@@ -1,21 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { categoriesAndSub } from "../../data/CategoriesAndSub";
+
 import SingularSelect from "../selects/SingularSelect";
 import MultipleSelect from "../selects/MultipleSelect";
 import * as Yup from "yup";
 import axios from "axios";
-function B2bRegistration({ categories }) {
+function B2bRegistration({ categories, userType }) {
+  const role = [
+    { _id: 1, name: "supplier" },
+    { _id: 2, name: "manufacturer" },
+    { _id: 3, name: "seller" },
+    // ...
+  ];
+
   const initialValues = {
-    productName: "",
-    quantity: "",
-    description: "",
+    name: "",
+    storeName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
     category: "",
     subCategories: [],
+    description: "",
+    role: "",
+    address: {
+      street: "",
+      city: "",
+
+      country: "",
+    },
   };
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username is required"),
-    about: Yup.string().required("About is required"),
+    name: Yup.string().required(" You full Name is required"),
+    storeName: Yup.string().required(" You full storeName is required"),
+    phoneNumber: Yup.string().required(" You full phoneNumber is required"),
+    password: Yup.string().required(" You full password is required"),
+    category: Yup.string().required(" You full category is required"),
+
     // Add other validation rules for your fields here
     // ...
   });
@@ -26,7 +47,24 @@ function B2bRegistration({ categories }) {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
   };
-  const handleSubmit = async (values, { setSubmitting }) => {};
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/formrequest/b2bregistration",
+
+        values
+      );
+
+      if (response.status === 200) {
+        console.log("Request successful:", response.data);
+      } else {
+        console.error("Request failed with status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error making API request:", error);
+    }
+    setValues(values);
+  };
   useEffect(() => {
     async function getSubs() {
       if (values.category) {
@@ -46,72 +84,93 @@ function B2bRegistration({ categories }) {
     <Formik
       initialValues={values}
       validationSchema={validationSchema}
-      onSubmit={handleChange}
+      onSubmit={handleSubmit}
     >
       {({ values, handleSubmit, setFieldValue }) => (
-        <Form className="space-y-8 divide-y divide-gray-200">
-          <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <Form className="  mb-24">
+          <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 z-10 py-8">
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="username"
+                htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Full Name
               </label>
               <Field
                 type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
+                name="name"
+                id="name"
+                autoComplete="name"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="username"
+                name="name"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="username"
+                htmlFor="storeName"
                 className="block text-sm font-medium text-gray-700"
               >
-                Company Name
+                Your company/ Store Name
               </label>
               <Field
                 type="text"
-                name="companyName"
-                id="companyName"
-                autoComplete="companyName"
+                name="storeName"
+                id="storeName"
+                autoComplete="storeName"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="companyName"
+                name="storeName"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
+
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="username"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
                 Phone Number
               </label>
               <Field
                 type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
+                name="phoneNumber"
+                id="phoneNumber"
+                autoComplete="phoneNumber"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="username"
+                name="phoneNumber"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
 
+            <div className="mt-6 sm:col-span-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email Address
+              </label>
+              <Field
+                type="text"
+                name="email"
+                id="email"
+                autoComplete="email"
+                className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
             <div className="sm:col-span-2">
               <SingularSelect
                 name="category"
@@ -127,7 +186,7 @@ function B2bRegistration({ categories }) {
               />
             </div>
             <div className="sm:col-span-2">
-              {values.category && (
+              {
                 <MultipleSelect
                   value={values.subCategories}
                   data={subs}
@@ -139,147 +198,101 @@ function B2bRegistration({ categories }) {
                     setFieldValue("subCategories", e.target.value); // Make sure to set the field value in Formik
                   }}
                 />
-              )}
+              }
             </div>
-
-            {/* <div className="sm:col-span-2">
+            <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="selectedSubcategory"
+                htmlFor="role"
                 className="block text-sm font-medium text-gray-700"
               >
-                Select Subcategory
+                What do you want to become?
               </label>
               <Field
                 as="select"
-                name="selectedSubcategory"
-                id="selectedSubcategory"
+                name="role"
+                id="role"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 sm:text-sm border-gray-300"
               >
-                <option value="">Select Subcategory</option>
-                {values.selectedCategory &&
-                  categoriesAndSub
-                    .find(
-                      (category) => category.name === values.selectedCategory
-                    )
-                    .subcategories.map((subcategory, index) => (
-                      <option key={index} value={subcategory}>
-                        {subcategory}
-                      </option>
-                    ))}
+                <option value="supplier">Supplier</option>
+                <option value="manufacturer">Manufacturer</option>
+                <option value="seller">Seller</option>
               </Field>
-            </div> */}
-            <div className="mt-6 sm:col-span-2">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <Field
-                type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
-                className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
-              />
               <ErrorMessage
-                name="username"
+                name="role"
                 component="div"
                 className="text-red-500 text-sm"
               />
-            </div>
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="photo"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Photo
-              </label>
-              <div className="mt-1 flex items-center">
-                <span className="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                  <svg
-                    className="h-full w-full text-gray-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </span>
-                <button
-                  type="button"
-                  className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Change
-                </button>
-              </div>
             </div>
 
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="username"
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Address
+                Password
               </label>
               <Field
                 type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
+                name="password"
+                id="password"
+                autoComplete="password"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="username"
+                name="password"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="username"
+                htmlFor="address"
                 className="block text-sm font-medium text-gray-700"
               >
-                Years you start the Buniness
+                Country
               </label>
               <Field
                 type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
+                name="address.country"
+                id="address.country"
+                autoComplete="address.country"
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="username"
+                name="address"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
-            <div className="sm:col-span-6">
+            <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="about"
+                htmlFor="address"
                 className="block text-sm font-medium text-gray-700"
               >
-                About
+                city
               </label>
               <Field
-                as="textarea"
-                id="about"
-                name="about"
-                rows={3}
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                type="text"
+                name="address.city"
+                id="ddress.city"
+                autoComplete="ddress.city"
+                className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="about"
+                name="address"
                 component="div"
                 className="text-red-500 text-sm"
               />
-              <p className="mt-2 text-sm text-gray-500">
-                Write a few sentences about yourself.
-              </p>
             </div>
+          </div>
 
-            {/* Add the rest of your form fields */}
-            {/* ... */}
+          <div className=" ">
+            <button
+              type="submit"
+              className=" px-2 py-4 bg-blue-600 text-white "
+            >
+              Submit
+            </button>
           </div>
         </Form>
       )}
