@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
  
-import db from "@/utils/db";
+import db from "../../../../utils/db";
  
-import Coupon from "@/model/Coupon";
-import Category from "@/model/Category";
+import Coupon from "../../../../model/Coupon";
+import Category from "../../../../model/Category";
 export const GET = async (request , { params } ) => {
  
  

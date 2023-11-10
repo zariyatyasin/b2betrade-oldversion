@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import db from "../../../utils/db"
  
  import {getCurrentUser} from "../../../utils/session"
-import Coupon from "@/model/Coupon";
+import Coupon from "../../../model/Coupon";
  
 
 export const POST = async (request  ) => {

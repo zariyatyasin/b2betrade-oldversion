@@ -69,6 +69,8 @@ const requestProductSchema = new mongoose.Schema({
   estimatedOrderFrequency: String, // How often the buyer plans to place orders
   attachmentUrls: [String], // URLs to additional attachments or documents
   // Add other fields as needed
+},{
+  timestamps: true,
 });
 
  

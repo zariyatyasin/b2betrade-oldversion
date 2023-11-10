@@ -43,9 +43,9 @@ const storeSchema = new mongoose.Schema({
   },
   storeAtive:{
     type: String,
-    default: "pendding",
+    default: "pending",
     enum: [
-      "pendding",
+      "pending",
       "ban",
       "block",
       "active",
@@ -54,6 +54,23 @@ const storeSchema = new mongoose.Schema({
     ],
   },
   tags: [String],
+  // sales: [
+  //   {
+  //     week: Number, // Week number
+  //     year: Number, // Year
+  //     monthlySales: [
+  //       {
+  //         month: Number, // Month number
+  //         year: Number, // Year
+  //         amount: Number, // Sales amount for the month
+  //       },
+  //     ],
+  //   },
+  // ],
+  revenue: {
+    type: Number,
+    default: 0,
+  },
   subCategories: [
     {
       type:  mongoose.Schema.Types.ObjectId,
@@ -66,6 +83,8 @@ const storeSchema = new mongoose.Schema({
       ref: "Product", 
     },
   ],
+},{
+  timestamps:true
 });
 
  

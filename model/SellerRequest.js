@@ -27,11 +27,10 @@ const sellerRequestSchema = new mongoose.Schema({
     description: String,
     isAccepted: Boolean,
     isRejected: Boolean,
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+   
     // Add other fields as needed
+  },{
+    timestamps: true,
   });
   
  
