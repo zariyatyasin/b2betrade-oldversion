@@ -1,18 +1,31 @@
 import Layout from "../../../../../components/admin/Layout/Layout";
 import CreateProduct from "../../../../../components/admin/product/createproduct/CreateProduct";
 import Category from "../../../../../model/Category";
+import Store from "../../../../../model/Store";
 import Product from "..//../../../../model/Product";
 import db from "../../../../../utils/db";
+import { getCurrentUser } from "../../../../../utils/session";
 import React from "react";
 async function getData() {
   db.connectDb();
+  const session = await getCurrentUser();
 
+  let data;
+  let store;
   try {
-    const parents = await Product.find().select("name subProducts").lean();
-    const categories = await Category.find().lean();
+    if (session.role === "admin") {
+      data = await Category.find().lean();
+      store = await Store.findOne({ owner: session.id });
+    } else {
+      // data = await Category.find().lean();
+      // category = await Store.findOne({ owner: session.id })
+      // .populate({ path: "category", model: Category })
+      // .select("category");
+    }
+
     return {
-      parents: JSON.parse(JSON.stringify(parents)),
-      categories: JSON.parse(JSON.stringify(categories)),
+      data: JSON.parse(JSON.stringify(data)),
+      store: JSON.parse(JSON.stringify(store)),
     };
   } catch (error) {
     console.error("Error occurred:", error);
@@ -20,12 +33,12 @@ async function getData() {
   }
 }
 export default async function page() {
-  const { parents, categories } = await getData();
+  const { data, store } = await getData();
 
   return (
     <Layout>
       <div className="mx-4 sm:mx-6 lg:mx-8  ">
-        <CreateProduct parents={parents} categories={categories} />
+        <CreateProduct categories={data} />
       </div>
     </Layout>
   );

@@ -47,3 +47,11 @@ return new NextResponse.json("You can't delete", {
 status: 201,
 });
 }
+
+
+
+
+
+///////////////////////////////////
+
+in some getData() i didn;t used db.connect(). see if there any problem withotu it

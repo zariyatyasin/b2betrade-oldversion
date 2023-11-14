@@ -104,7 +104,7 @@ const Layout = ({ children, data }) => {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className="hidden mt-20 md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 md:pt-20 ">
+      <div className="hidden mt-20 md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 md:pt-20  ">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="  border-gray-200 pt-5 flex flex-col flex-grow bg-white overflow-y-auto">
           <div className="flex-grow mt-5 flex flex-col">
@@ -122,7 +122,7 @@ const Layout = ({ children, data }) => {
         </div>
       </div>
 
-      <div className="md:pl-64  pt-8">
+      <div className="md:pl-64    pt-8">
         <div className="max-w-6xl mx-auto flex flex-col md:px-8 xl:px-0">
           {/* <div className="sticky top-0  flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
             <button
@@ -135,7 +135,7 @@ const Layout = ({ children, data }) => {
             top
           </div> */}
 
-          <main className="flex-1">{children}</main>
+          <main className="border border-red-600 flex-1 ml-">{children}</main>
         </div>
       </div>
     </div>

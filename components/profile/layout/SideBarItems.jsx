@@ -3,9 +3,10 @@ import { signOut } from "next-auth/react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import slugify from "slugify";
+import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 function SideBarItems({ item, visible, index }) {
   const searchParams = useSearchParams();
   const [show, setShow] = useState(visible);
@@ -21,26 +22,28 @@ function SideBarItems({ item, visible, index }) {
         </b>
       ) : (
         <div
-          className="flex items-center justify-between  w-full"
+          className="flex items-center justify-between    w-full"
           onClick={() => setShow((prev) => !prev)}
         >
-          <div className=" cursor-pointer  font-medium   ">{item.heading}</div>
+          <div className=" inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 px-4 py-2 hover:bg-transparent hover:underline justify-start">
+            {item.heading}
+          </div>
           <div>
             {show ? (
-              <RemoveIcon className="w-6 h-6" />
+              <KeyboardArrowUpOutlinedIcon sx={{ fontSize: 18 }} />
             ) : (
-              <AddIcon className="w-6 h-6" />
+              <KeyboardArrowDownOutlinedIcon sx={{ fontSize: 18 }} />
             )}
           </div>
         </div>
       )}
 
       {show && (
-        <ul className="mt-2  ">
+        <ul className="mt-2 ml-4  ">
           {item.links.map((link, i) => (
             <li
               key={i}
-              className={`  ${
+              className={` text-sm  ${
                 link.link.startsWith("/profile/orders")
                   ? searchParams.get("q")?.split("__")[0] ===
                     slugify(link.name, { lower: true })

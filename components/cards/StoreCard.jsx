@@ -208,7 +208,7 @@ export default function StoreCard({ data }) {
       )}
 
       {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed z-50 top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="text-white">Loading...</div>
         </div>
       )}

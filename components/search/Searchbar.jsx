@@ -17,10 +17,8 @@ export const MiniSearchBar = () => {
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
-      // Modify the search parameter
       currentSearchParams.set("search", quary);
 
-      // Generate the new URL with the modified search parameter
       const newURL = `${
         window.location.pathname
       }?${currentSearchParams.toString()}`;
@@ -34,7 +32,7 @@ export const MiniSearchBar = () => {
 
   return (
     <div className=" ">
-      <div className="relative z-30 flex flex-col justify-center w-full shrink-0">
+      <div className="relative  flex flex-col justify-center w-full shrink-0">
         <div className="flex flex-col w-full mx-auto">
           <form
             className="relative flex w-full rounded-md"

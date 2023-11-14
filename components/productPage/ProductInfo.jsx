@@ -99,7 +99,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       }
     }
   };
-  console.log(qty);
 
   const handleQtyIncrease = () => {
     if (qty < product.quantity) {
@@ -263,28 +262,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </div>
         ))}
       </div>
-      {/* <div className="border max-w-[250px] mt-2 divide-y divide-gray-200 ">
-        <div className="flex flex-row bg-green-500 text-white  justify-between items-center p-2 font-medium">
-          <div>Quantity</div>
-          <div>Price</div>
-        </div>
-        {priceRanges.map((range, index) => (
-          <div
-            key={index}
-            onClick={() => handleRangeSelect(range)}
-            className={`   d p-2 font-medium cursor-pointer ${
-              range === selectedRange
-                ? "bg-green-500 text-white"
-                : "border-green-500"
-            }`}
-          >
-            <div className="flex flex-row justify-between items-center mb-2">
-              <div>{`${range.minQty} - ${range.maxQty}`}</div>
-              <div>${range.price.toFixed(2)}</div>
-            </div>
-          </div>
-        ))}
-      </div> */}
 
       <div className="text-2xl font-bold mt-4 text-green-500">
         Total Price: {totalPrice}

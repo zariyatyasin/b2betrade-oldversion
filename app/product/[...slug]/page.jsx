@@ -6,6 +6,7 @@ import ProductMain from "../../../components/productPage/ProductMain";
 import Category from "../../../model/Category";
 import Product from "../../../model/Product";
 import SubCategory from "../../../model/SubCategory";
+import Store from "../../../model/Store";
 import User from "../../../model/User";
 import db from "../../../utils/db";
 
@@ -18,6 +19,7 @@ async function getData(url) {
   try {
     let product = await Product.findOne({ slug: slug })
       .populate({ path: "category", model: Category })
+      .populate({ path: "storeId", model: Store })
       .populate({ path: "subCategories", model: SubCategory })
       .populate({ path: "reviews.reviewBy", model: User })
       .lean();

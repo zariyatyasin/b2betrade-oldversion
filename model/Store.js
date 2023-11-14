@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { string } from "yup";
+import { boolean, string } from "yup";
 
 const storeSchema = new mongoose.Schema({
   storeName: {
@@ -53,20 +53,17 @@ const storeSchema = new mongoose.Schema({
       
     ],
   },
+  headerImage:{
+    type: String,
+     
+  },  
+  isVerify:{
+    type: Boolean,
+    default: false,
+     
+  },
   tags: [String],
-  // sales: [
-  //   {
-  //     week: Number, // Week number
-  //     year: Number, // Year
-  //     monthlySales: [
-  //       {
-  //         month: Number, // Month number
-  //         year: Number, // Year
-  //         amount: Number, // Sales amount for the month
-  //       },
-  //     ],
-  //   },
-  // ],
+ 
   revenue: {
     type: Number,
     default: 0,

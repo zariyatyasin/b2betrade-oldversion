@@ -48,6 +48,18 @@ const Usermenu = ({ isLogin, session }) => {
             </Link>
           )}
 
+          {session.data.user.role === "supplier" && (
+            <Link
+              href="/profile"
+              className="block py-2 px-4 text-sm text-gray-700"
+              role="menuitem"
+              tabIndex="-1"
+              id="user-menu-item-2"
+            >
+              Profile
+            </Link>
+          )}
+
           <a
             href="#"
             className="block py-2 px-4 text-sm text-gray-700"
