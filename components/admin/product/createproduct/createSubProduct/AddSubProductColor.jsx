@@ -123,7 +123,7 @@ export default function AddSubProductColor({
           {subProduct.color.image && (
             <div>
               <img
-                src={URL000.createObjectURL(subProduct.color.image)}
+                src={URL.createObjectURL(subProduct.color.image)}
                 alt="Color Image"
                 style={{ maxWidth: "100px", maxHeight: "100px" }}
               />

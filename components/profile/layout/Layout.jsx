@@ -135,7 +135,7 @@ const Layout = ({ children, data }) => {
             top
           </div> */}
 
-          <main className="border border-red-600 flex-1 ml-">{children}</main>
+          <main className="   flex-1 ml-">{children}</main>
         </div>
       </div>
     </div>

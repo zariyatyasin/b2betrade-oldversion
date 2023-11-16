@@ -34,10 +34,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-     productType: {
+    productType: {
       type: String,
-      enum: ['B2B', 'B2C'],  
-     
+      enum: ["B2B", "B2C"],
     },
     bulkPricing: [
       {
@@ -46,7 +45,7 @@ const productSchema = new mongoose.Schema(
         price: Number,
       },
     ],
-    
+
     description: {
       type: String,
       required: true,
@@ -104,6 +103,11 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    productAtive: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "ban", "block", "active"],
     },
     numReviews: {
       type: Number,
