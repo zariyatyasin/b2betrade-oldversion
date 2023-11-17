@@ -1,0 +1,143 @@
+[
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      },
+      "name": "Electronics",
+      "slug": "electronics"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf01"
+      },
+      "name": "Apparel",
+      "slug": "apparel"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf02"
+      },
+      "name": "Industrial Equipment",
+      "slug": "industrial-equipment"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf03"
+      },
+      "name": "Furniture",
+      "slug": "furniture"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf04"
+      },
+      "name": "Automotive",
+      "slug": "automotive"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf05"
+      },
+      "name": "Medical Supplies",
+      "slug": "medical-supplies"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf06"
+      },
+      "name": "Construction",
+      "slug": "construction"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf07"
+      },
+      "name": "Food & Beverages",
+      "slug": "food-beverages"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf08"
+      },
+      "name": "Beauty & Personal Care",
+      "slug": "beauty-personal-care"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf09"
+      },
+      "name": "Home & Garden",
+      "slug": "home-garden"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf10"
+      },
+      "name": "Sports & Outdoors",
+      "slug": "sports-outdoors"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf11"
+      },
+      "name": "Electrical",
+      "slug": "electrical"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf12"
+      },
+      "name": "Agriculture",
+      "slug": "agriculture"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf13"
+      },
+      "name": "Office Supplies",
+      "slug": "office-supplies"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf14"
+      },
+      "name": "Telecommunications",
+      "slug": "telecommunications"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf15"
+      },
+      "name": "Chemicals",
+      "slug": "chemicals"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf16"
+      },
+      "name": "Packaging & Printing",
+      "slug": "packaging-printing"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf17"
+      },
+      "name": "Security & Protection",
+      "slug": "security-protection"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf18"
+      },
+      "name": "Plumbing & HVAC",
+      "slug": "plumbing-hvac"
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf19"
+      },
+      "name": "Transportation",
+      "slug": "transportation"
+    }
+  ]
+  

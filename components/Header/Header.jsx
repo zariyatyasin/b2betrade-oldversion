@@ -16,6 +16,7 @@ import Example from "./Example";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Nav from "../Header/Nav"
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
@@ -54,7 +55,7 @@ export const Header = ({ categories, subCategories }) => {
     setOpen(true);
   };
 
-  console.log(searchParams.get("productType"));
+ 
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -292,6 +293,8 @@ export const Header = ({ categories, subCategories }) => {
         </div>
       </div>
       <Example categories={categories} subCategories={subCategories} />
+
+      {/* <Nav/> */}
     </div>
   );
 };

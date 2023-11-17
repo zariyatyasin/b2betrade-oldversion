@@ -1,0 +1,139 @@
+[
+    
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf20"
+      },
+      "name": "Computers",
+      "slug": "computers",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf21"
+      },
+      "name": "Accessories",
+      "slug": "accessories",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf26"
+      },
+      "name": "Components",   
+      "slug": "components",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf27"
+      },
+      "name": "Consumer Electronics",   
+      "slug": "consumer-electronics",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf28"
+      },
+      "name": "Audio & Video Equipment",   
+      "slug": "audio-video-equipment",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf00"
+      }
+    },
+    
+  
+ 
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf22"
+      },
+      "name": "Men's Clothing",
+      "slug": "mens-clothing",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf01"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf23"
+      },
+      "name": "Women's Clothing",
+      "slug": "womens-clothing",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf01"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf29"
+      },
+      "name": "Sportswear",   
+      "slug": "sportswear",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf01"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf30"
+      },
+      "name": "Outerwear",   
+      "slug": "outerwear",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf01"
+      }
+    },
+    
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf24"
+      },
+      "name": "Machinery",
+      "slug": "machinery",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf02"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf25"
+      },
+      "name": "Tools",
+      "slug": "tools",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf02"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf31"
+      },
+      "name": "Manufacturing Equipment",   
+      "slug": "manufacturing-equipment",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf02"
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5fb0360d1c794c34b87bbf32"
+      },
+      "name": "Industrial Automation",   
+      "slug": "industrial-automation",
+      "parent": {
+        "$oid": "5fb0360d1c794c34b87bbf02"
+      }
+    } 
+    
+  ]
+  

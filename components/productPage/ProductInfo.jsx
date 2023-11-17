@@ -65,7 +65,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     if (staySize !== -1) {
       setSize(product.size[staySize].size);
     }
-  }, [staySize, product.size]);
+  }, [staySize, product?.size]);
   useEffect(() => {
     if (qty > product.quantity) {
       setQty(product.quantity);
@@ -158,7 +158,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   return (
     <div className="flex-1">
-      <h1 className="text-lg font-medium text-qblack mb-2 ">{product.name}</h1>
+      <h1 className="text-lg font-medium text-qblack mb-2 ">{product?.name}</h1>
       <div className="  flex items-center">
         <Rating
           name="hover-feedback"
