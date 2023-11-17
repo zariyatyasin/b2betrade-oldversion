@@ -13,14 +13,16 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Store', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Dashboard', href: '/seller/dashboard', icon: HomeIcon, current: true },
+  { name: 'Store', href: '/seller/dashboard/store', icon: UsersIcon, current: false },
+  { name: 'Message', href: '#', icon: FolderIcon, current: false },
+  { name: 'Coupon', href: '#', icon: CalendarIcon, current: false },
+  { name: 'Create Product', href: '/seller/dashboard/createproduct', icon: InboxIcon, current: false },
+  { name: 'Help', href: '#', icon: ChartBarIcon, current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -35,12 +37,16 @@ function classNames(...classes) {
 export default function Layout({children}) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+
+  const pathname = usePathname();
+  const router = pathname.split("/seller/dashboard/")[1];
+
   return (
     <>
       
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
+          <Dialog as="div" className="fixed inset-0 flex z-40 " onClose={setSidebarOpen}>
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -61,7 +67,7 @@ export default function Layout({children}) {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-800">
+              <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4  bg-white text-black">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -82,33 +88,31 @@ export default function Layout({children}) {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
-                  />
+                <div className="flex-shrink-0 flex    items-center px-4">
+                <div className=' text-gray-900 font-bold text-2xl'>
+             B2BeTrade
+             </div>
                 </div>
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          router === item.name.toLowerCase()  ? 'bg-gray-900 text-white' : 'text-gray-950 hover:bg-gray-900 hover:text-white',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
                         <item.icon
                           className={classNames(
-                            item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                            router === item.name.toLowerCase()  ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                             'mr-4 flex-shrink-0 h-6 w-6'
                           )}
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -121,46 +125,44 @@ export default function Layout({children}) {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
+        {/* <div className={`   hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0`}>
+        
           <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
             <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                alt="Workflow"
-              />
+             <div className=' text-white font-bold text-2xl'>
+             B2BeTrade
+             </div>
             </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-2 py-4 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      router === item.name.toLowerCase()  ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
                     <item.icon
                       className={classNames(
-                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                        router === item.name.toLowerCase() ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                         'mr-3 flex-shrink-0 h-6 w-6'
                       )}
                       aria-hidden="true"
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </nav>
             </div>
           </div>
-        </div>
-        <div className="md:pl-64 flex flex-col">
+        </div> */}
+        <div className=" flex flex-col">
           <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
             <button
               type="button"
-              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 "
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>

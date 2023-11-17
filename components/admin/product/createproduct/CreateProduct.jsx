@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
+import { Grid, Paper, Typography } from '@mui/material';
 import {
   Box,
   TextField,
@@ -57,7 +58,7 @@ const initialState = {
 };
 export default function CreateProduct({ categories }) {
   const [product, setProduct] = useState(initialState);
-
+  const [loading, setLoading] = useState(false);
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
   const productType = [
@@ -74,12 +75,15 @@ export default function CreateProduct({ categories }) {
     async function getSubs() {
       if (product.category) {
         try {
+          setLoading(true);
           const { data } = await axios.get(
             `/api/admin/subcategory/${product.category}`
           );
           setSubs(data);
         } catch (error) {
           console.error("Error fetching subcategories:", error);
+        }finally {
+          setLoading(false); // Stop loading
         }
       }
     }
@@ -162,23 +166,103 @@ export default function CreateProduct({ categories }) {
       >
         {(formik) => (
           <Form className=" ">
-            <h1>Create Product</h1>
-            <SingularSelect
-              name="Product Type"
-              value={product.productType} // Assuming `productType` is a state variable
-              placeholder="Product Type"
-              data={productType} // Provide the options for product type
-              header="Select Product Type"
-              handleChange={handleChange}
-            />
-            <AdminInput
+
+
+            <h1 className="font-semibold tracking-tight text-2xl">Create Product</h1>
+            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+            <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
+            
+          <Paper className="p-4">  <Grid container spacing={2}>
+            <Grid item xs={12} lg={12}>   <AdminInput
               type="text"
               label="Name"
               name="name"
               placholder="Product name"
               onChange={handleChange}
-            />
+            /></Grid>
+            <Grid item xs={12} lg={6}>
             <SingularSelect
+              name="Product Type"
+              value={product.productType}  
+              placeholder="Product Type"
+              data={productType}  
+              header="Select Product Type"
+              handleChange={handleChange}
+            />
+            </Grid>
+         
+        
+          
+       
+          <Grid item xs={12} lg={6}>     <AdminInput
+              type="text"
+              label="Brand"
+              name="brand"
+              placholder="Product brand"
+              onChange={handleChange}
+            /></Grid>
+          <Grid item xs={12} lg={6}>       <AdminInput
+              type="text"
+              label="Sku"
+              name="sku"
+              placholder="Product sku/ number"
+              onChange={handleChange}
+            /></Grid>
+           
+          <Grid item xs={12} lg={6}>        <AdminInput
+              type="text"
+              label="Discount"
+              name="discount"
+              placholder="Product discount"
+              onChange={handleChange}
+            /></Grid>
+               <Grid item xs={12} lg={12}>  <AdminInput
+              type="text"
+              label="Description"
+              name="description"
+              placholder="Product description"
+              onChange={handleChange}
+            /></Grid>
+       
+          <Grid item xs={12} lg={12}>    <CreateSubProduct
+              setSubProducts={setSubProducts}
+              subProducts={subProducts}
+              setImages={setImages}
+              images={images}
+            /></Grid>
+           
+         
+           <Grid item xs={12} lg={12}>      <MaxminPrice
+              bulkPricing={product.bulkPricing}
+              product={product}
+              setProduct={setProduct}
+            /></Grid>
+           
+           <Grid item xs={12} lg={12}>       <Details
+              details={product.details}
+              product={product}
+              setProduct={setProduct}
+            /></Grid>
+           
+           <Grid item xs={12} lg={12}>        <Questions
+              questions={product.questions}
+              product={product}
+              setProduct={setProduct}
+            /></Grid>
+           
+
+
+         
+           
+            </Grid></Paper>
+            </div>
+
+            <section
+              aria-labelledby="timeline-title"
+              className="lg:col-start-3 lg:col-span-1"
+            >
+              <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+              <Grid item xs={12} lg={6}>     <SingularSelect
               name="category"
               value={product.category}
               placeholder="Category"
@@ -186,8 +270,10 @@ export default function CreateProduct({ categories }) {
               header="Select a Category"
               handleChange={handleChange}
               disabled={product.parent}
-            />
-            {product.category && (
+            /></Grid>
+           
+       
+           <Grid item xs={12} lg={6}> {  (
               <MultipleSelect
                 value={product.subCategories}
                 data={subs}
@@ -196,56 +282,12 @@ export default function CreateProduct({ categories }) {
                 disabled={product.parent}
                 handleChange={handleChange}
               />
-            )}
-            <AdminInput
-              type="text"
-              label="Description"
-              name="description"
-              placholder="Product description"
-              onChange={handleChange}
-            />
-            <AdminInput
-              type="text"
-              label="Brand"
-              name="brand"
-              placholder="Product brand"
-              onChange={handleChange}
-            />
-            <AdminInput
-              type="text"
-              label="Sku"
-              name="sku"
-              placholder="Product sku/ number"
-              onChange={handleChange}
-            />
-            <AdminInput
-              type="text"
-              label="Discount"
-              name="discount"
-              placholder="Product discount"
-              onChange={handleChange}
-            />
-            <MaxminPrice
-              bulkPricing={product.bulkPricing}
-              product={product}
-              setProduct={setProduct}
-            />{" "}
-            <CreateSubProduct
-              setSubProducts={setSubProducts}
-              subProducts={subProducts}
-              setImages={setImages}
-              images={images}
-            />
-            <Details
-              details={product.details}
-              product={product}
-              setProduct={setProduct}
-            />{" "}
-            <Questions
-              questions={product.questions}
-              product={product}
-              setProduct={setProduct}
-            />
+            )}  </Grid>
+              </div>
+            </section>
+          </div>
+          
+          
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>

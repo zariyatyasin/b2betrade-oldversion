@@ -70,7 +70,7 @@ export default function AddSubProductColor({
   };
 
   return (
-    <Box sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}>
+    <Box  >
       <Button
         variant="contained"
         color="primary"

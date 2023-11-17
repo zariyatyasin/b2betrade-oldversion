@@ -71,20 +71,34 @@ export default function MultipleSelect({
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
-              {selected.map((val) => (
-                <Chip key={val} label={result[val]} className={classes.chip} />
-              ))}
+              {selected.length === 0 ? (
+                <span className={classes.noSelection}>No selection</span>
+              ) : (
+                selected.map((val) => (
+                  <Chip
+                    key={val}
+                    label={data.find((option) => option._id === val)?.name}
+                    className={classes.chip}
+                  />
+                ))
+              )}
             </div>
           )}
         >
-          {data.map((option) => (
-            <MenuItem key={option._id} value={option._id}>
-              <Checkbox checked={value.indexOf(option._id) > -1} />
-              <ListItemText primary={option.name} />
-            </MenuItem>
-          ))}
+          {data.length === 0 ? (
+            <MenuItem disabled>No options available</MenuItem>
+          ) : (
+            data.map((option) => (
+              <MenuItem key={option._id} value={option._id}>
+                <Checkbox checked={value.indexOf(option._id) > -1} />
+                <span>{option.name}</span>
+              </MenuItem>
+            ))
+          )}
         </Select>
       </FormControl>
     </div>
   );
-}
+};
+
+ 

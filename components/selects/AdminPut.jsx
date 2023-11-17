@@ -1,5 +1,5 @@
 import { ErrorMessage, useField } from "formik";
-
+import { MenuItem, TextField } from "@mui/material";
 export default function AdminInput({ placeholder, label, ...props }) {
   const [field, meta] = useField(props);
 
@@ -8,7 +8,7 @@ export default function AdminInput({ placeholder, label, ...props }) {
       <label className="block text-gray-700 text-sm font-bold mb-2">
         {label}
       </label>
-      <input
+      <TextField
         type={field.type}
         name={field.name}
         placeholder={placeholder}

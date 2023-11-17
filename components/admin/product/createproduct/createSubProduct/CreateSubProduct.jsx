@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
+import {Button} from "../../../../ui/button"
 import AddSubProductImage from "./AddSubProductImage";
 import AddSubQty from "./AddSubQty";
 import AddSubProductColor from "./AddSubProductColor";
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
 
@@ -49,16 +50,19 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
   };
 
   return (
-    <div>
+    <div className=" ">
       <h2>Add Product</h2>
       {subProducts.map((subProduct, index) => (
         <div key={index}>
-          <h3 onClick={() => toggleSubProductVisibility(index)}>
+          {/* <h3 onClick={() => toggleSubProductVisibility(index)} c>
             Product {index + 1}
-          </h3>
+          </h3> */}
+          {/* <h3 onClick={() => toggleSubProductVisibility(index)} className="font-semibold leading-none tracking-tight">
+            Product {index + 1}
+          </h3> */}
           {subProductVisibility[index] && (
-            <Box key={index} sx={{ border: "1px solid #ccc", p: 2, mb: 2 }}>
-              <Button
+            <Box key={index} className="border  rounded-md shadow p-2"  >
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={() => {
@@ -68,30 +72,33 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
                 }}
               >
                 Toggle Visibility
-              </Button>
-              <h3> Product {index + 1}</h3>
+              </Button> */}
+      
 
-              <div>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleRemoveSubProduct(index)}
-                >
-                  Remove Product
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleAddSize(index)}
-                >
-                  Add Quantity
-                </Button>
-              </div>
-              <AddSubProductImage
+<div className="   flex justify-between items-center">
+<h3 className="font-semibold leading-none tracking-tight py-2"> Product {index + 1}</h3>
+  <HighlightOffOutlinedIcon
+    variant="contained"
+    color="error"
+    onClick={() => handleRemoveSubProduct(index)}
+  />
+            </div>
+            
+            <AddSubProductImage
                 index={index}
                 subProducts={subProducts}
                 setSubProducts={setSubProducts}
               />
+                <Button
+                  className="flex bg-white text-gray-950 border"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAddSize(index)}
+                >
+                  Add Size
+                </Button>
+          
+             
               {subProduct.sizes.map((size, sizeIndex) => (
                 <AddSubQty
                   key={sizeIndex}

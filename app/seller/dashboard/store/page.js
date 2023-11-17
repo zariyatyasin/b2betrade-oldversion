@@ -1,15 +1,15 @@
 import React from "react";
-import Layout from "../../../components/seller/layout/Layout";
-import { getCurrentUser } from "../../../utils/session";
-import Product from "../../../model/Product";
-import User from "../../../model/User";
-import Store from "../../../model/Store";
-import Category from "../../../model/Category";
-import SubCategory from "../../../model/SubCategory";
-import StoreHeader from "../../../components/store/storeHeader/StoreHeader";
-import StoreNavbar from "../../../components/store/storeHeader/StoreNavbar";
+import Layout from "../../../../components/seller/layout/Layout";
+import { getCurrentUser } from "../../../../utils/session";
+import Product from "../../../../model/Product";
+import User from "../../../../model/User";
+import Store from "../../../../model/Store";
+import Category from "../../../../model/Category";
+import SubCategory from "../../../../model/SubCategory";
+import StoreHeader from "../../../../components/store/storeHeader/StoreHeader";
+import StoreNavbar from "../../../../components/store/storeHeader/StoreNavbar";
 import { redirect } from "next/navigation";
-import ProductCardSwip from "../../../components/cards/ProductCardSwip";
+import ProductCardSwip from "../../../../components/cards/ProductCardSwip";
 async function getData() {
   const session = await getCurrentUser();
 
@@ -45,7 +45,6 @@ async function getData() {
 export default async function page() {
   const { StoreData, products } = await getData();
 
-  console.log(products);
   return (
     <Layout>
       <StoreHeader

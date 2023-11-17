@@ -1,6 +1,7 @@
-import { Button } from "@mui/material";
+import { Button } from "../../../../ui/button";
 import React, { useRef, useState } from "react";
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 export default function AddSubProductImage({
   subProducts,
   setSubProducts,
@@ -63,32 +64,36 @@ export default function AddSubProductImage({
 
   return (
     <div>
-      <label>Images</label>
-      {imagePreviews[index] &&
+     
+   <div className=" flex flex-wrap gap-4 p-2">
+   {imagePreviews[index] &&
         imagePreviews[index].map((preview, imageIndex) => (
-          <div key={imageIndex}>
+          <div key={imageIndex} className=" relative">
             <img
               src={preview}
               alt={`Image ${imageIndex}`}
-              style={{ maxWidth: "100px", maxHeight: "100px" }}
+              style={{ maxWidth: "130px", maxHeight: "130px" }}
             />
-            <Button
+            <HighlightOffOutlinedIcon
+            className=" absolute top-[-10px]  right-[-10px]"
               variant="contained"
               color="error"
               onClick={() => handleRemoveImage(index, imageIndex)}
-            >
-              Remove Image
-            </Button>
+            />
+      
           </div>
         ))}
 
-      <Button
-        variant="contained"
-        color="primary"
+   </div>
+     <div className="   flex  justify-center">
+     <Button
+         className="flex bg-white text-gray-950 border"
         onClick={() => handleAddImage(index)}
       >
+        <CloudUploadIcon  className="mr-2 text-blue-500"/>
         Add Image
       </Button>
+     </div>
       <input
         type="file"
         ref={fileInput}
