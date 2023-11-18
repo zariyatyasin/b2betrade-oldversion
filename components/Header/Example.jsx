@@ -9,7 +9,7 @@ import FactoryOutlinedIcon from "@mui/icons-material/FactoryOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
-
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { categoriesAndSub } from "../../data/CategoriesAndSub";
 
 import { Navigation } from "../../data/Navigation";
@@ -50,79 +50,55 @@ function classNames(...classes) {
 }
 
 export default function Example({ categories, subCategories }) {
-  const [open, setOpen] = useState(false);
-
+  const [isCategoryListOpen, setCategoryListOpen] = useState(false);
   return (
     <div className="bg-white  ">
   
  
-      <header className="relative bg-white">
+      <header className="relative bg-white text-gray-950">
         <nav aria-label="Top" className="  ">
           <div>
-            <div className="flex items-center justify-between h-16 py-3 border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10">
+            <div className={` flex items-center justify-between h-16   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}>
             <div className="  mr-5  lg:flex">
-                  <Popover className="relative">
-                    {({ open }) => (
-                      <>
-                        <Popover.Button
-                          className={classNames(
-                            open ? "text-gray-900" : "text-gray-500",
-                            "group bg-white rounded-md inline-flex items-center text-base font-medium   "
-                          )}
-                        >
-                 
-                <div className=" flex items-center  text-sm bg-[#000080] text-white font-bold p-2 rounded" onMouseEnter={({target})=> open ? "" : target.click()}
-                
-                onMouseLeave={({target})=> open ?target.click()   :"" }
-                
+            <div
+                  className="flex  hover:cursor-pointer  py-3 w-full items-center text-sm text-gray-950  relative"
+                  onMouseEnter={() => setCategoryListOpen(true)}
+                  onMouseLeave={() => setCategoryListOpen(false)}
                 >
-                  <MenuOutlinedIcon sx={{ fontSize: "18px" }} /> 
-                  <span className="ml-2">All Categories</span>
-                </div>
-        
-                        </Popover.Button>
+                  <MenuOutlinedIcon sx={{ fontSize: "18px" }} />
+                  <div className="ml-2 font-bold ">All Categories</div>
 
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-200"
-                          enterFrom="opacity-0 translate-y-1"
-                          enterTo="opacity-100 translate-y-0"
-                          leave="transition ease-in duration-150"
-                          leaveFrom="opacity-100 translate-y-0"
-                          leaveTo="opacity-0 translate-y-1"
-                        >
-                          <Popover.Panel className="absolute z-50   transform  mt-3 px-2 w-screen max-w-md sm:px-0">
-                            <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                              <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                {solutions.map((item) => (
-                                  <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
-                                  >
-                                    {item.icon}
-                                    <div className="ml-4">
-                                      <p className="text-base font-medium text-gray-900">
-                                        {item.name}
-                                      </p>
-                                      <p className="mt-1 text-sm text-gray-500">
-                                        {item.description}
-                                      </p>
-                                    </div>
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
-                          </Popover.Panel>
-                        </Transition>
-                      </>
-                    )}
-                  </Popover>
+                  <ul
+                    className={`absolute bg-white   shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
+                      isCategoryListOpen ? "visible" : "invisible"
+                    }`}
+                  >
+                    {categoriesAndSub.map((category) => (
+                      <li
+                        key={category.name}
+                        className=" flex   items-center justify-between   p-2 hover:bg-gray-50 transition ease-in-out duration-150"
+                      >
+                        
+                        <div className="ml-4">
+                          <p className="  text-gray-900">
+                            {category.name}
+                          </p>
+                        </div>
+                        <div>
+                          <ArrowForwardIosOutlinedIcon sx={{fontSize:14}}/>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+           
+             
                 </div>
               <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
-                  className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
+                  className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>
                 </Link>
@@ -139,7 +115,7 @@ export default function Example({ categories, subCategories }) {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
                   <a
                     href="#"
-                    className="text-sm flex items-center font-medium text-gray-700 mr-2 hover:text-gray-800"
+                    className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
                   >
                     <FactoryOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
@@ -149,7 +125,7 @@ export default function Example({ categories, subCategories }) {
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   <a
                     href="#"
-                    className="text-sm flex items-center font-medium text-gray-700 ml-2 hover:text-gray-800"
+                    className="text-sm flex items-center f text-gray-950 ml-2 hover:text-gray-800"
                   >
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
@@ -165,7 +141,7 @@ export default function Example({ categories, subCategories }) {
                         <Popover.Button
                           className={classNames(
                             open ? "text-gray-900" : "text-gray-500",
-                            "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            "group bg-white rounded-md inline-flex items-centere   text-sm  text-gray-950  "
                           )}
                         >
                           <span>Become a Supplier</span>
@@ -191,7 +167,7 @@ export default function Example({ categories, subCategories }) {
                                   >
                                     {item.icon}
                                     <div className="ml-4">
-                                      <p className="text-base font-medium text-gray-900">
+                                      <p className="text-base f text-gray-900">
                                         {item.name}
                                       </p>
                                       <p className="mt-1 text-sm text-gray-500">

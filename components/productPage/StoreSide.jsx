@@ -15,11 +15,11 @@ export default function StoreSide({ store }) {
     <div className=" mx-auto max-w-md">
       <div className="bg-white  ounded-md p-4">
         <div className="flex justify-center">
-          <img
+          {/* <img
             src={store.image}
             alt=""
             className="rounded-full w-24 h-24 shadow-md border-4 border-white transform hover:scale-110"
-          />
+          /> */}
         </div>
 
         <div className="mt-6 text-center">

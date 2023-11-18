@@ -34,7 +34,7 @@ export default function HeadingFilters({
     <div className="lg:flex items-center justify-between mb-4">
       <div className=" lg:flex items-center gap-4">
         <button
-          className="border text-sm border-gray-300 p-2 bg-gray-950 text-white rounded-3xl hover:bg-gray-100  "
+          className="border text-sm border-gray-300 p-2 bg-[#2B39D1] text-white rounded-3xl hover:bg-gray-100  "
           onClick={() => router.push("/browse")}
         >
           Clear All ({Array.from(searchParams).length})
@@ -89,7 +89,7 @@ export default function HeadingFilters({
           />
           <button
             onClick={applyPriceFilter}
-            className="p-2 bg-gray-900 text-white text-sm rounded hover:bg-blue-600 ml-2"
+            className="p-2 bg-[#2B39D1] text-white text-sm rounded hover:bg-blue-600 ml-2"
           >
             OK
           </button>

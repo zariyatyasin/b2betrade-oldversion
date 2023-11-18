@@ -4,6 +4,7 @@ import Example from "../components/Header/Example";
 import { Header } from "../components/Header/Header";
 import { HeaderPolicy } from "../components/Header/HeaderPolicy";
 import { HeaderAds } from "../components/Header/HeaderAds";
+import  TopNavbar from "../components/Header/TopNavbar";
 import Discount from "../components/home/Discount/Discount";
 import { Categories } from "../components/home/category/Categories";
 import FlashDeals from "../components/home/flashDeals/FlashDeals";
@@ -47,6 +48,7 @@ export default async function Home({ searchParams }) {
   return (
     <div>
       {/* <HeaderAds /> */}
+      <TopNavbar/>
       <Header categories={categories} subCategories={subCategories} />
       {/* <Example categories={categories} subCategories={subCategories} /> */}
       {/* 
