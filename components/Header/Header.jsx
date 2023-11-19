@@ -4,11 +4,12 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
- 
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Usermenu from "./Usermenu";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Fragment } from "react";
@@ -129,15 +130,15 @@ export const Header = ({ categories, subCategories }) => {
 
   return (
     <div className=" bg-white  ">
-      {" "}
+ 
       <div className="flex items-center justify-between h-16 py-6  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
         
-        <a
+        <Link
           href="/"
-          className="inline-block focus:outline-none text-gray-950 font-bold text-3xl max-w-[131px] w-full logo -mt-1.5 md:-mt-1 md:mx-auto ltr:pl-3 rtl:pr-3 md:ltr:pl-0 md:rtl:pr-0 lg:mx-0"
+          className="inline-block focus:outline-none text-gray-950 font-bold text-xl md:text-3xl max-w-[131px] "
         >
-          B2B<span className=" text-[#2B39D1] text-3xl">eTrade</span>
-        </a>
+          B2B<span className=" text-[#2B39D1] text-2xl lg:text-3xl">eTrade</span>
+        </Link>
 
         <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
           <div className="overlay cursor-pointer invisible w-full h-full opacity-0 flex top-0 p ltr:left-0 rtl:right-0 transition-all duration-300 fixed"></div>
@@ -253,7 +254,7 @@ export const Header = ({ categories, subCategories }) => {
               >
                 <Button
                   type="button"
-                  className="  text-white bg-[#2B39D1]   "
+                  className=" text-sm text-white bg-[#2B39D1]   "
                 >
                   Post a Request
                 </Button>
@@ -312,9 +313,10 @@ export const Header = ({ categories, subCategories }) => {
 
       {isMobile && (
         <BottomNavigation className="fixed bottom-0 left-0 right-0 border bg-white" sx={{ zIndex: 1000 }} value={value} onChange={handleChange}>
-          <BottomNavigationAction label="Menu" value="recents" icon={<MenuOutlinedIcon />} />
-          <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOnIcon />} />
+          HomeOutlinedIcon
+          <BottomNavigationAction label="Home" value="recents" icon={<HomeOutlinedIcon />} />
+          <BottomNavigationAction label="Menu" value="favorites" icon={<CategoryOutlinedIcon />} />
+          <BottomNavigationAction label="Nearby" value="nearby" icon={<FavoriteBorderOutlinedIcon />} />
           <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleOutlinedIcon />} />
         </BottomNavigation>
       )}

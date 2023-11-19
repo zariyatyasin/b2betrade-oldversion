@@ -52,13 +52,13 @@ function classNames(...classes) {
 export default function Example({ categories, subCategories }) {
   const [isCategoryListOpen, setCategoryListOpen] = useState(false);
   return (
-    <div className="bg-white  ">
+    <div className="bg-white hidden lg:block  ">
   
  
       <header className="relative bg-white text-gray-950">
         <nav aria-label="Top" className="  ">
           <div>
-            <div className={` flex items-center justify-between h-16   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}>
+            <div className={`  flex items-center justify-between h-16   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}>
             <div className="  mr-5  lg:flex">
             <div
                   className="flex  hover:cursor-pointer  py-3 w-full items-center text-sm text-gray-950  relative"
@@ -76,7 +76,7 @@ export default function Example({ categories, subCategories }) {
                     {categoriesAndSub.map((category) => (
                       <li
                         key={category.name}
-                        className=" flex   items-center justify-between   p-2 hover:bg-gray-50 transition ease-in-out duration-150"
+                        className=" flex   items-center justify-between   p-[5px] hover:bg-gray-50 transition ease-in-out duration-150"
                       >
                         
                         <div className="ml-4">
