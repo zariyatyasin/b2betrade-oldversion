@@ -86,6 +86,8 @@ export default async function page({ searchParams }) {
     </div>
 
     // <div>
+
+    //kddkdkd
     //   <Header />
     //   <Layout2 />
     // </div>
