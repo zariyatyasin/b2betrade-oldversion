@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/utils/session";
-import db from "@/utils/db";
+import { getCurrentUser } from "../../../../utils/session";
+import db from "../../../../utils/db";
 
 import slugify from "slugify";
-import SubCategory from "@/model/SubCategory";
-import Category from "@/model/Category";
+import SubCategory from "../../../../model/SubCategory";
+import Category from "../../../../model/Category";
 
 export const POST = async (request) => {
   //   const session = await getCurrentUser();

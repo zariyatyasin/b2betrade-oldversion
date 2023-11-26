@@ -81,7 +81,7 @@ const AdminsidebarData = [
       {
         label: "Subcategories",
         icon: <CategoryOutlinedIcon sx={{ fontSize: 18 }} />,
-        link: "/admin/dashboard/categories",
+        link: "/admin/dashboard/subcategories",
       },
     ],
   },

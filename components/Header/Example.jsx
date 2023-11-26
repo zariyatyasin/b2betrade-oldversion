@@ -50,7 +50,10 @@ function classNames(...classes) {
 }
 
 export default function Example({ categories, subCategories }) {
+
+ 
   const [isCategoryListOpen, setCategoryListOpen] = useState(false);
+  const [isSubCategoryListOpen, setSubCategoryListOpen] = useState(false);
   return (
     <div className="bg-white hidden lg:block  ">
   
@@ -69,27 +72,42 @@ export default function Example({ categories, subCategories }) {
                   <div className="ml-2 font-bold ">All Categories</div>
 
                   <ul
-                    className={`absolute bg-white   shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
-                      isCategoryListOpen ? "visible" : "invisible"
-                    }`}
-                  >
-                    {categoriesAndSub.map((category) => (
-                      <li
-                        key={category.name}
-                        className=" flex   items-center justify-between   p-[5px] hover:bg-gray-50 transition ease-in-out duration-150"
-                      >
-                        
-                        <div className="ml-4">
-                          <p className="  text-gray-900">
-                            {category.name}
-                          </p>
-                        </div>
-                        <div>
-                          <ArrowForwardIosOutlinedIcon sx={{fontSize:14}}/>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+  className={`absolute  bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
+    isCategoryListOpen ? "visible" : "invisible"
+  }`}
+>
+  {categories?.map((category) => (
+    <li
+      key={category.name}
+      className="flex  items-center justify-between p-[5px] hover:bg-gray-50 transition ease-in-out duration-150"
+      onMouseEnter={() => setSubCategoryListOpen(true)}
+                  onMouseLeave={() => setSubCategoryListOpen(false)}
+    >
+      <div className="ml-4" >
+        <p className="text-gray-900" >{category.name}</p>
+                    
+   
+  
+      <div>
+        <ArrowForwardIosOutlinedIcon sx={{ fontSize: 14 }} />
+      </div>
+      </div>
+      <div className={` absolute right-[-20px] ${
+    isSubCategoryListOpen ? "visible" : "invisible"
+  }`}>  {subCategories.map((subCategory) => (
+          subCategory.parent._id === category._id && (
+            <ul key={subCategory.name} className="pl-4">
+              <li>
+                <p className="text-gray-700">{subCategory.name}</p>
+              </li>
+            </ul>
+          )
+        ))}</div>
+    </li>
+
+    
+  ))}
+</ul>
                 </div>
                 
            

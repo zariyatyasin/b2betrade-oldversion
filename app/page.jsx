@@ -1,6 +1,6 @@
 import Footer from "../components/Footer/Footer";
 import Example from "../components/Header/Example";
-
+import MainpageLayout from "../components/layout/MainpageLayout"
 import { Header } from "../components/Header/Header";
 import { HeaderPolicy } from "../components/Header/HeaderPolicy";
 import { HeaderAds } from "../components/Header/HeaderAds";
@@ -46,10 +46,10 @@ export default async function Home({ searchParams }) {
   });
 
   return (
-    <div>
+    <MainpageLayout>
       {/* <HeaderAds /> */}
-      <TopNavbar/>
-      <Header categories={categories} subCategories={subCategories} />
+      {/* <TopNavbar/> */}
+      {/* <Header categories={categories} subCategories={subCategories} /> */}
       {/* <Example categories={categories} subCategories={subCategories} /> */}
       {/* 
       <HeaderPolicy /> */}
@@ -64,6 +64,6 @@ export default async function Home({ searchParams }) {
       </div>
 
       <Footer />
-    </div>
+    </MainpageLayout>
   );
 }

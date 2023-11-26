@@ -7,6 +7,7 @@ import { filterArray, randomize, removeDuplicates } from "../../utils/Array";
 
 import { Header } from "../../components/Header/Header";
 import BrowsePage from "../../components/browse/BrowsePage";
+import MainpageLayout from "../../components/layout/MainpageLayout";
 function createRegex(data, styleRegex) {
   if (data.length > 1) {
     for (var i = 1; i < data.length; i++) {
@@ -249,8 +250,8 @@ export default async function page({ searchParams }) {
   } = await getData({ searchParams });
 
   return (
-    <div>
-      <Header />
+    <MainpageLayout>
+     
       <BrowsePage
         patterns={patterns}
         materials={materials}
@@ -265,6 +266,6 @@ export default async function page({ searchParams }) {
         rating={rating}
         paginationCount={paginationCount}
       />
-    </div>
+    </MainpageLayout>
   );
 }

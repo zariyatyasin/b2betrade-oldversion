@@ -126,7 +126,7 @@ export const categoriesAndSub = [
       "Fresh Produce",
       "Beverages",
       "Processed Foods",
-      "Snacks & Confectionery",
+      "Snacks & chocolate",
       "Dairy Products",
       "Frozen Foods",
       "Bakery & Baked Goods",

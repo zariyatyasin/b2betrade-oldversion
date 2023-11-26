@@ -30,7 +30,7 @@ export default function CreateSubCategoryForm({
   const validationSchema = Yup.object({
     name: Yup.string()
       .required("Subcategory name is required")
-      .matches(/^[a-zA-Z0-9\s]+$/, "Only alphanumeric characters are allowed"),
+  ,
     parentName: Yup.string().required("Parent category is required"),
   });
 

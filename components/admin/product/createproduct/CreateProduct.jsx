@@ -256,6 +256,7 @@ export default function CreateProduct({ categories }) {
               name="discount"
               placholder="Product discount"
               onChange={handleChange}
+
             /></Grid>
                {/* <Grid item xs={12} lg={12}>  <AdminInput
               type="text"
@@ -264,6 +265,24 @@ export default function CreateProduct({ categories }) {
               placholder="Product description"
               onChange={handleChange}
             /></Grid> */}
+            <Grid item xs={12} lg={12}>
+            <ReactQuill
+  theme="snow"
+  modules={modules}
+  style={{ height: '200px', paddingBottom:"30px" }}
+  formats={formats}
+  value={editorHtml}
+  onChange={(value) => {
+    setEditorHtml(value);
+    setProduct({ ...product, description: value });
+  }}
+  placeholder="Type something..."
+  bounds=".app"
+  scrollingContainer=".app"
+/>
+            </Grid>
+                   
+  <Grid item xs={12} lg={12}>
   <InputLabel>Same Price for All Products</InputLabel>
   <Select
     value={samePriceForAll}
@@ -272,6 +291,7 @@ export default function CreateProduct({ categories }) {
     <MenuItem value={true}>Yes</MenuItem>
     <MenuItem value={false}>No</MenuItem>
   </Select>
+  </Grid>
 
 
 {
@@ -290,19 +310,7 @@ export default function CreateProduct({ categories }) {
               images={images}
             /></Grid>
            
-           <ReactQuill
-  theme="snow"
-  modules={modules}
-  formats={formats}
-  value={editorHtml}
-  onChange={(value) => {
-    setEditorHtml(value);
-    setProduct({ ...product, description: value });
-  }}
-  placeholder="Type something..."
-  bounds=".app"
-  scrollingContainer=".app"
-/>
+
           
            
            <Grid item xs={12} lg={12}>       <Details

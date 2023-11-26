@@ -25,7 +25,9 @@ export default function CreateSubCategory({ categories, subcategories }) {
   const [editData, setEditData] = useState({});
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
-
+  const handleView = async (id) => {
+    onSubmitView(id._id);
+  };
   const columns = [
     { field: "name", headerName: "Subcategory Name", width: 200 },
     { field: "parent.name", headerName: "Parent Category", width: 200 },
@@ -122,6 +124,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
         data={rowsWithIds}
         onEdit={handleEdit}
         onSubmitDelete={(id) => handleDelete(id)}
+        onSubmitView={(id) => handleView(id)} 
       />
 
       <CreateSubCategoryForm

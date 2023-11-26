@@ -26,9 +26,7 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FolderIcon from '@mui/icons-material/Folder';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+ 
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -54,7 +52,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Header = ({ categories, subCategories }) => {
+export const Header = ({   categories, subCategories,}) => {
   const session = useSession();
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
@@ -85,17 +83,17 @@ export const Header = ({ categories, subCategories }) => {
 
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
-
+   console.log("hewo");
       // Modify the search parameter
-      currentSearchParams.set("search", quary);
+      router.push(`/browse?search=${quary}`);
 
       // Generate the new URL with the modified search parameter
-      const newURL = `${
-        window.location.pathname
-      }?${currentSearchParams.toString()}`;
+      // const newURL = `${
+      //   window.location.pathname
+      // }?${currentSearchParams.toString()}`;
 
-      // Use the `router.push` function to navigate to the new URL
-      router.push(newURL, undefined, { shallow: true });
+      // // Use the `router.push` function to navigate to the new URL
+      // router.push(newURL, undefined, { shallow: true });
     } else {
       router.push("/browse", { shallow: true });
     }
@@ -148,6 +146,7 @@ export const Header = ({ categories, subCategories }) => {
                 className="relative flex w-full rounded-md"
                 noValidate=""
                 role="search"
+                onSubmit={(e) => handleSearch(e)}
               >
                 <label
                   htmlFor="top-bar-search"
@@ -236,6 +235,7 @@ export const Header = ({ categories, subCategories }) => {
                     placeholder="What are you looking..."
                     aria-label="top-bar-search"
                     name="search"
+                    onChange={(e) => setQuary(e.target.value)}
                   />
                 </label>
                 <span className="absolute top-0 right-2 flex items-center justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-gray-500">
