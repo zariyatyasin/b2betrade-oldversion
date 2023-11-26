@@ -9,6 +9,7 @@ export default function AddSubQty({
   subProducts,
   setSubProducts,
   index,
+  samePriceForAll
 }) {
   const [noSize, setNoSize] = useState(false);
   const handleRemoveSize = (subProductIndex, sizeIndex) => {
@@ -62,7 +63,7 @@ export default function AddSubQty({
           }
         />
       </div>
-      <div>
+      {!samePriceForAll &&   <div>
         <label>Price</label>
         <Input
           type="number"
@@ -76,7 +77,8 @@ export default function AddSubQty({
             )
           }
         />
-      </div>
+      </div>}
+   
      
      </div>
     

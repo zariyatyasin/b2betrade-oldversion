@@ -10,6 +10,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Accordian from "../accordion/Accordion";
+import InquiryForm from "../chat/InquiryForm"
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../store/cartSlice";
@@ -35,7 +36,17 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const [staySize, setStaySize] = useState(
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+        console.log('Is modal open?', isModalOpen);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    console.log('Is modal open?', isModalOpen);
+  };
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
@@ -158,7 +169,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   return (
     <div className="flex-1">
-      <h1 className="text-lg font-medium text-qblack mb-2 ">{product?.name}</h1>
+      <h1 className="text-xl font-medium text-qblack mb-2 ">{product?.name}</h1>
       <div className="  flex items-center">
         <Rating
           name="hover-feedback"
@@ -172,7 +183,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </p>
       </div>
       <div className="flex items-end mt-2">
-        <h1 className="text-lg font-bold text-green-500">
+        <h1 className="text-lg font-bold text-[#2B39D1]">
           {!size ? product.priceRange : `৳${product.price}`}
         </h1>
         {product.discount > 0 && size && (
@@ -186,7 +197,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </div>
         )}
       </div>
-      {/* <div className="mt-1 text-green-500 text-sm font-semibold">
+      {/* <div className="mt-1 text-[#2B39D1] text-sm font-semibold">
         {product.shipping ? `+${product.shipping}$ shipping` : "Free Shipping"}
       </div> */}
       <p className="mt-2 text-sm text-gray-600">
@@ -249,10 +260,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           <div
             key={index}
             onClick={() => handleRangeSelect(range)}
-            className={`  border border-green-500 hover:bg-green-500 hover:text-white  d p-2 font-medium cursor-pointer ${
+            className={`  border border-[#2B39D1] hover:bg-[#2B39D1] hover:text-white  d p-2 font-medium cursor-pointer ${
               range === selectedRange
-                ? "bg-green-500 text-white"
-                : "border-green-500"
+                ? "bg-[#2B39D1] text-white"
+                : "border-[#2B39D1]"
             }`}
           >
             <div className="    text-center justify-between items-center  p-2  px-2">
@@ -263,7 +274,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         ))}
       </div>
 
-      <div className="text-2xl font-bold mt-4 text-green-500">
+      <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
         Total Price: {totalPrice}
       </div>
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
@@ -296,15 +307,17 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       <div className="mt-2 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
         <button
           disabled={product.quantity < 1}
+          onClick={openModal}
           type="button"
-          className="inline-flex items-center justify-center border-2 border-transparent border-green-500  text-green-500 rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
+          className="inline-flex items-center justify-center border  border-transparent border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
         >
-          Contact Supplier
+          Send Inquiry
         </button>
+      
         <button
           disabled={product.quantity < 1}
           type="button"
-          className="inline-flex items-center justify-center border-2 border-transparent  bg-green-500 rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold text-white transition-all duration-300 ease-in-out  "
+          className="inline-flex items-center justify-center  border-transparent  bg-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold text-white transition-all duration-300 ease-in-out  "
           onClick={() => addToCartHandler()}
         >
           Add to cart
@@ -335,6 +348,13 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </li>
       </ul>
       <Accordian details={[product.description, ...product.details]} />
+      {isModalOpen && (
+        <div className="fixed z-50 bottom-0 flex right-8  ">
+          <div className="bg-white p-8 rounded-md   shadow-2xl  border">
+            <InquiryForm onClose={closeModal} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

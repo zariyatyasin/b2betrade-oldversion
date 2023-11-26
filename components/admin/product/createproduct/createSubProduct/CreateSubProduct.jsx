@@ -5,7 +5,7 @@ import AddSubProductImage from "./AddSubProductImage";
 import AddSubQty from "./AddSubQty";
 import AddSubProductColor from "./AddSubProductColor";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-const CreateSubProduct = ({ subProducts, setSubProducts }) => {
+const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
 
   const toggleSubProductVisibility = (index) => {
@@ -51,7 +51,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
 
   return (
     <div className=" ">
-      <h2>Add Product</h2>
+  
       {subProducts.map((subProduct, index) => (
         <div key={index}>
           {/* <h3 onClick={() => toggleSubProductVisibility(index)} c>
@@ -101,6 +101,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
              
               {subProduct.sizes.map((size, sizeIndex) => (
                 <AddSubQty
+                samePriceForAll={samePriceForAll}
                   key={sizeIndex}
                   size={size}
                   index={index}
@@ -119,8 +120,8 @@ const CreateSubProduct = ({ subProducts, setSubProducts }) => {
           )}
         </div>
       ))}
-      <Button variant="contained" color="primary" onClick={handleAddSubProduct}>
-        Add Sub Product
+      <Button  className="flex    border"  onClick={handleAddSubProduct}>
+        Add Product
       </Button>
     </div>
   );

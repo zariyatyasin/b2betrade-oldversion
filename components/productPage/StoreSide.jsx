@@ -13,12 +13,12 @@ export default function StoreSide({ store }) {
   };
   return (
     <div className=" mx-auto max-w-md">
-      <div className="bg-white  ounded-md p-4">
+      <div className="   bg-white border rounded-md   p-4">
         <div className="flex justify-center">
           {/* <img
             src={store.image}
             alt=""
-            className="rounded-full w-24 h-24 shadow-md border-4 border-white transform hover:scale-110"
+            className="rounded-full w-24 h-24 shadow-md border-4 border-white transform hover:scale-11ß0"
           /> */}
         </div>
 
@@ -41,13 +41,13 @@ export default function StoreSide({ store }) {
 
         <div className="flex justify-center mt-4">
           <Link href={`/store/${store._id}`}>
-            <button className="py-2 w-32 bg-green-500 text-sm rounded-md border border-green-500 text-white mr-2">
+            <button className="py-2 w-32 bg-[#2B39D1] text-sm rounded-md border border-[#2B39D1] text-white mr-2">
               View Store
             </button>
           </Link>
           <button
             onClick={handleOpenChat}
-            className="py-2 w-32 bg-green-500 text-sm rounded-md border border-green-500 text-white"
+            className="py-2 w-32 bg-[#2B39D1] text-sm rounded-md border border-[#2B39D1] text-white"
           >
             Message
           </button>

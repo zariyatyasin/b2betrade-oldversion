@@ -14,7 +14,7 @@ const ProductMain = ({ product, params }) => {
   const [show2, setShow2] = useState(false);
   return (
     <div>
-      <div className="    flex flex-col justify-center md:justify-normal md:flex-row gap-4  ">
+      <div className="     flex flex-col justify-center md:justify-normal md:flex-row gap-4  ">
         <ProductPageImage images={product?.images} activeImg={activeImg} />
         <ProductInfo
           product={product}

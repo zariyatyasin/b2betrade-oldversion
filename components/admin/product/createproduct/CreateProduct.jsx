@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { Grid, Paper, Typography } from '@mui/material';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Box,
   TextField,
@@ -61,6 +63,44 @@ export default function CreateProduct({ categories }) {
   const [loading, setLoading] = useState(false);
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
+  const [samePriceForAll, setSamePriceForAll] = useState(true);
+  const [editorHtml, setEditorHtml] = useState('');
+
+  const modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+  
+      ['clean'],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+  };
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'link',
+    'image',
+    
+  ];
+  // const handleImageUpload = (file) => {
+  //   const formData = new FormData();
+  //   formData.append('image', file);
+
+  //   // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
+  //   return axios.post('YOUR_UPLOAD_URL', formData).then((response) => {
+  //     // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
+  //     return response.data.url || 'YOUR_CLOUDINARY_URL';
+  //   });
+  // }
   const productType = [
     {
       name: "B2B",
@@ -69,7 +109,7 @@ export default function CreateProduct({ categories }) {
       name: "B2C",
     },
   ];
-
+ 
   const [subProducts, setSubProducts] = useState([]);
   useEffect(() => {
     async function getSubs() {
@@ -96,54 +136,54 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    console.log(subProducts);
+    console.log(product,editorHtml);
 
-    for (const subProduct of subProducts) {
-      const formData = new FormData();
+    // for (const subProduct of subProducts) {
+    //   const formData = new FormData();
 
-      for (const image of subProduct.images) {
-        formData.append("file", image.blob);
-      }
+    //   for (const image of subProduct.images) {
+    //     formData.append("file", image.blob);
+    //   }
 
-      const cloudinaryResponse = await Uploadimages(formData);
+    //   const cloudinaryResponse = await Uploadimages(formData);
 
-      const cloudinaryImages = cloudinaryResponse.map((response) => ({
-        url: response.secure_url,
-        secure_url: response.secure_url,
-        public_id: response.public_id,
-      }));
+    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
+    //     url: response.secure_url,
+    //     secure_url: response.secure_url,
+    //     public_id: response.public_id,
+    //   }));
 
-      if (subProduct.color.image) {
-        const colorFormData = new FormData();
-        colorFormData.append(
-          "file",
-          new File([subProduct.color.image], "color_image.jpg", {
-            type: "image/jpeg",
-          })
-        );
+    //   if (subProduct.color.image) {
+    //     const colorFormData = new FormData();
+    //     colorFormData.append(
+    //       "file",
+    //       new File([subProduct.color.image], "color_image.jpg", {
+    //         type: "image/jpeg",
+    //       })
+    //     );
 
-        const colorImageUpload = await Uploadimages(colorFormData);
-        console.log("this is color", colorImageUpload);
-        subProduct.color.image = colorImageUpload[0].secure_url;
-      }
+    //     const colorImageUpload = await Uploadimages(colorFormData);
+    //     console.log("this is color", colorImageUpload);
+    //     subProduct.color.image = colorImageUpload[0].secure_url;
+    //   }
 
-      updatedSubProducts.push({
-        ...subProduct,
-        images: cloudinaryImages,
-      });
+    //   updatedSubProducts.push({
+    //     ...subProduct,
+    //     images: cloudinaryImages,
+    //   });
 
-      console.log("this is upload", updatedSubProducts);
-    }
+    //   console.log("this is upload", updatedSubProducts);
+    // }
 
-    try {
-      const { data } = await axios.post("/api/admin/product", {
-        ...product,
-        updatedSubProducts,
-      });
-      console.log("Product created successfully:", data);
-    } catch (error) {
-      console.error("Error creating product:", error);
-    }
+    // try {
+    //   const { data } = await axios.post("/api/admin/product", {
+    //     ...product,
+    //     updatedSubProducts,
+    //   });
+    //   console.log("Product created successfully:", data);
+    // } catch (error) {
+    //   console.error("Error creating product:", error);
+    // }
   };
   const validate = Yup.object({
     name: Yup.string()
@@ -191,7 +231,7 @@ export default function CreateProduct({ categories }) {
             />
             </Grid>
          
-        
+           
           
        
           <Grid item xs={12} lg={6}>     <AdminInput
@@ -201,7 +241,8 @@ export default function CreateProduct({ categories }) {
               placholder="Product brand"
               onChange={handleChange}
             /></Grid>
-          <Grid item xs={12} lg={6}>       <AdminInput
+          <Grid item xs={12} lg={6}>      
+           <AdminInput
               type="text"
               label="Sku"
               name="sku"
@@ -216,27 +257,53 @@ export default function CreateProduct({ categories }) {
               placholder="Product discount"
               onChange={handleChange}
             /></Grid>
-               <Grid item xs={12} lg={12}>  <AdminInput
+               {/* <Grid item xs={12} lg={12}>  <AdminInput
               type="text"
               label="Description"
               name="description"
               placholder="Product description"
               onChange={handleChange}
-            /></Grid>
+            /></Grid> */}
+  <InputLabel>Same Price for All Products</InputLabel>
+  <Select
+    value={samePriceForAll}
+    onChange={(e) => setSamePriceForAll(e.target.value)}
+  >
+    <MenuItem value={true}>Yes</MenuItem>
+    <MenuItem value={false}>No</MenuItem>
+  </Select>
+
+
+{
+  samePriceForAll && <Grid item xs={12} lg={12}>      <MaxminPrice
+  bulkPricing={product.bulkPricing}
+  product={product}
+  setProduct={setProduct}
+/></Grid>
+}
        
           <Grid item xs={12} lg={12}>    <CreateSubProduct
+             samePriceForAll={samePriceForAll}
               setSubProducts={setSubProducts}
               subProducts={subProducts}
               setImages={setImages}
               images={images}
             /></Grid>
            
-         
-           <Grid item xs={12} lg={12}>      <MaxminPrice
-              bulkPricing={product.bulkPricing}
-              product={product}
-              setProduct={setProduct}
-            /></Grid>
+           <ReactQuill
+  theme="snow"
+  modules={modules}
+  formats={formats}
+  value={editorHtml}
+  onChange={(value) => {
+    setEditorHtml(value);
+    setProduct({ ...product, description: value });
+  }}
+  placeholder="Type something..."
+  bounds=".app"
+  scrollingContainer=".app"
+/>
+          
            
            <Grid item xs={12} lg={12}>       <Details
               details={product.details}

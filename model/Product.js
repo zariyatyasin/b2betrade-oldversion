@@ -99,6 +99,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "30 days",
     },
+    features: {
+      type: String,
+      default: "30 days",
+    },
     rating: {
       type: Number,
       required: true,
@@ -108,6 +112,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "pending",
       enum: ["pending", "ban", "block", "active"],
+    },
+    discount: {
+      type: Number,
+      default: 0,
     },
     numReviews: {
       type: Number,
@@ -119,11 +127,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    description_images: [],
     subProducts: [
       {
         sku: String,
         images: [],
-        description_images: [],
+
         color: {
           color: {
             type: String,
@@ -139,10 +148,7 @@ const productSchema = new mongoose.Schema(
             price: Number,
           },
         ],
-        discount: {
-          type: Number,
-          default: 0,
-        },
+
         sold: {
           type: Number,
           default: 0,
