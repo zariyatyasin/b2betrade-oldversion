@@ -27,7 +27,6 @@ export default function SingularSelect({
         value={field.value || ""}
         onChange={handleChange}
         error={meta.touched && meta.error ? true : false}
-      
         helperText={meta.touched && meta.error ? meta.error : ""}
       >
         <MenuItem value="">Select an option</MenuItem>

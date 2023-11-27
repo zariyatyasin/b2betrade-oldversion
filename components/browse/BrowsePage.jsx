@@ -33,7 +33,7 @@ export default function BrowsePage({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
+  console.log(products);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   function checkChecked(queryName, value) {
@@ -82,7 +82,7 @@ export default function BrowsePage({
     color,
     pattern,
     material,
-
+    subCategories,
     price,
     shipping,
     rating,
@@ -96,6 +96,9 @@ export default function BrowsePage({
     }
     if (category) {
       currentQuery.set("category", category);
+    }
+    if (subCategories) {
+      currentQuery.set("subCategories", subCategories);
     }
     if (style) {
       currentQuery.set("style", style);
@@ -132,15 +135,16 @@ export default function BrowsePage({
 
     const queryStr = currentQuery.toString();
 
-    console.log("sdfsdf", queryStr);
-
     const newUrl = `${pathname}?${queryStr}`;
-    console.log("tghis is url", newUrl);
+
     router.push(newUrl, { scroll: false });
   };
 
   const categoryHandle = (category) => {
     filterUrl({ category });
+  };
+  const subcategoryHandle = (subCategories) => {
+    filterUrl({ subCategories });
   };
   // const priceHandler = (price, type) => {
   //   let priceQuery = searchParams.get("price")?.split("_") || "";
@@ -338,6 +342,7 @@ export default function BrowsePage({
                       subCategories={subCategories}
                       categoryHandle={categoryHandle}
                       checkChecked={checkChecked}
+                      subcategoryHandle={subcategoryHandle}
                     />
 
                     <Sizes

@@ -8,6 +8,7 @@ export default function CategoryFilter({
   subCategories,
   categoryHandle,
   checkChecked,
+  subcategoryHandle,
 }) {
   const [show, setShow] = useState(true);
   const toggleShow = () => {
@@ -25,6 +26,7 @@ export default function CategoryFilter({
       {show &&
         categories.map((category, i) => (
           <Card
+            subcategoryHandle={subcategoryHandle}
             checkChecked={checkChecked}
             key={i}
             category={category}

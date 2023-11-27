@@ -1,10 +1,10 @@
 import Footer from "../components/Footer/Footer";
 import Example from "../components/Header/Example";
-import MainpageLayout from "../components/layout/MainpageLayout"
+import MainpageLayout from "../components/layout/MainpageLayout";
 import { Header } from "../components/Header/Header";
 import { HeaderPolicy } from "../components/Header/HeaderPolicy";
 import { HeaderAds } from "../components/Header/HeaderAds";
-import  TopNavbar from "../components/Header/TopNavbar";
+import TopNavbar from "../components/Header/TopNavbar";
 import Discount from "../components/home/Discount/Discount";
 import { Categories } from "../components/home/category/Categories";
 import FlashDeals from "../components/home/flashDeals/FlashDeals";
@@ -15,7 +15,7 @@ import Product from "../model/Product";
 import db from "../utils/db";
 import Category from "../model/Category";
 import SubCategory from "../model/SubCategory";
-
+import MobileMenu from "../components/mobile/MobileMenu";
 async function getData({ searchParams }) {
   db.connectDb();
 
@@ -64,6 +64,7 @@ export default async function Home({ searchParams }) {
       </div>
 
       <Footer />
+      <MobileMenu />
     </MainpageLayout>
   );
 }

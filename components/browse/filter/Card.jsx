@@ -5,13 +5,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
-export default function Card({ category, categoryHandle }) {
+export default function Card({
+  category,
+  subCategories,
+  categoryHandle,
+  subcategoryHandle,
+}) {
   const [show, setShow] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const categoryIdFromUrl = searchParams.get("category");
 
   useEffect(() => {
@@ -24,6 +28,7 @@ export default function Card({ category, categoryHandle }) {
 
   const handleCategoryClick = (categoryId) => {
     categoryHandle(categoryId);
+    setShow(!show); // Toggle the visibility of subcategories on category click
   };
 
   return (
@@ -55,6 +60,23 @@ export default function Card({ category, categoryHandle }) {
           </span>
         </div>
       </div>
+      {show && (
+        <div className="ml-4">
+          {subCategories
+            .filter((subCategory) => subCategory.parent._id === category._id)
+            .map((subCategory) => (
+              <div
+                key={subCategory._id}
+                className="ml-4"
+                onClick={() => subcategoryHandle(subCategory._id)}
+              >
+                <label htmlFor={subCategory._id}>
+                  <a className="text-sm">{subCategory.name}</a>
+                </label>
+              </div>
+            ))}
+        </div>
+      )}
     </>
   );
 }

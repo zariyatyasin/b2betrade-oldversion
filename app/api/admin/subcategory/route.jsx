@@ -8,20 +8,20 @@ import SubCategory from "../../../../model/SubCategory";
 import Category from "../../../../model/Category";
 
 export const POST = async (request) => {
-  //   const session = await getCurrentUser();
+  const session = await getCurrentUser();
 
-  // if(!session){
-  //   return NextResponse.json( "you must be login in" ,{
-  //          status: 201,
-  //        })
-  //   }
+  if (!session) {
+    return NextResponse.json("you must be login in", {
+      status: 201,
+    });
+  }
 
   try {
     db.connectDb();
 
     const { name, parent } = await request.json();
-    console.log(name);
-    const exists = await SubCategory.findOne({ name });
+    const slugs = slugify(name);
+    const exists = await SubCategory.find({ slug: slugs });
     if (exists) {
       return NextResponse.json(
         {

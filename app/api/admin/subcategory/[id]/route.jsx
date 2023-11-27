@@ -46,11 +46,9 @@ export const GET = async (request, { params }) => {
     const { id } = params;
 
     if (id === "undefined") {
-      console.log("meow");
       return NextResponse.json([], { status: 200 });
     }
-
-    console.log(id);
+    console.log(typeof id);
     const results = await SubCategory.find({ parent: id }).select("name");
     return NextResponse.json(results, {
       status: 200,

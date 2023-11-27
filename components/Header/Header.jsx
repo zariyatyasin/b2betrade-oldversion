@@ -3,33 +3,28 @@ import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import Usermenu from "./Usermenu";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import Example from "./Example";
-import {Button} from "../ui/button"
+import { Button } from "../ui/button";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Nav from "../Header/Nav"
+import Nav from "../Header/Nav";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
+import FolderIcon from "@mui/icons-material/Folder";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import FolderIcon from '@mui/icons-material/Folder';
- 
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 const publishingOptions = [
   {
     title: "B2B+B2C",
@@ -52,7 +47,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Header = ({   categories, subCategories,}) => {
+export const Header = ({ categories, subCategories }) => {
   const session = useSession();
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
@@ -65,25 +60,12 @@ export const Header = ({   categories, subCategories,}) => {
     setOpen(true);
   };
 
-  const [value, setValue] = React.useState("");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-
-    if (newValue === 'profile') {
-      // Navigate to the profile page
-      router.push('/profile');
-    }
-  };
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const handleSearch = (e) => {
     e.preventDefault();
 
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
-   console.log("hewo");
+      console.log("hewo");
       // Modify the search parameter
       router.push(`/browse?search=${quary}`);
 
@@ -128,14 +110,13 @@ export const Header = ({   categories, subCategories,}) => {
 
   return (
     <div className=" bg-white  ">
- 
       <div className="flex items-center justify-between h-16 py-6  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
-        
         <Link
           href="/"
           className="inline-block focus:outline-none text-gray-950 font-bold text-xl md:text-3xl max-w-[131px] "
         >
-          B2B<span className=" text-[#2B39D1] text-2xl lg:text-3xl">eTrade</span>
+          B2B
+          <span className=" text-[#2B39D1] text-2xl lg:text-3xl">eTrade</span>
         </Link>
 
         <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
@@ -310,16 +291,6 @@ export const Header = ({   categories, subCategories,}) => {
         </div>
       </div>
       <Example categories={categories} subCategories={subCategories} />
-
-      {isMobile && (
-        <BottomNavigation className="fixed bottom-0 left-0 right-0 border bg-white" sx={{ zIndex: 1000 }} value={value} onChange={handleChange}>
-          HomeOutlinedIcon
-          <BottomNavigationAction label="Home" value="recents" icon={<HomeOutlinedIcon />} />
-          <BottomNavigationAction label="Menu" value="favorites" icon={<CategoryOutlinedIcon />} />
-          <BottomNavigationAction label="Nearby" value="nearby" icon={<FavoriteBorderOutlinedIcon />} />
-          <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleOutlinedIcon />} />
-        </BottomNavigation>
-      )}
     </div>
   );
 };

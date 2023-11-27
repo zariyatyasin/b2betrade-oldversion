@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import { Grid, Paper, Typography } from '@mui/material';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Grid, Paper, Typography } from "@mui/material";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   Box,
   TextField,
@@ -64,15 +64,15 @@ export default function CreateProduct({ categories }) {
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
   const [samePriceForAll, setSamePriceForAll] = useState(true);
-  const [editorHtml, setEditorHtml] = useState('');
+  const [editorHtml, setEditorHtml] = useState("");
 
   const modules = {
     toolbar: [
-      [{ header: '1' }, { header: '2' }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-  
-      ['clean'],
+      [{ header: "1" }, { header: "2" }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+
+      ["clean"],
     ],
     clipboard: {
       matchVisual: false,
@@ -80,16 +80,15 @@ export default function CreateProduct({ categories }) {
   };
 
   const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'list',
-    'bullet',
-    'link',
-    'image',
-    
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "link",
+    "image",
   ];
   // const handleImageUpload = (file) => {
   //   const formData = new FormData();
@@ -109,7 +108,7 @@ export default function CreateProduct({ categories }) {
       name: "B2C",
     },
   ];
- 
+
   const [subProducts, setSubProducts] = useState([]);
   useEffect(() => {
     async function getSubs() {
@@ -122,7 +121,7 @@ export default function CreateProduct({ categories }) {
           setSubs(data);
         } catch (error) {
           console.error("Error fetching subcategories:", error);
-        }finally {
+        } finally {
           setLoading(false); // Stop loading
         }
       }
@@ -136,7 +135,7 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    console.log(product,editorHtml);
+    console.log(product, editorHtml);
 
     // for (const subProduct of subProducts) {
     //   const formData = new FormData();
@@ -206,163 +205,178 @@ export default function CreateProduct({ categories }) {
       >
         {(formik) => (
           <Form className=" ">
-
-
-            <h1 className="font-semibold tracking-tight text-2xl">Create Product</h1>
+            <h1 className="font-semibold tracking-tight text-2xl">
+              Create Product
+            </h1>
             <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
-            <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
-            
-          <Paper className="p-4">  <Grid container spacing={2}>
-            <Grid item xs={12} lg={12}>   <AdminInput
-              type="text"
-              label="Name"
-              name="name"
-              placholder="Product name"
-              onChange={handleChange}
-            /></Grid>
-            <Grid item xs={12} lg={6}>
-            <SingularSelect
-              name="Product Type"
-              value={product.productType}  
-              placeholder="Product Type"
-              data={productType}  
-              header="Select Product Type"
-              handleChange={handleChange}
-            />
-            </Grid>
-         
-           
-          
-       
-          <Grid item xs={12} lg={6}>     <AdminInput
-              type="text"
-              label="Brand"
-              name="brand"
-              placholder="Product brand"
-              onChange={handleChange}
-            /></Grid>
-          <Grid item xs={12} lg={6}>      
-           <AdminInput
-              type="text"
-              label="Sku"
-              name="sku"
-              placholder="Product sku/ number"
-              onChange={handleChange}
-            /></Grid>
-           
-          <Grid item xs={12} lg={6}>        <AdminInput
-              type="text"
-              label="Discount"
-              name="discount"
-              placholder="Product discount"
-              onChange={handleChange}
+              <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
+                <Paper className="p-4">
+                  {" "}
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} lg={12}>
+                      {" "}
+                      <AdminInput
+                        type="text"
+                        label="Name"
+                        name="name"
+                        placholder="Product name"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <SingularSelect
+                        name="Product Type"
+                        value={product.productType}
+                        placeholder="Product Type"
+                        data={productType}
+                        header="Select Product Type"
+                        handleChange={handleChange}
+                      />
+                    </Grid>
 
-            /></Grid>
-               {/* <Grid item xs={12} lg={12}>  <AdminInput
+                    <Grid item xs={12} lg={6}>
+                      {" "}
+                      <AdminInput
+                        type="text"
+                        label="Brand"
+                        name="brand"
+                        placholder="Product brand"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <AdminInput
+                        type="text"
+                        label="Sku"
+                        name="sku"
+                        placholder="Product sku/ number"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} lg={6}>
+                      {" "}
+                      <AdminInput
+                        type="text"
+                        label="Discount"
+                        name="discount"
+                        placholder="Product discount"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    {/* <Grid item xs={12} lg={12}>  <AdminInput
               type="text"
               label="Description"
               name="description"
               placholder="Product description"
               onChange={handleChange}
             /></Grid> */}
-            <Grid item xs={12} lg={12}>
-            <ReactQuill
-  theme="snow"
-  modules={modules}
-  style={{ height: '200px', paddingBottom:"30px" }}
-  formats={formats}
-  value={editorHtml}
-  onChange={(value) => {
-    setEditorHtml(value);
-    setProduct({ ...product, description: value });
-  }}
-  placeholder="Type something..."
-  bounds=".app"
-  scrollingContainer=".app"
-/>
-            </Grid>
-                   
-  <Grid item xs={12} lg={12}>
-  <InputLabel>Same Price for All Products</InputLabel>
-  <Select
-    value={samePriceForAll}
-    onChange={(e) => setSamePriceForAll(e.target.value)}
-  >
-    <MenuItem value={true}>Yes</MenuItem>
-    <MenuItem value={false}>No</MenuItem>
-  </Select>
-  </Grid>
+                    <Grid item xs={12} lg={12}>
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        style={{ height: "200px", paddingBottom: "30px" }}
+                        formats={formats}
+                        value={editorHtml}
+                        onChange={(value) => {
+                          setEditorHtml(value);
+                          setProduct({ ...product, description: value });
+                        }}
+                        placeholder="Type something..."
+                        bounds=".app"
+                        scrollingContainer=".app"
+                      />
+                    </Grid>
 
+                    <Grid item xs={12} lg={12}>
+                      <InputLabel>Same Price for All Products</InputLabel>
+                      <Select
+                        value={samePriceForAll}
+                        onChange={(e) => setSamePriceForAll(e.target.value)}
+                      >
+                        <MenuItem value={true}>Yes</MenuItem>
+                        <MenuItem value={false}>No</MenuItem>
+                      </Select>
+                    </Grid>
 
-{
-  samePriceForAll && <Grid item xs={12} lg={12}>      <MaxminPrice
-  bulkPricing={product.bulkPricing}
-  product={product}
-  setProduct={setProduct}
-/></Grid>
-}
-       
-          <Grid item xs={12} lg={12}>    <CreateSubProduct
-             samePriceForAll={samePriceForAll}
-              setSubProducts={setSubProducts}
-              subProducts={subProducts}
-              setImages={setImages}
-              images={images}
-            /></Grid>
-           
+                    {samePriceForAll && (
+                      <Grid item xs={12} lg={12}>
+                        {" "}
+                        <MaxminPrice
+                          bulkPricing={product.bulkPricing}
+                          product={product}
+                          setProduct={setProduct}
+                        />
+                      </Grid>
+                    )}
 
-          
-           
-           <Grid item xs={12} lg={12}>       <Details
-              details={product.details}
-              product={product}
-              setProduct={setProduct}
-            /></Grid>
-           
-           <Grid item xs={12} lg={12}>        <Questions
-              questions={product.questions}
-              product={product}
-              setProduct={setProduct}
-            /></Grid>
-           
+                    <Grid item xs={12} lg={12}>
+                      {" "}
+                      <CreateSubProduct
+                        samePriceForAll={samePriceForAll}
+                        setSubProducts={setSubProducts}
+                        subProducts={subProducts}
+                        setImages={setImages}
+                        images={images}
+                      />
+                    </Grid>
 
+                    <Grid item xs={12} lg={12}>
+                      {" "}
+                      <Details
+                        details={product.details}
+                        product={product}
+                        setProduct={setProduct}
+                      />
+                    </Grid>
 
-         
-           
-            </Grid></Paper>
+                    <Grid item xs={12} lg={12}>
+                      {" "}
+                      <Questions
+                        questions={product.questions}
+                        product={product}
+                        setProduct={setProduct}
+                      />
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </div>
+
+              <section
+                aria-labelledby="timeline-title"
+                className="lg:col-start-3 lg:col-span-1"
+              >
+                <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+                  <Grid item xs={12} lg={6}>
+                    {" "}
+                    <SingularSelect
+                      name="category"
+                      value={product.category}
+                      placeholder="Category"
+                      data={categories}
+                      header="Select a Category"
+                      handleChange={handleChange}
+                      disabled={product.parent}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} lg={6}>
+                    {" "}
+                    {
+                      <MultipleSelect
+                        value={product.subCategories}
+                        data={subs}
+                        header="Select SubCategories"
+                        name="subCategories"
+                        disabled={product.parent}
+                        handleChange={handleChange}
+                      />
+                    }{" "}
+                  </Grid>
+                </div>
+              </section>
             </div>
 
-            <section
-              aria-labelledby="timeline-title"
-              className="lg:col-start-3 lg:col-span-1"
-            >
-              <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-              <Grid item xs={12} lg={6}>     <SingularSelect
-              name="category"
-              value={product.category}
-              placeholder="Category"
-              data={categories}
-              header="Select a Category"
-              handleChange={handleChange}
-              disabled={product.parent}
-            /></Grid>
-           
-       
-           <Grid item xs={12} lg={6}> {  (
-              <MultipleSelect
-                value={product.subCategories}
-                data={subs}
-                header="Select SubCategories"
-                name="subCategories"
-                disabled={product.parent}
-                handleChange={handleChange}
-              />
-            )}  </Grid>
-              </div>
-            </section>
-          </div>
-          
-          
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>

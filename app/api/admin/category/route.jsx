@@ -18,10 +18,10 @@ export const POST = async (request) => {
     db.connectDb();
 
     const { name } = await request.json();
+    const slugs = slugify(name);
+    const exists = await Category.find({ slug: slugs });
 
-    console.log("this is", name);
-
-    const exists = await Category.findOne({ name });
+    console.log("this is ex", exists);
     if (exists) {
       return NextResponse.json(
         "This Category name already exists, try with a different name",

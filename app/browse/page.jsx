@@ -20,6 +20,7 @@ async function getData({ params, searchParams }) {
   db.connectDb();
   const searchQuery = searchParams.search || "";
   const categoryQuery = searchParams.category || "";
+  const subcategoryQuery = searchParams.subCategories || "";
 
   //style
 
@@ -73,6 +74,10 @@ async function getData({ params, searchParams }) {
       : {};
   const category =
     categoryQuery && categoryQuery !== "" ? { category: categoryQuery } : {};
+  const subCategories =
+    subcategoryQuery && subcategoryQuery !== ""
+      ? { subCategories: subcategoryQuery }
+      : {};
 
   const style =
     styleQuery && styleQuery !== ""
@@ -165,6 +170,7 @@ async function getData({ params, searchParams }) {
   let productsDb = await Product.find({
     ...search,
     ...category,
+    ...subCategories,
     ...brand,
     ...style,
     ...size,
@@ -183,19 +189,23 @@ async function getData({ params, searchParams }) {
   let products =
     sortQuery && sortQuery !== "" ? productsDb : randomize(productsDb);
   let categories = await Category.find().lean();
-  let subCategories = await SubCategory.find().populate({
+  let subCategory = await SubCategory.find().populate({
     path: "parent",
     model: Category,
   });
 
-  let sizes = await Product.find({ ...category }).distinct(
+  let sizes = await Product.find({ ...category, ...subCategories }).distinct(
     "subProducts.sizes.size"
   );
-  let colors = await Product.find({ ...category }).distinct(
+  let colors = await Product.find({ ...category, ...subCategories }).distinct(
     "subProducts.color.color"
   );
-  let brandsDb = await Product.find({ ...category }).distinct("brand");
-  let details = await Product.find({ ...category }).distinct("details");
+  let brandsDb = await Product.find({ ...category, ...subCategories }).distinct(
+    "brand"
+  );
+  let details = await Product.find({ ...category, ...subCategories }).distinct(
+    "details"
+  );
   let stylesDb = filterArray(details, "Style");
   let patternsDb = filterArray(details, "Pattern Type");
   let materialsDb = filterArray(details, "Material");
@@ -206,6 +216,7 @@ async function getData({ params, searchParams }) {
   let totalProducts = await Product.countDocuments({
     ...search,
     ...category,
+    ...subCategories,
     ...brand,
     ...style,
     ...size,
@@ -221,7 +232,7 @@ async function getData({ params, searchParams }) {
   return {
     categories: JSON.parse(JSON.stringify(categories)),
     products: JSON.parse(JSON.stringify(products)),
-    subCategories: JSON.parse(JSON.stringify(subCategories)),
+    subCategories: JSON.parse(JSON.stringify(subCategory)),
     sizes: JSON.parse(JSON.stringify(sizes)),
     colors: JSON.parse(JSON.stringify(colors)),
     brands: JSON.parse(JSON.stringify(brands)),
@@ -251,7 +262,6 @@ export default async function page({ searchParams }) {
 
   return (
     <MainpageLayout>
-     
       <BrowsePage
         patterns={patterns}
         materials={materials}
