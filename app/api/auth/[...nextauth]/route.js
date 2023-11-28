@@ -14,17 +14,17 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    
+
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
         await db.connectDb();
         const password = credentials.password;
-        const email = credentials.email;
+        const phoneNumber = credentials.phoneNumber;
 
         try {
-          const user = await User.findOne({ email });
+          const user = await User.findOne({ phoneNumber });
 
           if (user) {
             return SignInUser({ password, user });
@@ -41,7 +41,7 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }) {
       let user = await User.findById(token.sub);
-      session.user.id = token.sub || user._id.toString(); // Fixed typo 'toSting' to 'toString'
+      session.user.id = token.sub || user._id.toString();
       session.user.role = user.role || "user";
       token.role = user.role || "user";
       return session;

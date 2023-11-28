@@ -16,8 +16,8 @@ import { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Navigation } from "../../data/Navigation";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
-function MobileMenu() {
+import MobileCategory from "./MobileCategory";
+function MobileMenu({ categories, subCategories }) {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -33,6 +33,9 @@ function MobileMenu() {
     }
     if (newValue === "category") {
       setOpen(!open);
+    }
+    if (newValue === "category" && !open) {
+      setValue("");
     }
   };
   function classNames(...classes) {
@@ -79,11 +82,11 @@ function MobileMenu() {
                 </button>
               </div>
 
-              {/* Links mobile*/}
-              <Tab.Group as="div" className="mt-2 ">
+              {/*            
+              <Tab.Group as="div" className="mt-2">
                 <div className="border-b border-gray-200">
-                  <Tab.List className="-mb-px flex px-4 space-x-8  ">
-                    {Navigation.categories.map((category) => (
+                  <Tab.List className="-mb-px flex px-4 space-x-8">
+                    {categories.map((category) => (
                       <Tab
                         key={category.name}
                         className={({ selected }) =>
@@ -101,70 +104,35 @@ function MobileMenu() {
                   </Tab.List>
                 </div>
                 <Tab.Panels as={Fragment}>
-                  {Navigation.categories.map((category) => (
+                  {subCategories.map((subCategory) => (
                     <Tab.Panel
-                      key={category.name}
-                      className="pt-10 pb-8 px-4 space-y-10 "
+                      key={subCategory.name}
+                      className="pt-10 pb-8 px-4 space-y-10"
                     >
                       <div className="grid grid-cols-2 gap-x-4">
-                        {category.featured.map((item) => (
-                          <div
-                            key={item.name}
-                            className="group relative text-sm"
-                          >
-                            <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
-                              <img
-                                src={item.imageSrc}
-                                alt={item.imageAlt}
-                                className="object-center object-cover"
-                              />
+                        {categories
+                          .filter(
+                            (filteredCategory) =>
+                              filteredCategory.parent &&  
+                              filteredCategory.parent._id === subCategory._id
+                          )
+                          .map((filteredSubCategory) => (
+                            <div key={filteredSubCategory.name}>
+                          
+                              {filteredSubCategory.name}
                             </div>
-                            <a
-                              href={item.href}
-                              className="mt-6 block font-medium text-gray-900"
-                            >
-                              <span
-                                className="absolute z-10 inset-0"
-                                aria-hidden="true"
-                              />
-                              {item.name}
-                            </a>
-                            <p aria-hidden="true" className="mt-1">
-                              Shop now
-                            </p>
-                          </div>
-                        ))}
+                          ))}
                       </div>
-                      {category.sections.map((section) => (
-                        <div key={section.name}>
-                          <p
-                            id={`${category.id}-${section.id}-heading-mobile`}
-                            className="font-medium text-gray-900  "
-                          >
-                            {section.name}
-                          </p>
-                          <ul
-                            role="list"
-                            aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                            className="mt-6 flex flex-col space-y-6"
-                          >
-                            {section.items.map((item) => (
-                              <li key={item.name} className="flow-root">
-                                <a
-                                  href={item.href}
-                                  className="-m-2 p-2 block text-gray-500"
-                                >
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
                     </Tab.Panel>
                   ))}
                 </Tab.Panels>
-              </Tab.Group>
+              </Tab.Group> */}
+              {categories.map((category, i) => (
+                <MobileCategory
+                  category={category}
+                  subCategories={subCategories}
+                />
+              ))}
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 {Navigation.pages.map((page) => (
@@ -203,9 +171,10 @@ function MobileMenu() {
       </Transition.Root>
       {isMobile && (
         <BottomNavigation
-          className="fixed z-50 bottom-0 left-0 right-0 border bg-white"
-          sx={{ zIndex: 1000 }}
+          className="fixed bottom-0 left-0 right-0 border bg-white"
+          sx={{ zIndex: 10 }}
           value={value}
+          showLabels
           onChange={handleChange}
         >
           <BottomNavigationAction

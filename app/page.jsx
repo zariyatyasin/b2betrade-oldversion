@@ -64,7 +64,7 @@ export default async function Home({ searchParams }) {
       </div>
 
       <Footer />
-      <MobileMenu />
+      <MobileMenu categories={categories} subCategories={subCategories} />
     </MainpageLayout>
   );
 }

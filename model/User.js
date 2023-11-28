@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
 
- 
 const { ObjectId } = mongoose.Schema;
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      
     },
     email: {
       type: String,
-       
+
       trim: true,
       unique: true,
     },
     phoneNumber: {
       type: String,
-  
+      unique: true,
     },
     password: {
       type: String,
@@ -25,14 +23,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: [
-        "admin",
-        "supplier",
-         "manufacturer",
-        "seller",
-        "user",
-        
-      ],
+      enum: ["admin", "supplier", "manufacturer", "seller", "user"],
     },
     image: {
       type: String,
@@ -43,7 +34,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-   
+
     defaultPaymentMethod: {
       type: String,
       default: "",
@@ -53,7 +44,7 @@ const userSchema = new mongoose.Schema(
         fullName: {
           type: String,
         },
-      
+
         phoneNumber: {
           type: String,
         },
@@ -99,8 +90,6 @@ const userSchema = new mongoose.Schema(
 );
 
 //If the User collection does not exist create a new one.
- 
-
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
