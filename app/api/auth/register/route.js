@@ -8,8 +8,8 @@ export async function POST(request) {
   try {
     await db.connectDb();
     const { phoneNumber, password } = await request.json();
-
-    if (!phoneNumber) {
+    console.log(phoneNumber);
+    if (!phoneNumber || !password) {
       return NextResponse.json(
         { message: "Please fill all the fields" },
         {
@@ -18,26 +18,34 @@ export async function POST(request) {
       );
     }
 
-    console.log(phoneNumber);
-
     const user = await User.findOne({ phoneNumber });
-
     if (user) {
       return NextResponse.json(
-        { message: "User exists & Please Enter your Password", type: "login" },
+        { message: "This phone number already exsits." },
         {
-          status: 200,
+          status: 400,
         }
       );
     }
-    if (!user) {
+    if (password.length < 6) {
       return NextResponse.json(
-        { message: "Please Register", type: "register" },
+        { message: "Password must be atleast 6 characters." },
         {
-          status: 200,
+          status: 400,
         }
       );
     }
+    const cryptedPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({ phoneNumber, password: cryptedPassword });
+    const addedUser = await newUser.save();
+
+    const activation_token = createActivationToken({
+      id: addedUser._id.toString(),
+    });
+
+    const url = `${process.env.BASE_URL}/activate/${activation_token}`;
+
+    // sendEmail(email,url,"","Activate your account");
 
     await db.disconnectDb();
 

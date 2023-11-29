@@ -25,7 +25,8 @@ const page = () => {
   const [error, setError] = useState(null);
   const [providers, setProviders] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [password, setpassword] = useState();
   useEffect(() => {
     if (session.status === "authenticated") {
       const callbackUrl = params.get("callbackUrl");
@@ -42,24 +43,72 @@ const page = () => {
       setProviders(res);
     })();
   }, []);
+  const loginHandle = async (values, callbackUrl) => {
+    const { phoneNumber, password } = values;
+    let options = {
+      redirect: false,
+      phoneNumber: phoneNumber,
+      password: password,
+    };
+    try {
+      const result = await signIn("credentials", options);
+      if (result?.error) {
+        console.log(result.error);
+      } else {
+        console.log("User signed in successfully!");
+
+        return result;
+      }
+    } catch (error) {
+      console.log(error.message || "An error occurred during sign-in.");
+    }
+  };
+
+  const registerHandle = async (values) => {
+    const { phoneNumber, password } = values;
+
+    try {
+      const res = await fetch("api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phoneNumber,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        console.log(data.message);
+      }
+      let options = {
+        redirect: false,
+        phoneNumber: phoneNumber,
+        password: password,
+      };
+      await signIn("credentials", options);
+
+      const data = await res.json();
+
+      return data;
+    } catch (error) {
+      console.log(error.message || "An error occurred during registration.");
+    }
+  };
 
   const handleSubmit = async (values) => {
     const { phoneNumber, password } = values;
 
     try {
-      const response = await axios.post("/api/auth/register", {
+      const response = await axios.post("/api/auth/register/exsituser", {
         phoneNumber,
       });
       console.log(response);
       if (response.data.type === "login") {
         setIsRegistering(true);
         setSuccess(response.data.message);
-        let options = {
-          redirect: false,
-          phone: phoneNumber,
-          password: password,
-        };
-        await signIn("credentials", options);
       } else if (response.data.type === "register") {
         setIsRegistering(false);
         setSuccess(response.data.message);
@@ -70,7 +119,7 @@ const page = () => {
       setError(error.message);
     }
   };
-  console.log(isRegistering);
+
   return (
     <div>
       <Header />
@@ -90,7 +139,13 @@ const page = () => {
                 password: "", // Add new field for password
               }}
               validationSchema={validationSchema}
-              onSubmit={handleSubmit}
+              onSubmit={(values) => {
+                if (isRegistering === null) {
+                  handleSubmit(values);
+                } else {
+                  isRegistering ? loginHandle(values) : registerHandle(values);
+                }
+              }}
               enableReinitialize
               validateOnChange
             >
