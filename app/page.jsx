@@ -56,10 +56,10 @@ export default async function Home({ searchParams }) {
 
       <div className=" max-w-[1600px]  mx-auto">
         <Main />
-        <Categories />
+        {/* <Categories />
         <FlashDeals />
         <Discount />
-        <Tabs />
+        <Tabs /> */}
         <NewProducts products={products} />
       </div>
 

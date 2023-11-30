@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import { Box } from "@mui/material";
-import {Button} from "../../../../ui/button"
+import { Button } from "../../../../ui/button";
 import AddSubProductImage from "./AddSubProductImage";
 import AddSubQty from "./AddSubQty";
 import AddSubProductColor from "./AddSubProductColor";
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+const CreateSubProduct = ({ subProducts, setSubProducts, samePriceForAll }) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
 
   const toggleSubProductVisibility = (index) => {
@@ -21,7 +21,19 @@ const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
       images: [],
       description_images: [],
       color: { color: "", image: "" },
-      sizes: [],
+      sizes: [
+        {
+          size: "",
+          qty: 0,
+          bulkPricing: [
+            {
+              minQty: 0,
+              maxQty: 0,
+              price: 0,
+            },
+          ],
+        },
+      ],
       discount: 0,
       sold: 0,
     };
@@ -51,7 +63,6 @@ const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
 
   return (
     <div className=" ">
-  
       {subProducts.map((subProduct, index) => (
         <div key={index}>
           {/* <h3 onClick={() => toggleSubProductVisibility(index)} c>
@@ -61,7 +72,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
             Product {index + 1}
           </h3> */}
           {subProductVisibility[index] && (
-            <Box key={index} className="border  rounded-md shadow p-2"  >
+            <Box key={index} className="border  rounded-md shadow p-2">
               {/* <Button
                 variant="contained"
                 color="primary"
@@ -73,35 +84,36 @@ const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
               >
                 Toggle Visibility
               </Button> */}
-      
 
-<div className="   flex justify-between items-center">
-<h3 className="font-semibold leading-none tracking-tight py-2"> Product {index + 1}</h3>
-  <HighlightOffOutlinedIcon
-    variant="contained"
-    color="error"
-    onClick={() => handleRemoveSubProduct(index)}
-  />
-            </div>
-            
-            <AddSubProductImage
+              <div className="   flex justify-between items-center">
+                <h3 className="font-semibold leading-none tracking-tight py-2">
+                  {" "}
+                  Product {index + 1}
+                </h3>
+                <HighlightOffOutlinedIcon
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleRemoveSubProduct(index)}
+                />
+              </div>
+
+              <AddSubProductImage
                 index={index}
                 subProducts={subProducts}
                 setSubProducts={setSubProducts}
               />
-                <Button
-                  className="flex bg-white text-gray-950 border"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleAddSize(index)}
-                >
-                  Add Size
-                </Button>
-          
-             
+              <Button
+                className="flex bg-white text-gray-950 border"
+                variant="contained"
+                color="primary"
+                onClick={() => handleAddSize(index)}
+              >
+                Add Size
+              </Button>
+
               {subProduct.sizes.map((size, sizeIndex) => (
                 <AddSubQty
-                samePriceForAll={samePriceForAll}
+                  samePriceForAll={samePriceForAll}
                   key={sizeIndex}
                   size={size}
                   index={index}
@@ -120,7 +132,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts,samePriceForAll }) => {
           )}
         </div>
       ))}
-      <Button  className="flex    border"  onClick={handleAddSubProduct}>
+      <Button className="flex    border" onClick={handleAddSubProduct}>
         Add Product
       </Button>
     </div>

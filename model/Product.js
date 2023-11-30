@@ -145,7 +145,13 @@ const productSchema = new mongoose.Schema(
           {
             size: String,
             qty: Number,
-            price: Number,
+            bulkPricing: [
+              {
+                minQty: Number,
+                maxQty: Number,
+                price: Number,
+              },
+            ],
           },
         ],
 

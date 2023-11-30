@@ -135,7 +135,7 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    console.log(product, editorHtml);
+    console.log(subProducts);
 
     // for (const subProduct of subProducts) {
     //   const formData = new FormData();
@@ -301,7 +301,6 @@ export default function CreateProduct({ categories }) {
 
                     {samePriceForAll && (
                       <Grid item xs={12} lg={12}>
-                        {" "}
                         <MaxminPrice
                           bulkPricing={product.bulkPricing}
                           product={product}
@@ -313,6 +312,8 @@ export default function CreateProduct({ categories }) {
                     <Grid item xs={12} lg={12}>
                       {" "}
                       <CreateSubProduct
+                        bulkPricing={product.bulkPricing}
+                        product={product}
                         samePriceForAll={samePriceForAll}
                         setSubProducts={setSubProducts}
                         subProducts={subProducts}

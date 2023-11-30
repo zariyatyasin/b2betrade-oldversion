@@ -87,7 +87,12 @@ export default function Example({ categories, subCategories }) {
                         onMouseEnter={() => setSelectedCategory(category._id)}
                       >
                         <div className="ml-4">
-                          <p className="text-gray-900">{category.name}</p>
+                          <Link
+                            href={`/browse?category=${category._id}`}
+                            className="text-gray-900"
+                          >
+                            {category.name}
+                          </Link>
                         </div>
                         <div>
                           <ArrowForwardIosOutlinedIcon sx={{ fontSize: 14 }} />
@@ -106,9 +111,12 @@ export default function Example({ categories, subCategories }) {
                           subCategory.parent._id === selectedCategory && (
                             <ul key={subCategory.name} className="pl-4  ">
                               <li className=" p-4">
-                                <p className="text-gray-700 hover:font-bold">
+                                <Link
+                                  href={`/browse?category=${selectedCategory}&subCategories=${subCategory._id}`}
+                                  className="text-gray-700 hover:font-bold"
+                                >
                                   {subCategory.name}
-                                </p>
+                                </Link>
                               </li>
                             </ul>
                           )
