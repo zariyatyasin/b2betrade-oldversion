@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
 import React, { useState } from "react";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { Input } from "../../../../ui/input";
 import { Button } from "../../../../ui/button";
+import { Delete, Add } from "@mui/icons-material";
 
 export default function AddSubQty({
   size,
@@ -25,7 +25,18 @@ export default function AddSubQty({
     updatedSubProducts[subProductIndex].sizes[sizeIndex][field] = value;
     setSubProducts(updatedSubProducts);
   };
-
+  const handleRemoveBulkPricing = (
+    subProductIndex,
+    sizeIndex,
+    pricingIndex
+  ) => {
+    const updatedSubProducts = [...subProducts];
+    updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.splice(
+      pricingIndex,
+      1
+    );
+    setSubProducts(updatedSubProducts);
+  };
   const handleBulkPricingChange = (
     subProductIndex,
     sizeIndex,
@@ -39,12 +50,28 @@ export default function AddSubQty({
     ][field] = value;
     setSubProducts(updatedSubProducts);
   };
+  const maxBulkPricingEntries = 4; // Set the maximum number of bulk pricing entries
+
+  const handleAddBulkPricing = (subProductIndex, sizeIndex) => {
+    const updatedSubProducts = [...subProducts];
+    const bulkPricingCount =
+      updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.length;
+
+    if (bulkPricingCount < maxBulkPricingEntries) {
+      updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.push({
+        minQty: 0,
+        maxQty: 0,
+        price: 0,
+      });
+      setSubProducts(updatedSubProducts);
+    }
+  };
 
   return (
     <div className=" border py-8 p-4 mt-8" key={sizeIndex}>
-      <div className="flex  items-end justify-end ">
+      <div className="flex items-end justify-end ">
         <Button
-          className="flex  items-end justify-end bg-white text-gray-950 border"
+          className="flex items-end justify-end bg-white text-gray-950 border"
           variant="contained"
           color="primary"
           onClick={() => setNoSize((prev) => !prev)}
@@ -56,7 +83,7 @@ export default function AddSubQty({
       </div>
 
       <h4>QTY {sizeIndex + 1}</h4>
-      <div className=" flex gap-4 items-center">
+      <div className="flex gap-4 items-center">
         {noSize && (
           <div>
             <label>Size</label>
@@ -87,76 +114,77 @@ export default function AddSubQty({
         </div>
         {!samePriceForAll && (
           <div>
-            <label>Price</label>
-            <Input
-              type="number"
-              value={size.price}
-              onChange={(e) =>
-                handleSizeChange(
-                  index,
-                  sizeIndex,
-                  "price",
-                  parseFloat(e.target.value)
-                )
-              }
-            />
+            {size.bulkPricing.map((pricing, pricingIndex) => (
+              <div key={pricingIndex}>
+                <label>Bulk Pricing</label>
+                <div>
+                  <label>Min Qty</label>
+                  <Input
+                    type="number"
+                    value={pricing.minQty}
+                    onChange={(e) =>
+                      handleBulkPricingChange(
+                        index,
+                        sizeIndex,
+                        pricingIndex,
+                        "minQty",
+                        parseInt(e.target.value)
+                      )
+                    }
+                  />
+                </div>
+                <div>
+                  <label>Max Qty</label>
+                  <Input
+                    type="number"
+                    value={pricing.maxQty}
+                    onChange={(e) =>
+                      handleBulkPricingChange(
+                        index,
+                        sizeIndex,
+                        pricingIndex,
+                        "maxQty",
+                        parseInt(e.target.value)
+                      )
+                    }
+                  />
+                </div>
+                <div>
+                  <label>Price</label>
+                  <Input
+                    type="number"
+                    value={pricing.price}
+                    onChange={(e) =>
+                      handleBulkPricingChange(
+                        index,
+                        sizeIndex,
+                        pricingIndex,
+                        "price",
+                        parseFloat(e.target.value)
+                      )
+                    }
+                  />
+                </div>
+                <Button
+                  startIcon={<Delete />}
+                  onClick={() =>
+                    handleRemoveBulkPricing(index, sizeIndex, pricingIndex)
+                  }
+                >
+                  Remove Bulk Pricing
+                </Button>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* Bulk Pricing */}
-        {size.bulkPricing.map((pricing, pricingIndex) => (
-          <div key={pricingIndex}>
-            <label>Bulk Pricing</label>
-            <div>
-              <label>Min Qty</label>
-              <Input
-                type="number"
-                value={pricing.minQty}
-                onChange={(e) =>
-                  handleBulkPricingChange(
-                    index,
-                    sizeIndex,
-                    pricingIndex,
-                    "minQty",
-                    parseInt(e.target.value)
-                  )
-                }
-              />
-            </div>
-            <div>
-              <label>Max Qty</label>
-              <Input
-                type="number"
-                value={pricing.maxQty}
-                onChange={(e) =>
-                  handleBulkPricingChange(
-                    index,
-                    sizeIndex,
-                    pricingIndex,
-                    "maxQty",
-                    parseInt(e.target.value)
-                  )
-                }
-              />
-            </div>
-            <div>
-              <label>Price</label>
-              <Input
-                type="number"
-                value={pricing.price}
-                onChange={(e) =>
-                  handleBulkPricingChange(
-                    index,
-                    sizeIndex,
-                    pricingIndex,
-                    "price",
-                    parseFloat(e.target.value)
-                  )
-                }
-              />
-            </div>
-          </div>
-        ))}
+        {/* Button to add new Bulk Pricing */}
+        <Button
+          startIcon={<Add />}
+          onClick={() => handleAddBulkPricing(index, sizeIndex)}
+        >
+          Add Bulk Pricing
+        </Button>
       </div>
 
       <HighlightOffOutlinedIcon

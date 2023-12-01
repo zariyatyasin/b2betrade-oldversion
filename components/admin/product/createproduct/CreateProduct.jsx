@@ -135,54 +135,52 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    console.log(subProducts);
+    for (const subProduct of subProducts) {
+      const formData = new FormData();
 
-    // for (const subProduct of subProducts) {
-    //   const formData = new FormData();
+      for (const image of subProduct.images) {
+        formData.append("file", image.blob);
+      }
 
-    //   for (const image of subProduct.images) {
-    //     formData.append("file", image.blob);
-    //   }
+      const cloudinaryResponse = await Uploadimages(formData);
 
-    //   const cloudinaryResponse = await Uploadimages(formData);
+      const cloudinaryImages = cloudinaryResponse.map((response) => ({
+        url: response.secure_url,
+        secure_url: response.secure_url,
+        public_id: response.public_id,
+      }));
 
-    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
-    //     url: response.secure_url,
-    //     secure_url: response.secure_url,
-    //     public_id: response.public_id,
-    //   }));
+      if (subProduct.color.image) {
+        const colorFormData = new FormData();
+        colorFormData.append(
+          "file",
+          new File([subProduct.color.image], "color_image.jpg", {
+            type: "image/jpeg",
+          })
+        );
 
-    //   if (subProduct.color.image) {
-    //     const colorFormData = new FormData();
-    //     colorFormData.append(
-    //       "file",
-    //       new File([subProduct.color.image], "color_image.jpg", {
-    //         type: "image/jpeg",
-    //       })
-    //     );
+        const colorImageUpload = await Uploadimages(colorFormData);
+        console.log("this is color", colorImageUpload);
+        subProduct.color.image = colorImageUpload[0].secure_url;
+      }
 
-    //     const colorImageUpload = await Uploadimages(colorFormData);
-    //     console.log("this is color", colorImageUpload);
-    //     subProduct.color.image = colorImageUpload[0].secure_url;
-    //   }
+      updatedSubProducts.push({
+        ...subProduct,
+        images: cloudinaryImages,
+      });
 
-    //   updatedSubProducts.push({
-    //     ...subProduct,
-    //     images: cloudinaryImages,
-    //   });
+      console.log("this is upload", updatedSubProducts);
+    }
 
-    //   console.log("this is upload", updatedSubProducts);
-    // }
-
-    // try {
-    //   const { data } = await axios.post("/api/admin/product", {
-    //     ...product,
-    //     updatedSubProducts,
-    //   });
-    //   console.log("Product created successfully:", data);
-    // } catch (error) {
-    //   console.error("Error creating product:", error);
-    // }
+    try {
+      const { data } = await axios.post("/api/admin/product", {
+        ...product,
+        updatedSubProducts,
+      });
+      console.log("Product created successfully:", data);
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
   };
   const validate = Yup.object({
     name: Yup.string()
