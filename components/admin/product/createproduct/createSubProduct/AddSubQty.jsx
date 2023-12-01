@@ -184,7 +184,6 @@ export default function AddSubQty({
           </div>
         }
 
-        {/* Button to add new Bulk Pricing */}
         <Button onClick={() => handleAddBulkPricing(index, sizeIndex)}>
           Add Bulk Pricing
         </Button>
