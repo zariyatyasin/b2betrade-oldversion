@@ -90,16 +90,16 @@ export default function CreateProduct({ categories }) {
     "link",
     "image",
   ];
-  // const handleImageUpload = (file) => {
-  //   const formData = new FormData();
-  //   formData.append('image', file);
+  const handleImageUpload = (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
 
-  //   // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
-  //   return axios.post('YOUR_UPLOAD_URL', formData).then((response) => {
-  //     // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
-  //     return response.data.url || 'YOUR_CLOUDINARY_URL';
-  //   });
-  // }
+    // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
+    return axios.post("YOUR_UPLOAD_URL", formData).then((response) => {
+      // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
+      return response.data.url || "YOUR_CLOUDINARY_URL";
+    });
+  };
   const productType = [
     {
       name: "B2B",
@@ -160,7 +160,7 @@ export default function CreateProduct({ categories }) {
         );
 
         const colorImageUpload = await Uploadimages(colorFormData);
-        console.log("this is color", colorImageUpload);
+
         subProduct.color.image = colorImageUpload[0].secure_url;
       }
 
@@ -168,8 +168,6 @@ export default function CreateProduct({ categories }) {
         ...subProduct,
         images: cloudinaryImages,
       });
-
-      console.log("this is upload", updatedSubProducts);
     }
 
     try {

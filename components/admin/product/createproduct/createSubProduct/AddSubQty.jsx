@@ -114,7 +114,7 @@ export default function AddSubQty({
         </div>
         {!samePriceForAll && (
           <div>
-            {size.bulkPricing.map((pricing, pricingIndex) => (
+            {size.bulkPricing?.map((pricing, pricingIndex) => (
               <div key={pricingIndex}>
                 <label>Bulk Pricing</label>
                 <div>
