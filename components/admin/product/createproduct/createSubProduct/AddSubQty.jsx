@@ -54,16 +54,23 @@ export default function AddSubQty({
 
   const handleAddBulkPricing = (subProductIndex, sizeIndex) => {
     const updatedSubProducts = [...subProducts];
-    const bulkPricingCount =
-      updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.length;
 
-    if (bulkPricingCount < maxBulkPricingEntries) {
-      updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.push({
-        minQty: 0,
-        maxQty: 0,
-        price: 0,
-      });
-      setSubProducts(updatedSubProducts);
+    if (
+      updatedSubProducts[subProductIndex] &&
+      updatedSubProducts[subProductIndex].sizes[sizeIndex] &&
+      updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing
+    ) {
+      const bulkPricingCount =
+        updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.length;
+
+      if (bulkPricingCount < maxBulkPricingEntries) {
+        updatedSubProducts[subProductIndex].sizes[sizeIndex].bulkPricing.push({
+          minQty: 0,
+          maxQty: 0,
+          price: 0,
+        });
+        setSubProducts(updatedSubProducts);
+      }
     }
   };
 
@@ -112,7 +119,7 @@ export default function AddSubQty({
             }
           />
         </div>
-        {!samePriceForAll && (
+        {
           <div>
             {size.bulkPricing?.map((pricing, pricingIndex) => (
               <div key={pricingIndex}>
@@ -166,7 +173,6 @@ export default function AddSubQty({
                   />
                 </div>
                 <Button
-                  startIcon={<Delete />}
                   onClick={() =>
                     handleRemoveBulkPricing(index, sizeIndex, pricingIndex)
                   }
@@ -176,13 +182,10 @@ export default function AddSubQty({
               </div>
             ))}
           </div>
-        )}
+        }
 
         {/* Button to add new Bulk Pricing */}
-        <Button
-          startIcon={<Add />}
-          onClick={() => handleAddBulkPricing(index, sizeIndex)}
-        >
+        <Button onClick={() => handleAddBulkPricing(index, sizeIndex)}>
           Add Bulk Pricing
         </Button>
       </div>

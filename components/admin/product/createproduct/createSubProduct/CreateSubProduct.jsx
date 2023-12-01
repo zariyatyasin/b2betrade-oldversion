@@ -56,7 +56,13 @@ const CreateSubProduct = ({ subProducts, setSubProducts, samePriceForAll }) => {
     updatedSubProducts[subProductIndex].sizes.push({
       size: "",
       qty: 0,
-      price: 0,
+      bulkPricing: [
+        {
+          minQty: 0,
+          maxQty: 0,
+          price: 0,
+        },
+      ],
     });
     setSubProducts(updatedSubProducts);
   };

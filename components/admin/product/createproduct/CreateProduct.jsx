@@ -135,50 +135,52 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    for (const subProduct of subProducts) {
-      const formData = new FormData();
+    console.log(subProducts);
 
-      for (const image of subProduct.images) {
-        formData.append("file", image.blob);
-      }
+    // for (const subProduct of subProducts) {
+    //   const formData = new FormData();
 
-      const cloudinaryResponse = await Uploadimages(formData);
+    //   for (const image of subProduct.images) {
+    //     formData.append("file", image.blob);
+    //   }
 
-      const cloudinaryImages = cloudinaryResponse.map((response) => ({
-        url: response.secure_url,
-        secure_url: response.secure_url,
-        public_id: response.public_id,
-      }));
+    //   const cloudinaryResponse = await Uploadimages(formData);
 
-      if (subProduct.color.image) {
-        const colorFormData = new FormData();
-        colorFormData.append(
-          "file",
-          new File([subProduct.color.image], "color_image.jpg", {
-            type: "image/jpeg",
-          })
-        );
+    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
+    //     url: response.secure_url,
+    //     secure_url: response.secure_url,
+    //     public_id: response.public_id,
+    //   }));
 
-        const colorImageUpload = await Uploadimages(colorFormData);
+    //   if (subProduct.color.image) {
+    //     const colorFormData = new FormData();
+    //     colorFormData.append(
+    //       "file",
+    //       new File([subProduct.color.image], "color_image.jpg", {
+    //         type: "image/jpeg",
+    //       })
+    //     );
 
-        subProduct.color.image = colorImageUpload[0].secure_url;
-      }
+    //     const colorImageUpload = await Uploadimages(colorFormData);
 
-      updatedSubProducts.push({
-        ...subProduct,
-        images: cloudinaryImages,
-      });
-    }
+    //     subProduct.color.image = colorImageUpload[0].secure_url;
+    //   }
 
-    try {
-      const { data } = await axios.post("/api/admin/product", {
-        ...product,
-        updatedSubProducts,
-      });
-      console.log("Product created successfully:", data);
-    } catch (error) {
-      console.error("Error creating product:", error);
-    }
+    //   updatedSubProducts.push({
+    //     ...subProduct,
+    //     images: cloudinaryImages,
+    //   });
+    // }
+
+    // try {
+    //   const { data } = await axios.post("/api/admin/product", {
+    //     ...product,
+    //     updatedSubProducts,
+    //   });
+    //   console.log("Product created successfully:", data);
+    // } catch (error) {
+    //   console.error("Error creating product:", error);
+    // }
   };
   const validate = Yup.object({
     name: Yup.string()
