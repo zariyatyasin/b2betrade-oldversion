@@ -33,8 +33,8 @@ const NewProducts = ({ products }) => {
             spaceBetween: 40,
           },
           1024: {
-            slidesPerView: 6,
-            spaceBetween: 15,
+            slidesPerView: 5,
+            spaceBetween: 20,
           },
         }}
         navigation={true}

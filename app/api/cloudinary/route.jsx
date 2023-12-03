@@ -9,7 +9,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
-const allowedFileTypes = ["jpg", "jpeg", "png"];
+const allowedFileTypes = ["jpg", "jpeg", "png", "webp"];
 // const maxFileSize = 5 * 1024 * 1024; // 5MB
 const maxNumberOfFiles = 10;
 export const POST = async (request) => {

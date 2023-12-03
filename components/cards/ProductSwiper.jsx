@@ -30,11 +30,11 @@ const ProductSwiper = ({ images }) => {
         speed={500}
       >
         {images?.map((img, id) => (
-          <SwiperSlide key={id} className=" ">
+          <SwiperSlide key={id}>
             <img
               src={img.url}
               alt=""
-              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+              className="w-full h-full object-center object-contain sm:w-full sm:h-full"
             />
           </SwiperSlide>
         ))}

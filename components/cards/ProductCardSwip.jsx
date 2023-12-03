@@ -7,6 +7,13 @@ import ProductSwiper from "./ProductSwiper";
 function ProductCardSwip({ products }) {
   const [active, setActive] = useState(0);
   const [images, setImages] = useState(products.subProducts[active]?.images);
+  console.log(products);
+  const hasNullPrice =
+    products.bulkPricing &&
+    products.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
+  const price = products.bulkPricing.map((bulkPrice) => bulkPrice.price);
+  const highPrice = Math.max(...price);
+  const lowPrice = Math.min(...price);
 
   const [prices, setPrices] = useState(
     products.subProducts[active]?.sizes
@@ -22,35 +29,63 @@ function ProductCardSwip({ products }) {
       return p.color;
     })
   );
+  const firstSizeBulkPricing = products.subProducts[0].sizes[0].bulkPricing;
 
+  const minPrice = Math.min(
+    ...firstSizeBulkPricing.map((pricing) => pricing.price)
+  );
+  const maxPrice = Math.max(
+    ...firstSizeBulkPricing.map((pricing) => pricing.price)
+  );
   return (
-    <div className=" relative   h-auto h- ">
-      <Link href={`/product/${products?.slug}/${active} `}>
+    <div className=" bg-white border border-gray-200 rounded-md overflow-hidden  ">
+      <Link
+        href={`/product/${products?.slug}/${active} `}
+        className=" sm:h-96 "
+      >
         <ProductSwiper images={images} />
       </Link>
       <div className=" absolute right-0 top-0 z-10 ">
-        {products?.subProducts[active]?.discount ? (
+        {products?.discount ? (
           <div className=" bg-green-400 text-white text-xs px-2 py-1 ml-3  ">
-            {products.subProducts[active].discount + "%"}
+            {products.discount + "%"}
           </div>
         ) : (
           ""
         )}
       </div>
-      <div className=" text-sm">
-        {products.name.length <= 15
+      <div className=" text-left   text-sm tracking-wide   p-2">
+        {products.name.length <= 10
           ? products.name
           : products.name.slice(0, 35) + "..."}
+        <div className="mt-2 text-[#2B39D1] font-bold">
+          {!hasNullPrice && (
+            <div>
+              {products.bulkPricing.length === 1 ? (
+                // Display the single price
+                <p> {products.bulkPricing[0].price} ৳</p>
+              ) : (
+                <div>
+                  <p>
+                    {" "}
+                    {lowPrice}৳ - {highPrice}৳
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+          {hasNullPrice && (
+            <div>
+              <p>
+                {" "}
+                {minPrice}৳ - {maxPrice}৳
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
-      {prices?.length === 1 ? (
-        <div className=" text-red-500 text-left text-sm mt-2  font-semibold  ">{`USD${prices[0]}$`}</div>
-      ) : (
-        <div className=" text-red-500 text-left text-sm mt-2  font-semibold  ">{`USD${
-          prices[0]
-        }$ - ${prices[prices?.length - 1]}$`}</div>
-      )}
-      <div className="w-full flex-none text-sm flex items-center text-gray-600">
+      {/* <div className="w-full flex-none text-sm flex items-center text-gray-600">
         <ul className="flex flex-row justify-center items-center space-x-2">
           {style &&
             style?.map((style, i) =>
@@ -86,7 +121,7 @@ function ProductCardSwip({ products }) {
               )
             )}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -32,6 +32,7 @@ export const POST = async (request) => {
       brand: otherData.brand,
       vendor: session.id,
       details: otherData.details,
+      bulkPricing: otherData.bulkPricing,
       questions: otherData.questions,
       slug: otherData.slug,
       category: otherData.category,

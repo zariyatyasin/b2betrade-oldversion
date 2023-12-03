@@ -60,7 +60,9 @@ export default async function Home({ searchParams }) {
         <FlashDeals />
         <Discount />
         <Tabs /> */}
-        <NewProducts products={products} />
+        <div className=" max-w-[1440px] mx-auto ">
+          <NewProducts products={products} />
+        </div>
       </div>
 
       <Footer />

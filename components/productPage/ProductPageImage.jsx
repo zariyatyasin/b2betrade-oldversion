@@ -16,7 +16,7 @@ const ProductPageImage = ({ images, activeImg }) => {
           {images && (
             <img
               className="    w-full h-full object-contain"
-              src={activeImg || images[active].url}
+              src={activeImg || images[active]?.url}
               alt=""
             />
           )}

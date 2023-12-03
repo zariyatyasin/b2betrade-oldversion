@@ -7,7 +7,6 @@
   height: 100%; */
 }
 
-
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -21,7 +20,7 @@
 
 body {
   overflow-x: hidden;
-  background-color: #F7F8FA;
+  background-color: #f7f8fa;
 }
 /* .swiper-slide img {
   display: block;

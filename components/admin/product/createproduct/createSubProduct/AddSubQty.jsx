@@ -13,7 +13,7 @@ export default function AddSubQty({
   samePriceForAll,
 }) {
   const [noSize, setNoSize] = useState(false);
-
+  console.log(samePriceForAll);
   const handleRemoveSize = (subProductIndex, sizeIndex) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts[subProductIndex].sizes.splice(sizeIndex, 1);
@@ -119,7 +119,7 @@ export default function AddSubQty({
             }
           />
         </div>
-        {
+        {!samePriceForAll && (
           <div>
             {size.bulkPricing?.map((pricing, pricingIndex) => (
               <div key={pricingIndex}>
@@ -181,12 +181,11 @@ export default function AddSubQty({
                 </Button>
               </div>
             ))}
+            <Button onClick={() => handleAddBulkPricing(index, sizeIndex)}>
+              Add Bulk Pricing
+            </Button>
           </div>
-        }
-
-        <Button onClick={() => handleAddBulkPricing(index, sizeIndex)}>
-          Add Bulk Pricing
-        </Button>
+        )}
       </div>
 
       <HighlightOffOutlinedIcon
