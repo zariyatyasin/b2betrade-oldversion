@@ -90,16 +90,16 @@ export default function CreateProduct({ categories }) {
     "link",
     "image",
   ];
-  const handleImageUpload = (file) => {
-    const formData = new FormData();
-    formData.append("image", file);
+  // const handleImageUpload = (file) => {
+  //   const formData = new FormData();
+  //   formData.append("image", file);
 
-    // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
-    return axios.post("YOUR_UPLOAD_URL", formData).then((response) => {
-      // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
-      return response.data.url || "YOUR_CLOUDINARY_URL";
-    });
-  };
+  //   // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
+  //   return axios.post("YOUR_UPLOAD_URL", formData).then((response) => {
+  //     // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
+  //     return response.data.url || "YOUR_CLOUDINARY_URL";
+  //   });
+  // };
   const productType = [
     {
       name: "B2B",
@@ -137,50 +137,50 @@ export default function CreateProduct({ categories }) {
 
     console.log(subProducts);
 
-    // for (const subProduct of subProducts) {
-    //   const formData = new FormData();
+    for (const subProduct of subProducts) {
+      const formData = new FormData();
 
-    //   for (const image of subProduct.images) {
-    //     formData.append("file", image.blob);
-    //   }
+      for (const image of subProduct.images) {
+        formData.append("file", image.blob);
+      }
 
-    //   const cloudinaryResponse = await Uploadimages(formData);
+      const cloudinaryResponse = await Uploadimages(formData);
 
-    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
-    //     url: response.secure_url,
-    //     secure_url: response.secure_url,
-    //     public_id: response.public_id,
-    //   }));
+      const cloudinaryImages = cloudinaryResponse.map((response) => ({
+        url: response.secure_url,
+        secure_url: response.secure_url,
+        public_id: response.public_id,
+      }));
 
-    //   if (subProduct.color.image) {
-    //     const colorFormData = new FormData();
-    //     colorFormData.append(
-    //       "file",
-    //       new File([subProduct.color.image], "color_image.jpg", {
-    //         type: "image/jpeg",
-    //       })
-    //     );
+      if (subProduct.color.image) {
+        const colorFormData = new FormData();
+        colorFormData.append(
+          "file",
+          new File([subProduct.color.image], "color_image.jpg", {
+            type: "image/jpeg",
+          })
+        );
 
-    //     const colorImageUpload = await Uploadimages(colorFormData);
+        const colorImageUpload = await Uploadimages(colorFormData);
 
-    //     subProduct.color.image = colorImageUpload[0].secure_url;
-    //   }
+        subProduct.color.image = colorImageUpload[0].secure_url;
+      }
 
-    //   updatedSubProducts.push({
-    //     ...subProduct,
-    //     images: cloudinaryImages,
-    //   });
-    // }
+      updatedSubProducts.push({
+        ...subProduct,
+        images: cloudinaryImages,
+      });
+    }
 
-    // try {
-    //   const { data } = await axios.post("/api/admin/product", {
-    //     ...product,
-    //     updatedSubProducts,
-    //   });
-    //   console.log("Product created successfully:", data);
-    // } catch (error) {
-    //   console.error("Error creating product:", error);
-    // }
+    try {
+      const { data } = await axios.post("/api/admin/product", {
+        ...product,
+        updatedSubProducts,
+      });
+      console.log("Product created successfully:", data);
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
   };
   const validate = Yup.object({
     name: Yup.string()

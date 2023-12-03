@@ -1,6 +1,6 @@
 import { Button } from "../../../../ui/button";
 import React, { useRef, useState } from "react";
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 export default function AddSubProductImage({
   subProducts,
@@ -64,36 +64,33 @@ export default function AddSubProductImage({
 
   return (
     <div>
-     
-   <div className=" flex flex-wrap gap-4 p-2">
-   {imagePreviews[index] &&
-        imagePreviews[index].map((preview, imageIndex) => (
-          <div key={imageIndex} className=" relative">
-            <img
-              src={preview}
-              alt={`Image ${imageIndex}`}
-              style={{ maxWidth: "130px", maxHeight: "130px" }}
-            />
-            <HighlightOffOutlinedIcon
-            className=" absolute top-[-10px]  right-[-10px]"
-              variant="contained"
-              color="error"
-              onClick={() => handleRemoveImage(index, imageIndex)}
-            />
-      
-          </div>
-        ))}
-
-   </div>
-     <div className="   flex  justify-center">
-     <Button
-         className="flex bg-white text-gray-950 border"
-        onClick={() => handleAddImage(index)}
-      >
-        <CloudUploadIcon  className="mr-2 text-blue-500"/>
-        Add Image
-      </Button>
-     </div>
+      <div className=" flex flex-wrap gap-4 p-2">
+        {imagePreviews[index] &&
+          imagePreviews[index].map((preview, imageIndex) => (
+            <div key={imageIndex} className=" relative">
+              <img
+                src={preview}
+                alt={`Image ${imageIndex}`}
+                style={{ maxWidth: "130px", maxHeight: "130px" }}
+              />
+              <HighlightOffOutlinedIcon
+                className=" absolute top-[-10px]  right-[-10px]"
+                variant="contained"
+                color="error"
+                onClick={() => handleRemoveImage(index, imageIndex)}
+              />
+            </div>
+          ))}
+      </div>
+      <div className="   flex  justify-center">
+        <Button
+          className="flex bg-white text-gray-950 border"
+          onClick={() => handleAddImage(index)}
+        >
+          <CloudUploadIcon className="mr-2 text-blue-500" />
+          Add Image
+        </Button>
+      </div>
       <input
         type="file"
         ref={fileInput}
