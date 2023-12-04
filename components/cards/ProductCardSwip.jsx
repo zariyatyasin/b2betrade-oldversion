@@ -7,7 +7,7 @@ import ProductSwiper from "./ProductSwiper";
 function ProductCardSwip({ products }) {
   const [active, setActive] = useState(0);
   const [images, setImages] = useState(products.subProducts[active]?.images);
-  console.log(products);
+
   const hasNullPrice =
     products.bulkPricing &&
     products.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
@@ -37,10 +37,12 @@ function ProductCardSwip({ products }) {
   const maxPrice = Math.max(
     ...firstSizeBulkPricing.map((pricing) => pricing.price)
   );
+  const minQty2 = products.bulkPricing[0].minQty;
+  const minQty = firstSizeBulkPricing[0].minQty;
   return (
     <div className=" bg-white border border-gray-200 rounded-md overflow-hidden  ">
       <Link
-        href={`/product/${products?.slug}/${active} `}
+        href={`/product/${products?.slug}/${active}/0 `}
         className=" sm:h-96 "
       >
         <ProductSwiper images={images} />
@@ -54,20 +56,22 @@ function ProductCardSwip({ products }) {
           ""
         )}
       </div>
-      <div className=" text-left   text-sm tracking-wide   p-2">
+      <div className=" text-left   text-sm   p-2">
         {products.name.length <= 10
           ? products.name
           : products.name.slice(0, 35) + "..."}
-        <div className="mt-2 text-[#2B39D1] font-bold">
+        <div className="mt-2 ">
           {!hasNullPrice && (
             <div>
               {products.bulkPricing.length === 1 ? (
                 // Display the single price
-                <p> {products.bulkPricing[0].price} ৳</p>
+                <p className="text-[#2B39D1] font-bold">
+                  {" "}
+                  {products.bulkPricing[0].price} ৳
+                </p>
               ) : (
                 <div>
-                  <p>
-                    {" "}
+                  <p className="text-[#2B39D1] font-bold">
                     {lowPrice}৳ - {highPrice}৳
                   </p>
                 </div>
@@ -76,12 +80,20 @@ function ProductCardSwip({ products }) {
           )}
           {hasNullPrice && (
             <div>
-              <p>
+              <p className="text-[#2B39D1] font-bold">
                 {" "}
                 {minPrice}৳ - {maxPrice}৳
               </p>
             </div>
           )}
+
+          <div className=" text-left mt-2">
+            {!hasNullPrice ? (
+              <p>Min order: {minQty2}</p>
+            ) : (
+              <p>Min order: {minQty}</p>
+            )}
+          </div>
         </div>
       </div>
 

@@ -10,12 +10,12 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 const ProductPageImage = ({ images, activeImg }) => {
   const [active, setActive] = useState(0);
   return (
-    <div className="lg:w-1/3      ">
-      <div className="  x w-full max:h-[500px]    flex justify-center items-center overflow-hidden relative mb-3   ">
+    <div className="lg:w-1/3  w-full    ">
+      <div className="  x w-full     flex justify-center items-center overflow-hidden relative mb-3   ">
         <div className="      flex justify-center ">
           {images && (
             <img
-              className="    w-full h-full object-contain"
+              className="    w-full  h-[500px] object-contain"
               src={activeImg || images[active]?.url}
               alt=""
             />
@@ -25,39 +25,30 @@ const ProductPageImage = ({ images, activeImg }) => {
       <div className="mt-2  lg:mt-0  lg:mr-5     ">
         <div className="flex          ">
           {images?.map((img, i) => (
-            // <Swiper
-            //   slidesPerView={1}
-            //   spaceBetween={30}
-            //   loop={true}
-            //   pagination={{
-            //     clickable: true,
-            //   }}
-            //   autoplay={{
-            //     delay: 2500,
-            //     disableOnInteraction: false,
-            //   }}
-            //   navigation={true}
-            //   modules={[Pagination, Navigation, Autoplay]}
-            // >
-            //   (
-            //   <SwiperSlide>
-
-            //   </SwiperSlide>
-            //   );
-            // </Swiper>
-            <div
-              className={`flex-0  lg:flex-col aspect-square ml-2   h-20   ${
-                i == active && "border-2 border-gray-900"
-              } text-center  `}
-              key={i}
-              onMouseOver={() => setActive(i)}
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={50}
+              navigation={true}
+              modules={[Pagination, Navigation]}
             >
-              <img
-                className="h-full    w-full object-cover"
-                src={img.url}
-                alt=""
-              />
-            </div>
+              (
+              <SwiperSlide>
+                <div
+                  className={`flex-0  lg:flex-col aspect-square ml-2   h-20   ${
+                    i == active && "border-2 border-gray-900"
+                  } text-center  `}
+                  key={i}
+                  onMouseOver={() => setActive(i)}
+                >
+                  <img
+                    className="h-full    w-full object-cover"
+                    src={img.url}
+                    alt=""
+                  />
+                </div>
+              </SwiperSlide>
+              );
+            </Swiper>
           ))}
         </div>
       </div>
