@@ -10,7 +10,7 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 const ProductPageImage = ({ images, activeImg }) => {
   const [active, setActive] = useState(0);
   return (
-    <div className="lg:w-1/3  w-full    ">
+    <div className="lg:w-1/3 flex-1 w-full bg-white p-4 rounded-md    ">
       <div className="  x w-full     flex justify-center items-center overflow-hidden relative mb-3   ">
         <div className="      flex justify-center ">
           {images && (

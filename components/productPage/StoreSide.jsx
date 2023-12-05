@@ -13,7 +13,7 @@ export default function StoreSide({ store }) {
   };
   return (
     <div className=" mx-auto max-w-md">
-      <div className="   bg-white border rounded-md   p-4">
+      <div className="   bg-white   rounded-md   p-4">
         <div className="flex justify-center">
           {/* <img
             src={store.image}

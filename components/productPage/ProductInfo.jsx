@@ -25,9 +25,13 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   //   { minQty: 100, maxQty: Infinity, price: 33.75 },
   // ];
 
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
-  console.log(product);
+  console.log(product.colors);
   const UrlSize = params?.slug[2];
   const UrlStyle = params?.slug[1];
   const { cart } = useSelector((state) => ({ ...state }));
@@ -80,7 +84,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         setQty(selectedSize.bulkPricing[0].minQty);
       }
     }
-  }, [size, hasNullPrice, product?.size, product.bulkPricing]);
+  }, [size, hasNullPrice, product?.size, product?.bulkPricing]);
   useEffect(() => {
     if (selectedRange) {
       setTotalPrice(selectedRange.price * qty);
@@ -93,12 +97,12 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   }, [UrlStyle]);
   useEffect(() => {
     if (staySize !== -1) {
-      setSize(product.size[staySize].size);
+      setSize(product?.size[staySize].size);
     }
   }, [staySize, product?.size]);
   useEffect(() => {
-    if (qty > product.quantity) {
-      setQty(product.quantity);
+    if (qty > product?.quantity) {
+      setQty(product?.quantity);
     }
   }, [UrlSize]);
 
@@ -137,8 +141,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   const handleQtyIncrease = () => {
-    if (qty < product.quantity) {
-      const newQty = Math.min(qty + 1, product.quantity); // Ensure qty doesn't exceed product.quantity
+    if (qty < product?.quantity) {
+      const newQty = Math.min(qty + 1, product?.quantity); // Ensure qty doesn't exceed product.quantity
       setQty(newQty);
 
       const selectedPriceRange = priceRanges.find(
@@ -193,8 +197,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   return (
-    <div className="flex-1">
-      <h1 className="text-xl font-medium text-qblack mb-2 ">{product?.name}</h1>
+    <div className="flex-1 bg-white p-4 rounded-md ">
+      <h1 className="text-xl   font-medium text-qblack mb-2 ">
+        {product?.name}
+      </h1>
       <div className="  flex items-center">
         <Rating
           name="hover-feedback"
@@ -213,7 +219,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             <div
               key={index}
               onClick={() => handleRangeSelect(range)}
-              className={`border hover:bg-[#2B39D1] hover:text-white p-2 font-medium cursor-pointer ${
+              className={`border hover:bg-[#2B39D1] rounded-md  hover:text-white p-2 font-medium cursor-pointer ${
                 range === selectedRange
                   ? "bg-[#2B39D1] text-white"
                   : "border-[#2B39D1]"
@@ -222,7 +228,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               <div className="text-center justify-between items-center p-2 px-2">
                 <div className=" text-xs lg:text-sm text-gray-600d">{`${range.minQty} - ${range.maxQty}`}</div>
                 <div className="text-xs lg:text-sm font-bold">
-                  ${range.price.toFixed(2)}
+                  {range.price.toFixed(2)}৳
                 </div>
               </div>
             </div>
@@ -243,8 +249,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             <div
               key={i}
               className={`rounded-lg border ${
-                i === staySize ? "bg-black text-white" : "border-black"
-              }  p-2 font-medium cursor-pointer hover:bg-black hover:text-white text-sm transition-all duration-300 ease-in-out`}
+                i === staySize ? "bg-[#2B39D1] text-white" : "border-black"
+              }  p-2 font-medium cursor-pointer  text-sm transition-all duration-300 ease-in-out`}
               onClick={() => handleSizeSelection({ size: size.size, index: i })}
             >
               {size.size}
@@ -252,33 +258,45 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-      <h2 className="mt-4 text-lg font-semibold  text-gray-900">Color</h2>
+
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         {product.colors &&
           product.colors.map((color, i) => (
-            <div
-              onMouseOver={() =>
-                setActiveImg(product.subProducts[i].images[0].url)
-              }
-              onMouseLeave={() => setActiveImg("")}
-              key={i}
-            >
-              <Link href={`/product/${product.slug}/${i}`}>
-                {color?.image ? (
-                  <img src={color?.image} className="h-5 w-5 rounded-full" />
-                ) : (
+            <div>
+              {color.color && (
+                <div>
+                  <h2 className="mt-4 text-lg font-semibold  text-gray-900">
+                    Color
+                  </h2>
                   <div
-                    className={`h-5 w-5 rounded-full`}
-                    style={{ backgroundColor: color.color }}
-                  ></div>
-                )}
-              </Link>
+                    onMouseOver={() =>
+                      setActiveImg(product.subProducts[i].images[0].url)
+                    }
+                    onMouseLeave={() => setActiveImg("")}
+                    key={i}
+                  >
+                    <Link href={`/product/${product.slug}/${i}`}>
+                      {color?.image ? (
+                        <img
+                          src={color?.image}
+                          className="h-5 w-5 rounded-full"
+                        />
+                      ) : (
+                        <div
+                          className={`h-5 w-5 rounded-full`}
+                          style={{ backgroundColor: color.color }}
+                        ></div>
+                      )}
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
       </div>
 
       <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
-        Total Price: {totalPrice}
+        Total Price: {totalPrice}৳
       </div>
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         <div className="bg-gray-100 h-10 p-1 rounded-lg flex flex-row relative mt-1">
@@ -312,7 +330,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           disabled={product.quantity < 1}
           onClick={openModal}
           type="button"
-          className="inline-flex items-center justify-center border  border-transparent border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
+          className="inline-flex items-center justify-center border   border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
         >
           Send Inquiry
         </button>
