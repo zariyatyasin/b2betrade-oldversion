@@ -2,14 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+
 import Usermenu from "./Usermenu";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Fragment } from "react";
@@ -19,10 +12,10 @@ import { Button } from "../ui/button";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Nav from "../Header/Nav";
+
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
-import FolderIcon from "@mui/icons-material/Folder";
+
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 
 const publishingOptions = [
@@ -212,16 +205,19 @@ export const Header = ({ categories, subCategories }) => {
 
                   <input
                     id="top-bar-search"
-                    className="text-heading  p-4  border  outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px rounded-r-md transition-all duration-200 focus:border-brand focus:ring-0 placeholder:text-brand-dark/50 bg-fill-one"
+                    className="text-heading  p-4 border-t border-b  outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
                     placeholder="What are you looking..."
                     aria-label="top-bar-search"
                     name="search"
                     onChange={(e) => setQuary(e.target.value)}
                   />
+                  <button
+                    type=" submit"
+                    className=" flex items-center border rounded-r-md justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-gray-500"
+                  >
+                    <SearchIcon sx={{ fontSize: 24 }} />
+                  </button>
                 </label>
-                <span className="absolute top-0 right-2 flex items-center justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-gray-500">
-                  <SearchIcon sx={{ fontSize: 24 }} />
-                </span>
               </form>
             </div>
           </div>

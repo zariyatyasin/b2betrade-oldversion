@@ -1,14 +1,13 @@
-import Example from "../../../components/Header/Example";
-import { Header } from "../../../components/Header/Header";
-
 import ProductMain from "../../../components/productPage/ProductMain";
-
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Category from "../../../model/Category";
 import Product from "../../../model/Product";
 import SubCategory from "../../../model/SubCategory";
 import Store from "../../../model/Store";
 import User from "../../../model/User";
 import db from "../../../utils/db";
+import Link from "next/link";
+import MainpageLayout from "../../../components/layout/MainpageLayout";
 
 async function getData(url) {
   const slug = url.slug[0];
@@ -30,7 +29,12 @@ async function getData(url) {
         (review) =>
           review.rating === Number(num) || review.rating === Number(num) + 0.5
       ).length;
-      return ((numReviews / totalReviews) * 100).toFixed(1);
+
+      // Check if numReviews is zero to prevent division by zero
+      const percentage =
+        totalReviews === 0 ? 0 : (numReviews / totalReviews) * 100;
+
+      return isNaN(percentage) ? 0 : percentage.toFixed(1);
     }
 
     let subProduct = product.subProducts[style];
@@ -110,36 +114,38 @@ export default async function Page({ params, searchParams }) {
   const { product } = await getData(params);
 
   return (
-    <div>
-      <Header />
-
-      <div className="pt-8 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
-        <div className="flex items-center  ">
+    <MainpageLayout>
+      <div className="pt-4 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
+        <div className="flex items-center pb-4 ">
           <ol className="flex items-center w-full overflow-hidden">
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
-              <a href="/">Home</a>
+              <Link href="/">
+                <HomeOutlinedIcon />
+              </Link>
             </li>
             <li className="text-base text-body mt-0.5">/</li>
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
-              <a className="capitalize" href="/products">
-                {product?.category.name}
-              </a>
-            </li>
-            <li className="text-base text-body mt-0.5">/</li>
-            <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
-              <a
-                className="capitalize"
-                href="/products/polarised-wayfarer-sunglasses"
+              <Link
+                className=" text-sm font-medium text-gray-500 hover:text-gray-700"
+                href={`/browse?category=${product?.category._id}`}
               >
+                {product?.category.name}
+              </Link>
+            </li>
+            <li className="text-base text-body mt-0.5">/</li>
+            <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
+              <div className=" text-sm font-medium text-gray-500 hover:text-gray-700">
                 {product?.subCategories?.map((sub) => (
-                  <span>/{sub.name}</span>
+                  <Link href={`/browse?subCategories=${sub._id}`}>
+                    <span>{sub.name}</span>
+                  </Link>
                 ))}
-              </a>
+              </div>
             </li>
           </ol>
         </div>
         <ProductMain product={product} params={params} />
       </div>
-    </div>
+    </MainpageLayout>
   );
 }

@@ -76,14 +76,14 @@ export default function Example({ categories, subCategories }) {
                   <div className="ml-2 font-bold ">All Categories</div>
 
                   <ul
-                    className={`absolute  bg-white shadow-lg ring-1 ring-black ring-opacity-5  top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
+                    className={`absolute z-40   bg-white shadow-lg ring-1 ring-black ring-opacity-5  top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
                       isCategoryListOpen ? "visible" : "invisible"
                     }`}
                   >
                     {categories?.map((category) => (
                       <li
                         key={category.name}
-                        className="flex relative items-center justify-between p-4 hover:bg-gray-50 transition ease-in-out duration-150"
+                        className="flex z-40 relative items-center justify-between p-4 hover:bg-gray-50 transition ease-in-out duration-150"
                         onMouseEnter={() => setSelectedCategory(category._id)}
                       >
                         <div className="ml-4">

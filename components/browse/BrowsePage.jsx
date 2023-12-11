@@ -44,36 +44,65 @@ export default function BrowsePage({
   }
   function replaceQuery(queryName, value) {
     const existedQuery = searchParams.get(queryName);
-    const valueCheck = existedQuery?.search(value);
-
-    const _check = existedQuery?.search(`_${value}`);
 
     let result = "";
+
     if (existedQuery) {
-      if (existedQuery == value) {
-        result = {};
-      } else {
-        if (valueCheck !== -1) {
-          if (_check !== -1) {
-            result = existedQuery?.replace(`_${value}`, "");
-          } else if (valueCheck == 0) {
-            result = existedQuery?.replace(`${value}_`, "");
-          } else {
-            result = existedQuery?.replace(value, "");
-          }
+      const valueCheck = existedQuery.includes(value);
+      const underscoredValue = `_${value}`;
+
+      if (valueCheck) {
+        if (existedQuery === value) {
+          result = "";
         } else {
-          result = `${existedQuery}_${value}`;
+          result = existedQuery
+            .replace(underscoredValue, "")
+            .replace(value, "");
         }
+      } else {
+        result = `${existedQuery}_${value}`;
       }
     } else {
       result = value;
     }
+
     return {
       result,
-      active: existedQuery && valueCheck !== -1 ? true : false,
+      active: existedQuery && result !== "" ? true : false,
     };
   }
 
+  // function replaceQuery(queryName, value) {
+  //   const existedQuery = searchParams.get(queryName);
+  //   const valueCheck = existedQuery?.search(value);
+
+  //   const _check = existedQuery?.search(`_${value}`);
+
+  //   let result = "";
+  //   if (existedQuery) {
+  //     if (existedQuery == value) {
+  //       result = {};
+  //     } else {
+  //       if (valueCheck !== -1) {
+  //         if (_check !== -1) {
+  //           result = existedQuery?.replace(`_${value}`, "");
+  //         } else if (valueCheck == 0) {
+  //           result = existedQuery?.replace(`${value}_`, "");
+  //         } else {
+  //           result = existedQuery?.replace(value, "");
+  //         }
+  //       } else {
+  //         result = `${existedQuery}_${value}`;
+  //       }
+  //     }
+  //   } else {
+  //     result = value;
+  //   }
+  //   return {
+  //     result,
+  //     active: existedQuery && valueCheck !== -1 ? true : false,
+  //   };
+  // }
   const filterUrl = ({
     category,
     brand,
@@ -91,45 +120,46 @@ export default function BrowsePage({
   }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 
-    if (brand) {
+    if (brand !== undefined) {
       currentQuery.set("brand", brand.toString());
     }
-    if (category) {
+    if (category !== undefined) {
       currentQuery.set("category", category);
     }
-    if (subCategories) {
+    if (subCategories !== undefined) {
       currentQuery.set("subCategories", subCategories);
     }
-    if (style) {
+    if (style !== undefined) {
       currentQuery.set("style", style);
     }
-    if (size) {
+    if (size !== undefined) {
       currentQuery.set("size", size);
     }
-    if (color) {
+    if (color !== undefined) {
       currentQuery.set("color", color);
     }
-    if (pattern) {
+    if (pattern !== undefined) {
       currentQuery.set("pattern", pattern);
     }
-    if (material) {
+    if (material !== undefined) {
       currentQuery.set("material", material);
     }
-    if (price) {
+    if (price !== undefined) {
       currentQuery.set("price", price);
     }
-    if (shipping) {
+    if (shipping !== undefined) {
       currentQuery.set("shipping", shipping);
 
       console.log("new", currentQuery.set("shipping", shipping));
     }
-    if (rating) {
+    if (rating !== undefined) {
       currentQuery.set("rating", rating);
     }
-    if (sort) {
+
+    if (sort !== undefined) {
       currentQuery.set("sort", sort);
     }
-    if (page) {
+    if (page !== undefined) {
       currentQuery.set("page", page);
     }
 
@@ -141,10 +171,22 @@ export default function BrowsePage({
   };
 
   const categoryHandle = (category) => {
-    filterUrl({ category });
+    if (category) {
+      filterUrl({ category });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("category");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const subcategoryHandle = (subCategories) => {
-    filterUrl({ subCategories });
+    if (subCategories) {
+      filterUrl({ subCategories });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("subCategories");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   // const priceHandler = (price, type) => {
   //   let priceQuery = searchParams.get("price")?.split("_") || "";
@@ -172,35 +214,86 @@ export default function BrowsePage({
     filterUrl({ price: `${min}_${max}` });
   };
   const shippingHandler = (shipping) => {
-    filterUrl({ shipping });
+    if (shipping) {
+      filterUrl({ shipping });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("shipping");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const ratingHandler = (rating) => {
-    filterUrl({ rating });
-  };
-  const sortHandler = (sort) => {
-    if (sort == "") {
-      filterUrl({ sort: {} });
+    if (rating) {
+      filterUrl({ rating });
     } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("rating");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
+  };
+
+  const sortHandler = (sort) => {
+    if (sort) {
       filterUrl({ sort });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("sort");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
     }
   };
   const brandHandle = (brand) => {
-    filterUrl({ brand });
+    if (brand) {
+      filterUrl({ brand });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("brand");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const styleHandle = (style) => {
-    filterUrl({ style });
+    if (style) {
+      filterUrl({ style });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("style");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const sizeHandle = (size) => {
-    filterUrl({ size });
+    if (size) {
+      filterUrl({ size });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("size");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const patternHandle = (pattern) => {
-    filterUrl({ pattern });
+    if (pattern) {
+      filterUrl({ pattern });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("pattern");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const materialHandle = (material) => {
-    filterUrl({ material });
+    if (material) {
+      filterUrl({ material });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("material");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
   const colorHandle = (color) => {
-    filterUrl({ color });
+    if (color) {
+      filterUrl({ color });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("color");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
   };
 
   const pageHandler = (e, page) => {

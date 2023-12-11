@@ -21,7 +21,7 @@ const ProductMain = ({ product, params }) => {
           setActiveImg={setActiveImg}
           params={params}
         />
-        {/* <StoreSide store={product?.storeId} /> */}
+        <StoreSide store={product?.storeId} />
       </div>
       <ProductReviews product={product} />
     </div>

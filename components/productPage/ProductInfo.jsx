@@ -16,22 +16,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../store/cartSlice";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
-const ProductInfo = ({ product, setActiveImg, params }) => {
-  // const priceRange = [
-  //   { minQty: 0, maxQty: 5, price: 45.0 },
-  //   { minQty: 6, maxQty: 10, price: 1 },
-  //   { minQty: 20, maxQty: 49, price: 40.5 },
-  //   { minQty: 50, maxQty: 99, price: 36.0 },
-  //   { minQty: 100, maxQty: Infinity, price: 33.75 },
-  // ];
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
+const ProductInfo = ({ product, setActiveImg, params }) => {
   if (!product) {
     return <div>Loading...</div>;
   }
-
+  console.log(product);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
-  console.log(product.colors);
+  // const [priceHistory, setPriceHistory] = useState([]);
+  const [showPriceHistory, setShowPriceHistory] = useState(false);
+
+  const togglePriceHistory = () => {
+    setShowPriceHistory(!showPriceHistory);
+  };
   const UrlSize = params?.slug[2];
   const UrlStyle = params?.slug[1];
   const { cart } = useSelector((state) => ({ ...state }));
@@ -70,6 +89,37 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setTotalPrice(selectedPriceRange.price * qty);
     }
   }, [qty]);
+  const handleQtyChange = (e) => {
+    const newQty = Number(e.target.value.replace(/^0+/, ""));
+
+    const selectedPriceRange = priceRanges.find(
+      (range) => newQty >= range.minQty && newQty <= range.maxQty
+    );
+
+    if (selectedPriceRange) {
+      setQty(newQty);
+      setTotalPrice(selectedPriceRange.price * newQty);
+      setSelectedRange(selectedPriceRange);
+    } else {
+      const closestRange = priceRanges.reduce((closest, range) => {
+        const currentDiff = Math.abs(newQty - closest.minQty);
+        const newDiff = Math.abs(newQty - range.minQty);
+        return newDiff < currentDiff ? range : closest;
+      });
+
+      setQty(newQty);
+      setTotalPrice(closestRange.price * newQty);
+      setSelectedRange(closestRange);
+    }
+  };
+  const priceHistory = [
+    { date: "2022-01-01", price: 25.0 },
+    { date: "2022-01-02", price: 28.5 },
+    { date: "2022-01-03", price: 22.0 },
+    { date: "2022-01-04", price: 30.0 },
+    { date: "2022-01-05", price: 35.5 },
+    // Add more entries as needed
+  ];
 
   useEffect(() => {
     if (!hasNullPrice) {
@@ -142,7 +192,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   const handleQtyIncrease = () => {
     if (qty < product?.quantity) {
-      const newQty = Math.min(qty + 1, product?.quantity); // Ensure qty doesn't exceed product.quantity
+      const newQty = Math.min(qty + 1, product?.quantity); // Ensure qty doesn't exceed 10000
       setQty(newQty);
 
       const selectedPriceRange = priceRanges.find(
@@ -213,6 +263,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           {product.numReviews} {product.numReviews > 1 ? "reviews" : "review"}
         </p>
       </div>
+      <p className="mt-2 text-sm text-gray-600">
+        {size
+          ? `${product.quantity} pieces available.`
+          : `Total available: ${product.size.reduce(
+              (start, next) => start + next.qty,
+              0
+            )} pieces.`}
+      </p>
       <div className="flex items-end mt-2">
         <div className="flex mt-2 flex-wrap">
           {priceRanges.map((range, index) => (
@@ -308,12 +366,11 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </button>
           <input
             type="number"
-            value={qty > product.quantity ? product.quantity : qty}
+            value={qty.toString() > 10000 ? 10000 : qty.toString()}
             min={qty}
-            max={product.quantity}
-            onChange={(e) => setQty(Number(e.target.value))} // Convert input to a number
+            max={10000}
+            onChange={handleQtyChange}
             className="p-4 flex items-center text-lg font-semibold"
-            disabled={qty >= product.quantity}
           />
 
           <button
@@ -327,16 +384,15 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
       <div className="mt-2 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
         <button
-          disabled={product.quantity < 1}
+          disabled={10000 < 1}
           onClick={openModal}
           type="button"
           className="inline-flex items-center justify-center border   border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
         >
           Send Inquiry
         </button>
-
         <button
-          disabled={product.quantity < 1}
+          disabled={10000 < 1}
           type="button"
           className="inline-flex items-center justify-center  border-transparent  bg-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold text-white transition-all duration-300 ease-in-out  "
           onClick={() => addToCartHandler()}
@@ -347,6 +403,57 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
         </div>
       </div>
+      {priceHistory.length > 0 && (
+        <div className="mt-4    w-full">
+          <div className=" flex w-full">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Price History
+            </h2>
+            <button
+              className="ml-2 focus:outline-none"
+              onClick={togglePriceHistory}
+            >
+              <KeyboardArrowDownIcon />
+            </button>
+          </div>
+          {showPriceHistory && (
+            <Line
+              data={{
+                labels: priceHistory.map((entry) => entry.date),
+                datasets: [
+                  {
+                    data: priceHistory.map((entry) => entry.price),
+                    borderColor: "#2B39D1",
+                    borderWidth: 2,
+                    fill: false,
+                  },
+                ],
+              }}
+              ptions={{
+                scales: {
+                  x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                      display: true,
+                      text: "Date",
+                    },
+                  },
+                  y: {
+                    type: "linear",
+                    position: "left",
+                    title: {
+                      display: true,
+                      text: "Price",
+                    },
+                  },
+                },
+              }}
+            />
+          )}
+        </div>
+      )}
+
       {error && <span className="text-red-600 mt-2">{error}</span>}
 
       {isModalOpen && (
