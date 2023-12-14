@@ -15,7 +15,7 @@ const Usermenu = ({ isLogin, session }) => {
           {session.data.user.role === "admin" && (
             <Link
               href="/admin/dashboard"
-              className="block py-2 px-4 text-sm text-gray-700"
+              className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
               role="menuitem"
               tabIndex="-1"
               id="user-menu-item-0"
@@ -27,7 +27,7 @@ const Usermenu = ({ isLogin, session }) => {
           {session.data.user.role === "vendor" && (
             <Link
               href="/vendor"
-              className="block py-2 px-4 text-sm text-gray-700"
+              className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
               role="menuitem"
               tabIndex="-1"
               id="user-menu-item-1"
@@ -39,7 +39,7 @@ const Usermenu = ({ isLogin, session }) => {
           {session.data.user.role === "user" && (
             <Link
               href="/profile"
-              className="block py-2 px-4 text-sm text-gray-700"
+              className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
               role="menuitem"
               tabIndex="-1"
               id="user-menu-item-2"
@@ -51,7 +51,7 @@ const Usermenu = ({ isLogin, session }) => {
           {session.data.user.role === "supplier" && (
             <Link
               href="/profile"
-              className="block py-2 px-4 text-sm text-gray-700"
+              className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
               role="menuitem"
               tabIndex="-1"
               id="user-menu-item-2"
@@ -62,7 +62,7 @@ const Usermenu = ({ isLogin, session }) => {
 
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700"
+            className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
             role="menuitem"
             tabIndex="-1"
             id="user-menu-item-1"
@@ -71,7 +71,7 @@ const Usermenu = ({ isLogin, session }) => {
           </a>
 
           <div
-            className="block py-2 px-4 text-sm text-gray-700"
+            className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
             role="menuitem"
             tabIndex="-1"
             id="user-menu-item-2"
@@ -91,7 +91,7 @@ const Usermenu = ({ isLogin, session }) => {
           tabIndex="-1"
         >
           <div
-            className="block py-2 px-4 text-sm text-gray-700"
+            className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
             role="menuitem"
             tabIndex="-1"
             id="user-menu-item-0"
@@ -99,17 +99,17 @@ const Usermenu = ({ isLogin, session }) => {
               signIn();
             }}
           >
-            Sign in
+            Sign in/ Register
           </div>
 
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700"
+            className="block hover:bg-[#2B39D1] hover:text-white py-2 px-4 text-sm text-gray-700"
             role="menuitem"
             tabIndex="-1"
             id="user-menu-item-1"
           >
-            Register
+            Help
           </a>
         </div>
       )}

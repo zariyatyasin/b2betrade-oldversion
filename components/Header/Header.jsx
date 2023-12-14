@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Usermenu from "./Usermenu";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Fragment } from "react";
@@ -241,7 +241,10 @@ export const Header = ({ categories, subCategories }) => {
               className="flex items-center text- justify-center shrink-0 h-auto focus:outline-none transform hidden lg:flex xl:mx-3.5 mx-2.5"
               aria-label="cart-button"
             >
-              <HeadsetMicOutlinedIcon sx={{ fontSize: 28 }} className="ml-2" />
+              <ShoppingCartOutlinedIcon
+                sx={{ fontSize: 28 }}
+                className="ml-2"
+              />
             </button>
             <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
               <div

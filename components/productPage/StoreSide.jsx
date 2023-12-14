@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ChatBox from "../../components/chat/ChatBox";
 import Link from "next/link";
+import EnergySavingsLeafOutlinedIcon from "@mui/icons-material/EnergySavingsLeafOutlined";
 export default function StoreSide({ store }) {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -74,6 +75,18 @@ export default function StoreSide({ store }) {
           <div className="text-center">
             <p className="text-gray-500 font-medium text-xs">Floorspace</p>
             <div className="text-sm font-bold">7000m²</div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-6 px-2">
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">Eco Pacaging</p>
+            <div className="  text-green-500">
+              <EnergySavingsLeafOutlinedIcon />
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-gray-500 font-medium text-xs">Eco Rating</p>
+            <div className="text-sm font-bold">3.45</div>
           </div>
         </div>
 

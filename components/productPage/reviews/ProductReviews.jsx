@@ -19,9 +19,13 @@ export default function ProductReviews({ product }) {
         </h1>
         <div className="flex flex-col md:flex-row md:space-x-4">
           <div className="md:w-1/2">
-            <div className="bg-white p-4 rounded-lg shadow">
-              <span className="text-gray-600">Average Rating</span>
-              <div className="flex items-center mt-2">
+            <div className="  ">
+              <div className="  mt-2">
+                <div className=" mb-5 font-bold text-xl ">
+                  {" "}
+                  {product.rating === 0 ? "No review yet." : product.rating}
+                </div>
+
                 <Rating
                   name="half-rating-read"
                   defaultValue={product.rating}
@@ -29,7 +33,6 @@ export default function ProductReviews({ product }) {
                   readOnly
                   style={{ color: "#2B39D1" }}
                 />
-                {product.rating === 0 ? "No review yet." : product.rating}
               </div>
             </div>
           </div>

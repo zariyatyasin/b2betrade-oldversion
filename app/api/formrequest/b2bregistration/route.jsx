@@ -11,6 +11,7 @@ export const POST = async (request) => {
       name,
       role,
       storeName,
+      address,
       email,
       phoneNumber,
       password,
@@ -19,6 +20,26 @@ export const POST = async (request) => {
       description,
     } = await request.json();
 
+    const user = await User.findOne({ phoneNumber });
+    if (user) {
+      return NextResponse.json(
+        { message: "This phone number already exsits." },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    console.log(address);
+    const Findemail = await User.findOne({ email });
+    if (Findemail) {
+      return NextResponse.json(
+        { message: "This email already exsits." },
+        {
+          status: 400,
+        }
+      );
+    }
     const cryptedPassword = await bcrypt.hash(password, 12);
     const savedUser = await new User({
       name,
@@ -31,6 +52,7 @@ export const POST = async (request) => {
     const CreateStore = await new Store({
       storeName,
       owner: savedUser._id,
+      address,
       category,
       subCategories,
       description,

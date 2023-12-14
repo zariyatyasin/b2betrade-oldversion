@@ -10,7 +10,7 @@ const navigation = [
   { name: "Company", href: "#" },
 ];
 
-export default function SupplierRegistration({ categories }) {
+export default function SupplierRegistration({ categories, userType }) {
   return (
     <div className="bg-gray-50">
       <div className="relative overflow-hidden">
@@ -196,7 +196,7 @@ export default function SupplierRegistration({ categories }) {
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 bg-white">
             <div className="mt-12">
-              <B2bRegistration categories={categories} />
+              <B2bRegistration categories={categories} userType={userType} />
             </div>
           </div>
         </div>

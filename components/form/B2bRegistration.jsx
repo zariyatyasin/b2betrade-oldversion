@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import FullScreenLoading from "../loading/FullScreenLoading";
+import { toast } from "react-toastify";
 import SingularSelect from "../selects/SingularSelect";
 import MultipleSelect from "../selects/MultipleSelect";
 import * as Yup from "yup";
 import axios from "axios";
+import { Button } from "../ui/button";
 function B2bRegistration({ categories, userType }) {
   const role = [
     { _id: 1, name: "supplier" },
@@ -22,12 +24,12 @@ function B2bRegistration({ categories, userType }) {
     category: "",
     subCategories: [],
     description: "",
-    role: "",
+    role: userType,
     address: {
       street: "",
-      city: "",
+      city: "chittagong",
 
-      country: "",
+      country: "bangladesh",
     },
   };
   const validationSchema = Yup.object().shape({
@@ -43,25 +45,32 @@ function B2bRegistration({ categories, userType }) {
 
   const [values, setValues] = useState(initialValues);
   const [subs, setSubs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
+
+    console.log("this value", values);
   };
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      console.log(values);
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:3000/api/formrequest/b2bregistration",
 
         values
       );
 
-      if (response.status === 200) {
-        console.log("Request successful:", response.data);
-      } else {
-        console.error("Request failed with status:", response.status);
+      if (response.status === 201) {
+        resetForm();
+        toast.success(response.data.message);
       }
     } catch (error) {
-      console.error("Error making API request:", error);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
     setValues(values);
   };
@@ -69,12 +78,15 @@ function B2bRegistration({ categories, userType }) {
     async function getSubs() {
       if (values.category) {
         try {
+          setLoading(true);
           const { data } = await axios.get(
             `/api/admin/subcategory/${values.category}`
           );
           setSubs(data);
         } catch (error) {
           console.error("Error fetching subcategories:", error);
+        } finally {
+          setLoading(false);
         }
       }
     }
@@ -88,6 +100,7 @@ function B2bRegistration({ categories, userType }) {
     >
       {({ values, handleSubmit, setFieldValue }) => (
         <Form className="  mb-24">
+          {loading && <FullScreenLoading />}
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 z-10 py-8">
             <div className="mt-6 sm:col-span-2">
               <label
@@ -156,7 +169,7 @@ function B2bRegistration({ categories, userType }) {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email Address
+                Email Address if has any
               </label>
               <Field
                 type="text"
@@ -211,6 +224,7 @@ function B2bRegistration({ categories, userType }) {
                 as="select"
                 name="role"
                 id="role"
+                defaultValue={values.role}
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 sm:text-sm border-gray-300"
               >
                 <option value="supplier">Supplier</option>
@@ -246,7 +260,7 @@ function B2bRegistration({ categories, userType }) {
             </div>
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="address"
+                htmlFor="address.country"
                 className="block text-sm font-medium text-gray-700"
               >
                 Country
@@ -256,17 +270,20 @@ function B2bRegistration({ categories, userType }) {
                 name="address.country"
                 id="address.country"
                 autoComplete="address.country"
+                placeholder="Bangladesh"
+                defaultValue="Bangladesh"
+                disabled
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="address"
+                name="address.country"
                 component="div"
                 className="text-red-500 text-sm"
               />
             </div>
             <div className="mt-6 sm:col-span-2">
               <label
-                htmlFor="address"
+                htmlFor="address.city"
                 className="block text-sm font-medium text-gray-700"
               >
                 city
@@ -274,12 +291,15 @@ function B2bRegistration({ categories, userType }) {
               <Field
                 type="text"
                 name="address.city"
-                id="ddress.city"
-                autoComplete="ddress.city"
+                id="address.city"
+                autoComplete="address.city"
+                placeholder="chittagong"
+                defaultValue="chittagong"
+                disabled
                 className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
               />
               <ErrorMessage
-                name="address"
+                name="address.city"
                 component="div"
                 className="text-red-500 text-sm"
               />
@@ -287,12 +307,12 @@ function B2bRegistration({ categories, userType }) {
           </div>
 
           <div className=" ">
-            <button
+            <Button
               type="submit"
               className=" px-2 py-4 bg-blue-600 text-white "
             >
               Submit
-            </button>
+            </Button>
           </div>
         </Form>
       )}
