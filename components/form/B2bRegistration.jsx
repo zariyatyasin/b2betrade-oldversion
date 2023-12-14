@@ -309,7 +309,7 @@ function B2bRegistration({ categories, userType }) {
           <div className=" ">
             <Button
               type="submit"
-              className=" px-2 py-4 bg-blue-600 text-white "
+              className=" px-2 py-4 bg-blue-600 text-white  "
             >
               Submit
             </Button>
