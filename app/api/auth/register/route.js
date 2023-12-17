@@ -8,7 +8,7 @@ export async function POST(request) {
   try {
     await db.connectDb();
     const { phoneNumber, password } = await request.json();
-    console.log(phoneNumber);
+
     if (!phoneNumber || !password) {
       return NextResponse.json(
         { message: "Please fill all the fields" },

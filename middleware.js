@@ -8,7 +8,7 @@ export async function middleware(req) {
     secureCookie: process.env.NODE_ENV === "production",
   });
 
-  const origin = req.headers.get("origin");
+  const origin = req.nextUrl.origin;
 
   if (req.nextUrl.pathname.startsWith("/checkout")) {
     if (!session) {
@@ -33,11 +33,11 @@ export async function middleware(req) {
     if (session.role !== "admin")
       return NextResponse.redirect(new URL("/", req.url));
   }
-  if (req.nextUrl.pathname.startsWith("/vendor")) {
+  if (req.nextUrl.pathname.startsWith("/supplier")) {
     if (!session) {
       return NextResponse.redirect(new URL("/", req.url));
     }
-    if (session.role !== "vendor")
+    if (session.role !== "supplier")
       return NextResponse.redirect(new URL("/", req.url));
   }
 }

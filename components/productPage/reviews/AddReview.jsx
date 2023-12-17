@@ -10,18 +10,18 @@ export default function AddReview({ product, setReviews }) {
 
   const [size, setSize] = useState("");
   const [style, setStyle] = useState("");
-  const [fit, setFit] = useState("");
+  const [delivery, setdelivery] = useState("");
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0); // Initialize the rating state with a number
   const [images, setImages] = useState([]);
   let uploaded_images = [];
 
-  const fits = ["Small", "True to size", "Large"];
+  const deliverys = ["Fast", "Slow", "Late"];
 
   const handleSubmit = () => {
     setLoading(true);
 
-    console.log({ images, size, fit, review, style, rating });
+    console.log({ images, size, delivery, review, style, rating });
 
     setLoading(false);
   };
@@ -32,26 +32,25 @@ export default function AddReview({ product, setReviews }) {
         <div className="flex flex-col md:flex-row md:space-x-4">
           <div className="w-full mt-4 md:mt-0">
             <div className="bg-white p-4 flex rounded-lg shadow">
-              <div className="text-gray-600">Size</div>
               <Select
                 property={size}
                 text="Size"
                 data={product.allSizes.filter((x) => x.size !== size)}
                 handleChange={setSize}
               />
-              <div className="text-gray-600">Style</div>
+
               <Select
                 property={style}
                 text="Style"
                 data={product.colors.filter((x) => x !== style)}
                 handleChange={setStyle}
               />
-              <div className="text-gray-600">How does it fit</div>
+
               <Select
-                property={fit}
-                text="How does it fit"
-                data={fits.filter((x) => x !== fit)}
-                handleChange={setFit}
+                property={delivery}
+                text="delivery"
+                data={deliverys.filter((x) => x !== delivery)}
+                handleChange={setdelivery}
               />
             </div>
             <Images images={images} setImages={setImages} />

@@ -77,8 +77,6 @@ export default function page() {
     }
   };
 
-  console.log("this is totla", total);
-
   return (
     <div className="">
       <Header />

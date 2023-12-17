@@ -13,6 +13,7 @@ const CartProduct = ({
 }) => {
   const [active, setActive] = useState();
 
+  console.log(product);
   useEffect(() => {
     setActive(selected.some((p) => p._uid === product._uid));
   }, [selected, product]);
@@ -54,7 +55,7 @@ const CartProduct = ({
   return (
     <li className="flex  py-6 sm:py-10 bg-white md:px-4 px-2">
       <div
-        className={`h-4 w-4 mr-2 md:mr-4 border border-gray-950 hover:border-2 rounded cursor-pointer ${
+        className={`h-4 w-4 mr-2 md:mr-4 border border-gray-950 hover:border-2  rounded-full cursor-pointer ${
           active ? styles.cartCheckActive : ""
         }  `}
         onClick={() => handleSelect()}
@@ -90,24 +91,28 @@ const CartProduct = ({
               </p>
             </div> */}
             <div className="flex md:flex-row flex-col md:items-center mt-4 lg:mt-8">
-              <div className=" flex md:mb-0 mb-2">
-                <img
-                  src={product.color.image}
-                  alt="color"
-                  className="md:h-5 md:w-5 h-4 w-4 rounded-full"
-                />
-                {product.size && (
-                  <p className=" ml-2 text-xs md:text-sm font-medium text-gray-900">
+              <div className="flex md:mb-0 mb-2">
+                {product.color.image !== "" ? (
+                  <img
+                    src={product.color.image}
+                    alt="color"
+                    className="md:h-5 md:w-5 h-4 w-4 rounded-full"
+                  />
+                ) : (
+                  product.color.color !== "" && (
+                    <div
+                      className="md:h-5 md:w-5 h-4 w-4 rounded-full"
+                      style={{ backgroundColor: product.color.color }}
+                    ></div>
+                  )
+                )}
+                {product.size !== "" && (
+                  <p className="ml-2 text-xs md:text-sm font-medium text-gray-900">
                     {product.size}
                   </p>
                 )}
               </div>
 
-              {product.price && (
-                <p className=" ml-2 md:text-sm text-xs  text-orange-600 font-bold">
-                  ৳ {product.price.toFixed(2)}
-                </p>
-              )}
               {product.price !== product.priceBefore && (
                 <p className=" md:ml-1 mt-2 text-xs line-through  text-gray-900 font-medium ">
                   ৳ {product.priceBefore.toFixed(2)}

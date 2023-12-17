@@ -7,29 +7,47 @@ import { useRouter } from "next/navigation";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-
+import { signIn, useSession } from "next-auth/react";
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Navigation } from "../../data/Navigation";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MobileCategory from "./MobileCategory";
+import { useSelector } from "react-redux";
 function MobileMenu({ categories, subCategories }) {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { cart } = useSelector((state) => ({ ...state }));
+  const { data: session, status } = useSession();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
 
     if (newValue === "profile") {
+      if (!session) {
+        signIn();
+      } else {
+        if (session.user.role === "admin") {
+          router.push("/admin/dashboard");
+        }
+        if (session.user.role === "supplier") {
+          router.push("/supplier/dashboard");
+        }
+        if (session.user.role === "user") {
+          router.push("/profile");
+        }
+      }
+    }
+    if (newValue === "cart") {
       // Navigate to the profile page
-      router.push("/profile");
+      router.push("/cart");
     }
     if (newValue === "category") {
       setOpen(!open);
@@ -38,9 +56,7 @@ function MobileMenu({ categories, subCategories }) {
       setValue("");
     }
   };
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
+
   return (
     <div>
       <Transition.Root show={open} as={Fragment}>
@@ -188,9 +204,18 @@ function MobileMenu({ categories, subCategories }) {
             icon={<CategoryOutlinedIcon />}
           />
           <BottomNavigationAction
-            label="Nearby"
-            value="nearby"
-            icon={<FavoriteBorderOutlinedIcon />}
+            label="Cart"
+            value="cart"
+            icon={
+              <div style={{ position: "relative" }}>
+                <ShoppingCartOutlinedIcon />
+                {cart.cartItems.length > 0 && (
+                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#2B39D1] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                    {cart.cartItems.length}
+                  </div>
+                )}
+              </div>
+            }
           />
           <BottomNavigationAction
             label="Profile"

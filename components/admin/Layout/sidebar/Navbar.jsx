@@ -12,7 +12,7 @@ export const Navbar = () => {
       className={`fixed top-0 mb-24 left-0 right-0 w-full pr-8
       bg-white border-b  
       flex items-center justify-between z-10   transition-all ease-in-out duration-300    h-[65px]    ${
-        expand ? " pl-64" : " "
+        expand ? " md:pl-64" : " "
       }   `}
     >
       <div className={`flex items-center ml-6 text-black  `}>
@@ -25,7 +25,7 @@ export const Navbar = () => {
       </div>
 
       <div className="flex ml-2 flex-col  justify-center">
-        <div className="flex items-center">hekki</div>
+        {/* <div className="flex items-center">hekki</div> */}
       </div>
     </div>
   );

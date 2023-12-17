@@ -50,13 +50,13 @@ const Usermenu = ({ isLogin, session }) => {
 
           {session.data.user.role === "supplier" && (
             <Link
-              href="/profile"
+              href="/supplier/dashboard"
               className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
               role="menuitem"
               tabIndex="-1"
               id="user-menu-item-2"
             >
-              Profile
+              Dashboard
             </Link>
           )}
 

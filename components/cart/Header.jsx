@@ -9,10 +9,14 @@ export default function Header() {
           <div className="px-4   sm:px-0 sm:pb-0">
             <div className="h-16 flex items-center justify-between">
               <div className="  flex">
-                <Link href={"/"}>
-                  <h1 className=" uppercase md:text-2xl text-2xl tracking-wide text-gray-950 font-bold ">
-                    Sudzar
-                  </h1>
+                <Link
+                  href="/"
+                  className="inline-block focus:outline-none text-gray-950 font-bold text-xl md:text-3xl max-w-[131px] "
+                >
+                  B2B
+                  <span className=" text-[#2B39D1] text-2xl lg:text-3xl">
+                    eTrade
+                  </span>
                 </Link>
               </div>
 

@@ -36,7 +36,7 @@ const Sidebar = () => {
       }`}
     >
       <div
-        className={`text-black  hidden    absolute right-[-20px] text-3xl top-[57px] z-50    cursor-pointer ${
+        className={`text-black  md:hidden     abs olute right-[-20px] text-3xl top-[57px] z-50    cursor-pointer ${
           !expand && "rotate-180"
         }`}
         onClick={() => dispatch(toggleSidebar(true))}

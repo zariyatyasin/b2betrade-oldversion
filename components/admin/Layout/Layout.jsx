@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
       ></div> */}
       <div
         className={`pt-24 transition-all ease-in-out duration-300 bg-gray-100  w-full  overflow-hidden ${
-          expand ? "ml-64" : "ml-0"
+          expand ? "md:ml-64" : "ml-0"
         }`}
       >
         {children}

@@ -13,7 +13,7 @@ export default function StoreSide({ store }) {
     setIsChatOpen(false);
   };
   return (
-    <div className=" mx-auto max-w-md">
+    <div className=" mx-auto  max-w-md">
       <div className="   bg-white   rounded-md   p-4">
         <div className="flex justify-center">
           {/* <img

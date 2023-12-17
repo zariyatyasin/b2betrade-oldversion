@@ -7,9 +7,6 @@ import axios from "axios";
 export default function StoreCard({ data }) {
   const [store, setStore] = useState(data);
 
-  console.log(store);
-  console.log("thso data", data);
-
   let roleColorClass = "";
 
   switch (store?.owner?.role) {

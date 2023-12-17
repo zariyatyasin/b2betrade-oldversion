@@ -17,6 +17,7 @@ import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import { useSelector } from "react-redux";
 
 const publishingOptions = [
   {
@@ -52,6 +53,7 @@ export const Header = ({ categories, subCategories }) => {
   const handleUserMenuOpen = () => {
     setOpen(true);
   };
+  const { cart } = useSelector((state) => ({ ...state }));
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -237,15 +239,21 @@ export const Header = ({ categories, subCategories }) => {
                 </Button>
               </Link>
             </div>
-            <button
+            <Link
+              href={"/cart"}
               className="flex items-center text- justify-center shrink-0 h-auto focus:outline-none transform hidden lg:flex xl:mx-3.5 mx-2.5"
               aria-label="cart-button"
             >
+              {cart.cartItems.length > 0 && (
+                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#2B39D1] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                  {cart.cartItems.length}
+                </div>
+              )}
               <ShoppingCartOutlinedIcon
                 sx={{ fontSize: 28 }}
                 className="ml-2"
               />
-            </button>
+            </Link>
             <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
               <div
                 className="  relative  cursor-pointer  z-50"

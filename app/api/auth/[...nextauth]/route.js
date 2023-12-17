@@ -29,11 +29,11 @@ export const authOptions = {
           if (user) {
             return SignInUser({ password, user });
           } else {
-            throw new Error("This email does not exist");
+            throw new Error("This phone does not exist");
           }
         } catch (err) {
           console.error("Error in authorize:", err);
-          throw new Error("There was an error during authorization.");
+          throw new Error(err);
         }
       },
     }),
@@ -66,7 +66,7 @@ const SignInUser = async ({ password, user }) => {
   const textPassword = await bcrypt.compare(password, user.password);
 
   if (!textPassword) {
-    throw new Error("Email or Password is Wrong");
+    throw new Error("Wrong Password");
   }
   return user;
 };

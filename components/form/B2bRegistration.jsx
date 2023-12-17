@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import FullScreenLoading from "../loading/FullScreenLoading";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 import { toast } from "react-toastify";
 import SingularSelect from "../selects/SingularSelect";
 import MultipleSelect from "../selects/MultipleSelect";
@@ -306,7 +306,7 @@ function B2bRegistration({ categories, userType }) {
             </div>
           </div>
 
-          <div className=" ">
+          <div className="  pb-4 ">
             <Button
               type="submit"
               className=" px-2 py-4 bg-blue-600 text-white  "

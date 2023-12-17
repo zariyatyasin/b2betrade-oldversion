@@ -8,9 +8,10 @@ import * as Yup from "yup";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { redirect, useSearchParams } from "next/navigation";
 import axios from "axios";
+import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
 const validationSchema = Yup.object({
   phoneNumber: Yup.string()
-    .required("phoneNumber is required")
+    .required("Phone Number is required")
     .matches(
       /^(01)\d{9}$/,
       "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
@@ -51,16 +52,20 @@ const page = () => {
       password: password,
     };
     try {
+      setLoading(true);
       const result = await signIn("credentials", options);
+      console.log(result);
       if (result?.error) {
-        console.log(result.error);
+        setError(result.error);
       } else {
-        console.log("User signed in successfully!");
+        setSuccess("User signed in successfully!");
 
         return result;
       }
     } catch (error) {
-      console.log(error.message || "An error occurred during sign-in.");
+      setError(error.message || "An error occurred during sign-in.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,10 +107,11 @@ const page = () => {
     const { phoneNumber, password } = values;
 
     try {
+      setLoading(true);
       const response = await axios.post("/api/auth/register/exsituser", {
         phoneNumber,
       });
-      console.log(response);
+
       if (response.data.type === "login") {
         setIsRegistering(true);
         setSuccess(response.data.message);
@@ -117,12 +123,15 @@ const page = () => {
       console.log(error);
 
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
       <Header />
+      {loading && <FullScreenLoading />}
       <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-xl mb-8 font-bold text-gray-900">

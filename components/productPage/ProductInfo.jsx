@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Accordian from "../accordion/Accordion";
 import InquiryForm from "../chat/InquiryForm";
+import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../store/cartSlice";
@@ -28,6 +29,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Button } from "../ui/button";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -233,6 +235,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           return p;
         });
         dispatch(updateCart(newCart));
+        toast.success("Cart Added");
       } else {
         dispatch(
           addToCart({
@@ -272,7 +275,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             )} pieces.`}
       </p>
       <div className="flex items-end mt-2">
-        <div className="flex mt-2 flex-wrap">
+        <div className="flex mt-2 flex-wrap gap-2 md:gap-0">
           {priceRanges.map((range, index) => (
             <div
               key={index}
@@ -382,27 +385,30 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </div>
       </div>
 
-      <div className="mt-2 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
-        <button
-          disabled={10000 < 1}
-          onClick={openModal}
-          type="button"
-          className="inline-flex items-center justify-center border   border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
-        >
-          Send Inquiry
-        </button>
-        <button
-          disabled={10000 < 1}
-          type="button"
-          className="inline-flex items-center justify-center  border-transparent  bg-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold text-white transition-all duration-300 ease-in-out  "
-          onClick={() => addToCartHandler()}
-        >
-          Add to cart
-        </button>
-        <div className="ml-6">
+      <div className="md:mt-5 md:mb-2 z-50 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
+        <div className="sm:ml-6 order-1    sm:order-3">
           <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
         </div>
+        <div className=" order-2">
+          <Button
+            disabled={10000 < 1}
+            onClick={openModal}
+            type="button"
+            className="bg-white border-[#2B39D1] border text-[#2B39D1] order-2 mr-2 sm:order-2"
+          >
+            Send Inquiry
+          </Button>
+          <Button
+            disabled={10000 < 1}
+            type="button"
+            className="bg-[#2B39D1] ease-in-out order-3 sm:order-1"
+            onClick={() => addToCartHandler()}
+          >
+            Add to Cart
+          </Button>
+        </div>
       </div>
+
       {priceHistory.length > 0 && (
         <div className="mt-4    w-full">
           <div className=" flex w-full">

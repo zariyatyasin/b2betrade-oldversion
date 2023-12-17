@@ -33,7 +33,7 @@ export default function BrowsePage({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  console.log(products);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   function checkChecked(queryName, value) {
@@ -149,8 +149,6 @@ export default function BrowsePage({
     }
     if (shipping !== undefined) {
       currentQuery.set("shipping", shipping);
-
-      console.log("new", currentQuery.set("shipping", shipping));
     }
     if (rating !== undefined) {
       currentQuery.set("rating", rating);

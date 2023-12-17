@@ -14,7 +14,7 @@ import {
 import { Button } from "../../ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "../../loading/FullScreenLoading";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 
 import CreateCouponForm from "../../form/CreateCouponForm";
 import ViewCouponDetails from "../../viewDetails/ViewCouponDetails";

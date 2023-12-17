@@ -16,10 +16,11 @@ async function getData({ params, searchParams }) {
   db.connectDb();
 
   const session = await getCurrentUser();
-  // if (!session) {
-  //   redirect("/signin");
-  // }
-
+  if (!session) {
+    redirect("/signin");
+  }
+  const page = searchParams.page || 1;
+  const pageSize = 10;
   let Stores;
 
   if (session?.role === "admin") {
@@ -36,7 +37,9 @@ async function getData({ params, searchParams }) {
       .populate({
         path: "subCategories",
         model: SubCategory,
-      });
+      })
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
   } else {
     // If the user is not an admin, fetch only their store
     Stores = await Store.find({ owner: session.id })
@@ -53,17 +56,18 @@ async function getData({ params, searchParams }) {
         model: SubCategory,
       });
   }
-
+  let totalProducts = await Store.countDocuments({});
   return {
     Stores: JSON.parse(JSON.stringify(Stores)),
+    paginationCount: Math.ceil(totalProducts / pageSize),
   };
 }
 
 export default async function page({ searchParams }) {
-  const { Stores } = await getData({ searchParams });
+  const { Stores, paginationCount } = await getData({ searchParams });
   return (
     <Layout>
-      <StoreComp Stores={Stores} />
+      <StoreComp Stores={Stores} paginationCount={paginationCount} />
     </Layout>
   );
 }

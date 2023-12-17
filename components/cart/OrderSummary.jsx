@@ -86,7 +86,7 @@ export default function OrderSummary({
       <div className="mt-6">
         <button
           type="submit"
-          className="w-full bg-gray-900 border border-transparent   shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-gray-900"
+          className="w-full bg-[#2B39D1] border border-transparent   shadow-sm py-3 px-4 text-base font-medium text-white  "
           disabled={selected.length == 0}
           style={{
             background: `${selected.length == 0 ? "#eee" : ""}`,

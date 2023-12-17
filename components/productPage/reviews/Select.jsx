@@ -4,7 +4,7 @@ export default function Select({ property, text, data, handleChange }) {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative mr-5">
       <div className="text-sm text-gray-600 mb-1">{text}:</div>
       <div
         className="relative flex items-center cursor-pointer"
@@ -21,15 +21,15 @@ export default function Select({ property, text, data, handleChange }) {
             property || `Select ${text}`
           ) : text === "Style" && property?.image ? (
             <img src={property.image} alt="" className="w-6 h-6" />
-          ) : text === "How does it fit" && property ? (
+          ) : text === "delivery" && property ? (
             property
-          ) : !property && text === "How does it fit" ? (
-            "How Does it fit"
+          ) : !property && text === "delivery" ? (
+            "delivery"
           ) : (
             "Select Style"
           )}
         </span>
-        <div className="pl-2">----</div>
+
         {visible && (
           <ul
             className="absolute top-full left-0 mt-1 py-2 px-3 bg-white border border-gray-300 rounded shadow-lg z-10"
@@ -45,7 +45,7 @@ export default function Select({ property, text, data, handleChange }) {
                       ? item.size
                       : text === "Style"
                       ? item
-                      : text === "How does it fit"
+                      : text === "delivery"
                       ? item
                       : undefined
                   )
@@ -60,7 +60,7 @@ export default function Select({ property, text, data, handleChange }) {
                   <span>{item.size}</span>
                 ) : text === "Style" ? (
                   <img src={item.image} alt="" className="w-6 h-6" />
-                ) : text === "How does it fit" ? (
+                ) : text === "delivery" ? (
                   <span>{item}</span>
                 ) : null}
               </li>

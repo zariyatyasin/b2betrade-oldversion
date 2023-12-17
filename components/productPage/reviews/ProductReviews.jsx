@@ -10,10 +10,10 @@ export default function ProductReviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState("");
   const [reviews, setReviews] = useState(product.reviews);
-
+  console.log(session);
   return (
-    <div className="bg-white mt-4 rounded-md p-4">
-      <div className="container mx-auto">
+    <div className="bg-white mt-4 rounded-md p-4  ">
+      <div className=" ">
         <h1 className="text-xl font-semibold mb-4">
           Customer Reviews ({product.reviews.length})
         </h1>
@@ -58,7 +58,9 @@ export default function ProductReviews({ product }) {
             ))}
           </div>
         </div>
-        {session && <AddReview product={product} setReviews={setReviews} />}
+        {session?.user.role === "admin" && (
+          <AddReview product={product} setReviews={setReviews} />
+        )}
         <div className="mt-4">
           <Table
             reviews={reviews}
