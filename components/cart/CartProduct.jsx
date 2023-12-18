@@ -113,11 +113,12 @@ const CartProduct = ({
                 )}
               </div>
 
-              {product.price !== product.priceBefore && (
-                <p className=" md:ml-1 mt-2 text-xs line-through  text-gray-900 font-medium ">
-                  ৳ {product.priceBefore.toFixed(2)}
-                </p>
-              )}
+              {product.priceBefore !== undefined &&
+                product.price !== product.priceBefore && (
+                  <p className="md:ml-1 mt-2 text-xs line-through text-gray-900 font-medium">
+                    ৳ {product.priceBefore.toFixed(2)}
+                  </p>
+                )}
               {/* {product.discount > 0 && (
                 <p className=" ml-1 text-xs line-through  text-green-500 font-medium ">
                   -{product.discount}%
@@ -136,7 +137,7 @@ const CartProduct = ({
           </div>
 
           <div className="mt-4 sm:mt-0 sm:pr-9  ">
-            <div className="group border w-28 flex items-center justify-between rounded-md overflow-hidden flex-shrink-0 h-8 md:h-9 shadow-navigation bg-heading">
+            {/* <div className="group border w-28 flex items-center justify-between rounded-md overflow-hidden flex-shrink-0 h-8 md:h-9 shadow-navigation bg-heading">
               <button
                 className="flex items-center justify-center flex-shrink-0 h-full transition ease-in-out duration-300  bg-gray-50 border-r  focus:outline-none w-8 md:w-9 text-gray-900 bg-heading hover:bg-gray-200  "
                 disabled={product.qty < 2}
@@ -180,7 +181,7 @@ const CartProduct = ({
                   </g>
                 </svg>
               </button>
-            </div>
+            </div> */}
 
             <div className=" hidden md:block absolute top-0 right-0">
               {product.price && (

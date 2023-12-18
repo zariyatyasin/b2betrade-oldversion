@@ -42,15 +42,15 @@ body {
 .swiper-button-next:after {
   font-size: 20px !important;
 }
-.Toastify__toast-body {
+/* .Toastify__toast-body {
   color: white;
-}
+} */
 .Toastify__toast-body .Toastify__toast-icon svg {
-  fill: white; /* Set the fill color to white */
+  fill: #2B39D1;  
 }
 .Toastify__progress-bar {
-  background: white;
-  border: 1px solid black;
+  background: #2B39D1;
+  border: 1px solid #2B39D1;
 }
 body::-webkit-scrollbar {
   display: none;

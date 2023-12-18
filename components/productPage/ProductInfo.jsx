@@ -9,6 +9,8 @@ import StarIcon from "@mui/icons-material/Star";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import Accordian from "../accordion/Accordion";
 import InquiryForm from "../chat/InquiryForm";
 import { toast } from "react-toastify";
@@ -44,7 +46,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   if (!product) {
     return <div>Loading...</div>;
   }
-  console.log(product);
+
+  const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
   // const [priceHistory, setPriceHistory] = useState([]);
@@ -213,39 +216,53 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setError("Please Select a size");
       return;
     }
-    const { data } = await axios.get(
-      `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
-    );
-    if (qty > data.quantity) {
-      setError(
-        "The Quantity you have choosed is more than in stock. Try and lower the Qty"
-      );
-    } else if (data.quantity < 1) {
-      setError("This Product is out of stock.");
-      return;
-    } else {
-      let _uid = `${data._id}_${product.style}_${UrlSize}`;
-      let exist = cart.cartItems.find((p) => p._uid === _uid);
 
-      if (exist) {
-        let newCart = cart.cartItems.map((p) => {
-          if (p._uid == exist._uid) {
-            return { ...p, qty: qty };
-          }
-          return p;
-        });
-        dispatch(updateCart(newCart));
-        toast.success("Cart Added");
-      } else {
-        dispatch(
-          addToCart({
-            ...data,
-            qty,
-            size: data.size,
-            _uid,
-          })
+    try {
+      setLoading(true);
+
+      const { data } = await axios.get(
+        `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
+      );
+
+      if (qty > data.quantity) {
+        setError(
+          "The Quantity you have chosen is more than in stock. Try and lower the Qty"
         );
+      } else if (data.quantity < 1) {
+        setError("This Product is out of stock.");
+        return;
+      } else {
+        let _uid = `${data._id}_${product.style}_${UrlSize}`;
+        let exist = cart.cartItems.find((p) => p._uid === _uid);
+
+        const productToAdd = {
+          ...data,
+          qty,
+          size: data.size,
+          _uid,
+          price: selectedRange.price, // Include the selected price in the product data
+        };
+
+        if (exist) {
+          let newCart = cart.cartItems.map((p) => {
+            if (p._uid === exist._uid) {
+              return { ...p, qty, price: selectedRange.price }; // Update the price in existing item
+            }
+            return p;
+          });
+          dispatch(updateCart(newCart));
+          toast.success("Cart Updated");
+        } else {
+          dispatch(addToCart(productToAdd));
+          toast.success("Product Added to Cart");
+        }
       }
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+      toast.error("Error adding to Cart");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -385,8 +402,19 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </div>
       </div>
 
-      <div className="md:mt-5 md:mb-2 z-50 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
-        <div className="sm:ml-6 order-1    sm:order-3">
+      <div className="md:mt-5 md:mb-2 z-50 p-4 sm:p-0 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
+        <Link
+          href={"/cart"}
+          className="sm:ml-6 relative order-1 lg:hidden   sm:order-3"
+        >
+          <ShoppingCartOutlinedIcon sx={{ fontSize: 32 }} />
+          {cart.cartItems.length > 0 && (
+            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#2B39D1] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+              {cart.cartItems.length}
+            </div>
+          )}
+        </Link>
+        <div className="hidden lg:block sm:ml-6 order-1    sm:order-3">
           <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
         </div>
         <div className=" order-2">
@@ -399,12 +427,16 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             Send Inquiry
           </Button>
           <Button
-            disabled={10000 < 1}
+            disabled={10000 < 1 || loading}
             type="button"
-            className="bg-[#2B39D1] ease-in-out order-3 sm:order-1"
+            className="bg-[#2B39D1] ease-in-out order-3 sm:order-1 hover:bg-[#2B39D1]   focus:bg-[#2B39D1] "
             onClick={() => addToCartHandler()}
           >
-            Add to Cart
+            {loading ? (
+              <div className=" flex items-center">{"Adding to Cart..."}</div>
+            ) : (
+              "Add to Cart"
+            )}
           </Button>
         </div>
       </div>

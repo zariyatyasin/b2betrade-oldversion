@@ -13,8 +13,8 @@ export default function AddressCard({
 }) {
   return (
     <div
-      className={`relative bg-white overflow-hidden   border  shadow-sm p-4 flex  mb-2 ${
-        address?.active && "border-gray-950"
+      className={`relative bg-white overflow-hidden  rounded-md  border  shadow-sm p-4 flex  mb-2 ${
+        address?.active && "border-[#2B39D1]"
       }`}
     >
       <input
@@ -57,7 +57,7 @@ export default function AddressCard({
       <div className="">
         <div
           className={`flex cursor-pointer  border ${
-            address?.active ? "bg-gray-950 " : ""
+            address?.active ? "bg-[#2B39D1] " : ""
           } px-2 py-1 rounded-full  items-center`}
           onClick={() => changeAtiveHandler(address?._id)}
         >

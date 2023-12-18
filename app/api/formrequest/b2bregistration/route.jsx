@@ -30,15 +30,16 @@ export const POST = async (request) => {
       );
     }
 
-    console.log(address);
-    const Findemail = await User.findOne({ email });
-    if (Findemail) {
-      return NextResponse.json(
-        { message: "This email already exsits." },
-        {
-          status: 400,
-        }
-      );
+    if (email !== "") {
+      const Findemail = await User.findOne({ email });
+      if (Findemail) {
+        return NextResponse.json(
+          { message: "This email already exists." },
+          {
+            status: 400,
+          }
+        );
+      }
     }
     const cryptedPassword = await bcrypt.hash(password, 12);
     const savedUser = await new User({

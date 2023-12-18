@@ -45,7 +45,7 @@ const AddressForm = ({
   });
 
   return (
-    <div className="my-4 p-4">
+    <div className="my-4 ">
       <h2 className="text-lg font-semibold mb-2">
         {isEditing ? "Edit" : "Add"} Address
       </h2>

@@ -49,11 +49,11 @@ export default function Main() {
           >
             <label
               htmlFor="top-bar-search"
-              className="flex flex-1 items-center py-0.5"
+              className="flex   mb-2 flex-1 items-center py-0.5"
             >
               <input
                 id="top-bar-search"
-                className="text-heading rounded-l-md   mb-2  overflow-hidden  p-4 border-t border-b  outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
+                className="text-heading rounded-l-md     overflow-hidden  p-4 border-t border-b  outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
                 placeholder="What are you looking..."
                 aria-label="top-bar-search"
                 name="search"

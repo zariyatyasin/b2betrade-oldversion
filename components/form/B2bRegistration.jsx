@@ -35,7 +35,12 @@ function B2bRegistration({ categories, userType }) {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(" You full Name is required"),
     storeName: Yup.string().required(" You full storeName is required"),
-    phoneNumber: Yup.string().required(" You full phoneNumber is required"),
+    phoneNumber: Yup.string()
+      .required("Phone Number is required")
+      .matches(
+        /^(01)\d{9}$/,
+        "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
+      ),
     password: Yup.string().required(" You full password is required"),
     category: Yup.string().required(" You full category is required"),
 

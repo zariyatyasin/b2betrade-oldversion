@@ -10,7 +10,7 @@ export default function ProductReviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState("");
   const [reviews, setReviews] = useState(product.reviews);
-  console.log(session);
+
   return (
     <div className="bg-white mt-4 rounded-md p-4  ">
       <div className=" ">

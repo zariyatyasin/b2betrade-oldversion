@@ -10,6 +10,7 @@ import { paymentMethods } from "../../data/paymentMethods";
 import AddressCard from "./AddressCard";
 
 import AddIcon from "@mui/icons-material/Add";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 
 export default function Address({ cart, user, setSelectedAddress }) {
   const [addresses, setAddresses] = useState(user?.address || []);
@@ -122,6 +123,7 @@ export default function Address({ cart, user, setSelectedAddress }) {
 
   return (
     <div>
+      {loading && <FullScreenLoading />}
       <div className=" py-6 poin px-4 sm:px-6 bg-white border border-gray-200   lg:px-8 ">
         <h2 className="text-2xl font-black text-gray-900">
           Shipping information
@@ -148,7 +150,7 @@ export default function Address({ cart, user, setSelectedAddress }) {
               </div>
               {!showAddressForm && (
                 <button
-                  className="px-4 py-2 flex items-center bg-gray-900 text-sm text-white"
+                  className="px-4 py-2 flex items-center bg-[#2B39D1] text-sm text-white rounded-md"
                   onClick={() => setShowAddressForm(!showAddressForm)}
                 >
                   <AddIcon sx={{ fontSize: 24 }} />

@@ -10,25 +10,10 @@ const cartSchema = new mongoose.Schema(
           type: ObjectId,
           ref: "Product",
         },
-        name: {
-          type: String,
-        },
-        image: {
-          type: String,
-        },
-        size: {
-          type: String,
-        },
-        /*
-        style: {
-          style: String,
-          color: String,
-          image: String,
-        },
-        */
-        qty: {
-          type: Number,
-        },
+        name: String,
+        image: String,
+        size: String,
+        qty: Number,
         color: {
           color: String,
           image: String,

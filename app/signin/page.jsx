@@ -54,7 +54,7 @@ const page = () => {
     try {
       setLoading(true);
       const result = await signIn("credentials", options);
-      console.log(result);
+
       if (result?.error) {
         setError(result.error);
       } else {
@@ -70,7 +70,7 @@ const page = () => {
   };
 
   const registerHandle = async (values) => {
-    const { phoneNumber, password } = values;
+    const { phoneNumber, password, fullName } = values;
 
     try {
       const res = await fetch("api/auth/register", {
@@ -81,6 +81,7 @@ const page = () => {
         body: JSON.stringify({
           phoneNumber,
           password,
+          name: fullName,
         }),
       });
 

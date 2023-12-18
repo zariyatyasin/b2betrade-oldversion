@@ -10,7 +10,7 @@ import QueryProvider from "../components/provider/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Sudzar",
+  title: "B2BeTrade",
   description: "Ecommerce store",
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme="dark"
+              theme="light"
             />
             <AuthProvider>{children} </AuthProvider>
           </ReduxProvider>

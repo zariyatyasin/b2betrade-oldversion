@@ -8,10 +8,9 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-
       trim: true,
-      // unique: true,
-      // sparse: true,
+      unique: true,
+      sparse: true,
     },
     phoneNumber: {
       type: String,
@@ -24,7 +23,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["admin", "supplier", "manufacturer", "seller", "user"],
+      enum: ["admin", "subadmin", "supplier", "manufacturer", "seller", "user"],
     },
     image: {
       type: String,

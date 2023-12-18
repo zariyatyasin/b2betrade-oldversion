@@ -7,7 +7,7 @@ import { createActivationToken } from "../../../../utils/token";
 export async function POST(request) {
   try {
     await db.connectDb();
-    const { phoneNumber, password } = await request.json();
+    const { phoneNumber, password, name } = await request.json();
 
     if (!phoneNumber || !password) {
       return NextResponse.json(
@@ -36,7 +36,7 @@ export async function POST(request) {
       );
     }
     const cryptedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ phoneNumber, password: cryptedPassword });
+    const newUser = new User({ phoneNumber, password: cryptedPassword, name });
     const addedUser = await newUser.save();
 
     const activation_token = createActivationToken({
