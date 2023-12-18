@@ -16,6 +16,13 @@ import db from "../utils/db";
 import Category from "../model/Category";
 import SubCategory from "../model/SubCategory";
 import MobileMenu from "../components/mobile/MobileMenu";
+export const dynamic = "auto";
+export const dynamicParams = true;
+export const revalidate = false;
+export const fetchCache = "auto";
+export const runtime = "nodejs";
+export const preferredRegion = "auto";
+export const maxDuration = 5;
 async function getData({ searchParams }) {
   db.connectDb();
 

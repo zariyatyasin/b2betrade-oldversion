@@ -1,29 +1,17 @@
 import React from "react";
-import Layout from "../../../../components/admin/Layout/Layout";
-import StoreComp from "../../../../components/admin/store/Store";
-import { revalidatePath } from "next/cache";
-import db from "../../../../utils/db";
-import {
-  filterArray,
-  randomize,
-  removeDuplicates,
-} from "../../../../utils/Array";
 
-import Store from "../../../../model/Store";
-import User from "../../../../model/User";
-import Category from "../../../../model/Category";
-import SubCategory from "../../../../model/SubCategory";
+import db from "../../../utils/db";
+import { filterArray, randomize, removeDuplicates } from "../../../utils/Array";
 
-import { getCurrentUser } from "../../../../utils/session";
+import Store from "../../../model/Store";
+import User from "../../../model/User";
+import Category from "../../../model/Category";
+import SubCategory from "../../../model/SubCategory";
+
+import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
-export const dynamic = "auto";
-export const dynamicParams = true;
-export const revalidate = false;
-export const fetchCache = "auto";
-export const runtime = "nodejs";
-export const preferredRegion = "auto";
-export const maxDuration = 5;
-export async function getData({ params, searchParams }) {
+export const revalidate = 3;
+export async function GetData({ params, searchParams }) {
   db.connectDb();
 
   const session = await getCurrentUser();
@@ -89,13 +77,4 @@ export async function getData({ params, searchParams }) {
     Stores: JSON.parse(JSON.stringify(Stores)),
     paginationCount: Math.ceil(totalProducts / pageSize),
   };
-}
-
-export default async function page({ searchParams }) {
-  const { Stores, paginationCount } = await getData({ searchParams });
-  return (
-    <Layout>
-      <StoreComp Stores={Stores} paginationCount={paginationCount} />
-    </Layout>
-  );
 }
