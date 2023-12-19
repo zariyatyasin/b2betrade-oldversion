@@ -8,18 +8,18 @@ import { usePathname } from "next/navigation";
 import SortingDropdown from "../../selects/SortingDropdown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import StoreCard from "../../cards/StoreCard";
-export default function Store({ Stores, paginationCount }) {
+import OrderCard from "../../cards/OrderCard";
+export default function OrderComp({ Orders, paginationCount }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const headers = {
-    storeName: "Store Name",
-    categorySubCategory: "Category/SubCategory",
-    active: "Active",
+    storeName: "Shipping Address",
+    categorySubCategory: "Products",
+    active: "User Details",
 
-    status: "Status",
-    revenue: "Revenue",
+    status: "Order Details",
+
     edit: "Edit",
   };
 
@@ -81,7 +81,7 @@ export default function Store({ Stores, paginationCount }) {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center mb-2 ">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Stores</h1>
+          <h1 className="text-xl font-semibold text-gray-900">Orders</h1>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
@@ -99,7 +99,7 @@ export default function Store({ Stores, paginationCount }) {
           sortHandler={sortHandler}
         />
       </div>
-      <StoreTable headers={headers} data={Stores} CardComponent={StoreCard} />
+      <StoreTable headers={headers} data={Orders} CardComponent={OrderCard} />
 
       <Stack spacing={2}>
         <Pagination

@@ -14,7 +14,7 @@ import {
 import { Button } from "../../../components/ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "../../../components/loading/FullScreenLoading";
+import FullScreenLoading from "../../../components/fullScreenOverlay/FullScreenLoading";
 import CreateSubCategoryForm from "../../../components/form/CreateSubCategoryForm";
 import CreateCouponForm from "../../../components/form/CreateCouponForm";
 import ViewCouponDetails from "../../../components/viewDetails/ViewCouponDetails";

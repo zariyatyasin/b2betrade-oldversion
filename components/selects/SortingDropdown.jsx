@@ -10,15 +10,11 @@ const SortingDropdown = ({ sortingOptions, sortHandler }) => {
 
   const sortQuery = searchParams.get("sort") || "";
 
-  // useEffect(() => {
-  //   console.log("hello");
-  //   router.refresh();
-  // }, [sortHandler]);
   return (
-    <div className=" ">
+    <div className="  ">
       <div className="relative">
         <button
-          className="  border text-black text-sm p-2 px-4 rounded  m-1"
+          className="  bg-white border text-black text-sm p-2 px-4 rounded  m-1"
           onMouseOver={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
         >

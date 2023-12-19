@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, Button } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
-import FullScreenLoading from "../loading/FullScreenLoading";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 export default function ViewCouponDetails({ open, onClose, couponId }) {
   const [couponData, setCouponData] = useState();
   const [loading, setLoading] = useState(false);

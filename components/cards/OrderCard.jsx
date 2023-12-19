@@ -4,8 +4,19 @@ import DynamicFormModel from "../modelUi/DynamicFormModel";
 import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmationModal";
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
-export default function StoreCard({ data }) {
+export default function OrderCard({ data }) {
   const [store, setStore] = useState(data);
+
+  const renderProduct = (product) => (
+    <div key={product._id} className="product">
+      <img src={product.image} alt={product.name} className=" h-8 w-8" />
+      <div className="product-details">
+        <h3>{product.name}</h3>
+        <p>Size: {product.size}</p>
+        <p>Quantity: {product.qty}</p>
+      </div>
+    </div>
+  );
   const fields = [
     { type: "text", label: "Store Name", name: "storeName" },
     { type: "select", label: "Store Active", name: "storeAtive" },
@@ -98,78 +109,29 @@ export default function StoreCard({ data }) {
     <>
       <tr>
         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-          <div className="flex items-center">
-            <div className="h-10 w-10 flex-shrink-0">
-              <img
-                className="h-10 w-10 rounded-full"
-                src={store?.owner?.image}
-                alt=""
-              />
-            </div>
-            <div className="ml-4">
-              <div className="font-medium text-gray-900">
-                {store?.storeName}
-              </div>
-              <div className="text-gray-500">
-                {store?.owner?.email || store?.owner?.phoneNumber}
-              </div>
-            </div>
+          <div className="shipping-address">
+            <p>Full Name: {data.shippingAddress.fullName}</p>
+            <p>Phone Number: {data.shippingAddress.phoneNumber}</p>
+            <p>Address: {data.shippingAddress.address1}</p>
+            <p>City: {data.shippingAddress.city}</p>
+            <p>State: {data.shippingAddress.state}</p>
           </div>
         </td>
-        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 ">
-          <div className="text-gray-900"> {store?.category?.name}</div>
-
-          <div className="flex ">
-            {store?.subCategories?.map((subcategory, index) => (
-              <div
-                key={index}
-                className=" flex flex-row bg-blue-500  p-1  px-2 py-1 rounded-full text-xs m-1 "
-              >
-                <div className="text-white">{subcategory.name}</div>
-              </div>
-            ))}
-          </div>
-        </td>
-        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <span
-            className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${roleColorClass}`}
-          >
-            {store?.owner?.role.toUpperCase()}
-          </span>
-        </td>
 
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          {store?.storeAtive === "pending" && (
-            <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs m-1">
-              Pending
-            </span>
-          )}
-
-          {store?.storeAtive === "active" && (
-            <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs m-1">
-              Active
-            </span>
-          )}
-
-          {store?.storeAtive === "ban" && (
-            <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs m-1">
-              Ban
-            </span>
-          )}
-
-          {store?.storeAtive === "block" && (
-            <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs m-1">
-              Block
-            </span>
-          )}
+          {data.products.map(renderProduct)}
         </td>
-
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <span
-            className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 text-red-500`}
-          >
-            400k+
-          </span>
+          <p>User Name: {data.user.name}</p>
+          <p>Email: {data.user.email || "N/A"}</p>
+          <p>Phone Number: {data.user.phoneNumber}</p>
+          <p>User Role: {data.user.role}</p>
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <p>Payment Method: {data.paymentMethod}</p>
+          <p>Total: ${data.total}</p>
+          <p>Status: {data.status}</p>
+          <p>Created At: {new Date(data.createdAt).toLocaleString()}</p>
         </td>
         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
           <a

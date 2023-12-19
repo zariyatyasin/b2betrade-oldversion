@@ -24,8 +24,8 @@ export default function StoreSide({ store }) {
         </div>
 
         <div className="mt-6 text-center">
-          <div className="font-bold text-xl">{store.storeName}</div>
-          {store.isVerify === "true" && (
+          <div className="font-bold text-xl">{store?.storeName}</div>
+          {store?.isVerify === "true" && (
             <div className="flex items-center justify-center mt-2">
               <img
                 src="https://www.cdnlogo.com/logos/t/77/twitter-verified-badge.svg"

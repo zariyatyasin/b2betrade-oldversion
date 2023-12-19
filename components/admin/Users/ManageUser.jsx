@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import CrudTable from "../../Table/CrudTable";
 
 export default function ManageUser({ users }) {
-  console.log(users);
   const [data, setData] = useState(users);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,7 +13,8 @@ export default function ManageUser({ users }) {
   const [deleteItemId, setDeleteItemId] = useState(null);
 
   const columns = [
-    { field: "email", headerName: "Email", width: 200 },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "phoneNumber", headerName: "Phone Number", width: 200 },
     { field: "role", headerName: "role", width: 100 },
 
     {

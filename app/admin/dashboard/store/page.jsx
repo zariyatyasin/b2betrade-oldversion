@@ -16,13 +16,7 @@ import SubCategory from "../../../../model/SubCategory";
 
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
-export const dynamic = "auto";
-export const dynamicParams = true;
-export const revalidate = false;
-export const fetchCache = "auto";
-export const runtime = "nodejs";
-export const preferredRegion = "auto";
-export const maxDuration = 5;
+
 export async function getData({ params, searchParams }) {
   db.connectDb();
 
@@ -31,7 +25,7 @@ export async function getData({ params, searchParams }) {
     redirect("/signin");
   }
   const page = searchParams.page || 1;
-
+  const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
   const pageSize = 10;
   let Stores;
@@ -47,10 +41,19 @@ export async function getData({ params, searchParams }) {
       : sortQuery == "block"
       ? { storeAtive: "block" }
       : {};
+  const search =
+    searchQuery && searchQuery !== ""
+      ? {
+          storeName: {
+            $regex: searchParams.search,
+            $options: "i",
+          },
+        }
+      : {};
 
   if (session?.role === "admin") {
     // If the user is an admin, fetch all stores
-    Stores = await Store.find({ ...sort })
+    Stores = await Store.find({ ...sort, ...search })
       .populate({
         path: "owner",
         model: User,
@@ -84,7 +87,7 @@ export async function getData({ params, searchParams }) {
         model: SubCategory,
       });
   }
-  let totalProducts = await Store.countDocuments({});
+  let totalProducts = await Store.countDocuments({ ...search });
   return {
     Stores: JSON.parse(JSON.stringify(Stores)),
     paginationCount: Math.ceil(totalProducts / pageSize),
@@ -93,9 +96,15 @@ export async function getData({ params, searchParams }) {
 
 export default async function page({ searchParams }) {
   const { Stores, paginationCount } = await getData({ searchParams });
+
+  const componentKey = Date.now();
   return (
     <Layout>
-      <StoreComp Stores={Stores} paginationCount={paginationCount} />
+      <StoreComp
+        key={componentKey}
+        Stores={Stores}
+        paginationCount={paginationCount}
+      />
     </Layout>
   );
 }
