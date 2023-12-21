@@ -70,7 +70,7 @@ export async function getData({ params, searchParams }) {
 
       .limit(pageSize);
 
-    Stores = sortQuery && sortQuery !== "" ? Stores : randomize(Stores);
+    Stores = sortQuery && sortQuery !== "" ? Stores : Stores;
   } else {
     // If the user is not an admin, fetch only their store
     Stores = await Store.find({ owner: session.id })

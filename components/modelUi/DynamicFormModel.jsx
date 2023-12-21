@@ -17,10 +17,23 @@ const DynamicFormModel = ({ data, fields, menuItem, onClose, onSave }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    // If the field is nested, update the state accordingly
+    if (name.includes(".")) {
+      const [nestedObj, nestedField] = name.split(".");
+      setEditedData((prevData) => ({
+        ...prevData,
+        [nestedObj]: {
+          ...prevData[nestedObj],
+          [nestedField]: value,
+        },
+      }));
+    } else {
+      setEditedData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSave = () => {

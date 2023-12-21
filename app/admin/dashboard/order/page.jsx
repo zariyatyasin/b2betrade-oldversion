@@ -31,19 +31,19 @@ export async function getData({ params, searchParams }) {
   const sort =
     sortQuery == ""
       ? {}
-      : sortQuery == "pending"
-      ? { OrderAtive: "pending" }
-      : sortQuery == "active"
-      ? { OrderAtive: "active" }
-      : sortQuery == "ban"
-      ? { OrderAtive: "ban" }
-      : sortQuery == "block"
-      ? { OrderAtive: "block" }
+      : sortQuery == "Not Processed"
+      ? { status: "Not Processed" }
+      : sortQuery == "Processing"
+      ? { status: "Processing" }
+      : sortQuery == "Dispatched"
+      ? { status: "Dispatched" }
+      : sortQuery == "Cancelled"
+      ? { status: "Completed" }
       : {};
   const search =
     searchQuery && searchQuery !== ""
       ? {
-          OrderName: {
+          orderNumber: {
             $regex: searchParams.search,
             $options: "i",
           },

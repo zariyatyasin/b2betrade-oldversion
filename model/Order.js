@@ -9,6 +9,11 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    orderNumber: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     products: [
       {
         product: {
@@ -40,7 +45,7 @@ const orderSchema = new mongoose.Schema(
       fullName: {
         type: String,
       },
-    
+
       phoneNumber: {
         type: String,
       },

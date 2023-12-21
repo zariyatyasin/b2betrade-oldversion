@@ -58,22 +58,25 @@ export default function OrderComp({ Orders, paginationCount }) {
       value: "",
     },
     {
-      name: "pending",
-      value: "pending",
+      name: "Not Processed",
+      value: "Not Processed",
     },
     {
-      name: "active",
-      value: "active",
+      name: "Processing",
+      value: "Processing",
     },
     {
-      name: "ban",
-      value: "ban",
+      name: "Dispatched",
+      value: "Dispatched",
     },
     {
-      name: "block",
-      value: "block",
+      name: "Cancelled",
+      value: "Cancelled",
     },
-
+    {
+      name: "Completed",
+      value: "Completed",
+    },
     // ... (other sorting options)
   ];
 
@@ -92,8 +95,14 @@ export default function OrderComp({ Orders, paginationCount }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar />
-      <div className="   flex items-end justify-end">
+      <MiniSearchBar linkUrl="/admin/dashboard/order" />
+      <div className="   flex  items-center justify-end mt-2">
+        <button
+          className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "
+          onClick={() => router.push("/admin/dashboard/order")}
+        >
+          Clear All ({Array.from(searchParams).length})
+        </button>
         <SortingDropdown
           sortingOptions={sortingOptions}
           sortHandler={sortHandler}

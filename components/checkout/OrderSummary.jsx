@@ -3,6 +3,8 @@ import PaymentMethod from "./PaymentMethod";
 import { applyCoupon } from "../../request/user";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { emptyCart } from "../../store/cartSlice";
 export default function OrderSummary({
   cart,
   setTotalAfterDiscount,
@@ -16,9 +18,10 @@ export default function OrderSummary({
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState(" ");
   const [orderError, setOrderError] = useState(" ");
+
+  const dispatch = useDispatch();
   const router = useRouter();
-  console.log(selectedMethod);
-  console.log(cart.products);
+
   useEffect(() => {}, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
     const res = await applyCoupon(coupon);
@@ -37,14 +40,14 @@ export default function OrderSummary({
   const placeOrderHandler = async () => {
     try {
       const { data } = await axios.post("/api/order/create", {
-        products: cart.products,
+        products: cart?.products,
         shippingAddress: selectedAddress,
         paymentMethod: selectedMethod,
-        totalBeforeDiscount: cart.cartTotal,
+        totalBeforeDiscount: cart?.cartTotal,
         total: totalAfterDiscount !== "" ? totalAfterDiscount : total,
         couponApplied: coupon,
       });
-
+      dispatch(emptyCart());
       router.push(`/order/${data.order_id}`);
     } catch (error) {
       setOrderError(error.response.data.message);
@@ -65,7 +68,7 @@ export default function OrderSummary({
             <div className="flex items-center justify-between">
               <dt className="text-sm">Subtotal</dt>
               <dd className="text-sm font-medium text-gray-900">
-                ৳ {cart.cartTotal}
+                ৳ {cart?.cartTotal}
               </dd>
             </div>
             <div className="flex items-center justify-between">
@@ -85,7 +88,7 @@ export default function OrderSummary({
             <div className="flex items-center justify-between border-t border-gray-200 pt-6">
               <dt className="text-base font-medium">Total</dt>
 
-              {totalAfterDiscount < cart.cartTotal &&
+              {totalAfterDiscount < cart?.cartTotal &&
                 totalAfterDiscount != "" && (
                   <span>
                     New price : <b>{totalAfterDiscount}$</b>

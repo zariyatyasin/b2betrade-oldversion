@@ -73,7 +73,6 @@ export default function StoreCard({ data }) {
       const response = await axios.put(`/api/store`, editedData);
 
       if (response.status === 200) {
-        console.log("Data updated successfully:", response.data);
         setStore((prevStore) => ({
           ...prevStore,
           ...response.data.newUpdatedStore,

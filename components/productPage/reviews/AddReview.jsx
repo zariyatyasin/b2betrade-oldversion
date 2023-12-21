@@ -27,11 +27,11 @@ export default function AddReview({ product, setReviews }) {
   };
 
   return (
-    <div className="bg-gray-100 p-4">
+    <div className="  border p-4 rounded-md shadow-md mt-4">
       <div className="mx-auto">
         <div className="flex flex-col md:flex-row md:space-x-4">
           <div className="w-full mt-4 md:mt-0">
-            <div className="bg-white p-4 flex rounded-lg shadow">
+            <div className="bg-white flex rounded-lg  ">
               <Select
                 property={size}
                 text="Size"

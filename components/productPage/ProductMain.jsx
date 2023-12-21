@@ -6,6 +6,7 @@ import ProductInfo from "./ProductInfo";
 import ProductReviews from "./reviews/ProductReviews";
 import StoreSide from "./StoreSide";
 import SideImage from "./SideImage";
+import ProductDetails from "./Details/ProductDetails";
 import SideProductInfo from "./SideProductInfo";
 const ProductMain = ({ product, params }) => {
   const [activeImg, setActiveImg] = useState("");
@@ -25,6 +26,7 @@ const ProductMain = ({ product, params }) => {
         <StoreSide store={product?.storeId} />
       </div>
       <ProductReviews product={product} />
+      <ProductDetails product={product} />
     </div>
   );
 };

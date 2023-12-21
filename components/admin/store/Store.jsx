@@ -92,7 +92,13 @@ export default function Store({ Stores, paginationCount }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar />
+      <MiniSearchBar linkUrl="/admin/dashboard/store" />
+      <button
+        className="border text-sm  p-2 bg-[#2B39D1] text-white rounded-3xl   "
+        onClick={() => router.push("/admin/dashboard/store")}
+      >
+        Clear All ({Array.from(searchParams).length})
+      </button>
       <div className="   flex items-end justify-end">
         <SortingDropdown
           sortingOptions={sortingOptions}

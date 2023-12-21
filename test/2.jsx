@@ -1,363 +1,84 @@
-"use client";
+import { NextResponse } from "next/server";
+import User from "../../../../model/User";
+import Cart from "../../../../model/Cart";
+import Product from "../../../../model/Product";
+import db from "../../../../utils/db";
+import { getCurrentUser } from "../../../../utils/session";
 
-import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import Rating from "@mui/material/Rating";
-import axios from "axios";
-import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Accordian from "../accordion/Accordion";
-import InquiryForm from "../chat/InquiryForm";
-import { useSearchParams } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, updateCart } from "../../store/cartSlice";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
-const ProductInfo = ({ product, setActiveImg, params }) => {
-  const priceRange = [
-    { minQty: 0, maxQty: 5, price: 45.0 },
-    { minQty: 6, maxQty: 10, price: 1 },
-    { minQty: 20, maxQty: 49, price: 40.5 },
-    { minQty: 50, maxQty: 99, price: 36.0 },
-    { minQty: 100, maxQty: Infinity, price: 33.75 },
-  ];
-  const [priceRanges, setPriceRanges] = useState(priceRange); // Initialize with an empty array
-  const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
+export const POST = async (request) => {
+  const session = await getCurrentUser();
+  if (!session) {
+    return NextResponse.json("You must be logged in", {
+      status: 201,
+    });
+  }
 
-  const UrlSize = params?.slug[2];
-  const UrlStyle = params?.slug[1];
-  const { cart } = useSelector((state) => ({ ...state }));
-  const [size, setSize] = useState(UrlSize);
-  const [qty, setQty] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(product?.price);
-  const [staySize, setStaySize] = useState(
-    UrlSize !== undefined ? parseInt(UrlSize) : -1
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  try {
+    db.connectDb();
+    const { cart } = await request.json();
 
-  const openModal = () => {
-    setIsModalOpen(true);
-    console.log("Is modal open?", isModalOpen);
-  };
+    let products = [];
+    let user = await User.findById(session.id);
+    let existingCart = await Cart.findOneAndRemove({ user: user._id });
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    console.log("Is modal open?", isModalOpen);
-  };
-  const dispatch = useDispatch();
+    for (let i = 0; i < cart.length; i++) {
+      let dbProduct = await Product.findById(cart[i]._id).lean();
+      let subProduct = dbProduct.subProducts[cart[i].style];
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  useEffect(() => {
-    // Find the correct price based on the selected quantity
-    const selectedPriceRange = priceRanges.find(
-      (range) => qty >= range.minQty && qty <= range.maxQty
+      let tempProduct = {
+        product: dbProduct._id,
+        name: dbProduct.name,
+        image: subProduct.images[0].url,
+        size: cart[i].size,
+        qty: Number(cart[i].qty),
+        color: {
+          color: cart[i].color.color,
+          image: cart[i].color.image,
+        },
+        price: calculatePrice(subProduct, cart[i].size, cart[i].qty),
+      };
+
+      products.push(tempProduct);
+    }
+
+    let cartTotal = products.reduce((total, product) => {
+      const productTotal = product.price * product.qty;
+      return isNaN(productTotal) ? total : total + productTotal;
+    }, 0);
+    cartTotal = parseFloat(cartTotal.toFixed(2));
+    if (isNaN(cartTotal)) {
+      throw new Error("Invalid cartTotal calculation");
+    }
+
+    await new Cart({
+      products,
+      cartTotal: cartTotal.toFixed(2),
+      user: user._id,
+    }).save();
+
+    db.disconnectDb();
+
+    return NextResponse.json(
+      { cart },
+      {
+        status: 201,
+      }
     );
-
-    if (selectedPriceRange) {
-      setTotalPrice(selectedPriceRange.price * qty);
-    }
-  }, [qty]);
-
-  useEffect(() => {
-    if (selectedRange) {
-      setTotalPrice(selectedRange.price * qty);
-    }
-  }, [qty, selectedRange]);
-
-  useEffect(() => {
-    setSize(UrlSize);
-    setQty(1);
-  }, [UrlStyle]);
-  useEffect(() => {
-    if (staySize !== -1) {
-      setSize(product.size[staySize].size);
-    }
-  }, [staySize, product?.size]);
-  useEffect(() => {
-    if (qty > product.quantity) {
-      setQty(product.quantity);
-    }
-  }, [UrlSize]);
-
-  const handleSizeSelection = (size) => {
-    setSize(size.size);
-    setStaySize(size.index);
-  };
-  const handleRangeSelect = (range) => {
-    setSelectedRange(range);
-
-    // Set qty based on the selected range
-    setQty(range.minQty);
-
-    // Calculate total price based on the selected range and qty
-    setTotalPrice(range.price * range.minQty);
-  };
-
-  const handleQtyDecrease = () => {
-    if (qty > 1) {
-      setQty((prev) => prev - 1);
-      const selectedPriceRange = priceRanges.find(
-        (range) => qty - 1 >= range.minQty && qty - 1 <= range.maxQty
-      );
-
-      if (selectedPriceRange) {
-        setTotalPrice(selectedPriceRange.price * (qty - 1));
-        setSelectedRange(selectedPriceRange);
-      }
-    }
-  };
-
-  const handleQtyIncrease = () => {
-    if (qty < product.quantity) {
-      const newQty = Math.min(qty + 1, product.quantity); // Ensure qty doesn't exceed product.quantity
-      setQty(newQty);
-
-      const selectedPriceRange = priceRanges.find(
-        (range) => newQty >= range.minQty && newQty <= range.maxQty
-      );
-
-      if (selectedPriceRange) {
-        setTotalPrice(selectedPriceRange.price * newQty);
-        setSelectedRange(selectedPriceRange);
-      }
-    }
-  };
-
-  const addToCartHandler = async () => {
-    if (!UrlSize) {
-      setError("Please Select a size");
-      return;
-    }
-    const { data } = await axios.get(
-      `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
-    );
-    if (qty > data.quantity) {
-      setError(
-        "The Quantity you have choosed is more than in stock. Try and lower the Qty"
-      );
-    } else if (data.quantity < 1) {
-      setError("This Product is out of stock.");
-      return;
-    } else {
-      let _uid = `${data._id}_${product.style}_${UrlSize}`;
-      let exist = cart.cartItems.find((p) => p._uid === _uid);
-
-      if (exist) {
-        let newCart = cart.cartItems.map((p) => {
-          if (p._uid == exist._uid) {
-            return { ...p, qty: qty };
-          }
-          return p;
-        });
-        dispatch(updateCart(newCart));
-      } else {
-        dispatch(
-          addToCart({
-            ...data,
-            qty,
-            size: data.size,
-            _uid,
-          })
-        );
-      }
-    }
-  };
-
-  return (
-    <div className="flex-1">
-      <h1 className="text-xl font-medium text-qblack mb-2 ">{product?.name}</h1>
-      <div className="  flex items-center">
-        <Rating
-          name="hover-feedback"
-          defaultValue={product.rating}
-          readOnly
-          sx={{ fontSize: 18 }}
-          precision={0.5}
-        />
-        <p className="ml-2 text-sm font-medium text-gray-600">
-          {product.numReviews} {product.numReviews > 1 ? "reviews" : "review"}
-        </p>
-      </div>
-      <div className="flex items-end mt-2">
-        <h1 className="text-lg font-bold text-[#2B39D1]">
-          {/* {!size ? product.priceRange : `৳${product.price}`} */}
-        </h1>
-        {product.discount > 0 && size && (
-          <div className="ml-2">
-            <span className="text-xs line-through text-gray-500 mr-2">
-              ${product.priceBefore}
-            </span>
-            <span className="text-red-500 text-xs rounded-full bg-[#ff6f61] px-2">
-              {product.discount}%
-            </span>
-          </div>
-        )}
-      </div>
-      {/* <div className="mt-1 text-[#2B39D1] text-sm font-semibold">
-        {product.shipping ? `+${product.shipping}$ shipping` : "Free Shipping"}
-      </div> */}
-      <p className="mt-2 text-sm text-gray-600">
-        {size
-          ? `${product.quantity} pieces available.`
-          : `Total available: ${product.size.reduce(
-              (start, next) => start + next.qty,
-              0
-            )} pieces.`}
-      </p>
-      <h2 className="mt-2 text-lg font-medium  text-gray-900">
-        Select the Size
-      </h2>
-      <div className="mt-2 flex select-none flex-wrap items-center gap-2">
-        {product.size.map((size, i) => (
-          <Link
-            href={`/product/${product.slug}/${UrlStyle}/${i}`}
-            key={i}
-            onClick={() => setStaySize(i)}
-          >
-            <div
-              key={i}
-              className={`rounded-lg border ${
-                i === staySize ? "bg-black text-white" : "border-black"
-              }  p-2 font-medium cursor-pointer hover:bg-black hover:text-white text-sm transition-all duration-300 ease-in-out`}
-              onClick={() => handleSizeSelection({ size: size.size, index: i })}
-            >
-              {size.size}
-            </div>
-          </Link>
-        ))}
-      </div>
-      <h2 className="mt-4 text-lg font-semibold  text-gray-900">Color</h2>
-      <div className="mt-2 flex select-none flex-wrap items-center gap-2">
-        {product.colors &&
-          product.colors.map((color, i) => (
-            <div
-              onMouseOver={() =>
-                setActiveImg(product.subProducts[i].images[0].url)
-              }
-              onMouseLeave={() => setActiveImg("")}
-              key={i}
-            >
-              <Link href={`/product/${product.slug}/${i}`}>
-                {color?.image ? (
-                  <img src={color?.image} className="h-5 w-5 rounded-full" />
-                ) : (
-                  <div
-                    className={`h-5 w-5 rounded-full`}
-                    style={{ backgroundColor: color.color }}
-                  ></div>
-                )}
-              </Link>
-            </div>
-          ))}
-      </div>
-
-      <div className="    flex    mt-2  ">
-        {priceRanges.map((range, index) => (
-          <div
-            key={index}
-            onClick={() => handleRangeSelect(range)}
-            className={`  border border-[#2B39D1] hover:bg-[#2B39D1] hover:text-white  d p-2 font-medium cursor-pointer ${
-              range === selectedRange
-                ? "bg-[#2B39D1] text-white"
-                : "border-[#2B39D1]"
-            }`}
-          >
-            <div className="    text-center justify-between items-center  p-2  px-2">
-              <div className="text-sm text-gray-600d">{`${range.minQty} - ${range.maxQty}`}</div>
-              <div className="text-sm font-bold">${range.price.toFixed(2)}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
-        Total Price: {totalPrice}
-      </div>
-      <div className="mt-2 flex select-none flex-wrap items-center gap-2">
-        <div className="bg-gray-100 h-10 p-1 rounded-lg flex flex-row relative mt-1">
-          <button
-            className="inline-flex items-center px-3 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out"
-            onClick={handleQtyDecrease}
-          >
-            <RemoveOutlinedIcon sx={{ fontSize: 14 }} />
-          </button>
-          <input
-            type="number"
-            value={qty > product.quantity ? product.quantity : qty}
-            min="1"
-            max={product.quantity}
-            onChange={(e) => setQty(Number(e.target.value))} // Convert input to a number
-            className="p-4 flex items-center text-lg font-semibold"
-            // disabled={qty >= product.quantity}
-            disabled={qty >= 1000}
-          />
-
-          <button
-            className="inline-flex items-center px-3 border border-gray-300 shadow-sm text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out"
-            onClick={handleQtyIncrease}
-          >
-            <AddOutlinedIcon sx={{ fontSize: 14 }} />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-2 flex flex-col items-center space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
-        <button
-          disabled={product.quantity < 1}
-          onClick={openModal}
-          type="button"
-          className="inline-flex items-center justify-center border  border-transparent border-[#2B39D1]  text-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold  transition-all duration-300 ease-in-out  mr-2 "
-        >
-          Send Inquiry
-        </button>
-
-        <button
-          disabled={product.quantity < 1}
-          type="button"
-          className="inline-flex items-center justify-center  border-transparent  bg-[#2B39D1] rounded-md bg-none px-6  py-2   text-center text-sm uppercase font-semibold text-white transition-all duration-300 ease-in-out  "
-          onClick={() => addToCartHandler()}
-        >
-          Add to cart
-        </button>
-        <div className="ml-6">
-          <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
-        </div>
-      </div>
-      {error && <span className="text-red-600 mt-2">{error}</span>}
-      <ul className="mt-5 flex items-center">
-        <li className="flex items-center text-left text-sm font-medium text-gray-600">
-          <svg
-            className="mr-2 block h-5 w-5 align-middle text-gray-500"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-              className=""
-            ></path>
-          </svg>
-          Cancel Anytime
-        </li>
-      </ul>
-      <Accordian details={[product.description, ...product.details]} />
-      {isModalOpen && (
-        <div className="fixed z-50 bottom-0 flex right-8  ">
-          <div className="bg-white p-8 rounded-md   shadow-2xl  border">
-            <InquiryForm onClose={closeModal} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  } catch (err) {
+    console.error(err); // Log the error for debugging purposes
+    return new NextResponse(err.message, { status: 500 });
+  }
 };
 
-export default ProductInfo;
+function calculatePrice(subProduct, size, qty) {
+  const sizeInfo = subProduct.sizes.find((p) => p.size === size);
+
+  // Check for bulk pricing
+  const bulkPrice = sizeInfo.bulkPricing.find(
+    (priceInfo) =>
+      (priceInfo.minQty === null || qty >= priceInfo.minQty) &&
+      (priceInfo.maxQty === null || qty <= priceInfo.maxQty)
+  );
+
+  return bulkPrice ? bulkPrice.price : sizeInfo.price;
+}

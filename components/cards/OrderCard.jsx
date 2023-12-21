@@ -5,7 +5,7 @@ import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmation
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 export default function OrderCard({ data }) {
-  const [store, setStore] = useState(data);
+  const [order, setorder] = useState(data);
 
   const renderProduct = (product) => (
     <div key={product._id} className="product">
@@ -14,42 +14,61 @@ export default function OrderCard({ data }) {
         <h3>{product.name}</h3>
         <p>Size: {product.size}</p>
         <p>Quantity: {product.qty}</p>
+        {product.color.color ? ( // Check if color code is available
+          <div
+            className="color-box"
+            style={{
+              backgroundColor: product.color.color,
+              width: "20px",
+              height: "20px",
+            }}
+          ></div>
+        ) : product.color.image ? ( // Check if image is available
+          <img
+            src={product.color.image}
+            alt="Color Image"
+            className="color-image"
+          />
+        ) : (
+          <div className="no-color-info">No color information available</div>
+        )}
       </div>
     </div>
   );
   const fields = [
-    { type: "text", label: "Store Name", name: "storeName" },
-    { type: "select", label: "Store Active", name: "storeAtive" },
+    {
+      type: "text",
+      label: "Phone Number",
+      name: "shippingAddress.phoneNumber",
+    },
+    { type: "select", label: "status", name: "status" },
     // Add more field configurations as needed
   ];
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Not Processed":
+        return "red"; // You can use your desired color here
+      case "Processing":
+        return "orange"; // You can use your desired color here
+      case "Dispatched":
+        return "blue"; // You can use your desired color here
+      case "Cancelled":
+        return "gray"; // You can use your desired color here
+      case "Completed":
+        return "green"; // You can use your desired color here
+      default:
+        return "black"; // Default color if status is not recognized
+    }
+  };
 
   const menuItem = [
-    { value: "pending", label: "Pending" },
-    { value: "ban", label: "Ban" },
-    { value: "block", label: "Block" },
-    { value: "active", label: "Active" },
+    { value: "Not Processed", label: "Not Processed" },
+    { value: "Processing", label: "Processing" },
+    { value: "Dispatched", label: "Dispatched" },
+    { value: "Cancelled", label: "Cancelled" },
+    { value: "Completed", label: "Completed" },
   ];
-  let roleColorClass = "";
 
-  switch (store?.owner?.role) {
-    case "admin":
-      roleColorClass = "bg-blue-100 text-blue-800";
-      break;
-    case "supplier":
-      roleColorClass = "bg-green-100 text-green-800";
-      break;
-    case "manufacturer":
-      roleColorClass = "bg-yellow-100 text-yellow-800";
-      break;
-    case "seller":
-      roleColorClass = "bg-purple-100 text-purple-800";
-      break;
-    case "user":
-      roleColorClass = "bg-gray-100 text-gray-800";
-      break;
-    default:
-      roleColorClass = "bg-gray-100 text-gray-800";
-  }
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -78,16 +97,23 @@ export default function OrderCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
+    console.log(editedData);
     try {
       setLoading(true);
 
-      const response = await axios.put(`/api/store`, editedData);
+      const response = await axios.put(
+        `/api/order/update/${editedData._id}`,
+        editedData
+      );
 
       if (response.status === 200) {
-        console.log("Data updated successfully:", response.data);
-        setStore((prevStore) => ({
-          ...prevStore,
-          ...response.data.newUpdatedStore,
+        console.log(
+          "Data updated successfully:",
+          response.data.newUpdatedOrder
+        );
+        setorder((prevorder) => ({
+          ...prevorder,
+          ...response.data.newUpdatedOrder,
         }));
       } else {
         console.error("Failed to update data:", response.statusText);
@@ -101,7 +127,7 @@ export default function OrderCard({ data }) {
 
   const handleDelete = () => {
     // Implement the logic to delete the data
-    console.log("Deleting data:", store);
+    console.log("Deleting data:", order);
     closeDeleteConfirmation();
   };
 
@@ -110,28 +136,41 @@ export default function OrderCard({ data }) {
       <tr>
         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
           <div className="shipping-address">
-            <p>Full Name: {data.shippingAddress.fullName}</p>
-            <p>Phone Number: {data.shippingAddress.phoneNumber}</p>
-            <p>Address: {data.shippingAddress.address1}</p>
-            <p>City: {data.shippingAddress.city}</p>
-            <p>State: {data.shippingAddress.state}</p>
+            <p>Full Name: {order.shippingAddress.fullName}</p>
+            <p>Phone Number: {order.shippingAddress.phoneNumber}</p>
+            <p>Address: {order.shippingAddress.address1}</p>
+            <p>City: {order.shippingAddress.city}</p>
+            <p>State: {order.shippingAddress.state}</p>
           </div>
         </td>
 
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          {data.products.map(renderProduct)}
+          {order.products.map(renderProduct)}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <p>User Name: {data.user.name}</p>
-          <p>Email: {data.user.email || "N/A"}</p>
-          <p>Phone Number: {data.user.phoneNumber}</p>
-          <p>User Role: {data.user.role}</p>
+          <p>User Name: {order.user.name}</p>
+          <p>Email: {order.user.email || "N/A"}</p>
+          <p>Phone Number: {order.user.phoneNumber}</p>
+          <p>User Role: {order.user.role}</p>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <p>Payment Method: {data.paymentMethod}</p>
-          <p>Total: ${data.total}</p>
-          <p>Status: {data.status}</p>
-          <p>Created At: {new Date(data.createdAt).toLocaleString()}</p>
+          <p className=" font-bold text-gray-950">
+            Order Number: {order.orderNumber}
+          </p>
+          <p>Payment Method: {order.paymentMethod}</p>
+          <p>Total: ${order.total}</p>
+          <p>
+            {" "}
+            Status:{" "}
+            <span
+              className=" font-bold text-white px-2 py-1 rounded-full text-xs m-1"
+              style={{ background: getStatusColor(order.status) }}
+            >
+              {order.status}
+            </span>
+          </p>
+
+          <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
         </td>
         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
           <a
@@ -160,7 +199,7 @@ export default function OrderCard({ data }) {
       </tr>
       {isEditModalOpen && (
         <DynamicFormModel
-          data={store}
+          data={order}
           fields={fields}
           menuItem={menuItem}
           onClose={closeEditModal}
@@ -169,7 +208,7 @@ export default function OrderCard({ data }) {
       )}
 
       {isViewModalOpen && (
-        <ViewDetailsModal data={store} onClose={closeViewModel} />
+        <ViewDetailsModal data={order} onClose={closeViewModel} />
       )}
 
       {isDeleteConfirmationOpen && (

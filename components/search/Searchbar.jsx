@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-export const MiniSearchBar = () => {
+export const MiniSearchBar = ({ linkUrl }) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const router = useRouter();
@@ -26,7 +26,7 @@ export const MiniSearchBar = () => {
       // Use the `router.push` function to navigate to the new URL
       router.push(newURL, undefined, { shallow: true });
     } else {
-      router.push("/admin/dashboard/store", { shallow: true });
+      router.push(linkUrl, { shallow: true });
     }
   };
 

@@ -32,7 +32,7 @@ export const PUT = async (request) => {
       storeAtive
     );
     const UpdatedStore = await Store.findByIdAndUpdate(
-      _id, // Pass the ID of the store
+      _id,
       {
         storeName,
         storeAtive,

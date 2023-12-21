@@ -91,7 +91,7 @@ export default function Checkout({ cart, user }) {
               <OrderSummary
                 totalAfterDiscount={totalAfterDiscount}
                 setTotalAfterDiscount={setTotalAfterDiscount}
-                cart={cart}
+                carts={cart}
                 user={user}
                 selectedAddress={selectedAddress}
                 setSelectedMethod={setSelectedMethod}
