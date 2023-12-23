@@ -23,7 +23,7 @@ function MobileMenu({ categories, subCategories }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("1024"));
   const { cart } = useSelector((state) => ({ ...state }));
   const { data: session, status } = useSession();
 

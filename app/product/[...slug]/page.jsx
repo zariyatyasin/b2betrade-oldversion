@@ -8,15 +8,25 @@ import User from "../../../model/User";
 import db from "../../../utils/db";
 import Link from "next/link";
 import MainpageLayout from "../../../components/layout/MainpageLayout";
+import mongoose from "mongoose";
 
 async function getData(url) {
+  const ObjectId = mongoose.Types.ObjectId;
+
   const slug = url.slug[0];
   const style = parseInt(url.slug[1]) || 0;
   const size = parseInt(url.slug[2]) || 0;
+  let query;
+  if (ObjectId.isValid(slug)) {
+    query = { _id: slug };
+  } else {
+    query = { slug: slug };
+  }
 
+  console.log(query);
   await db.connectDb();
   try {
-    let product = await Product.findOne({ slug: slug })
+    let product = await Product.findOne(query)
       .populate({ path: "category", model: Category })
       .populate({ path: "storeId", model: Store })
       .populate({ path: "subCategories", model: SubCategory })

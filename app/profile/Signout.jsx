@@ -8,7 +8,7 @@ export default function Signout() {
   };
   return (
     <div
-      className="flex justify-center items-center flex-col mb-4 sm:mb-0 cursor-pointer"
+      className="flex justify-center items-center flex-col mb-4 sm:mb-0 cursor-pointer lg:hidden"
       onClick={handleSignOut}
     >
       <ExitToAppOutlinedIcon sx={{ fontSize: 28 }} />

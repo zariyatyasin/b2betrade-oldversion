@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Header } from "../../components/Header/Header";
+import { HeaderWithOutCat } from "../../components/Header/HeaderWithOutCat";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -73,6 +73,7 @@ const page = () => {
     const { phoneNumber, password, fullName } = values;
 
     try {
+      setLoading(true);
       const res = await fetch("api/auth/register", {
         method: "POST",
         headers: {
@@ -86,8 +87,9 @@ const page = () => {
       });
 
       if (!res.ok) {
+        setLoading(false);
         const data = await res.json();
-        console.log(data.message);
+        setError(data.message);
       }
       let options = {
         redirect: false,
@@ -100,7 +102,9 @@ const page = () => {
 
       return data;
     } catch (error) {
-      console.log(error.message || "An error occurred during registration.");
+      setError(error.message || "An error occurred during registration.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,7 +135,7 @@ const page = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderWithOutCat />
       {loading && <FullScreenLoading />}
       <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -173,8 +177,8 @@ const page = () => {
                         id="phoneNumber"
                         name="phoneNumber"
                         type="text"
-                        inputMode="numeric" // Allow only numeric input
-                        pattern="[0-9]*" // Enforce numeric input
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         autoComplete="phoneNumber"
                         required
                         className={`appearance-none block w-full px-3 py-2 border ${
@@ -219,6 +223,9 @@ const page = () => {
                             component="div"
                             className="text-red-500 text-sm"
                           />
+                          <div className=" text-xs text-gray-500 mt-2">
+                            Forget Password?
+                          </div>
                         </div>
                       ) : (
                         <>

@@ -23,6 +23,14 @@ export const POST = async (request) => {
         { status: 200 }
       );
     }
+
+    const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+    const uniqueSuffix = `${session.id.slice(-5)}-${otherData.name}`;
+    otherData.slug = slugify(
+      `${otherData.name}-${uniqueSuffix}-${currentDate}`
+    );
+
     otherData.slug = slugify(otherData.name);
     const newProduct = new Product({
       userId: session.id,

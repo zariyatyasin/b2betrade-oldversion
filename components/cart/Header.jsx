@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div>
-      <header className="relative bg-white shadow">
+      <header className="relative bg-white shadow px-4">
         <nav aria-label="Top" className="max-w-7xl mx-auto ">
           <div className="px-4   sm:px-0 sm:pb-0">
             <div className="h-16 flex items-center justify-between">

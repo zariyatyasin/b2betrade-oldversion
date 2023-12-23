@@ -26,7 +26,7 @@ const EmptyCart = () => {
               <div className="mb-2 mt-2">
                 <p>Sign in to view your cart and start shopping</p>
                 <button
-                  className="uppercase w-full px-8 p-2 bg-black text-white t  font-semibold"
+                  className="uppercase w-full px-8 p-2  text-white mt-2 bg-[#2B39D1]  font-semibold"
                   onClick={() => signIn()}
                 >
                   Sign in / register

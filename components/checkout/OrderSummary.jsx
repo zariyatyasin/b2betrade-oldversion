@@ -38,6 +38,7 @@ export default function OrderSummary({
   };
 
   const placeOrderHandler = async () => {
+    console.log(cart);
     try {
       const { data } = await axios.post("/api/order/create", {
         products: cart?.products,
@@ -47,10 +48,12 @@ export default function OrderSummary({
         total: totalAfterDiscount !== "" ? totalAfterDiscount : total,
         couponApplied: coupon,
       });
-      dispatch(emptyCart());
+
       router.push(`/order/${data.order_id}`);
     } catch (error) {
       setOrderError(error.response.data.message);
+    } finally {
+      // dispatch(emptyCart());
     }
   };
 

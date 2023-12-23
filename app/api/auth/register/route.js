@@ -21,7 +21,7 @@ export async function POST(request) {
     const user = await User.findOne({ phoneNumber });
     if (user) {
       return NextResponse.json(
-        { message: "This phone number already exsits." },
+        { message: "This phone number already exsits.", type: "login" },
         {
           status: 400,
         }

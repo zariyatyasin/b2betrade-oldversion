@@ -8,7 +8,9 @@ import User from "../../../model/User";
 import Address from "../../../components/Address/Address";
 async function getData({ params, searchParams }) {
   const session = await getCurrentUser();
-
+  if (!session) {
+    redirect("/signin");
+  }
   const tab = searchParams.tab || 0;
 
   const address = await User.findById(session.id).select("address").lean();

@@ -122,7 +122,7 @@ export default function page() {
             />
           </div>
 
-          <ProductListCart />
+          {/* <ProductListCart /> */}
         </main>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Layout from "../../../../components/admin/Layout/Layout";
 import User from "../../../../model/User";
 import db from "../../../../utils/db";
 import ManageUser from "../../../../components/admin/Users/ManageUser";
+import UserManage from "../../../../components/admin/Users/UserManage";
 async function getData() {
   db.connectDb();
 
@@ -22,7 +23,7 @@ export default async function page() {
 
   return (
     <Layout>
-      <ManageUser users={users} />
+      <UserManage users={users} />
     </Layout>
   );
 }

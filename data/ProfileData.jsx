@@ -10,13 +10,13 @@ export const sidebarData = [
         name: "Addresses",
         link: "/profile/address",
       },
+      // {
+      //   name: "My Payment Options",
+      //   link: "/profile/payment",
+      // },
       {
-        name: "My Payment Options",
-        link: "/profile/payment",
-      },
-      {
-        name: "Account Security",
-        link: "/profile/security",
+        name: " Account Setting ",
+        link: "/profile/edit",
       },
     ],
   },
