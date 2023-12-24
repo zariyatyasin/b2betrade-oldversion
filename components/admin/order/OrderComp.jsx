@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { MiniSearchBar } from "../../search/Searchbar";
 import { useSearchParams } from "next/navigation";
-import StoreTable from "../../../components/Table/StoreTable";
+import Table from "../../../components/Table/Table";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import SortingDropdown from "../../selects/SortingDropdown";
@@ -108,7 +108,7 @@ export default function OrderComp({ Orders, paginationCount }) {
           sortHandler={sortHandler}
         />
       </div>
-      <StoreTable headers={headers} data={Orders} CardComponent={OrderCard} />
+      <Table headers={headers} data={Orders} CardComponent={OrderCard} />
 
       <Stack spacing={2}>
         <Pagination

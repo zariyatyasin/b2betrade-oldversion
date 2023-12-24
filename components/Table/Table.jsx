@@ -1,7 +1,7 @@
 import React from "react";
 import StoreCard from "../cards/StoreCard";
 
-export default function StoreTable({ headers, data, CardComponent }) {
+export default function Table({ headers, data, CardComponent }) {
   return (
     <div className=" ">
       <div className="mt-4 flex flex-col">

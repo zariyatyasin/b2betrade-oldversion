@@ -11,7 +11,6 @@ async function getData({ params, searchParams }) {
 
   const filter = searchParams.q.split("__")[1];
 
-  console.log(filter);
   let orders = [];
 
   if (!filter) {

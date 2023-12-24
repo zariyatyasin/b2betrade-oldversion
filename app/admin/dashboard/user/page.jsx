@@ -1,14 +1,34 @@
 import React from "react";
 import Layout from "../../../../components/admin/Layout/Layout";
 import User from "../../../../model/User";
+
 import db from "../../../../utils/db";
-import ManageUser from "../../../../components/admin/Users/ManageUser";
+import { getCurrentUser } from "../../../../utils/session";
 import UserManage from "../../../../components/admin/Users/UserManage";
 async function getData() {
   db.connectDb();
 
+  const validStatusValues = [
+    "subadmin",
+    "supplier",
+    "manufacturer",
+    "seller",
+    "user",
+  ];
+  let users;
+
+  const session = await getCurrentUser();
+  if (!session) {
+    redirect("/signin");
+  }
   try {
-    const users = await User.find({}).sort({ updatedAt: -1 }).lean();
+    if (session.role === "admin") {
+      users = await User.find({}).sort({ updatedAt: -1 }).lean();
+    } else {
+      users = await User.find({ role: { $in: validStatusValues } })
+        .sort({ updatedAt: -1 })
+        .lean();
+    }
 
     return {
       users: JSON.parse(JSON.stringify(users)),
