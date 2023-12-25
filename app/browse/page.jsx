@@ -259,10 +259,11 @@ export default async function page({ searchParams }) {
     rating,
     paginationCount,
   } = await getData({ searchParams });
-
+  const componentKey = Date.now();
   return (
     <MainpageLayout>
       <BrowsePage
+        key={componentKey}
         patterns={patterns}
         materials={materials}
         styles={styles}

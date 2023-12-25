@@ -45,7 +45,9 @@ function ProductCardSwip({ products }) {
         href={`/product/${products?.slug}/${active}/0 `}
         className=" sm:h-96 "
       >
-        <ProductSwiper images={images} />
+        <div className=" h-72">
+          <ProductSwiper images={images} />
+        </div>
       </Link>
       <div className=" absolute right-0 top-0 z-10 ">
         {products?.discount ? (

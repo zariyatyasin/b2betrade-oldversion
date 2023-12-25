@@ -13,7 +13,7 @@ const ProductSwiper = ({ images }) => {
   }, [swiperRef]);
   return (
     <div
-      className=" h-72"
+      className=" "
       onMouseEnter={() => {
         swiperRef.current.swiper.autoplay.start();
       }}

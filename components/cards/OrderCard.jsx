@@ -7,7 +7,13 @@ import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
-
+  const menuItem = [
+    { value: "Not Processed", label: "Not Processed" },
+    { value: "Processing", label: "Processing" },
+    { value: "Dispatched", label: "Dispatched" },
+    { value: "Cancelled", label: "Cancelled" },
+    { value: "Completed", label: "Completed" },
+  ];
   const renderProduct = (product) => (
     <div key={product._id} className="product">
       <img src={product.image} alt={product.name} className=" h-8 w-8" />
@@ -42,7 +48,7 @@ export default function OrderCard({ data }) {
       label: "Phone Number",
       name: "shippingAddress.phoneNumber",
     },
-    { type: "select", label: "status", name: "status" },
+    { type: "select", label: "status", name: "status", options: menuItem },
     // Add more field configurations as needed
   ];
   const getStatusColor = (status) => {
@@ -61,14 +67,6 @@ export default function OrderCard({ data }) {
         return "black"; // Default color if status is not recognized
     }
   };
-
-  const menuItem = [
-    { value: "Not Processed", label: "Not Processed" },
-    { value: "Processing", label: "Processing" },
-    { value: "Dispatched", label: "Dispatched" },
-    { value: "Cancelled", label: "Cancelled" },
-    { value: "Completed", label: "Completed" },
-  ];
 
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);

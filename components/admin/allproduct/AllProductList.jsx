@@ -1,104 +1,150 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { MiniSearchBar } from "../../search/Searchbar";
+import { useSearchParams } from "next/navigation";
+import Table from "../../Table/Table";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import SortingDropdown from "../../selects/SortingDropdown";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import ProductTableCard from "../../cards/ProductTableCard";
 
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { Button } from "../../../components/ui/button";
-import axios from "axios";
-import { toast } from "react-toastify";
-import FullScreenLoading from "../../../components/fullScreenOverlay/FullScreenLoading";
-import CreateSubCategoryForm from "../../../components/form/CreateSubCategoryForm";
-import CreateCouponForm from "../../../components/form/CreateCouponForm";
-import ViewCouponDetails from "../../../components/viewDetails/ViewCouponDetails";
-import CrudTablePicAndLink from "../../../components/Table/CrudTablePicAndLink";
+export default function AllProductList({ products, paginationCount }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const headers = {
+    name: "Product Name",
+    price: "Price",
+    productAtive: "Product Status",
 
-export default function AllProductList({ products }) {
-  console.log(products);
+    createdAt: "Created",
+    edit: "Edit",
+  };
 
-  const [data, setData] = useState(products);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [editData, setEditData] = useState({});
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [deleteItemId, setDeleteItemId] = useState(null);
-  const columns = [
-    { field: "name", headerName: "Coupon Code", width: 250 },
+  const filterUrl = ({ page, sort }) => {
+    const currentQuery = new URLSearchParams(searchParams.toString());
+
+    if (page !== undefined) {
+      currentQuery.set("page", page);
+    }
+    if (sort !== undefined) {
+      currentQuery.set("sort", sort);
+    }
+    const queryStr = currentQuery.toString();
+
+    const newUrl = `${pathname}?${queryStr}`;
+
+    router.push(newUrl, { scroll: false });
+  };
+
+  const pageHandler = (e, page) => {
+    filterUrl({ page });
+  };
+  const sortHandler = (sort) => {
+    if (sort) {
+      filterUrl({ sort });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("sort");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
+  };
+  useEffect(() => {}, []);
+  const sortingOptions = [
     {
-      field: "category.name",
-      headerName: "Category",
-      sortable: false,
-      width: 200,
+      name: "Recommend",
+      value: "",
     },
     {
-      field: "actions",
-      headerName: "Actions",
-      sortable: false,
-      width: 250,
+      name: "pending",
+      value: "pending",
+    },
+    {
+      name: "active",
+      value: "active",
+    },
+    {
+      name: "ban",
+      value: "ban",
+    },
+    {
+      name: "block",
+      value: "block",
+    },
+    {
+      name: "subadmin",
+      value: "subadmin",
+    },
+    {
+      name: "supplier",
+      value: "supplier",
+    },
+    {
+      name: "manufacturer",
+      value: "manufacturer",
+    },
+    {
+      name: "seller",
+      value: "seller",
+    },
+    {
+      name: "user",
+      value: "user",
     },
   ];
 
-  const editableColumns = columns.filter(
-    (col) => col.field !== "id" && col.field !== "actions"
-  );
-  const [createFormOpen, setCreateFormOpen] = useState(false);
-
-  const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  const [selectedCoupon, setSelectedCoupon] = useState(null);
-  const [selectedCouponID, setSelectedCouponID] = useState(null);
-
-  const handleView = (couponId) => {
-    setSelectedCouponID(couponId);
-
-    setViewDialogOpen(true);
-  };
-
-  const handleCloseViewDialog = () => {
-    setViewDialogOpen(false);
-    setSelectedCouponID(null);
-  };
-  const handleSubmitForm = async (formData) => {
-    setLoading(true);
-  };
-  const handleDelete = (id) => {
-    setDeleteItemId(id);
-    setDeleteConfirmationOpen(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    setLoading(true);
-    setDeleteConfirmationOpen(false);
-  };
-  const handleEdit = (rowData) => {
-    setEditData({ ...rowData, action: "edit" });
-
-    setOpenEditDialog(true);
-  };
-
-  const rowsWithIds = data?.map((row, index) => ({
-    ...row,
-    id: index + 1,
-    "category.name": row.category.name,
-  }));
+  console.log(products);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <CrudTablePicAndLink
-        columns={columns}
-        editableColumns={editableColumns}
-        data={rowsWithIds}
-        onEdit={handleEdit}
-        onSubmitDelete={(id) => handleDelete(id)}
-        onSubmitView={(id) => handleView(id)}
+      <div className="sm:flex sm:items-center mb-2 ">
+        <div className="sm:flex-auto">
+          <h1 className="text-xl font-semibold text-gray-900">Orders</h1>
+        </div>
+        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#2B39D1] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+          >
+            Add Store
+          </button>
+        </div>
+      </div>
+      <MiniSearchBar linkUrl="/admin/dashboard/product/allproduct" />
+      <div className="   flex  items-center justify-end mt-2">
+        <button
+          className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "
+          onClick={() => router.push("/admin/dashboard/product/allproduct")}
+        >
+          Clear All ({Array.from(searchParams).length})
+        </button>
+        {/* <SortingDropdown
+      sortingOptions={sortingRole}
+      sortHandler={sortHandler}
+    /> */}
+        <SortingDropdown
+          sortingOptions={sortingOptions}
+          sortHandler={sortHandler}
+        />
+      </div>
+      <Table
+        headers={headers}
+        data={products}
+        CardComponent={ProductTableCard}
       />
+
+      <Stack spacing={2}>
+        <Pagination
+          count={paginationCount}
+          defaultPage={Number(searchParams.page) || 1}
+          onChange={pageHandler}
+          variant="outlined"
+          shape="rounded"
+        />
+      </Stack>
     </div>
   );
 }

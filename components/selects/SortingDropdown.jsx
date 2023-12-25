@@ -11,8 +11,8 @@ const SortingDropdown = ({ sortingOptions, sortHandler }) => {
   const sortQuery = searchParams.get("sort") || "";
 
   return (
-    <div className="  ">
-      <div className="relative">
+    <div className=" z-50  ">
+      <div className="relative  z-50">
         <button
           className="  bg-white border text-black text-sm p-2 px-4 rounded  m-1"
           onMouseOver={() => setShow(true)}
@@ -33,7 +33,7 @@ const SortingDropdown = ({ sortingOptions, sortHandler }) => {
             <li
               key={i}
               onClick={() => sortHandler(option.value)}
-              className="p-2 hover:bg-slate-100 cursor-pointer"
+              className="p-2  z-[1000] hover:bg-slate-100 cursor-pointer"
             >
               <a>{sortQuery === option.value ? option.name : option.name}</a>
             </li>

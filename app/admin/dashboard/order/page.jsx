@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../../../../components/admin/Layout/Layout";
 import OrderComp from "../../../../components/admin/order/OrderComp";
 import db from "../../../../utils/db";
+
 import {
   filterArray,
   randomize,
@@ -38,7 +39,11 @@ export async function getData({ params, searchParams }) {
       : sortQuery == "Dispatched"
       ? { status: "Dispatched" }
       : sortQuery == "Cancelled"
+      ? { status: "Cancelled" }
+      : sortQuery == "Completed"
       ? { status: "Completed" }
+      : sortQuery == "newest"
+      ? { createdAt: -1 }
       : {};
   const search =
     searchQuery && searchQuery !== ""

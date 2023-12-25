@@ -9,15 +9,15 @@ export const MiniSearchBar = ({ linkUrl }) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const router = useRouter();
-  const [quary, setQuary] = useState(search || "");
+  const [query, setQuery] = useState(search || "");
 
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (quary?.length > 1) {
+    if (query) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
-      currentSearchParams.set("search", quary);
+      currentSearchParams.set("search", query);
 
       const newURL = `${
         window.location.pathname
@@ -29,6 +29,14 @@ export const MiniSearchBar = ({ linkUrl }) => {
       router.push(linkUrl, { shallow: true });
     }
   };
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      handleSearch({ preventDefault: () => {} });
+    }, 300); // Adjust the debounce delay as needed (e.g., 300 milliseconds)
+
+    return () => clearTimeout(delay);
+  }, [query]);
 
   return (
     <div className=" ">
@@ -50,13 +58,13 @@ export const MiniSearchBar = ({ linkUrl }) => {
                 placeholder="What are you looking..."
                 aria-label="top-bar-search"
                 name="search"
-                value={quary}
-                onChange={(e) => setQuary(e.target.value)}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
             </label>
             <button
-              type=" submit"
-              className=" flex items-center border rounded-r-md p-6 justify-center h-11 w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-gray-500"
+              type="submit"
+              className="flex items-center border rounded-r-md p-6 justify-center h-11 w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-gray-500"
             >
               <SearchIcon sx={{ fontSize: 24 }} />
             </button>

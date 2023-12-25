@@ -37,7 +37,14 @@ const DynamicFormModel = ({ data, fields, menuItem, onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    onSave(editedData);
+    const editedPassword = editedData.password;
+    if (editedPassword !== undefined && editedPassword !== data.password) {
+      onSave(editedData);
+    } else {
+      // Password not edited, send other data
+      const { password, ...dataWithoutPassword } = editedData;
+      onSave(dataWithoutPassword);
+    }
     onClose();
   };
 
@@ -46,16 +53,20 @@ const DynamicFormModel = ({ data, fields, menuItem, onClose, onSave }) => {
       <DialogTitle>Edit Data</DialogTitle>
       <DialogContent>
         {fields.map((field) => {
-          if (field.type === "text") {
+          if (field.type === "text" || field.type === "passwordHash") {
             return (
               <TextField
                 key={field.name}
                 label={field.label}
                 name={field.name}
+                type={field.type === "passwordHash" ? "password" : "text"}
                 value={editedData[field.name]}
                 onChange={handleInputChange}
                 fullWidth
                 margin="normal"
+                InputProps={{
+                  readOnly: field.type === "passwordHash",
+                }}
               />
             );
           } else if (field.type === "select") {
@@ -67,7 +78,7 @@ const DynamicFormModel = ({ data, fields, menuItem, onClose, onSave }) => {
                   value={editedData[field.name]}
                   onChange={handleInputChange}
                 >
-                  {menuItem.map((item) => (
+                  {field.options.map((item) => (
                     <MenuItem key={item.value} value={item.value}>
                       {item.label}
                     </MenuItem>

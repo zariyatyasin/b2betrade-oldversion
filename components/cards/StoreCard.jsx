@@ -6,18 +6,23 @@ import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 export default function StoreCard({ data }) {
   const [store, setStore] = useState(data);
-  const fields = [
-    { type: "text", label: "Store Name", name: "storeName" },
-    { type: "select", label: "Store Active", name: "storeAtive" },
-    // Add more field configurations as needed
-  ];
-
   const menuItem = [
     { value: "pending", label: "Pending" },
     { value: "ban", label: "Ban" },
     { value: "block", label: "Block" },
     { value: "active", label: "Active" },
   ];
+  const fields = [
+    { type: "text", label: "Store Name", name: "storeName" },
+    {
+      type: "select",
+      label: "Store Active",
+      name: "storeAtive",
+      options: menuItem,
+    },
+    // Add more field configurations as needed
+  ];
+
   let roleColorClass = "";
 
   switch (store?.owner?.role) {

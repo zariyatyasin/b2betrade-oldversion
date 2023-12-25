@@ -16,7 +16,7 @@ export default function UserManage({ users, paginationCount }) {
   const pathname = usePathname();
   const headers = {
     name: "Name",
-    phoneNumber: "Phone Number",
+    images: "images",
     role: "Role",
     email: "Email",
     emailVerified: "Verified",
@@ -74,6 +74,26 @@ export default function UserManage({ users, paginationCount }) {
       name: "block",
       value: "block",
     },
+    {
+      name: "subadmin",
+      value: "subadmin",
+    },
+    {
+      name: "supplier",
+      value: "supplier",
+    },
+    {
+      name: "manufacturer",
+      value: "manufacturer",
+    },
+    {
+      name: "seller",
+      value: "seller",
+    },
+    {
+      name: "user",
+      value: "user",
+    },
   ];
 
   return (
@@ -91,14 +111,18 @@ export default function UserManage({ users, paginationCount }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar linkUrl="/admin/dashboard/order" />
+      <MiniSearchBar linkUrl="/admin/dashboard/user" />
       <div className="   flex  items-center justify-end mt-2">
         <button
           className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "
-          onClick={() => router.push("/admin/dashboard/order")}
+          onClick={() => router.push("/admin/dashboard/user")}
         >
           Clear All ({Array.from(searchParams).length})
         </button>
+        {/* <SortingDropdown
+          sortingOptions={sortingRole}
+          sortHandler={sortHandler}
+        /> */}
         <SortingDropdown
           sortingOptions={sortingOptions}
           sortHandler={sortHandler}

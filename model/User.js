@@ -30,9 +30,10 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
     },
-    emailVerified: {
-      type: Boolean,
-      default: false,
+    verified: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "ban", "block", "active"],
     },
 
     defaultPaymentMethod: {

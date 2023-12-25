@@ -4,14 +4,32 @@ import DynamicFormModel from "../modelUi/DynamicFormModel";
 import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmationModal";
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
-export default function UserCard({ data }) {
-  const [user, setuser] = useState(data);
+import ProductSwiper from "./ProductSwiper";
+export default function ProductTableCard({ data }) {
+  const [product, setproduct] = useState(data);
+  const [images, setImages] = useState(data.subProducts[0].images);
+  const hasNullPrice =
+    product.bulkPricing &&
+    product.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
+  const price = product.bulkPricing.map((bulkPrice) => bulkPrice.price);
+  const highPrice = Math.max(...price);
+  const lowPrice = Math.min(...price);
+  const firstSizeBulkPricing = product.subProducts[0].sizes[0].bulkPricing;
+
+  const minPrice = Math.min(
+    ...firstSizeBulkPricing.map((pricing) => pricing.price)
+  );
+  const maxPrice = Math.max(
+    ...firstSizeBulkPricing.map((pricing) => pricing.price)
+  );
+  const minQty2 = product.bulkPricing[0].minQty;
+  const minQty = firstSizeBulkPricing[0].minQty;
   const menuItem = [
     { value: "subadmin", label: "subadmin" },
     { value: "supplier", label: "supplier" },
     { value: "manufacturer", label: "manufacturer" },
     { value: "seller", label: "seller" },
-    { value: "user", label: "user" },
+    { value: "product", label: "product" },
   ];
   const verified = [
     { value: "pending", label: "pending" },
@@ -47,15 +65,15 @@ export default function UserCard({ data }) {
   ];
   const getStatusColor = (status) => {
     switch (status) {
-      case "subadmin":
+      case "pending":
         return "red";
       case "supplier":
         return "orange";
-      case "manufacturer":
+      case "ban":
         return "blue";
-      case "seller":
+      case "block":
         return "gray";
-      case "user":
+      case "active":
         return "green";
       default:
         return "black";
@@ -95,15 +113,18 @@ export default function UserCard({ data }) {
       setLoading(true);
 
       const response = await axios.put(
-        `/api/user/update/${editedData._id}`,
+        `/api/product/update/${editedData._id}`,
         editedData
       );
 
       if (response.status === 200) {
-        console.log("Data updated successfully:", response.data.newUpdateduser);
-        setuser((prevuser) => ({
-          ...prevuser,
-          ...response.data.newUpdateduser,
+        console.log(
+          "Data updated successfully:",
+          response.data.newUpdatedproduct
+        );
+        setproduct((prevproduct) => ({
+          ...prevproduct,
+          ...response.data.newUpdatedproduct,
         }));
       } else {
         console.error("Failed to update data:", response.statusText);
@@ -116,8 +137,7 @@ export default function UserCard({ data }) {
   };
 
   const handleDelete = () => {
-    // Implement the logic to delete the data
-    console.log("Deleting data:", user);
+    console.log("Deleting data:", product);
     closeDeleteConfirmation();
   };
 
@@ -125,39 +145,91 @@ export default function UserCard({ data }) {
     <>
       <tr>
         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-          <div className="shipping-address">
-            <p> {user.name}</p>
+          <div className=" flex items-center">
+            <div className=" h-44 w-44  ">
+              <ProductSwiper images={images} />
+            </div>
+            <p> {product.name}</p>
           </div>
         </td>
-
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <p> {user.phoneNumber}</p>
+          <div className="mt-2 ">
+            {!hasNullPrice && (
+              <div>
+                {product.bulkPricing.length === 1 ? (
+                  // Display the single price
+                  <p className="text-[#2B39D1] font-bold">
+                    {" "}
+                    {product.bulkPricing[0].price} ৳
+                  </p>
+                ) : (
+                  <div>
+                    <p className="text-[#2B39D1] font-bold">
+                      {lowPrice}৳ - {highPrice}৳
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+            {hasNullPrice && (
+              <div>
+                <p className="text-[#2B39D1] font-bold">
+                  {" "}
+                  {minPrice}৳ - {maxPrice}৳
+                </p>
+              </div>
+            )}
+
+            <div className=" text-left mt-2">
+              {!hasNullPrice ? (
+                <p>Min order: {minQty2}</p>
+              ) : (
+                <p>Min order: {minQty}</p>
+              )}
+            </div>
+          </div>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <p>
             <span
               className=" font-bold text-white px-2 py-1 rounded-full text-xs m-1"
-              style={{ background: getStatusColor(user.role) }}
+              style={{ background: getStatusColor(product.productAtive) }}
             >
-              {user.role}
+              {product.productAtive}
             </span>
           </p>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <p className=" font-bold text-gray-950"> {user.email}</p>
+          <p>{new Date(product.createdAt).toLocaleDateString("en-GB")}</p>
+        </td>
+        {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <p> {product.phoneNumber}</p>
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <p>
+            <span
+              className=" font-bold text-white px-2 py-1 rounded-full text-xs m-1"
+              style={{ background: getStatusColor(product.role) }}
+            >
+              {product.role}
+            </span>
+          </p>
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <p className=" font-bold text-gray-950"> {product.email}</p>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <p className=" font-bold text-gray-950">
             {" "}
-            {user.emailVerified === true ? "Verified" : "Not Verified"}
+            {product.emailVerified === true ? "Verified" : "Not Verified"}
           </p>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          <p>{new Date(user.createdAt).toLocaleDateString("en-GB")}</p>
-        </td>
+          <p>{new Date(product.createdAt).toLocaleDateString("en-GB")}</p>
+        </td> */}
         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
           <Link
-            href={`/admin/dashboard/user/userDetails/${user._id}`}
+            href={`/product/${product.slug}/0/0`}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
           >
@@ -182,7 +254,7 @@ export default function UserCard({ data }) {
       </tr>
       {isEditModalOpen && (
         <DynamicFormModel
-          data={user}
+          data={product}
           fields={fields}
           menuItem={menuItem}
           onClose={closeEditModal}
@@ -191,7 +263,7 @@ export default function UserCard({ data }) {
       )}
 
       {/* {isViewModalOpen && (
-        <ViewDetailsModal data={user} onClose={closeViewModel} />
+        <ViewDetailsModal data={product} onClose={closeViewModel} />
       )} */}
 
       {isDeleteConfirmationOpen && (
