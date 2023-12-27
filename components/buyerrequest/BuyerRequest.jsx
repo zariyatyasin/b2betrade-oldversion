@@ -15,7 +15,7 @@ import BuyerRequestCard from "../cards/BuyerRequestCard";
 // import HeaderFilters from "./filter/HeaderFilters";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-
+import { MiniSearchBar } from "../search/Searchbar";
 import CheckBoxFilter from "./filter/CheckBoxFilter";
 import CategoryFilter from "./filter/CategoryFilter";
 import Pagination from "@mui/material/Pagination";
@@ -108,7 +108,7 @@ export default function BuyerRequest({
 
   return (
     <div>
-      <div className="bg-white  max-w-6xl mx-auto">
+      <div className="bg-white  max-w-6xl mx-auto mt-8">
         <div>
           <main className="max-w-3xl mx-auto py-5 px-4 sm:py-10 sm:px-6  lg:max-w-[1500px] lg:px-8">
             <div className="  border-gray-200 ">
@@ -165,7 +165,9 @@ export default function BuyerRequest({
                   />
                 </div> */}
 
-                <Header />
+                <div className="p-4">
+                  <MiniSearchBar linkUrl="/browse/buyerrequest" />
+                </div>
 
                 {products?.map((productData, id) => (
                   <BuyerRequestCard productData={productData} key={id} />

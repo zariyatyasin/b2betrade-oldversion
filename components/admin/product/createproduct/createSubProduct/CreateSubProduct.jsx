@@ -5,7 +5,12 @@ import AddSubProductImage from "./AddSubProductImage";
 import AddSubQty from "./AddSubQty";
 import AddSubProductColor from "./AddSubProductColor";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-const CreateSubProduct = ({ subProducts, setSubProducts, samePriceForAll }) => {
+const CreateSubProduct = ({
+  subProducts,
+  setSubProducts,
+  samePriceForAll,
+  editedProduct,
+}) => {
   const [subProductVisibility, setSubProductVisibility] = useState([]);
 
   const toggleSubProductVisibility = (index) => {
@@ -107,6 +112,7 @@ const CreateSubProduct = ({ subProducts, setSubProducts, samePriceForAll }) => {
                 index={index}
                 subProducts={subProducts}
                 setSubProducts={setSubProducts}
+                initialImages={editedProduct.subProducts[index]?.images}
               />
               <Button
                 className="flex bg-white text-gray-950 border"

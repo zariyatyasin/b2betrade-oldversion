@@ -133,7 +133,7 @@ export default async function page({ params }) {
                         Location:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.location}
+                        {requestProductDetails.shippingAddress.city}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">

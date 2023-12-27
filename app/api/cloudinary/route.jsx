@@ -44,8 +44,6 @@ export const POST = async (request) => {
       await unlink(filePath);
     }
 
-    console.log(images);
-
     return NextResponse.json(images, {
       status: 201,
     });

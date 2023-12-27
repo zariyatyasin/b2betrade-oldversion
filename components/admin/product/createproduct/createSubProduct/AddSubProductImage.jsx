@@ -1,18 +1,28 @@
 import { Button } from "../../../../ui/button";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 export default function AddSubProductImage({
   subProducts,
   setSubProducts,
   index,
+  initialImages,
 }) {
   const fileInput = useRef(null);
   const [imagePreviews, setImagePreviews] = useState([]);
   const handleAddImage = (subProductIndex) => {
     fileInput.current.click();
   };
-
+  useEffect(() => {
+    if (initialImages && initialImages.length > 0) {
+      const initialPreviews = initialImages.map((img) => img.url);
+      setImagePreviews((prevPreviews) => {
+        const updatedPreviews = [...prevPreviews];
+        updatedPreviews[index] = initialPreviews;
+        return updatedPreviews;
+      });
+    }
+  }, [initialImages, index]);
   const handleRemoveImage = (subProductIndex, imageIndex) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts[subProductIndex].images.splice(imageIndex, 1);

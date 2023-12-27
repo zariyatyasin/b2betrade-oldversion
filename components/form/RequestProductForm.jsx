@@ -2,19 +2,20 @@
 "use client";
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { categoriesAndSub } from "../../data/CategoriesAndSub";
+import { useRouter } from "next/navigation";
+import SearchSelect from "../selects/SearchSelect";
 import * as Yup from "yup";
 import axios from "axios";
 import SingularSelect from "../../components/selects/SingularSelect";
 import MultipleSelect from "../../components/selects/MultipleSelect";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import { toast } from "react-toastify";
 import { Grid } from "@mui/material";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect } from "react";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
 const initialValues = {
   productName: "",
   quantity: "",
@@ -38,26 +39,76 @@ const initialValues = {
     postalCode: "",
     country: "",
   },
-  isApproved: false,
-  isFulfilled: false,
-  isRecurring: false,
-  isCustomizable: false,
-  preferredMaterial: "",
-  requiredCertification: "",
-  specialInstructions: "",
-  isPaid: false,
-  paymentReference: "",
-  isBargainAllowed: false,
-  isSampleRequested: false,
-  supplierExperience: "",
-  targetPrice: "",
-  estimatedOrderFrequency: "",
-  attachmentUrls: [],
+  // isApproved: false,
+  // isFulfilled: false,
+  // isRecurring: false,
+  // isCustomizable: false,
+  // preferredMaterial: "",
+  // requiredCertification: "",
+  // specialInstructions: "",
+  // isPaid: false,
+  // paymentReference: "",
+  // isBargainAllowed: false,
+  // isSampleRequested: false,
+  // supplierExperience: "",
+  // targetPrice: "",
+  // estimatedOrderFrequency: "",
+  // attachmentUrls: [],
 };
+const bangladeshCities = [
+  { id: 1, name: "Dhaka" },
+  { id: 2, name: "Chittagong" },
+  { id: 3, name: "Sylhet" },
+  { id: 4, name: "Rajshahi" },
+  { id: 5, name: "Khulna" },
+  { id: 6, name: "Barisal" },
+  { id: 7, name: "Rangpur" },
+  { id: 8, name: "Mymensingh" },
+  { id: 9, name: "Comilla" },
+  { id: 10, name: "Narayanganj" },
+  { id: 11, name: "Gazipur" },
+  { id: 12, name: "Tangail" },
+  { id: 13, name: "Jamalpur" },
+  { id: 14, name: "Bogra" },
+  { id: 15, name: "Dinajpur" },
+  { id: 16, name: "Saidpur" },
+  { id: 17, name: "Kushtia" },
+  { id: 18, name: "Jessore" },
+  { id: 19, name: "Naogaon" },
+  { id: 20, name: "Sirajganj" },
+  { id: 21, name: "Pabna" },
+  { id: 22, name: "Bhola" },
+  { id: 23, name: "Narail" },
+  { id: 24, name: "Satkhira" },
+  { id: 25, name: "Madaripur" },
+  { id: 26, name: "Faridpur" },
+  { id: 27, name: "Gopalganj" },
+  { id: 28, name: "Shariatpur" },
+  { id: 29, name: "Manikganj" },
+  { id: 30, name: "Munshiganj" },
+  { id: 31, name: "Netrakona" },
+  { id: 32, name: "Sherpur" },
+  { id: 33, name: "Moulvibazar" },
+  { id: 34, name: "Sunamganj" },
+  { id: 35, name: "Habiganj" },
+  { id: 36, name: "Brahmanbaria" },
+  { id: 37, name: "Chandpur" },
+  { id: 38, name: "Lakshmipur" },
+  { id: 39, name: "Feni" },
+  { id: 40, name: "Noakhali" },
+  { id: 41, name: "Pirojpur" },
+  { id: 42, name: "Patuakhali" },
+  { id: 43, name: "Cox's Bazar" },
+  { id: 44, name: "Bandarban" },
+  { id: 45, name: "Khagrachari" },
+  { id: 46, name: "Rangamati" },
+];
 
 const RequestProductForm = ({ session, categories }) => {
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [subs, setSubs] = useState([]);
+  const router = useRouter();
   const [product, setProduct] = useState(initialValues);
   const validationSchema = Yup.object({
     productName: Yup.string().required("Product Name is required"),
@@ -105,19 +156,23 @@ const RequestProductForm = ({ session, categories }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      setLoading(true);
       values.userId = session.id;
       const response = await axios.post(
         "http://localhost:3000/api/productrequest",
         values
       );
 
+      console.log(response);
+
       if (response.status === 200) {
-        console.log("Request successful:", response.data);
-      } else {
-        console.error("Request failed with status:", response.status);
+        toast.success(response.data.message);
+        router.push(`/buyerrequest/details/${response.data.saveRequest._id}`);
       }
     } catch (error) {
-      console.error("Error making API request:", error);
+      toast.error(error);
+    } finally {
+      setLoading(false);
     }
 
     // Update the product state and setSubmitting as needed
@@ -133,41 +188,48 @@ const RequestProductForm = ({ session, categories }) => {
     async function getSubs() {
       if (product.category) {
         try {
+          setLoading(true);
           const { data } = await axios.get(
             `/api/admin/subcategory/${product.category}`
           );
           setSubs(data);
         } catch (error) {
           console.error("Error fetching subcategories:", error);
+        } finally {
+          setLoading(false);
         }
       }
     }
     getSubs();
   }, [product.category]);
   return (
-    <div className="px-4  sm:px-6 lg:px-8">
-      <div className=" max-w-7xl mx-auto mt-8 ">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Request a Post
+    <div className="p-4 max-w-6xl mt-8 rounded-md border sm:px-6 bg-white lg:px-8 mx-auto">
+      {loading && <FullScreenLoading />}
+
+      <div className="mx-auto mt-8">
+        <h3 className="text-xl leading-6 font-medium text-gray-900">
+          Post Your Request
         </h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">
-          This information will be displayed publicly so be careful what you
-          share.
+          Looking for a specific product? Post your request below and let
+          sellers bid on providing you with the best offer. Get ready to receive
+          personalized offers tailored to your needs!
         </p>
       </div>
+
       <Formik
         initialValues={product}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values, handleSubmit, setFieldValue }) => (
-          <Form className=" my-8 max-w-6xl mx-auto  ">
+          <Form className="  my-8  mx-auto  ">
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="productName"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Product Name
                   </label>
@@ -184,11 +246,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="quantity"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Quantity
                   </label>
@@ -205,11 +267,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="description"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Description
                   </label>
@@ -226,12 +288,9 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
-                  <label
-                    htmlFor="budget"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
+                  <label htmlFor="budget" className="block text-gray-700  mb-2">
                     Budget
                   </label>
                   <Field
@@ -247,11 +306,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="deliveryDate"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Delivery Date
                   </label>
@@ -268,48 +327,42 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
-                    htmlFor="location"
-                    className="block text-gray-700 font-bold mb-2"
+                    htmlFor="shippingAddress.city"
+                    className="block text-gray-700 mb-2"
                   >
-                    Location
+                    city
                   </label>
-                  <Field
-                    type="text"
-                    id="location"
-                    name="location"
-                    className="w-full border border-gray-300 rounded p-2"
+                  <SearchSelect
+                    value={
+                      values.shippingAddress.city
+                        ? { name: values.shippingAddress.city }
+                        : null
+                    }
+                    data={bangladeshCities}
+                    onChange={(selectedOption) =>
+                      setFieldValue(
+                        "shippingAddress.city",
+                        selectedOption?.name || ""
+                      )
+                    }
                   />
                   <ErrorMessage
-                    name="location"
+                    name="shippingAddress.city"
                     component="div"
                     className="text-red-500"
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isUrgent"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Urgent
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isUrgent"
-                    name="isUrgent"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
+
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="preferredBrand"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Preferred Brand
                   </label>
@@ -326,11 +379,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="preferredColor"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Preferred Color
                   </label>
@@ -347,11 +400,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>{" "}
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="paymentMethod"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Payment Method
                   </label>
@@ -368,11 +421,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="contactNumber"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Contact Number
                   </label>
@@ -389,11 +442,238 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+
+              <Grid item xs={12} md={6}>
+                <SingularSelect
+                  name="category"
+                  value={values.category}
+                  placeholder="Category"
+                  data={categories}
+                  header="Select a Category"
+                  handleChange={(e) => {
+                    handleChange(e);
+                    setFieldValue("category", e.target.value); // Make sure to set the field value in Formik
+                  }}
+                  disabled={values.parent}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                {values.category && (
+                  <MultipleSelect
+                    value={values.subCategories}
+                    data={subs}
+                    header="Select SubCategories"
+                    name="subCategories"
+                    disabled={values.parent}
+                    handleChange={(e) => {
+                      handleChange(e);
+                      setFieldValue("subCategories", e.target.value); // Make sure to set the field value in Formik
+                    }}
+                  />
+                )}
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <div>
+                  <label htmlFor="images" className="block text-gray-700  mb-2">
+                    Images
+                  </label>
+                  <Field
+                    type="file"
+                    id="images"
+                    name="images"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="images"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid>
+
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="isApproved"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Approved
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isApproved"
+                    name="isApproved"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="isFulfilled"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Fulfilled
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isFulfilled"
+                    name="isFulfilled"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="isRecurring"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Recurring
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isRecurring"
+                    name="isRecurring"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="isCustomizable"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Customizable
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isCustomizable"
+                    name="isCustomizable"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="preferredMaterial"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Preferred Material
+                  </label>
+                  <Field
+                    type="text"
+                    id="preferredMaterial"
+                    name="preferredMaterial"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="preferredMaterial"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="requiredCertification"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Required Certification
+                  </label>
+                  <Field
+                    type="text"
+                    id="requiredCertification"
+                    name="requiredCertification"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="requiredCertification"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="specialInstructions"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Special Instructions
+                  </label>
+                  <Field
+                    as="textarea"
+                    id="specialInstructions"
+                    name="specialInstructions"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="specialInstructions"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label htmlFor="isPaid" className="block text-gray-700  mb-2">
+                    Is Paid
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isPaid"
+                    name="isPaid"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="paymentReference"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Payment Reference
+                  </label>
+                  <Field
+                    type="text"
+                    id="paymentReference"
+                    name="paymentReference"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="paymentReference"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
+                <div>
+                  <label
+                    htmlFor="isBargainAllowed"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Bargain Allowed
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isBargainAllowed"
+                    name="isBargainAllowed"
+                    className="mr-2"
+                  />
+                </div>
+              </Grid> */}
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="additionalRequirements"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Additional Requirements
                   </label>
@@ -410,243 +690,11 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
-                <SingularSelect
-                  name="category"
-                  value={values.category}
-                  placeholder="Category"
-                  data={categories}
-                  header="Select a Category"
-                  handleChange={(e) => {
-                    handleChange(e);
-                    setFieldValue("category", e.target.value); // Make sure to set the field value in Formik
-                  }}
-                  disabled={values.parent}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                {values.category && (
-                  <MultipleSelect
-                    value={values.subCategories}
-                    data={subs}
-                    header="Select SubCategories"
-                    name="subCategories"
-                    disabled={values.parent}
-                    handleChange={(e) => {
-                      handleChange(e);
-                      setFieldValue("subCategories", e.target.value); // Make sure to set the field value in Formik
-                    }}
-                  />
-                )}
-              </Grid>
-
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="images"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Images (comma-separated URLs)
-                  </label>
-                  <Field
-                    type="text"
-                    id="images"
-                    name="images"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="images"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isApproved"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Approved
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isApproved"
-                    name="isApproved"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isFulfilled"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Fulfilled
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isFulfilled"
-                    name="isFulfilled"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isRecurring"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Recurring
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isRecurring"
-                    name="isRecurring"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isCustomizable"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Customizable
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isCustomizable"
-                    name="isCustomizable"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="preferredMaterial"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Preferred Material
-                  </label>
-                  <Field
-                    type="text"
-                    id="preferredMaterial"
-                    name="preferredMaterial"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="preferredMaterial"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="requiredCertification"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Required Certification
-                  </label>
-                  <Field
-                    type="text"
-                    id="requiredCertification"
-                    name="requiredCertification"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="requiredCertification"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="specialInstructions"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Special Instructions
-                  </label>
-                  <Field
-                    as="textarea"
-                    id="specialInstructions"
-                    name="specialInstructions"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="specialInstructions"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isPaid"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Paid
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isPaid"
-                    name="isPaid"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="paymentReference"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Payment Reference
-                  </label>
-                  <Field
-                    type="text"
-                    id="paymentReference"
-                    name="paymentReference"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="paymentReference"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div>
-                  <label
-                    htmlFor="isBargainAllowed"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
-                    Is Bargain Allowed
-                  </label>
-                  <Field
-                    type="checkbox"
-                    id="isBargainAllowed"
-                    name="isBargainAllowed"
-                    className="mr-2"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} md={3}>
                 <div>
                   <label
                     htmlFor="isSampleRequested"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Is Sample Requested
                   </label>
@@ -658,11 +706,28 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} md={3}>
+                <div className=" flex items-center">
+                  <label
+                    htmlFor="isUrgent"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Is Urgent
+                  </label>
+                  <Field
+                    type="checkbox"
+                    id="isUrgent"
+                    name="isUrgent"
+                    className="ml-2"
+                    sx={{ "& .MuiSvgIcon-root": { fontSize: 40 } }}
+                  />
+                </div>
+              </Grid>
+              {/* <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="supplierExperience"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Supplier Experience
                   </label>
@@ -678,12 +743,12 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>
-              </Grid>
-              <Grid item xs={6}>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="targetPrice"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Target Price
                   </label>
@@ -699,12 +764,12 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>
-              </Grid>
-              <Grid item xs={6}>
+              </Grid> */}
+              {/* <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="estimatedOrderFrequency"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Estimated Order Frequency
                   </label>
@@ -720,12 +785,12 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>
-              </Grid>
-              <Grid item xs={6}>
+              </Grid> */}
+              <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="attachmentUrls"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-gray-700  mb-2"
                   >
                     Attachment URLs (comma-separated)
                   </label>

@@ -16,7 +16,10 @@ function createRegex(data, styleRegex) {
 
 async function getData({ params, searchParams }) {
   db.connectDb();
-
+  const page = searchParams.page || 1;
+  const searchQuery = searchParams.search || "";
+  const sortQuery = searchParams.sort || "";
+  const pageSize = 10;
   const categoryQuery = searchParams.category || "";
   const locationQuery = searchParams.location?.split("_") || "";
   const locationRegex = `^${locationQuery[0]}`;
@@ -26,7 +29,7 @@ async function getData({ params, searchParams }) {
   const location =
     locationQuery && locationQuery !== ""
       ? {
-          location: {
+          "shippingAddress.city": {
             $regex: locationSearchRegex,
             $options: "i",
           },
@@ -40,7 +43,7 @@ async function getData({ params, searchParams }) {
   });
 
   let locations = await RequestProduct.find({ ...category }).distinct(
-    "location"
+    "shippingAddress.city"
   );
   let productsDb = await RequestProduct.find({
     ...location,

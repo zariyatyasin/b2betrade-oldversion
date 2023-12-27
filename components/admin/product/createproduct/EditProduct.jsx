@@ -25,53 +25,36 @@ import Questions from "./addToClick/Questions";
 import AdminInput from "../../../selects/AdminPut";
 import { Uploadimages } from "../../../../request/uploadimg";
 import axios from "axios";
-const initialState = {
-  name: "",
-  description: "",
-  brand: "",
-  sku: "",
-  discount: 0,
-  productType: "",
-  description_images: [],
-  parent: "",
-  category: "",
-  subCategories: [],
+export default function EditProduct({ editedProduct, categories, id }) {
+  const [product, setProduct] = useState({
+    name: editedProduct.name,
+    description: editedProduct.description,
+    brand: editedProduct.brand,
+    sku: editedProduct.sku,
+    slug: editedProduct.slug,
+    discount: editedProduct.discount,
+    productType: "", // Add the appropriate property from editedProduct
+    description_images: [],
+    parent: "", // Add the appropriate property from editedProduct
+    category: editedProduct.category._id,
+    subCategories: [], // Add the appropriate property from editedProduct
+    details: editedProduct.details,
+    bulkPricing: editedProduct.bulkPricing,
+    questions: editedProduct.questions,
+    shippingFee: "",
+  });
 
-  details: [
-    {
-      name: "",
-      value: "",
-    },
-  ],
-  bulkPricing: [
-    {
-      minQty: "",
-      maxQty: "",
-      price: "",
-    },
-  ],
-  questions: [
-    {
-      question: "",
-      answer: "",
-    },
-  ],
-  shippingFee: "",
-};
-export default function CreateProduct({ categories }) {
-  const [product, setProduct] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [subs, setSubs] = useState([]);
   const [images, setImages] = useState([]);
   const [samePriceForAll, setSamePriceForAll] = useState(true);
-  const [editorHtml, setEditorHtml] = useState("");
-
+  const [editorHtml, setEditorHtml] = useState(editedProduct.description);
+  const [subProducts, setSubProducts] = useState(editedProduct.subProducts);
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }],
       ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
-
       ["clean"],
     ],
     clipboard: {
@@ -90,26 +73,6 @@ export default function CreateProduct({ categories }) {
     "link",
     "image",
   ];
-  // const handleImageUpload = (file) => {
-  //   const formData = new FormData();
-  //   formData.append("image", file);
-
-  //   // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
-  //   return axios.post("YOUR_UPLOAD_URL", formData).then((response) => {
-  //     // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
-  //     return response.data.url || "YOUR_CLOUDINARY_URL";
-  //   });
-  // };
-  const productType = [
-    {
-      name: "B2B",
-    },
-    {
-      name: "B2C",
-    },
-  ];
-
-  const [subProducts, setSubProducts] = useState([]);
   useEffect(() => {
     async function getSubs() {
       if (product.category) {
@@ -132,46 +95,47 @@ export default function CreateProduct({ categories }) {
     const { value, name } = e.target;
     setProduct({ ...product, [name]: value });
   };
+
   const handleSubmit = async () => {
     const updatedSubProducts = [];
+    console.log(product);
+    // for (const subProduct of subProducts) {
+    //   const formData = new FormData();
 
-    for (const subProduct of subProducts) {
-      const formData = new FormData();
+    //   for (const image of subProduct.images) {
+    //     formData.append("file", image.blob);
+    //   }
 
-      for (const image of subProduct.images) {
-        formData.append("file", image.blob);
-      }
+    //   const cloudinaryResponse = await Uploadimages(formData);
 
-      const cloudinaryResponse = await Uploadimages(formData);
+    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
+    //     url: response.secure_url,
+    //     secure_url: response.secure_url,
+    //     public_id: response.public_id,
+    //   }));
 
-      const cloudinaryImages = cloudinaryResponse.map((response) => ({
-        url: response.secure_url,
-        secure_url: response.secure_url,
-        public_id: response.public_id,
-      }));
+    //   if (subProduct.color.image) {
+    //     const colorFormData = new FormData();
+    //     colorFormData.append(
+    //       "file",
+    //       new File([subProduct.color.image], "color_image.jpg", {
+    //         type: "image/jpeg",
+    //       })
+    //     );
 
-      if (subProduct.color.image) {
-        const colorFormData = new FormData();
-        colorFormData.append(
-          "file",
-          new File([subProduct.color.image], "color_image.jpg", {
-            type: "image/jpeg",
-          })
-        );
+    //     const colorImageUpload = await Uploadimages(colorFormData);
 
-        const colorImageUpload = await Uploadimages(colorFormData);
+    //     subProduct.color.image = colorImageUpload[0].secure_url;
+    //   }
 
-        subProduct.color.image = colorImageUpload[0].secure_url;
-      }
-
-      updatedSubProducts.push({
-        ...subProduct,
-        images: cloudinaryImages,
-      });
-    }
+    //   updatedSubProducts.push({
+    //     ...subProduct,
+    //     images: cloudinaryImages,
+    //   });
+    // }
 
     try {
-      const { data } = await axios.post("/api/admin/product", {
+      const { data } = await axios.put(`/api/admin/product/update/${id}`, {
         ...product,
         updatedSubProducts,
       });
@@ -180,16 +144,9 @@ export default function CreateProduct({ categories }) {
       console.error("Error creating product:", error);
     }
   };
-  const validate = Yup.object({
-    name: Yup.string()
-      .required("Please add a name")
-      .min(10, "Product name must be between 10 and 300 characters.")
-      .max(300, "Product name must be between 10 and 300 characters."),
-    brand: Yup.string().required("Please add a brand"),
-    category: Yup.string().required("Please select a category."),
-    sku: Yup.string().required("Please add an SKU/number"),
 
-    description: Yup.string().required("Please add a description"),
+  const validate = Yup.object({
+    // Your validation schema here
   });
   return (
     <Box>
@@ -202,34 +159,21 @@ export default function CreateProduct({ categories }) {
         {(formik) => (
           <Form className=" ">
             <h1 className="font-semibold tracking-tight text-2xl">
-              Create Product
+              Edit Product
             </h1>
             <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
                 <Paper className="p-4">
-                  {" "}
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
-                      {" "}
                       <AdminInput
                         type="text"
                         label="Name"
                         name="name"
-                        placholder="Product name"
+                        placeholder="Product name"
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <SingularSelect
-                        name="Product Type"
-                        value={product.productType}
-                        placeholder="Product Type"
-                        data={productType}
-                        header="Select Product Type"
-                        handleChange={handleChange}
-                      />
-                    </Grid>
-
                     <Grid item xs={12} lg={6}>
                       {" "}
                       <AdminInput
@@ -249,6 +193,15 @@ export default function CreateProduct({ categories }) {
                         onChange={handleChange}
                       />
                     </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <AdminInput
+                        type="text"
+                        label="slug"
+                        name="slug"
+                        placholder="Product slug"
+                        onChange={handleChange}
+                      />
+                    </Grid>
 
                     <Grid item xs={12} lg={6}>
                       {" "}
@@ -260,13 +213,6 @@ export default function CreateProduct({ categories }) {
                         onChange={handleChange}
                       />
                     </Grid>
-                    {/* <Grid item xs={12} lg={12}>  <AdminInput
-              type="text"
-              label="Description"
-              name="description"
-              placholder="Product description"
-              onChange={handleChange}
-            /></Grid> */}
                     <Grid item xs={12} lg={12}>
                       <ReactQuill
                         theme="snow"
@@ -283,7 +229,6 @@ export default function CreateProduct({ categories }) {
                         scrollingContainer=".app"
                       />
                     </Grid>
-
                     <Grid item xs={12} lg={12}>
                       <InputLabel>Same Price for All Products</InputLabel>
                       <Select
@@ -294,7 +239,6 @@ export default function CreateProduct({ categories }) {
                         <MenuItem value={false}>No</MenuItem>
                       </Select>
                     </Grid>
-
                     {samePriceForAll && (
                       <Grid item xs={12} lg={12}>
                         <MaxminPrice
@@ -304,7 +248,6 @@ export default function CreateProduct({ categories }) {
                         />
                       </Grid>
                     )}
-
                     <Grid item xs={12} lg={12}>
                       {" "}
                       <CreateSubProduct
@@ -315,9 +258,9 @@ export default function CreateProduct({ categories }) {
                         subProducts={subProducts}
                         setImages={setImages}
                         images={images}
+                        editedProduct={editedProduct}
                       />
                     </Grid>
-
                     <Grid item xs={12} lg={12}>
                       {" "}
                       <Details
@@ -338,14 +281,12 @@ export default function CreateProduct({ categories }) {
                   </Grid>
                 </Paper>
               </div>
-
               <section
                 aria-labelledby="timeline-title"
                 className="lg:col-start-3 lg:col-span-1"
               >
                 <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
                   <Grid item xs={12} lg={6}>
-                    {" "}
                     <SingularSelect
                       name="category"
                       value={product.category}
@@ -356,24 +297,22 @@ export default function CreateProduct({ categories }) {
                       disabled={product.parent}
                     />
                   </Grid>
-
                   <Grid item xs={12} lg={6}>
-                    {" "}
-                    {
-                      <MultipleSelect
-                        value={product.subCategories}
-                        data={subs}
-                        header="Select SubCategories"
-                        name="subCategories"
-                        disabled={product.parent}
-                        handleChange={handleChange}
-                      />
-                    }{" "}
+                    <MultipleSelect
+                      value={editedProduct.subCategories.map(
+                        (subCategory) => subCategory._id
+                      )}
+                      data={subs}
+                      header="Select SubCategories"
+                      name="subCategories"
+                      disabled={product.parent}
+                      handleChange={handleChange}
+                    />
                   </Grid>
+                  {/* Add your other form fields here */}
                 </div>
               </section>
             </div>
-
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>

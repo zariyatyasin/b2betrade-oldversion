@@ -146,7 +146,7 @@ export default function ProductTableCard({ data }) {
       <tr>
         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
           <div className=" flex items-center">
-            <div className=" h-44 w-44  ">
+            <div className=" h-44 w-44   cursor-pointer ">
               <ProductSwiper images={images} />
             </div>
             <p> {product.name}</p>
@@ -243,13 +243,13 @@ export default function ProductTableCard({ data }) {
           >
             Delete
           </a>
-          <a
-            href="#"
-            onClick={openEditModal}
+          <Link
+            href={`/admin/dashboard/product/editproduct/${product._id}`}
+            target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
           >
             Edit
-          </a>
+          </Link>
         </td>
       </tr>
       {isEditModalOpen && (
