@@ -79,17 +79,16 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
     setIsTagModalOpen(false);
   };
 
-  console.log("tyhis is ", session?.role === "user" && session?.id === userId);
-  console.log("tyhis is ", session?.id === userId);
-
+  console.log("tyhis is ", session?.id !== userId);
+  console.log(session);
   return (
     <div>
       <div className="  ">
-        {session ? (
+        {/* {session ? (
           session?.role === "user" && session?.id !== userId ? (
             <button
               type="button"
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
             >
               Become a Seller
             </button>
@@ -98,7 +97,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
             <button
               onClick={handleOpenTagModal}
               type="button"
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
             >
               Submit your Offer
             </button>
@@ -113,9 +112,63 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           ) : null
         ) : (
           <button
-            // Redirect to sign in page
+            onClick={() => signIn()}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+          >
+            Login
+          </button>
+        )} */}
+
+        {session?.role === "supplier" && session?.id === userId && (
+          <button
+            onClick={handleDelete}
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
+          >
+            Delete Your Request
+          </button>
+        )}
+        {session?.role === "admin" && (
+          <button
+            onClick={handleDelete}
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
+          >
+            Delete Your Request
+          </button>
+        )}
+        {session?.role === "supplier" && session?.id !== userId && (
+          <button
+            onClick={handleOpenTagModal}
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+          >
+            Submit your Offer
+          </button>
+        )}
+        {session?.role === "admin" && session?.id !== userId && (
+          <button
+            onClick={handleOpenTagModal}
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+          >
+            Submit your Offer
+          </button>
+        )}
+        {session?.role === "user" && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+          >
+            Become a Seller
+          </button>
+        )}
+        {!session && (
+          <button
+            onClick={() => signIn()}
+            type="button"
+            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
           >
             Login
           </button>

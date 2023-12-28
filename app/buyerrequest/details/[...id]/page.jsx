@@ -23,6 +23,9 @@ async function getData({ params }) {
     path: "sellerId",
     model: User,
   });
+  let sellerRequestBid = await SellerRequest.find({
+    sellerId: session.id,
+  });
 
   return {
     session,
@@ -39,7 +42,7 @@ export default async function page({ params }) {
   const hasSubmittedOffer = sellerRequest.some(
     (request) => request?.sellerId._id === session?.id
   );
-
+  console.log(sellerRequest);
   return (
     <div>
       <Header />
@@ -55,7 +58,7 @@ export default async function page({ params }) {
                 on
                 <time className="ml-2">
                   {new Date(
-                    requestProductDetails.createdAt
+                    requestProductDetails?.createdAt
                   ).toLocaleDateString()}
                 </time>
               </p>
@@ -68,16 +71,12 @@ export default async function page({ params }) {
             >
               Report
             </button>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
-            >
-              Delete
-            </button>
+
             {hasSubmittedOffer ? (
               <button
                 type="button"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600"
+                disabled={true}
+                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400"
               >
                 Submited
               </button>
@@ -129,7 +128,7 @@ export default async function page({ params }) {
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
                         {new Date(
-                          requestProductDetails.deliveryDate
+                          requestProductDetails?.deliveryDate
                         ).toLocaleDateString()}
                       </dd>
                     </div>
@@ -138,7 +137,7 @@ export default async function page({ params }) {
                         Location:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.shippingAddress.city}
+                        {requestProductDetails?.shippingAddress.city}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -146,7 +145,7 @@ export default async function page({ params }) {
                         Budget:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.budget}
+                        {requestProductDetails?.budget}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -154,7 +153,7 @@ export default async function page({ params }) {
                         Urgent:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.isUrgent ? "Yes" : "No"}
+                        {requestProductDetails?.isUrgent ? "Yes" : "No"}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -162,7 +161,7 @@ export default async function page({ params }) {
                         Preferred Brand:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.preferredBrand}
+                        {requestProductDetails?.preferredBrand}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -170,7 +169,7 @@ export default async function page({ params }) {
                         Preferred Color:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.preferredColor}
+                        {requestProductDetails?.preferredColor}
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -199,7 +198,7 @@ export default async function page({ params }) {
               <div className="bg-white shadow overflow-hidden sm:rounded-lg  border">
                 <div className="px-4 py-5 sm:px-6">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Your form
+                    Your Bid Details
                   </h3>
                   <p className="mt-1 max-w-2xl text-sm text-gray-500">
                     Personal details and application.
