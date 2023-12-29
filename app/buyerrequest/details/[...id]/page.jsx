@@ -24,25 +24,30 @@ async function getData({ params }) {
     model: User,
   });
   let sellerRequestBid = await SellerRequest.find({
-    sellerId: session.id,
+    sellerId: session?.id,
+  }).populate({
+    path: "sellerId",
+    model: User,
   });
 
   return {
     session,
     requestProductDetails: JSON.parse(JSON.stringify(requestProductDetails)),
     sellerRequest: JSON.parse(JSON.stringify(sellerRequest)),
+    sellerRequestBid: JSON.parse(JSON.stringify(sellerRequestBid)),
   };
 }
 
 export default async function page({ params }) {
-  const { session, requestProductDetails, sellerRequest } = await getData({
-    params,
-  });
+  const { session, requestProductDetails, sellerRequest, sellerRequestBid } =
+    await getData({
+      params,
+    });
 
   const hasSubmittedOffer = sellerRequest.some(
     (request) => request?.sellerId._id === session?.id
   );
-  console.log(sellerRequest);
+  console.log(" this ", sellerRequestBid);
   return (
     <div>
       <Header />
@@ -145,7 +150,8 @@ export default async function page({ params }) {
                         Budget:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails?.budget}
+                        {requestProductDetails?.budget.toLocaleString("en-US")}{" "}
+                        ৳
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
@@ -208,10 +214,10 @@ export default async function page({ params }) {
                   <dl>
                     <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Full name
+                        Name
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Margot Foster
+                        {sellerRequestBid[0].sellerId.name}
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -219,15 +225,16 @@ export default async function page({ params }) {
                         Application for
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Backend Developer
+                        {sellerRequestBid[0].description}
                       </dd>
                     </div>
-                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Email address
+                        Salary expectation
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        margotfoster@example.com
+                        {sellerRequestBid[0].quantity}
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -235,17 +242,10 @@ export default async function page({ params }) {
                         Salary expectation
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        $120,000
+                        {sellerRequestBid[0].price.toLocaleString("en-US")} ৳
                       </dd>
                     </div>
-                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                        About
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {sellerRequest[0].description}
-                      </dd>
-                    </div>
+
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Attachments

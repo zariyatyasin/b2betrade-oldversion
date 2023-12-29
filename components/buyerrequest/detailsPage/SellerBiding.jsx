@@ -37,7 +37,7 @@ export default function SellerBiding({ sellerRequest }) {
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium">
-                    {activityItem.sellerId.userName}
+                    {activityItem.sellerId.name}
                   </h3>
                   <p className="text-sm text-gray-500">
                     {new Date(activityItem.createdAt).toLocaleDateString()}
