@@ -4,13 +4,19 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import SureConfirmationModal from "../../modelUi/SureConfirmationModal";
 import ChangePassword from "./ChangePassword";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
+import axios from "axios";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   phoneNumber: Yup.string().required("Phone number is required"),
   email: Yup.string(),
 });
 
-const ProfileEdit = ({ user }) => {
+const ProfileEdit = ({ data }) => {
+  console.log(data);
+
+  const [user, setuser] = useState(data);
+  const [loading, setLoading] = useState(false);
   const initialValues = {
     name: user.name || "",
     phoneNumber: user.phoneNumber || "",
@@ -22,13 +28,37 @@ const ProfileEdit = ({ user }) => {
   const onSubmit = (values) => {
     setFormSubmitted(values);
   };
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsConfirmationModalOpen(false);
     console.log(formSubmitted);
+
+    try {
+      setLoading(true);
+
+      const response = await axios.put(
+        `/api/user/update/${data._id}`,
+        formSubmitted
+      );
+
+      if (response.status === 200) {
+        console.log("Data updated successfully:", response.data.newUpdateduser);
+        setuser((prevuser) => ({
+          ...prevuser,
+          ...response.data.newUpdateduser,
+        }));
+      } else {
+        console.error("Failed to update data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating data:", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section aria-labelledby="payment-details-heading">
+      {loading && <FullScreenLoading />}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

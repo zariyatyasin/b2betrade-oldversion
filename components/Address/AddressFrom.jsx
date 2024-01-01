@@ -10,7 +10,6 @@ const validationSchema = Yup.object().shape({
   address1: Yup.string().required("Address Line 1 is required"),
   street: Yup.string().required("Street is required"),
   city: Yup.string().required("City is required"),
-  state: Yup.string().required("State is required"),
 });
 
 const AddressForm = ({
@@ -38,7 +37,6 @@ const AddressForm = ({
         address2: values.address2,
         street: values.street,
         city: values.city,
-        state: values.state,
       };
       onSave(address);
     },
@@ -124,18 +122,6 @@ const AddressForm = ({
               onChange={formik.handleChange}
               error={formik.touched.city && formik.errors.city}
               helperText={formik.touched.city && formik.errors.city}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              id="state"
-              name="state"
-              label="State"
-              value={formik.values.state}
-              onChange={formik.handleChange}
-              error={formik.touched.state && formik.errors.state}
-              helperText={formik.touched.state && formik.errors.state}
             />
           </Grid>
 

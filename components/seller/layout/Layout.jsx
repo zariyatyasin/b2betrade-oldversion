@@ -20,13 +20,13 @@ import { useSession } from "next-auth/react";
 const navigation = [
   {
     name: "Dashboard",
-    href: "/seller/dashboard",
+    href: "/supplier/dashboard",
     icon: HomeIcon,
     current: true,
   },
   {
     name: "Store",
-    href: "/seller/dashboard/store",
+    href: "/supplier/dashboard/store",
     icon: UsersIcon,
     current: false,
   },
@@ -34,7 +34,7 @@ const navigation = [
   { name: "Coupon", href: "#", icon: CalendarIcon, current: false },
   {
     name: "Create Product",
-    href: "/seller/dashboard/createproduct",
+    href: "/supplier/dashboard/createproduct",
     icon: InboxIcon,
     current: false,
   },
@@ -56,7 +56,7 @@ export default function Layout({ children }) {
 
   console.log(session);
   const pathname = usePathname();
-  const router = pathname.split("/seller/dashboard/")[1];
+  const router = pathname.split("/supplier/dashboard/")[1];
 
   return (
     <>

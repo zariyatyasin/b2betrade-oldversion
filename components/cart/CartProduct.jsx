@@ -13,7 +13,11 @@ const CartProduct = ({
 }) => {
   const [active, setActive] = useState();
 
-  console.log(product);
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
     setActive(selected.some((p) => p._uid === product._uid));
   }, [selected, product]);
@@ -186,7 +190,7 @@ const CartProduct = ({
             <div className=" hidden md:block absolute top-0 right-0">
               {product.price && (
                 <p className=" ml-2 text-sm  text-orange-600 font-bold">
-                  ৳ {(product.price * product.qty).toFixed(2)}
+                  ৳ {formatPrice(product.price * product.qty)}
                 </p>
               )}
             </div>

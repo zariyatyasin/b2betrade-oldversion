@@ -5,6 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { emptyCart } from "../../store/cartSlice";
+import { toast } from "react-toastify";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 export default function OrderSummary({
   cart,
   setTotalAfterDiscount,
@@ -18,47 +20,63 @@ export default function OrderSummary({
   const [discount, setDiscount] = useState(0);
   const [error, setError] = useState(" ");
   const [orderError, setOrderError] = useState(" ");
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {}, [totalAfterDiscount]);
   const applyCouponHandler = async () => {
-    const res = await applyCoupon(coupon);
+    try {
+      setLoading(true);
 
-    if (res?.message) {
-      setError(res.message);
-      setTotalAfterDiscount(0);
-      setDiscount(0);
-    } else {
-      setDiscount(res.discount);
-      setError("");
-      setTotalAfterDiscount(res.totalAfterDiscount);
+      const res = await applyCoupon(coupon);
+
+      if (res?.message) {
+        setError(res.message);
+        setTotalAfterDiscount(0);
+        setDiscount(0);
+      } else {
+        setDiscount(res.discount);
+        setError("");
+        setTotalAfterDiscount(res.totalAfterDiscount);
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      setError("An error occurred while applying the coupon.");
+    } finally {
+      setLoading(false);
     }
   };
-
+  console.log(user?.address.length);
   const placeOrderHandler = async () => {
-    console.log(cart);
-    try {
-      const { data } = await axios.post("/api/order/create", {
-        products: cart?.products,
-        shippingAddress: selectedAddress,
-        paymentMethod: selectedMethod,
-        totalBeforeDiscount: cart?.cartTotal,
-        total: totalAfterDiscount !== "" ? totalAfterDiscount : total,
-        couponApplied: coupon,
-      });
+    if (user?.address.length > 0) {
+      try {
+        setLoading(true);
+        const { data } = await axios.post("/api/order/create", {
+          products: cart?.products,
+          shippingAddress: selectedAddress,
+          paymentMethod: selectedMethod,
+          totalBeforeDiscount: cart?.cartTotal,
+          total: totalAfterDiscount !== "" ? totalAfterDiscount : total,
+          couponApplied: coupon,
+        });
 
-      router.push(`/order/${data.order_id}`);
-    } catch (error) {
-      setOrderError(error.response.data.message);
-    } finally {
-      // dispatch(emptyCart());
+        router.push(`/order/${data.order_id}`);
+      } catch (error) {
+        setOrderError(error.response.data.message);
+      } finally {
+        setLoading(false);
+        // dispatch(emptyCart());
+      }
+    } else {
+      // Handle the case where user.address is empty
+      toast.error("User address is empty.");
     }
   };
 
   return (
     <div>
+      {loading && <FullScreenLoading />}
       <div className="mt-10 lg:mt-0  lg:col-span-1">
         <div className="  bg-white rounded-md border border-gray-200  shadow-sm">
           <h2 className="text-2xl px-4 mt-5 font-bold text-gray-900">
@@ -113,7 +131,7 @@ export default function OrderSummary({
               <div className="  w-full flex items-end justify-end">
                 <button
                   type="button"
-                  className="bg-gray-900 w-full  mt-4 text-white p-2   "
+                  className="bg-[#2B39D1] w-full  mt-4 text-white p-2   "
                   onClick={() => applyCouponHandler()}
                 >
                   Apply Coupon
@@ -127,7 +145,7 @@ export default function OrderSummary({
             </div>
             <button
               type="submit"
-              className="w-full bg-gray-900 border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-900 mt-4"
+              className="w-full bg-[#2B39D1] border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-[#2B39D1] mt-4"
               onClick={() => placeOrderHandler()}
             >
               Place order

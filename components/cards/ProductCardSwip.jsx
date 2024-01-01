@@ -29,6 +29,7 @@ function ProductCardSwip({ products }) {
       return p.color;
     })
   );
+
   const firstSizeBulkPricing = products.subProducts[0].sizes[0].bulkPricing;
 
   const minPrice = Math.min(
@@ -45,7 +46,7 @@ function ProductCardSwip({ products }) {
         href={`/product/${products?.slug}/${active}/0 `}
         className=" sm:h-96 "
       >
-        <div className=" h-72">
+        <div className=" h-72 w">
           <ProductSwiper images={images} />
         </div>
       </Link>
@@ -58,23 +59,27 @@ function ProductCardSwip({ products }) {
           ""
         )}
       </div>
-      <div className=" text-left   text-sm   p-2">
-        {products.name.length <= 10
-          ? products.name
-          : products.name.slice(0, 35) + "..."}
-        <div className="mt-2 ">
+      <div className=" text-left text-gray-950 font-medium   text-sm   p-2">
+        <Link href={`/product/${products?.slug}/${active}/0 `}>
+          {products.name.length <= 10
+            ? products.name
+            : products.name.slice(0, 35) + "..."}
+        </Link>
+
+        <div className="mt-1 ">
           {!hasNullPrice && (
             <div>
               {products.bulkPricing.length === 1 ? (
                 // Display the single price
-                <p className="text-[#2B39D1] font-bold">
+                <p className=" text-gray-950 text-lg font-bold">
                   {" "}
-                  {products.bulkPricing[0].price} ৳
+                  {products.bulkPricing[0].price.toLocaleString("en-US")} ৳
                 </p>
               ) : (
                 <div>
-                  <p className="text-[#2B39D1] font-bold">
-                    {lowPrice}৳ - {highPrice}৳
+                  <p className=" text-gray-950 text-lg font-bold">
+                    {lowPrice.toLocaleString("en-US")}৳ -{" "}
+                    {highPrice.toLocaleString("en-US")}৳
                   </p>
                 </div>
               )}
@@ -82,14 +87,15 @@ function ProductCardSwip({ products }) {
           )}
           {hasNullPrice && (
             <div>
-              <p className="text-[#2B39D1] font-bold">
+              <p className=" text-gray-950 text-lg font-bold">
                 {" "}
-                {minPrice}৳ - {maxPrice}৳
+                {minPrice.toLocaleString("en-US")}৳ -{" "}
+                {maxPrice.toLocaleString("en-US")}৳
               </p>
             </div>
           )}
 
-          <div className=" text-left mt-2">
+          <div className=" text-left mt-1">
             {!hasNullPrice ? (
               <p>Min order: {minQty2}</p>
             ) : (
@@ -97,45 +103,43 @@ function ProductCardSwip({ products }) {
             )}
           </div>
         </div>
-      </div>
+        {/* <div className="w-full flex-none text-sm flex items-center text-gray-600">
+          <ul className="flex flex-row justify-center items-center space-x-2">
+            {style &&
+              style.map((style, i) =>
+                style.image ? (
+                  <span
+                    key={i}
+                    className="block p-1 border-2 border-gray-100 hover:border-blue-600 rounded-full transition ease-in duration-300"
+                  >
+                    <img
+                      src={style.image}
+                      className="block w-5 h-5 rounded-full"
+                      onMouseOver={() => {
+                        if (
+                          products.subProducts[i] &&
+                          products.subProducts[i].images
+                        ) {
+                          setImages(products.subProducts[i].images);
+                          setActive(i);
+                        }
+                      }}
+                    ></img>
+                  </span>
+                ) : (
+                  style.color && (
+                    <div
+                      className={`h-5 w-5 rounded-md`}
+                      style={{ backgroundColor: style.color }}
+                    ></div>
+                  )
+                )
+              )}
 
-      {/* <div className="w-full flex-none text-sm flex items-center text-gray-600">
-        <ul className="flex flex-row justify-center items-center space-x-2">
-          {style &&
-            style?.map((style, i) =>
-              style?.image ? (
-                <span
-                  key={i}
-                  className="block p-1 border-2 border-gray-100 hover:border-blue-600 rounded-full transition ease-in duration-300"
-                >
-                  <img
-                    src={style?.image}
-                    className="block w-5 h-5 0 rounded-full"
-                    onMouseOver={() => {
-                      if (
-                        products.subProducts[i] &&
-                        products.subProducts[i].images
-                      ) {
-                        setImages(products.subProducts[i].images);
-                        setActive(i);
-                      }
-                    }}
-                  ></img>
-                </span>
-              ) : (
-                <span
-                  key={i}
-                  className={`block p-1 border-2 border-gray-100 hover:${style?.color} rounded-full transition ease-in duration-300`}
-                >
-                  <a
-                    href="#blue"
-                    className={`block w-5 h-5 ${style?.color} rounded-full`}
-                  ></a>
-                </span>
-              )
-            )}
-        </ul>
-      </div> */}
+             
+          </ul>
+        </div> */}
+      </div>
     </div>
   );
 }

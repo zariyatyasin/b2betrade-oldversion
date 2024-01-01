@@ -52,20 +52,29 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
   // const [priceHistory, setPriceHistory] = useState([]);
   const [showPriceHistory, setShowPriceHistory] = useState(false);
-
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   const togglePriceHistory = () => {
     setShowPriceHistory(!showPriceHistory);
   };
+  const hasNullPrice =
+    product?.bulkPricing &&
+    product?.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
+  const firstSizeBulkPricing = product.subProducts[0].sizes[0].bulkPricing;
+  const minQty2 = product.bulkPricing[0].minQty;
+  const minQty = firstSizeBulkPricing[0].minQty;
+
   const UrlSize = params?.slug[2];
   const UrlStyle = params?.slug[1];
   const { cart } = useSelector((state) => ({ ...state }));
   const [size, setSize] = useState(UrlSize);
-  const [qty, setQty] = useState(1);
+
+  const [qty, setQty] = useState(hasNullPrice ? minQty : minQty2);
   const [maxQty, setMaxQty] = useState(qty);
   const [totalPrice, setTotalPrice] = useState(product?.price);
-  const hasNullPrice =
-    product?.bulkPricing &&
-    product?.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
+
   const [staySize, setStaySize] = useState(
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
@@ -73,12 +82,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   const openModal = () => {
     setIsModalOpen(true);
-    console.log("Is modal open?", isModalOpen);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    console.log("Is modal open?", isModalOpen);
   };
   const dispatch = useDispatch();
 
@@ -212,57 +219,64 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   const addToCartHandler = async () => {
-    if (!UrlSize) {
-      setError("Please Select a size");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const { data } = await axios.get(
-        `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
-      );
-
-      if (qty > data.quantity) {
-        setError(
-          "The Quantity you have chosen is more than in stock. Try and lower the Qty"
-        );
-      } else if (data.quantity < 1) {
-        setError("This Product is out of stock.");
+    if (hasNullPrice && minQty > qty) {
+      toast.error(`minimum order quantity ${minQty}`);
+    } else if (!hasNullPrice && minQty2 > qty) {
+      console.log(minQty2 > qty);
+      toast.error(`minimum order quantity ${minQty2}`);
+    } else {
+      if (!UrlSize) {
+        setError("Please Select a size");
         return;
-      } else {
-        let _uid = `${data._id}_${product.style}_${UrlSize}`;
-        let exist = cart.cartItems.find((p) => p._uid === _uid);
-
-        const productToAdd = {
-          ...data,
-          qty,
-          size: data.size,
-          _uid,
-          price: selectedRange.price, // Include the selected price in the product data
-        };
-
-        if (exist) {
-          let newCart = cart.cartItems.map((p) => {
-            if (p._uid === exist._uid) {
-              return { ...p, qty, price: selectedRange.price }; // Update the price in existing item
-            }
-            return p;
-          });
-          dispatch(updateCart(newCart));
-          toast.success("Cart Updated");
-        } else {
-          dispatch(addToCart(productToAdd));
-          toast.success("Product Added to Cart");
-        }
       }
-    } catch (error) {
-      // Handle errors
-      console.error(error);
-      toast.error("Error adding to Cart");
-    } finally {
-      setLoading(false);
+
+      try {
+        setLoading(true);
+
+        const { data } = await axios.get(
+          `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
+        );
+
+        if (qty > data.quantity) {
+          setError(
+            "The Quantity you have chosen is more than in stock. Try and lower the Qty"
+          );
+        } else if (data.quantity < 1) {
+          setError("This Product is out of stock.");
+          return;
+        } else {
+          let _uid = `${data._id}_${product.style}_${UrlSize}`;
+          let exist = cart.cartItems.find((p) => p._uid === _uid);
+
+          const productToAdd = {
+            ...data,
+            qty,
+            size: data.size,
+            _uid,
+            price: selectedRange.price, // Include the selected price in the product data
+          };
+
+          if (exist) {
+            let newCart = cart.cartItems.map((p) => {
+              if (p._uid === exist._uid) {
+                return { ...p, qty, price: selectedRange.price }; // Update the price in existing item
+              }
+              return p;
+            });
+            dispatch(updateCart(newCart));
+            toast.success("Cart Updated");
+          } else {
+            dispatch(addToCart(productToAdd));
+            toast.success("Product Added to Cart");
+          }
+        }
+      } catch (error) {
+        // Handle errors
+
+        toast.error("Error adding to Cart");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -283,14 +297,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           {product.numReviews} {product.numReviews > 1 ? "reviews" : "review"}
         </p>
       </div>
-      <p className="mt-2 text-sm text-gray-600">
+      {/* <p className="mt-2 text-sm text-gray-600">
         {size
           ? `${product.quantity} pieces available.`
           : `Total available: ${product.size.reduce(
               (start, next) => start + next.qty,
               0
             )} pieces.`}
-      </p>
+      </p> */}
       <div className="flex items-end mt-2">
         <div className="flex mt-2 flex-wrap gap-2 md:gap-0">
           {priceRanges.map((range, index) => (
@@ -336,16 +350,15 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-
+      {product.colors && (
+        <h2 className="mt-4 text-lg font-semibold  text-gray-900">Color</h2>
+      )}
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         {product.colors &&
           product.colors.map((color, i) => (
             <div>
               {color.color && (
                 <div>
-                  <h2 className="mt-4 text-lg font-semibold  text-gray-900">
-                    Color
-                  </h2>
                   <div
                     onMouseOver={() =>
                       setActiveImg(product.subProducts[i].images[0].url)
@@ -374,7 +387,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       </div>
 
       <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
-        Total Price: {totalPrice}৳
+        Total Price: {formatPrice(totalPrice)}৳
       </div>
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         <div className="bg-gray-100 h-10 p-1 rounded-lg flex flex-row relative mt-1">

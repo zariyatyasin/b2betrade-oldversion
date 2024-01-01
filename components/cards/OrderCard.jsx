@@ -7,6 +7,7 @@ import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
+
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
     { value: "Processing", label: "Processing" },
@@ -16,12 +17,16 @@ export default function OrderCard({ data }) {
   ];
   const renderProduct = (product) => (
     <div key={product._id} className="product">
+      {console.log(product)}
       <img src={product.image} alt={product.name} className=" h-8 w-8" />
       <div className="product-details">
-        <h3>{product.name}</h3>
+        <Link href={`/product/${product.product}/0/0`} target="_blank">
+          <h3 className="  text-blue-700">{product.name}</h3>
+        </Link>
+
         <p>Size: {product.size}</p>
         <p>Quantity: {product.qty}</p>
-        {product.color.color ? ( // Check if color code is available
+        {product.color.color ? (
           <div
             className="color-box"
             style={{
@@ -30,7 +35,7 @@ export default function OrderCard({ data }) {
               height: "20px",
             }}
           ></div>
-        ) : product.color.image ? ( // Check if image is available
+        ) : product.color.image ? (
           <img
             src={product.color.image}
             alt="Color Image"
@@ -49,7 +54,6 @@ export default function OrderCard({ data }) {
       name: "shippingAddress.phoneNumber",
     },
     { type: "select", label: "status", name: "status", options: menuItem },
-    // Add more field configurations as needed
   ];
   const getStatusColor = (status) => {
     switch (status) {
@@ -96,7 +100,6 @@ export default function OrderCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
-    console.log(editedData);
     try {
       setLoading(true);
 
@@ -125,8 +128,6 @@ export default function OrderCard({ data }) {
   };
 
   const handleDelete = () => {
-    // Implement the logic to delete the data
-    console.log("Deleting data:", order);
     closeDeleteConfirmation();
   };
 
@@ -157,10 +158,9 @@ export default function OrderCard({ data }) {
             Order Number: {order.orderNumber}
           </p>
           <p>Payment Method: {order.paymentMethod}</p>
-          <p>Total: ${order.total}</p>
+          <p>Total: ${order.totalBeforeDiscount}</p>
           <p>
-            {" "}
-            Status:{" "}
+            Status:
             <span
               className=" font-bold text-white px-2 py-1 rounded-full text-xs m-1"
               style={{ background: getStatusColor(order.status) }}

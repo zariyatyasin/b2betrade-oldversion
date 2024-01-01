@@ -22,14 +22,11 @@ const ChangePassword = ({ user }) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const onSubmit = (values) => {
-    // Handle form submission, e.g., update user data
     console.log("Form submitted with values:", values);
 
     if (dirty) {
       setIsConfirmationModalOpen(true);
     } else {
-      // Handle case where there are no changes
-      // For example, show a message to the user that there are no changes
     }
   };
   const handleConfirm = () => {

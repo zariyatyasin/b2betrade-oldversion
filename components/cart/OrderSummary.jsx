@@ -7,6 +7,10 @@ export default function OrderSummary({
   selected,
   saveCartToDbHandler,
 }) {
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   return (
     <section
       aria-labelledby="summary-heading"
@@ -79,7 +83,9 @@ export default function OrderSummary({
         </div>
         <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
           <dt className="text-base font-medium text-gray-900">Order total</dt>
-          <dd className="text-base font-medium text-gray-900">৳ {total}</dd>
+          <dd className="text-base font-medium text-gray-900">
+            ৳ {formatPrice(total)}
+          </dd>
         </div>
       </dl>
 

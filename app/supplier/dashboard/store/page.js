@@ -44,7 +44,7 @@ async function getData() {
 
 export default async function page() {
   const { StoreData, products } = await getData();
-
+  console.log(products);
   return (
     <Layout>
       <StoreHeader

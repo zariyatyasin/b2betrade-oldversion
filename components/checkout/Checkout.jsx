@@ -49,12 +49,8 @@ export default function Checkout({ cart, user }) {
                         key={id}
                       >
                         <div className=" relative flex-shrink-0">
-                          <img
-                            src={item.image}
-                            alt="Front of men&#039;s Basic Tee in black."
-                            className="  w-full"
-                          />
-                          <div className=" absolute top-0 right-0  text-white p-1 bg-black text-xs">
+                          <img src={item.image} className="  w-full" />
+                          <div className=" absolute top-0 right-0  text-white p-1 bg-[#2B39D1] text-xs">
                             X{item.qty}
                           </div>
                         </div>
@@ -77,15 +73,11 @@ export default function Checkout({ cart, user }) {
                     <h5 className=" text-xs font-bold">STANDARD SHIPPING</h5>
                     <p className=" text-xs text-gray-600 mt-1">
                       Order now for delivery between{" "}
-                      <span className=" text-red-600">
-                        Wednesday, Aug 23 - Friday, Aug 25{" "}
-                      </span>
-                      are ≤ <span className="font-bold text-black">10</span>{" "}
-                      days
+                      <span className=" text-red-600">12 - 24hr </span>
                     </p>
                   </div>
                 </div>
-                <DeliveryMethod />
+                {/* <DeliveryMethod /> */}
               </div>
 
               <OrderSummary

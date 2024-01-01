@@ -29,7 +29,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
     address2: "",
     street: "",
     city: "",
-    state: "",
   });
 
   useEffect(() => {
@@ -70,12 +69,10 @@ export default function Address({ cart, user, setSelectedAddress }) {
       address2: "",
       street: "",
       city: "",
-      state: "",
     });
   };
 
   const changeAtiveHandler = async (id) => {
-    console.log(id);
     try {
       setLoading(true);
 
@@ -98,7 +95,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
         address2: addressToEdit.address2,
         street: addressToEdit.street,
         city: addressToEdit.city,
-        state: addressToEdit.state,
       });
 
       setEditedAddressIndex(index);
@@ -111,7 +107,7 @@ export default function Address({ cart, user, setSelectedAddress }) {
     try {
       setLoading(true);
       const res = await deleteAddress(id);
-      console.log(res);
+
       setAddresses(res);
     } catch (error) {
       // Handle error if needed
@@ -176,7 +172,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
                   address2: "",
                   street: "",
                   city: "",
-                  state: "",
                 });
               }}
               addresses={addresses}

@@ -23,7 +23,6 @@ async function getData(url) {
     query = { slug: slug };
   }
 
-  console.log(query);
   await db.connectDb();
   try {
     let product = await Product.findOne(query)

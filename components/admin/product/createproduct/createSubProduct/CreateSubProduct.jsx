@@ -112,7 +112,7 @@ const CreateSubProduct = ({
                 index={index}
                 subProducts={subProducts}
                 setSubProducts={setSubProducts}
-                initialImages={editedProduct.subProducts[index]?.images}
+                initialImages={editedProduct?.subProducts[index]?.images}
               />
               <Button
                 className="flex bg-white text-gray-950 border"

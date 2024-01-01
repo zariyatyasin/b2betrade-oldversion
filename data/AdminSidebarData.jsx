@@ -103,6 +103,11 @@ const AdminsidebarData = [
         icon: <LocalAtmOutlinedIcon sx={{ fontSize: 18 }} />,
         link: "/admin/dashboard/coupon",
       },
+      {
+        label: "Setting",
+        icon: <LocalAtmOutlinedIcon sx={{ fontSize: 18 }} />,
+        link: "/admin/dashboard/edit",
+      },
     ],
   },
 ];

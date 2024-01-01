@@ -47,7 +47,7 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        <ProfileEdit user={user} />
+        <ProfileEdit data={user} />
         <MobileMenu categories={categories} subCategories={subCategories} />
       </Layout>
     </div>

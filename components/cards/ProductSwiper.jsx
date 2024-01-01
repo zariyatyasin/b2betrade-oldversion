@@ -23,7 +23,7 @@ const ProductSwiper = ({ images }) => {
       }}
     >
       <Swiper
-        className="mySwiper h-full "
+        className="mySwiper w-full h-full "
         ref={swiperRef}
         modules={[Autoplay]}
         autoplay={{ delay: 500, stopOnLastSlide: false }}

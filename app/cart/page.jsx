@@ -55,9 +55,9 @@ export default function page() {
   };
 
   const saveCartToDbHandler = async () => {
-    if (session) {
-      console.log("this is sekected", selected);
+    console.log("this is selected", selected);
 
+    if (session) {
       try {
         const data = await axios.post("/api/user/savecart", {
           cart: selected,

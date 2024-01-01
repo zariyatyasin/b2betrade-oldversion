@@ -21,7 +21,10 @@ export default function Header() {
               </div>
 
               <div className=" flex items-center  text-sm text-gray-700">
-                <div className="bor">CONTINUE SHOPPING</div>
+                <Link href={`/browser`}>
+                  {" "}
+                  <div className="bor">CONTINUE SHOPPING</div>
+                </Link>
                 <div>
                   <KeyboardArrowRightOutlinedIcon />
                 </div>

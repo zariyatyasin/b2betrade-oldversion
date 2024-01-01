@@ -4,6 +4,7 @@ import User from "../../../../model/User";
 import bcrypt from "bcrypt";
 import { sendEmail } from "../../../../utils/sendEmail";
 import { createActivationToken } from "../../../../utils/token";
+
 export async function POST(request) {
   try {
     await db.connectDb();
@@ -35,6 +36,7 @@ export async function POST(request) {
         }
       );
     }
+
     const cryptedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({ phoneNumber, password: cryptedPassword, name });
     const addedUser = await newUser.save();
