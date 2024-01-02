@@ -25,6 +25,12 @@ const navigation = [
     current: true,
   },
   {
+    name: "Order",
+    href: "/supplier/dashboard/order",
+    icon: InboxIcon,
+    current: true,
+  },
+  {
     name: "Store",
     href: "/supplier/dashboard/store",
     icon: UsersIcon,
@@ -32,12 +38,12 @@ const navigation = [
   },
   { name: "Message", href: "#", icon: FolderIcon, current: false },
   { name: "Coupon", href: "#", icon: CalendarIcon, current: false },
-  {
-    name: "Create Product",
-    href: "/supplier/dashboard/createproduct",
-    icon: InboxIcon,
-    current: false,
-  },
+  // {
+  //   name: "Create Product",
+  //   href: "/supplier/dashboard/createproduct",
+  //   icon: InboxIcon,
+  //   current: false,
+  // },
   { name: "Help", href: "#", icon: ChartBarIcon, current: false },
 ];
 const userNavigation = [
@@ -54,7 +60,6 @@ export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session, status } = useSession();
 
-  console.log(session);
   const pathname = usePathname();
   const router = pathname.split("/supplier/dashboard/")[1];
 
