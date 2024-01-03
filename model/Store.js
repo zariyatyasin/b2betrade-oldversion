@@ -15,7 +15,9 @@ const storeSchema = new mongoose.Schema({
     country: String,
   },
  
- 
+ ShopAddress:{
+  type: String,
+ },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",  

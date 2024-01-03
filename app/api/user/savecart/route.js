@@ -115,7 +115,7 @@ export const POST = async (request) => {
       }
     );
   } catch (err) {
-    console.error(err); // Log the error for debugging purposes
+    
     return new NextResponse(err.message, { status: 500 });
   }
 };

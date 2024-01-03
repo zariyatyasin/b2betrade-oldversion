@@ -123,11 +123,11 @@ export default function StoreCard({ data }) {
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 ">
           <div className="text-gray-900"> {store?.category?.name}</div>
 
-          <div className="flex ">
+          <div className="flex max-w-xs flex-wrap">
             {store?.subCategories?.map((subcategory, index) => (
               <div
                 key={index}
-                className=" flex flex-row bg-blue-500  p-1  px-2 py-1 rounded-full text-xs m-1 "
+                className=" flex   bg-blue-500  p-1  px-2 py-1 rounded-full text-xs m-1 "
               >
                 <div className="text-white">{subcategory.name}</div>
               </div>

@@ -55,8 +55,8 @@ export const POST = async (request) => {
         status: 201,
       }
     );
-  } catch (err) {
-    return NextResponse.json(err, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
 export const PUT = async (request) => {
@@ -93,7 +93,7 @@ export const PUT = async (request) => {
         status: 200,
       }
     );
-  } catch (err) {
-    return NextResponse.json(err, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

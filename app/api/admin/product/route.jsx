@@ -8,6 +8,9 @@ import { getCurrentUser } from "../../../../utils/session";
 export const POST = async (request) => {
   const session = await getCurrentUser();
   db.connectDb();
+
+  console.log("hello");
+
   if (!session) {
     return NextResponse.json("you must be login in", {
       status: 201,
@@ -17,19 +20,22 @@ export const POST = async (request) => {
   try {
     const { parent, ...otherData } = await request.json();
     let store = await Store.findOne({ owner: session.id });
+
+    console.log(store);
+
     if (!store) {
-      return new NextResponse(
+      return NextResponse(
         { message: "YOu need to create store" },
-        { status: 200 }
+        { status: 202 }
       );
     }
 
-    const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    // const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-    const uniqueSuffix = `${session.id.slice(-5)}-${otherData.name}`;
-    otherData.slug = slugify(
-      `${otherData.name}-${uniqueSuffix}-${currentDate}`
-    );
+    // const uniqueSuffix = `${session.id.slice(-5)}-${otherData.name}`;
+    // otherData.slug = slugify(
+    //   `${otherData.name}-${uniqueSuffix}-${currentDate}`
+    // );
 
     otherData.slug = slugify(otherData.name);
     const newProduct = new Product({
@@ -50,6 +56,8 @@ export const POST = async (request) => {
     });
 
     let savedProduct = await newProduct.save();
+
+    console.log(savedProduct);
     store.products.push(savedProduct._id);
     db.disconnectDb();
     return new NextResponse(

@@ -42,8 +42,8 @@ export const PUT = async (request, { params }) => {
       },
       { status: 200 }
     );
-  } catch (err) {
-    console.error(err.message);
-    return new NextResponse(err, { status: 500 });
+  } catch (error) {
+   
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

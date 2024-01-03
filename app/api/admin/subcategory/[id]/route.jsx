@@ -34,8 +34,8 @@ export const DELETE = async (request, { params }) => {
         status: 200,
       }
     );
-  } catch (err) {
-    return NextResponse.json(err, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
 
@@ -53,7 +53,7 @@ export const GET = async (request, { params }) => {
     return NextResponse.json(results, {
       status: 200,
     });
-  } catch (err) {
-    return NextResponse.json(err, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

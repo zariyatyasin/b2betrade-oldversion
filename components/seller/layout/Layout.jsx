@@ -38,12 +38,12 @@ const navigation = [
   },
   { name: "Message", href: "#", icon: FolderIcon, current: false },
   { name: "Coupon", href: "#", icon: CalendarIcon, current: false },
-  // {
-  //   name: "Create Product",
-  //   href: "/supplier/dashboard/createproduct",
-  //   icon: InboxIcon,
-  //   current: false,
-  // },
+  {
+    name: "Create Product",
+    href: "/supplier/dashboard/createproduct",
+    icon: InboxIcon,
+    current: false,
+  },
   { name: "Help", href: "#", icon: ChartBarIcon, current: false },
 ];
 const userNavigation = [

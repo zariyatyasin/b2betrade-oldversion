@@ -18,6 +18,7 @@ export const POST = async (request) => {
       category,
       subCategories,
       description,
+      ShopAddress,
     } = await request.json();
 
     const user = await User.findOne({ phoneNumber });
@@ -44,7 +45,7 @@ export const POST = async (request) => {
     const cryptedPassword = await bcrypt.hash(password, 12);
     const savedUser = await new User({
       name,
-      email,
+
       role,
       password: cryptedPassword,
       phoneNumber,
@@ -55,6 +56,7 @@ export const POST = async (request) => {
       owner: savedUser._id,
       address,
       category,
+      ShopAddress,
       subCategories,
       description,
     }).save();
@@ -69,7 +71,8 @@ export const POST = async (request) => {
         status: 201,
       }
     );
-  } catch (err) {
-    return new NextResponse(err, { status: 500 });
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

@@ -16,7 +16,6 @@ async function getData() {
 export default async function page({ params }) {
   const { categories } = await getData();
 
-  console.log(params.slug);
   return (
     <div>
       <SupplierRegistration userType={params.slug} categories={categories} />

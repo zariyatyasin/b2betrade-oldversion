@@ -13,15 +13,13 @@ async function getData() {
   let data;
   let store;
   try {
-    if (session.role === "admin") {
-      data = await Category.find().lean();
-      store = await Store.findOne({ owner: session.id });
-    } else {
-      // data = await Category.find().lean();
-      // category = await Store.findOne({ owner: session.id })
-      // .populate({ path: "category", model: Category })
-      // .select("category");
-    }
+    data = await Category.find().lean();
+    store = await Store.findOne({ owner: session.id });
+
+    // data = await Category.find().lean();
+    // category = await Store.findOne({ owner: session.id })
+    // .populate({ path: "category", model: Category })
+    // .select("category");
 
     return {
       data: JSON.parse(JSON.stringify(data)),

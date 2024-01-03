@@ -47,6 +47,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     return <div>Loading...</div>;
   }
 
+  console.log(product);
   const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null

@@ -36,7 +36,7 @@ export const GET = async (request , { params } ) => {
       } ,{
         status: 201,
       })
-    } catch (err) {
-      return new NextResponse(err, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ message: error.message }, { status: 500 });
     }
   };

@@ -12,7 +12,6 @@ function B2bRegistration({ categories, userType }) {
     { _id: 1, name: "supplier" },
     { _id: 2, name: "manufacturer" },
     { _id: 3, name: "seller" },
-    // ...
   ];
 
   const initialValues = {
@@ -25,6 +24,7 @@ function B2bRegistration({ categories, userType }) {
     subCategories: [],
     description: "",
     role: userType,
+    ShopAddress: "",
     address: {
       street: "",
       city: "chittagong",
@@ -55,18 +55,17 @@ function B2bRegistration({ categories, userType }) {
   const handleChange = (e) => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
-
-    console.log("this value", values);
   };
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      console.log(values);
       setLoading(true);
       const response = await axios.post(
         "http://localhost:3000/api/formrequest/b2bregistration",
 
         values
       );
+
+      console.log("this isreap", response);
 
       if (response.status === 201) {
         resetForm();
@@ -169,7 +168,7 @@ function B2bRegistration({ categories, userType }) {
               />
             </div>
 
-            <div className="mt-6 sm:col-span-2">
+            {/* <div className="mt-6 sm:col-span-2">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
@@ -188,7 +187,7 @@ function B2bRegistration({ categories, userType }) {
                 component="div"
                 className="text-red-500 text-sm"
               />
-            </div>
+            </div> */}
             <div className="sm:col-span-2">
               <SingularSelect
                 name="category"
@@ -305,6 +304,26 @@ function B2bRegistration({ categories, userType }) {
               />
               <ErrorMessage
                 name="address.city"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+            <div className="mt-6 sm:col-span-3">
+              <label
+                htmlFor="ShopAddress"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Location
+              </label>
+              <Field
+                type="text"
+                name="ShopAddress"
+                id="ShopAddress"
+                autoComplete="ShopAddress"
+                className="flex-1 border p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0     sm:text-sm border-gray-300"
+              />
+              <ErrorMessage
+                name="ShopAddress"
                 component="div"
                 className="text-red-500 text-sm"
               />

@@ -49,6 +49,10 @@ function MobileMenu({ categories, subCategories }) {
       // Navigate to the profile page
       router.push("/cart");
     }
+    if (newValue === "home") {
+      // Navigate to the profile page
+      router.push("/");
+    }
     if (newValue === "category") {
       setOpen(!open);
     }
@@ -195,7 +199,7 @@ function MobileMenu({ categories, subCategories }) {
         >
           <BottomNavigationAction
             label="Home"
-            value="recents"
+            value="home"
             icon={<HomeOutlinedIcon />}
           />
           <BottomNavigationAction
