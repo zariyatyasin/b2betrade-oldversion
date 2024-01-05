@@ -18,6 +18,8 @@ const CartProduct = ({
     return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  console.log(product);
+
   useEffect(() => {
     setActive(selected.some((p) => p._uid === product._uid));
   }, [selected, product]);
@@ -117,12 +119,12 @@ const CartProduct = ({
                 )}
               </div>
 
-              {product.priceBefore !== undefined &&
+              {/* {product.priceBefore !== undefined &&
                 product.price !== product.priceBefore && (
                   <p className="md:ml-1 mt-2 text-xs line-through text-gray-900 font-medium">
                     ৳ {product.priceBefore.toFixed(2)}
                   </p>
-                )}
+                )} */}
               {/* {product.discount > 0 && (
                 <p className=" ml-1 text-xs line-through  text-green-500 font-medium ">
                   -{product.discount}%
@@ -133,6 +135,10 @@ const CartProduct = ({
               {product.shipping
                 ? `+ ৳ ${product.shipping} Shipping fee`
                 : "Free Shipping"}
+            </div>
+            <div className="mt-2 text-gray-950 font-bold  text-xs">
+              {product.price}X{product.qty}৳
+              {formatPrice(product.price * product.qty)}
             </div>
 
             {product.quantity < 1 && (

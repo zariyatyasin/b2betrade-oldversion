@@ -9,7 +9,7 @@ import SortingDropdown from "../../selects/SortingDropdown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import OrderCard from "../../cards/OrderCard";
-export default function OrderComp({ Orders, paginationCount }) {
+export default function OrderComp({ Orders, paginationCount, linkhref }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -22,6 +22,8 @@ export default function OrderComp({ Orders, paginationCount }) {
 
     edit: "Edit",
   };
+
+  console.log("hello", Orders);
 
   const filterUrl = ({ page, sort }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
@@ -91,15 +93,15 @@ export default function OrderComp({ Orders, paginationCount }) {
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#2B39D1] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
-            Add Store
+            Add Order
           </button>
         </div>
       </div>
-      <MiniSearchBar linkUrl="/admin/dashboard/order" />
+      <MiniSearchBar linkUrl={linkhref} />
       <div className="   flex  items-center justify-end mt-2">
         <button
           className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "
-          onClick={() => router.push("/admin/dashboard/order")}
+          onClick={() => router.push({ linkhref })}
         >
           Clear All ({Array.from(searchParams).length})
         </button>

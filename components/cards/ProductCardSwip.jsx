@@ -43,7 +43,7 @@ function ProductCardSwip({ products }) {
   return (
     <div className=" bg-white border border-gray-200 rounded-md overflow-hidden  ">
       <Link
-        href={`/product/${products?.slug}/${active}/0 `}
+        href={`/product/${products?._id}/${active}/0 `}
         className=" sm:h-96 "
       >
         <div className="  h-44 md:h-72     ">
@@ -60,7 +60,7 @@ function ProductCardSwip({ products }) {
         )}
       </div>
       <div className=" text-left text-gray-950 font-medium   text-sm   p-2">
-        <Link href={`/product/${products?.slug}/${active}/0 `}>
+        <Link href={`/product/${products?._id}/${active}/0 `}>
           {products.name.length <= 10
             ? products.name
             : products.name.slice(0, 35) + "..."}

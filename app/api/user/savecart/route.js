@@ -37,7 +37,7 @@ export const POST = async (request) => {
   try {
     db.connectDb();
     const { cart } = await request.json();
-
+ 
     let products = [];
     let user = await User.findById(session.id);
     let existingCart = await Cart.findOneAndRemove({ user: user._id });
@@ -48,7 +48,7 @@ export const POST = async (request) => {
         dbProduct?.bulkPricing &&
         dbProduct?.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
       let subProduct = dbProduct.subProducts[cart[i].style];
-
+     console.log("this is db prodct",dbProduct);
       let bulkPricing = dbProduct.bulkPricing || [];
       let productQty = Number(cart[i].qty);
       let tempProduct;
@@ -56,6 +56,7 @@ export const POST = async (request) => {
       if (hasNullPrice) {
         tempProduct = {
           product: dbProduct._id,
+          storeId:dbProduct.storeId,
           name: dbProduct.name,
           image: subProduct.images[0].url,
           size: cart[i].size,
@@ -66,7 +67,11 @@ export const POST = async (request) => {
           },
           price: calculatePrice(subProduct, cart[i].size, cart[i].qty),
         };
+
+
+      
       }
+
       if (!hasNullPrice) {
         let price = calculateBulkPrice(
           productQty,
@@ -76,6 +81,7 @@ export const POST = async (request) => {
 
         tempProduct = {
           product: dbProduct._id,
+          storeId:dbProduct.storeId,
           name: dbProduct.name,
           image: subProduct.images[0].url,
           size: cart[i].size,
@@ -86,8 +92,9 @@ export const POST = async (request) => {
           },
           price: price,
         };
+ 
       }
-
+      console.log("this is time",tempProduct);
       products.push(tempProduct);
     }
 
@@ -102,6 +109,7 @@ export const POST = async (request) => {
 
     await new Cart({
       products,
+      
       cartTotal: cartTotal.toFixed(2),
       user: user._id,
     }).save();

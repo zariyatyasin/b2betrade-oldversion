@@ -97,6 +97,7 @@ export default async function page({ searchParams }) {
   return (
     <Layout>
       <OrderComp
+        linkhref={"/admin/dashboard/order"}
         key={componentKey}
         Orders={Orders}
         paginationCount={paginationCount}

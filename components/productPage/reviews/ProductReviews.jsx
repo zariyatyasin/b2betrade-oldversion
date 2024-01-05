@@ -9,7 +9,7 @@ import Table from "./Table";
 export default function ProductReviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState("");
-  const [reviews, setReviews] = useState(product.reviews);
+  const [reviews, setReviews] = useState(product?.reviews);
 
   return (
     <div className="bg-white mt-4 rounded-md p-4  ">

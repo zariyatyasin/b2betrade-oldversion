@@ -1,84 +1,67 @@
-import { NextResponse } from "next/server";
-import User from "../../../../model/User";
-import Cart from "../../../../model/Cart";
-import Product from "../../../../model/Product";
-import db from "../../../../utils/db";
-import { getCurrentUser } from "../../../../utils/session";
-
-export const POST = async (request) => {
-  const session = await getCurrentUser();
-  if (!session) {
-    return NextResponse.json("You must be logged in", {
-      status: 201,
-    });
-  }
-
-  try {
-    db.connectDb();
-    const { cart } = await request.json();
-
-    let products = [];
-    let user = await User.findById(session.id);
-    let existingCart = await Cart.findOneAndRemove({ user: user._id });
-
-    for (let i = 0; i < cart.length; i++) {
-      let dbProduct = await Product.findById(cart[i]._id).lean();
-      let subProduct = dbProduct.subProducts[cart[i].style];
-
-      let tempProduct = {
-        product: dbProduct._id,
-        name: dbProduct.name,
-        image: subProduct.images[0].url,
-        size: cart[i].size,
-        qty: Number(cart[i].qty),
-        color: {
-          color: cart[i].color.color,
-          image: cart[i].color.image,
-        },
-        price: calculatePrice(subProduct, cart[i].size, cart[i].qty),
-      };
-
-      products.push(tempProduct);
-    }
-
-    let cartTotal = products.reduce((total, product) => {
-      const productTotal = product.price * product.qty;
-      return isNaN(productTotal) ? total : total + productTotal;
-    }, 0);
-    cartTotal = parseFloat(cartTotal.toFixed(2));
-    if (isNaN(cartTotal)) {
-      throw new Error("Invalid cartTotal calculation");
-    }
-
-    await new Cart({
-      products,
-      cartTotal: cartTotal.toFixed(2),
-      user: user._id,
-    }).save();
-
-    db.disconnectDb();
-
-    return NextResponse.json(
-      { cart },
+[2];
+{
+  "shippingAddress": {
+      "fullName": "sdfsd",
+      "phoneNumber": "3434344334",
+      "address1": "sdfsdfsfsf",
+      "address2": "sdfsfsdf",
+      "city": "sdfsdf",
+      "street": "sfsdfsdf"
+  },
+  "_id": "659835de34cc9bb452660f86",
+  "user": {
+      "_id": "65982f23506f5ee3cec1c30e",
+      "name": "Md Yaisn2",
+      "phoneNumber": "01763071342",
+      "password": "$2b$12$qwsck7/v.4LX4aMPn8qqQOKBUq1MbtzvRAa8Kv2OaSm5oe98dbiKG",
+      "role": "supplier",
+      "image": "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
+      "verified": "pending",
+      "defaultPaymentMethod": "",
+      "address": [
+          {
+              "fullName": "sdfsd",
+              "phoneNumber": "3434344334",
+              "address1": "sdfsdfsfsf",
+              "address2": "sdfsfsdf",
+              "city": "sdfsdf",
+              "street": "sfsdfsdf",
+              "active": true,
+              "_id": "659835cb34cc9bb452660f50"
+          }
+      ],
+      "wishlist": [],
+      "createdAt": "2024-01-05T16:32:36.037Z",
+      "updatedAt": "2024-01-05T17:00:59.807Z",
+      "__v": 0
+  },
+  "orderNumber": "8603455",
+  "products": [
       {
-        status: 201,
-      }
-    );
-  } catch (err) {
-    console.error(err); // Log the error for debugging purposes
-    return new NextResponse(err.message, { status: 500 });
-  }
-};
-
-function calculatePrice(subProduct, size, qty) {
-  const sizeInfo = subProduct.sizes.find((p) => p.size === size);
-
-  // Check for bulk pricing
-  const bulkPrice = sizeInfo.bulkPricing.find(
-    (priceInfo) =>
-      (priceInfo.minQty === null || qty >= priceInfo.minQty) &&
-      (priceInfo.maxQty === null || qty <= priceInfo.maxQty)
-  );
-
-  return bulkPrice ? bulkPrice.price : sizeInfo.price;
+          "color": {
+              "color": "",
+              "image": ""
+          },
+          "product": "6598322cc1ab162ecfe59184",
+          "storeId": "65982f24506f5ee3cec1c310",
+          "name": "test stjsofj",
+          "image": "https://res.cloudinary.com/drtexlmq7/image/upload/v1704473116/rstationProduct/suwsmh5hxdsiozqc8f12.jpg",
+          "size": "24",
+          "qty": 1,
+          "price": 33,
+          "_id": "659835ba34cc9bb452660f46"
+      },
+       
+  ],
+  "paymentMethod": "cash",
+  "total": 0,
+  "totalBeforeDiscount": 783,
+  "couponApplied": "",
+  "shippingPrice": 0,
+  "taxPrice": 0,
+  "isPaid": false,
+  "status": "Not Processed",
+  "createdAt": "2024-01-05T17:01:18.649Z",
+  "updatedAt": "2024-01-05T17:01:18.649Z",
+  "__v": 0
 }

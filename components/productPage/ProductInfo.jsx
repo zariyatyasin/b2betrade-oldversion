@@ -47,7 +47,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     return <div>Loading...</div>;
   }
 
-  console.log(product);
   const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
@@ -223,7 +222,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     if (hasNullPrice && minQty > qty) {
       toast.error(`minimum order quantity ${minQty}`);
     } else if (!hasNullPrice && minQty2 > qty) {
-      console.log(minQty2 > qty);
       toast.error(`minimum order quantity ${minQty2}`);
     } else {
       if (!UrlSize) {
@@ -254,6 +252,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             qty,
             size: data.size,
             _uid,
+            storeId: product.storeId,
             price: selectedRange.price, // Include the selected price in the product data
           };
 
@@ -264,9 +263,11 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               }
               return p;
             });
+
             dispatch(updateCart(newCart));
             toast.success("Cart Updated");
           } else {
+            console.log("this is order", productToAdd);
             dispatch(addToCart(productToAdd));
             toast.success("Product Added to Cart");
           }

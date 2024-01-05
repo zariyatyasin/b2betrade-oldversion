@@ -10,6 +10,7 @@ import {
 } from "../../../../utils/Array";
 
 import Order from "../../../../model/Order";
+import Store from "../../../../model/Store";
 import User from "../../../../model/User";
 import Category from "../../../../model/Category";
 import SubCategory from "../../../../model/SubCategory";
@@ -56,21 +57,13 @@ export async function getData({ params, searchParams }) {
       : {};
 
   // If the user is not an admin, fetch only their Order
-  Orders = await Order.find({ owner: session.id })
-    .populate({
-      path: "owner",
-      model: User,
-    })
-    .populate({
-      path: "category",
-      model: Category,
-    })
-    .populate({
-      path: "subCategories",
-      model: SubCategory,
-    });
+
+  const store = await Store.findOne({ owner: session.id });
+  const OwnerStoreId = store._id;
+  Orders = await Order.find();
 
   let totalProducts = await Order.countDocuments({ ...search });
+
   return {
     Orders: JSON.parse(JSON.stringify(Orders)),
     paginationCount: Math.ceil(totalProducts / pageSize),
@@ -78,11 +71,12 @@ export async function getData({ params, searchParams }) {
 }
 export default async function page({ searchParams }) {
   const { Orders, paginationCount } = await getData({ searchParams });
-
+  console.log(Orders);
   const componentKey = Date.now();
   return (
     <Layout>
       <OrderComp
+        linkhref={"/supplier/dashboard/order"}
         key={componentKey}
         Orders={Orders}
         paginationCount={paginationCount}

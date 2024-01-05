@@ -13,7 +13,7 @@ const ProductMain = ({ product, params }) => {
 
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  console.log(product);
+
   return (
     <div>
       <div className="    flex flex-col justify-center   lg:flex-row gap-4  ">

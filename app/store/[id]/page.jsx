@@ -49,7 +49,7 @@ export default async function page({ params }) {
           headerImage={StoreData.headerImage}
           storeDescription={StoreData.description}
         />
-        {StoreData.storeAtive === "active" && (
+        {
           <>
             <StoreNavbar subCategory={StoreData.subCategories} />
             <div className="h-screen  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -60,7 +60,7 @@ export default async function page({ params }) {
               ))}
             </div>
           </>
-        )}
+        }
       </div>
     </>
   );

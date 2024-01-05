@@ -12,6 +12,8 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import ProductCardSwip from "../../../components/cards/ProductCardSwip";
 
 const NewProducts = ({ products }) => {
+  console.log(products);
+
   return (
     <div className=" px-2 sm:px-4 lg:px-8 mb-12 md:mb-14 lg:mb-16  ">
       <div className="flex items-center  justify-center -mt-2 pb-0.5 mb-4 md:mb-5 lg:mb-6 2xl:mb-7 3xl:mb-8">

@@ -41,7 +41,7 @@ export default function StoreSide({ store }) {
         </div>
 
         <div className="flex justify-center mt-4">
-          <Link href={`/store/${store._id}`}>
+          <Link href={`/store/${store?._id}`}>
             <button className="py-2 w-32 bg-[#2B39D1] text-sm rounded-md border border-[#2B39D1] text-white mr-2">
               View Store
             </button>

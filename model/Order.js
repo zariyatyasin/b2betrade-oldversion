@@ -20,6 +20,7 @@ const orderSchema = new mongoose.Schema(
           type: ObjectId,
           ref: "Product",
         },
+        storeId:{ type: ObjectId, ref:"Store"},
         name: {
           type: String,
         },

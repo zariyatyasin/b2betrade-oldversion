@@ -23,6 +23,7 @@ async function getData(url) {
     query = { slug: slug };
   }
 
+  console.log(query);
   await db.connectDb();
   try {
     let product = await Product.findOne(query)
@@ -31,7 +32,7 @@ async function getData(url) {
       .populate({ path: "subCategories", model: SubCategory })
       .populate({ path: "reviews.reviewBy", model: User })
       .lean();
-
+    console.log(product);
     function calculatePercentage(num) {
       const totalReviews = product.reviews.length;
       const numReviews = product.reviews.filter(
