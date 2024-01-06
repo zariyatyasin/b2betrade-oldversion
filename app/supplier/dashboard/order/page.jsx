@@ -61,21 +61,32 @@ export async function getData({ params, searchParams }) {
   const store = await Store.findOne({ owner: session.id });
   const OwnerStoreId = store._id;
   Orders = await Order.find();
+  const filteredOrders = Orders.map((order) => {
+    const matchingProducts = order.products.filter((product) => {
+      return product.storeId.toString() === OwnerStoreId.toString();
+    });
 
+    return {
+      ...order._doc, // Convert Mongoose document to plain JavaScript object
+      products: matchingProducts,
+    };
+  }).filter((order) => order.products.length > 0);
   let totalProducts = await Order.countDocuments({ ...search });
 
   return {
-    Orders: JSON.parse(JSON.stringify(Orders)),
+    user: session,
+    Orders: JSON.parse(JSON.stringify(filteredOrders)),
     paginationCount: Math.ceil(totalProducts / pageSize),
   };
 }
 export default async function page({ searchParams }) {
-  const { Orders, paginationCount } = await getData({ searchParams });
-  console.log(Orders);
+  const { Orders, paginationCount, user } = await getData({ searchParams });
+
   const componentKey = Date.now();
   return (
     <Layout>
       <OrderComp
+        user={user}
         linkhref={"/supplier/dashboard/order"}
         key={componentKey}
         Orders={Orders}

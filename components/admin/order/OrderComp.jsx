@@ -9,7 +9,7 @@ import SortingDropdown from "../../selects/SortingDropdown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import OrderCard from "../../cards/OrderCard";
-export default function OrderComp({ Orders, paginationCount, linkhref }) {
+export default function OrderComp({ Orders, paginationCount, linkhref, user }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -22,8 +22,6 @@ export default function OrderComp({ Orders, paginationCount, linkhref }) {
 
     edit: "Edit",
   };
-
-  console.log("hello", Orders);
 
   const filterUrl = ({ page, sort }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());

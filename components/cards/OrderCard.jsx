@@ -5,8 +5,10 @@ import DynamicFormModel from "../modelUi/DynamicFormModel";
 import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmationModal";
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
+  const { data: session, status } = useSession();
 
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
@@ -17,7 +19,6 @@ export default function OrderCard({ data }) {
   ];
   const renderProduct = (product) => (
     <div key={product._id} className="product">
-      {console.log(product)}
       <img src={product.image} alt={product.name} className=" h-8 w-8" />
       <div className="product-details">
         <Link href={`/product/${product.product}/0/0`} target="_blank">
@@ -25,7 +26,9 @@ export default function OrderCard({ data }) {
         </Link>
 
         <p>Size: {product.size}</p>
+        <p>Price: {product.price}</p>
         <p>Quantity: {product.qty}</p>
+        <p>Total Price: {product.qty * product.price}</p>
         {product.color.color ? (
           <div
             className="color-box"
@@ -158,7 +161,10 @@ export default function OrderCard({ data }) {
             Order Number: {order.orderNumber}
           </p>
           <p>Payment Method: {order.paymentMethod}</p>
-          <p>Total: ${order.totalBeforeDiscount}</p>
+          {session?.user.role === "admin" && (
+            <p>Total: ${order.totalBeforeDiscount}</p>
+          )}
+
           <p>
             Status:
             <span

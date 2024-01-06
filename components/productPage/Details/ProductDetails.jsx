@@ -56,8 +56,6 @@ export default function ProductDetails({ product }) {
             aria-label="basic tabs example"
           >
             <Tab label="Product Details" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
