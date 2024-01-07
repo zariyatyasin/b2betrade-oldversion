@@ -112,10 +112,6 @@ export default function OrderCard({ data }) {
       );
 
       if (response.status === 200) {
-        console.log(
-          "Data updated successfully:",
-          response.data.newUpdatedOrder
-        );
         setorder((prevorder) => ({
           ...prevorder,
           ...response.data.newUpdatedOrder,

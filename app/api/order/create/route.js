@@ -31,7 +31,6 @@ export const POST = async (request) => {
     const currentDate = new Date();
     const orderNumber = generateUniqueOrderNumber();
 
-    console.log(orderNumber);
     const newOrder = await new Order({
       user: user._id,
       orderNumber,

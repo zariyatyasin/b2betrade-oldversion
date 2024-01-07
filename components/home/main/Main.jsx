@@ -21,7 +21,7 @@ export default function Main() {
 
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
-      console.log("hewo");
+
       // Modify the search parameter
       router.push(`/browse?search=${quary}`);
 
@@ -117,10 +117,7 @@ export default function Main() {
                   {[...Array(3).keys()].map((item, id) => {
                     return (
                       <SwiperSlide key={id}>
-                        <a
-                          className="h-full group flex justify-center relative overflow-hidden"
-                          href="/search"
-                        >
+                        <div className="h-full group flex justify-center relative overflow-hidden">
                           {/* <img
                     alt="Fresh Healthy Breakfast food"
                     width="720"
@@ -216,7 +213,7 @@ export default function Main() {
                             </article>
                           </div>
                           <div className="absolute top-0 block w-1/2 h-full transform -skew-x-12 ltr:-left-full rtl:-right-full z-5 bg-gradient-to-r from-transparent to-white opacity-30 group-hover:animate-shine"></div>
-                        </a>
+                        </div>
                       </SwiperSlide>
                     );
                   })}

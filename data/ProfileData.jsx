@@ -66,15 +66,15 @@ export const sidebarData = [
       },
     ],
   },
-  {
-    heading: "My Request",
-    links: [
-      {
-        name: "Request",
-        link: "/profile/request",
-      },
-    ],
-  },
+  // {
+  //   heading: "My Request",
+  //   links: [
+  //     {
+  //       name: "Request",
+  //       link: "/profile/request",
+  //     },
+  //   ],
+  // },
   {
     heading: "My Lists",
     links: [

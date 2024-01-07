@@ -19,25 +19,42 @@ export const PUT = async (request, { params }) => {
 
     const editedData = await request.json();
 
-    if (editedData.password) {
-      editedData.password = await bcrypt.hash(editedData.password, 12);
+    if (editedData.oldPassword && editedData.newPassword) {
+      const user = await User.findById(id);
+
+      const oldPasswordMatches = await bcrypt.compare(
+        editedData.oldPassword,
+        user.password
+      );
+
+      if (!oldPasswordMatches) {
+        return NextResponse.json(
+          {
+            message: "Old password does not match",
+          },
+          { status: 400 }
+        );
+      }
+
+      editedData.password = await bcrypt.hash(editedData.newPassword, 12);
     }
+
     const updatedOrder = await User.findByIdAndUpdate(id, editedData, {
       new: true,
     });
+
     const newUpdateduser = await User.findById(updatedOrder._id);
 
     db.disconnectDb();
 
     return NextResponse.json(
       {
-        message: "Order updated successfully!",
+        message: "Updated successfully!",
         newUpdateduser,
       },
       { status: 200 }
     );
   } catch (err) {
-  
     return NextResponse.json({ message: err.message }, { status: 500 });
   }
 };

@@ -51,6 +51,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
   // const [priceHistory, setPriceHistory] = useState([]);
+  const router = useRouter();
   const [showPriceHistory, setShowPriceHistory] = useState(false);
   const formatPrice = (price) => {
     const formattedPrice = parseFloat(price).toFixed(2);
@@ -79,7 +80,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  useEffect(() => {}, [router.asPath]);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -267,7 +268,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             dispatch(updateCart(newCart));
             toast.success("Cart Updated");
           } else {
-            console.log("this is order", productToAdd);
             dispatch(addToCart(productToAdd));
             toast.success("Product Added to Cart");
           }

@@ -21,7 +21,6 @@ export const POST = async (request) => {
     const slugs = slugify(name);
     const exists = await Category.find({ slug: slugs });
 
-    console.log("this is ex", exists);
     if (exists) {
       return NextResponse.json(
         "This Category name already exists, try with a different name",
@@ -54,8 +53,6 @@ export const PUT = async (request) => {
     db.connectDb();
 
     const { id, name } = await request.json();
-
-    console.log(id, name);
 
     const category = await Category.findByIdAndUpdate(
       id,

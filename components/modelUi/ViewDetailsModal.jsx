@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 
 const ViewDetailsModal = ({ data, onClose }) => {
-  console.log(data);
-
   const renderValue = (key, value) => {
     if (key === "password") {
       return (

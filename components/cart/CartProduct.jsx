@@ -18,8 +18,6 @@ const CartProduct = ({
     return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  console.log(product);
-
   useEffect(() => {
     setActive(selected.some((p) => p._uid === product._uid));
   }, [selected, product]);
@@ -69,7 +67,7 @@ const CartProduct = ({
       <div className="flex-shrink-0">
         <img
           src={product.images[0].url}
-          alt="Front of men&#039;s Basic Tee in sienna."
+          alt={product.name}
           className="w-24   h-auto  object-center object-cover  "
         />
       </div>

@@ -26,7 +26,7 @@ function MobileMenu({ categories, subCategories }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("1024"));
   const { cart } = useSelector((state) => ({ ...state }));
   const { data: session, status } = useSession();
-  console.log(session);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
 
@@ -60,8 +60,6 @@ function MobileMenu({ categories, subCategories }) {
       setValue("");
     }
   };
-
-  console.log(session);
 
   return (
     <div>

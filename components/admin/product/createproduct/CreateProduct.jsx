@@ -175,7 +175,6 @@ export default function CreateProduct({ categories }) {
         ...product,
         updatedSubProducts,
       });
-      console.log("Product created successfully:", data);
     } catch (error) {
       console.error("Error creating product:", error);
     }

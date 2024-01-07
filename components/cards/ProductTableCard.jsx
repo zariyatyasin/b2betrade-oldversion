@@ -108,7 +108,6 @@ export default function ProductTableCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
-    console.log(editedData);
     try {
       setLoading(true);
 
@@ -118,10 +117,6 @@ export default function ProductTableCard({ data }) {
       );
 
       if (response.status === 200) {
-        console.log(
-          "Data updated successfully:",
-          response.data.newUpdatedproduct
-        );
         setproduct((prevproduct) => ({
           ...prevproduct,
           ...response.data.newUpdatedproduct,
@@ -137,7 +132,6 @@ export default function ProductTableCard({ data }) {
   };
 
   const handleDelete = () => {
-    console.log("Deleting data:", product);
     closeDeleteConfirmation();
   };
 

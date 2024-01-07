@@ -96,8 +96,6 @@ export default function AllProductList({ products, paginationCount }) {
     },
   ];
 
-  console.log(products);
-
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center mb-2 ">

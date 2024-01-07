@@ -26,7 +26,6 @@ const InquiryForm = ({ onClose }) => {
     // or perform any other necessary actions
     // Close the modal after submission
 
-    console.log("helo");
     onClose();
   };
 

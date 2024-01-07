@@ -6,7 +6,7 @@ export default function Header() {
     <div>
       <header className="relative bg-white shadow px-4">
         <nav aria-label="Top" className="max-w-7xl mx-auto ">
-          <div className="px-4   sm:px-0 sm:pb-0">
+          <div className=" sm:px-0 sm:pb-0">
             <div className="h-16 flex items-center justify-between">
               <div className="  flex">
                 <Link
@@ -20,9 +20,8 @@ export default function Header() {
                 </Link>
               </div>
 
-              <div className=" flex items-center  text-sm text-gray-700">
+              <div className=" flex items-center text-xs  md:text-sm text-gray-700">
                 <Link href={`/browser`}>
-                  {" "}
                   <div className="bor">CONTINUE SHOPPING</div>
                 </Link>
                 <div>

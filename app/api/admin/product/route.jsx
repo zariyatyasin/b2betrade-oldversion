@@ -9,8 +9,6 @@ export const POST = async (request) => {
   const session = await getCurrentUser();
   db.connectDb();
 
-  console.log("hello");
-
   if (!session) {
     return NextResponse.json("you must be login in", {
       status: 201,
@@ -20,8 +18,6 @@ export const POST = async (request) => {
   try {
     const { parent, ...otherData } = await request.json();
     let store = await Store.findOne({ owner: session.id });
-
-    console.log(store);
 
     if (!store) {
       return NextResponse(
@@ -57,7 +53,6 @@ export const POST = async (request) => {
 
     let savedProduct = await newProduct.save();
 
-    console.log(savedProduct);
     store.products.push(savedProduct._id);
     db.disconnectDb();
     return new NextResponse(

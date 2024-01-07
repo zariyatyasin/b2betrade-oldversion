@@ -1,25 +1,22 @@
 import { NextResponse } from "next/server";
- 
-import db from "../../../utils/db"
- 
- import {getCurrentUser} from "../../../utils/session"
-import Coupon from "../../../model/Coupon";
- 
 
-export const POST = async (request  ) => {
+import db from "../../../utils/db";
+
+import { getCurrentUser } from "../../../utils/session";
+import Coupon from "../../../model/Coupon";
+
+export const POST = async (request) => {
   const session = await getCurrentUser();
 
-  if(!session){
-    return NextResponse.json( "you must be login in" ,{
-           status: 201,
-         })
-    }
- 
-    try {
-    db.connectDb()
- 
- 
-   
+  if (!session) {
+    return NextResponse.json("you must be login in", {
+      status: 201,
+    });
+  }
+
+  try {
+    db.connectDb();
+
     const {
       coupon,
       startDate,
@@ -33,16 +30,18 @@ export const POST = async (request  ) => {
       discountType,
     } = await request.json();
 
-
- 
-
     const test = await Coupon.findOne({ coupon });
     if (test) {
-        return NextResponse.json( {message:"This Coupon name already exists, try with a different name"} ,{
-            status: 400,
-          })
+      return NextResponse.json(
+        {
+          message: "This Coupon name already exists, try with a different name",
+        },
+        {
+          status: 400,
+        }
+      );
     }
- 
+
     const newCouponData = new Coupon({
       coupon,
       startDate,
@@ -57,10 +56,8 @@ export const POST = async (request  ) => {
     });
     await newCouponData.save();
 
-    
-
-     db.disconnectDb()
-     return NextResponse.json(
+    db.disconnectDb();
+    return NextResponse.json(
       {
         message: "Coupon created successfully !",
         coupon: await Coupon.find({}).sort({ updatedAt: -1 }),
@@ -69,29 +66,23 @@ export const POST = async (request  ) => {
         status: 201,
       }
     );
+  } catch (err) {
+    return new NextResponse(err, { status: 500 });
+  }
+};
 
-
-     
-    } catch (err) {
-      console.log(err.message);
-      return new NextResponse(err, { status: 500 });
-    }
-  };
-
-export const PUT = async (request  ) => {
+export const PUT = async (request) => {
   const session = await getCurrentUser();
 
-  if(!session){
-    return NextResponse.json( "you must be login in" ,{
-           status: 201,
-         })
-    }
- 
-    try {
-    db.connectDb()
- 
- 
-   
+  if (!session) {
+    return NextResponse.json("you must be login in", {
+      status: 201,
+    });
+  }
+
+  try {
+    db.connectDb();
+
     const {
       id,
       coupon,
@@ -106,13 +97,7 @@ export const PUT = async (request  ) => {
       discountType,
     } = await request.json();
 
-
-    console.log(coupon);
-
- 
-   console.log("this",id);
- 
-  await Coupon.findByIdAndUpdate(id, {
+    await Coupon.findByIdAndUpdate(id, {
       coupon,
       discount,
       startDate,
@@ -124,10 +109,9 @@ export const PUT = async (request  ) => {
       applicableCategories,
       discountType,
     });
- 
 
-     db.disconnectDb()
-     return NextResponse.json(
+    db.disconnectDb();
+    return NextResponse.json(
       {
         message: "Coupon updated successfully !",
         coupon: await Coupon.find({}).sort({ updatedAt: -1 }),
@@ -136,11 +120,7 @@ export const PUT = async (request  ) => {
         status: 201,
       }
     );
-
-
-     
-    } catch (err) {
-      console.log(err.message);
-      return new NextResponse(err, { status: 500 });
-    }
-  };
+  } catch (err) {
+    return new NextResponse(err, { status: 500 });
+  }
+};

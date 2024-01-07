@@ -53,8 +53,6 @@ export const Header = ({ categories, subCategories }) => {
     setOpen(false);
   };
 
-  console.log(session);
-
   return (
     <div>
       <header className="bg-white  ">

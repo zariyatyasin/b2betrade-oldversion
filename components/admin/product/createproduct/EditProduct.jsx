@@ -98,7 +98,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
 
   const handleSubmit = async () => {
     const updatedSubProducts = [];
-    console.log(product);
+
     // for (const subProduct of subProducts) {
     //   const formData = new FormData();
 

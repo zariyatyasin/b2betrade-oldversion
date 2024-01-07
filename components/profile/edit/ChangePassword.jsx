@@ -3,38 +3,50 @@ import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import SureConfirmationModal from "../../modelUi/SureConfirmationModal";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
+import axios from "axios";
+import { toast } from "react-toastify";
 const validationSchema = Yup.object().shape({
   oldPassword: Yup.string().required("  Required"),
   newPassword: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required(" required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
-    .required(" required"),
 });
 
-const ChangePassword = ({ user }) => {
+const ChangePassword = ({ data }) => {
   const initialValues = {
     oldPassword: "",
     newPassword: "",
-    confirmPassword: "",
   };
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState();
 
-  const onSubmit = (values) => {
-    console.log("Form submitted with values:", values);
-
-    if (dirty) {
-      setIsConfirmationModalOpen(true);
-    } else {
-    }
+  const [loading, setLoading] = useState(false);
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
+    setFormSubmitted(values);
   };
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsConfirmationModalOpen(false);
+
+    try {
+      setLoading(true);
+
+      const response = await axios.put(
+        `/api/user/update/${data._id}`,
+        formSubmitted
+      );
+
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.success(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section aria-labelledby="payment-details-heading mt-5">
+      {loading && <FullScreenLoading />}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -62,10 +74,9 @@ const ChangePassword = ({ user }) => {
                       Old Password
                     </label>
                     <Field
-                      type="password"
+                      type="text"
                       id="oldPassword"
                       name="oldPassword"
-                      autoComplete="current-password"
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                     />
                     <ErrorMessage
@@ -83,7 +94,7 @@ const ChangePassword = ({ user }) => {
                       New Password
                     </label>
                     <Field
-                      type="password"
+                      type="text"
                       id="newPassword"
                       name="newPassword"
                       autoComplete="new-password"
@@ -95,37 +106,16 @@ const ChangePassword = ({ user }) => {
                       className="text-red-500 text-sm"
                     />
                   </div>
-
-                  <div className="col-span-4 sm:col-span-2">
-                    <label
-                      htmlFor="confirmPassword"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Confirm Password
-                    </label>
-                    <Field
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      autoComplete="new-password"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
                 </div>
               </div>
               <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button
-                  type="button"
+                  type="submit"
                   onClick={() => setIsConfirmationModalOpen(true)}
                   disabled={!dirty}
-                  className={` ${
+                  className={`${
                     !dirty ? " bg-gray-300" : "bg-[#2B39D1]"
-                  } border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white  `}
+                  } border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white`}
                 >
                   Save
                 </button>

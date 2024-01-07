@@ -12,7 +12,6 @@ const useCategoryData = () => {
     try {
       const { data } = await axios.post("/api/admin/category", name);
 
-      console.log("this si from the requ", data.categories);
       setData(data.categories);
       toast.success(data.message);
     } catch (error) {

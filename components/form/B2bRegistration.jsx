@@ -65,8 +65,6 @@ function B2bRegistration({ categories, userType }) {
         values
       );
 
-      console.log("this isreap", response);
-
       if (response.status === 201) {
         resetForm();
         toast.success(response.data.message);

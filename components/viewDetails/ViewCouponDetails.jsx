@@ -32,8 +32,6 @@ export default function ViewCouponDetails({ open, onClose, couponId }) {
     return <FullScreenLoading />;
   }
 
-  console.log(couponData);
-
   return (
     <Dialog open={open} onClose={onClose} className="">
       <DialogContent>

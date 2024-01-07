@@ -24,28 +24,33 @@ export const dynamic = "auto";
 // export const preferredRegion = "auto";
 // export const maxDuration = 5;
 async function getData({ searchParams }) {
-  db.connectDb();
+  try {
+    db.connectDb();
 
-  const productTypeQuery = searchParams.productType || "";
-  const productType =
-    productTypeQuery && productTypeQuery !== ""
-      ? { productType: productTypeQuery }
-      : {};
+    const productTypeQuery = searchParams.productType || "";
+    const productType =
+      productTypeQuery && productTypeQuery !== ""
+        ? { productType: productTypeQuery }
+        : {};
 
-  let products = await Product.find({ ...productType })
-    .sort({ createdAt: -1 })
-    .lean();
-  let categories = await Category.find().lean();
-  let subCategories = await SubCategory.find().populate({
-    path: "parent",
-    model: Category,
-  });
-  return {
-    products: JSON.parse(JSON.stringify(products)),
-    categories: JSON.parse(JSON.stringify(categories)),
+    let products = await Product.find({ ...productType })
+      .sort({ createdAt: -1 })
+      .lean();
+    let categories = await Category.find().lean();
+    let subCategories = await SubCategory.find().populate({
+      path: "parent",
+      model: Category,
+    });
+    return {
+      products: JSON.parse(JSON.stringify(products)),
+      categories: JSON.parse(JSON.stringify(categories)),
 
-    subCategories: JSON.parse(JSON.stringify(subCategories)),
-  };
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
+    };
+  } catch (error) {
+    console.error("Error during database operations:", error);
+    throw error; // Rethrow to handle errors appropriately
+  }
 }
 export default async function Home({ searchParams }) {
   const { products, categories, subCategories } = await getData({

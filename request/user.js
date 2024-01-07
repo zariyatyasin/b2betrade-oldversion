@@ -1,16 +1,14 @@
 import axios from "axios";
 
-export const saveCart = async (cart,id) => {
+export const saveCart = async (cart, id) => {
   try {
-    const  data  = await axios.post("/api/user/savecart", {
+    const data = await axios.post("/api/user/savecart", {
       cart,
-      id
+      id,
     });
 
-    console.log("this is my data",data);
     return data;
   } catch (error) {
-    console.log("this si error",error);
     return error;
   }
 };
@@ -19,11 +17,8 @@ export const saveAddress = async (address) => {
   try {
     const { data } = await axios.post("/api/user/saveAddress", {
       address,
-     
     });
-   
 
-    
     return data;
   } catch (error) {
     return error.response.data.message;
@@ -42,8 +37,7 @@ export const changeActiveAddress = async (id) => {
 };
 export const deleteAddress = async (id) => {
   try {
-    const { data } = await axios.delete(`/api/user/manageaddress/${id}`,  
- );
+    const { data } = await axios.delete(`/api/user/manageaddress/${id}`);
 
     return data;
   } catch (error) {
@@ -51,20 +45,14 @@ export const deleteAddress = async (id) => {
   }
 };
 
-
- 
 export const applyCoupon = async (coupon) => {
   try {
-    const { data } = await axios.post(`/api/user/applyCoupon/ `,{
-      coupon
-    }  
- );
+    const { data } = await axios.post(`/api/user/applyCoupon/ `, {
+      coupon,
+    });
 
-    return data 
+    return data;
   } catch (error) {
     return error.response.data.message;
   }
 };
-
-
- 

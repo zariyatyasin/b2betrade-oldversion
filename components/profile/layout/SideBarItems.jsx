@@ -15,10 +15,7 @@ function SideBarItems({ item, visible, index }) {
   return (
     <div className="">
       {item.heading === "Sign out" ? (
-        <b
-          onClick={() => signOut()}
-          className="text-blue-500 hover:text-blue-700 cursor-pointer"
-        >
+        <b onClick={() => signOut()} className=" ml-2 cursor-pointer">
           Sign out
         </b>
       ) : (

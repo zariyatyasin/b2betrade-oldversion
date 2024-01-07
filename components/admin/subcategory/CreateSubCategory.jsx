@@ -63,7 +63,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
           name: formData.name,
           parent: formData.categoryId,
         });
-        console.log(data.subcategories);
+
         setData(data.subcategories);
         toast.success(data.message);
       }
@@ -124,7 +124,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
         data={rowsWithIds}
         onEdit={handleEdit}
         onSubmitDelete={(id) => handleDelete(id)}
-        onSubmitView={(id) => handleView(id)} 
+        onSubmitView={(id) => handleView(id)}
       />
 
       <CreateSubCategoryForm

@@ -99,9 +99,9 @@ const AdminsidebarData = [
     heading: "Settings",
     links: [
       {
-        label: "Coupons",
+        label: "Hero",
         icon: <LocalAtmOutlinedIcon sx={{ fontSize: 18 }} />,
-        link: "/admin/dashboard/coupon",
+        link: "/admin/dashboard/hero",
       },
       {
         label: "Setting",

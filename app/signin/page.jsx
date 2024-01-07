@@ -6,9 +6,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
+import Link from "next/link";
 const validationSchema = Yup.object({
   phoneNumber: Yup.string()
     .required("Phone Number is required")
@@ -28,6 +29,15 @@ const page = () => {
   const [success, setSuccess] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState();
   const [password, setpassword] = useState();
+
+  const router = useRouter();
+
+  const handleSignInClick = (event) => {
+    event.preventDefault();
+
+    location.reload();
+  };
+
   useEffect(() => {
     if (session.status === "authenticated") {
       const callbackUrl = params.get("callbackUrl");
@@ -226,6 +236,19 @@ const page = () => {
                           <div className=" text-xs text-gray-500 mt-2">
                             Forget Password?
                           </div>
+
+                          <label
+                            htmlFor="remember-me"
+                            className=" text-xs block  mt-2 text-gray-500"
+                          >
+                            Don't have account?
+                            <span
+                              className="ml-1  font-medium hover:cursor-pointer"
+                              onClick={handleSignInClick}
+                            >
+                              Create one
+                            </span>
+                          </label>
                         </div>
                       ) : (
                         <>
@@ -283,6 +306,18 @@ const page = () => {
                               component="div"
                               className="text-red-500 text-sm"
                             />
+                            <label
+                              htmlFor="remember-me"
+                              className=" block text-sm mt-2 text-gray-900"
+                            >
+                              Alredy have account?
+                              <span
+                                className="ml-1  font-medium hover:cursor-pointer"
+                                onClick={handleSignInClick}
+                              >
+                                Sign in now
+                              </span>
+                            </label>
                           </div>
                         </>
                       )}

@@ -69,7 +69,6 @@ export default function CreateCoupon({ categories, coupon }) {
 
     try {
       if (formData.action === "edit") {
-        console.log(formData.values);
         const { data } = await axios.put("http://localhost:3000/api/coupon", {
           id: formData.editId,
           ...formData.values,
@@ -83,7 +82,7 @@ export default function CreateCoupon({ categories, coupon }) {
           "http://localhost:3000/api/coupon",
           formData.values
         );
-        console.log(data.coupon);
+
         setData(data.coupon);
         toast.success(data.message);
       }

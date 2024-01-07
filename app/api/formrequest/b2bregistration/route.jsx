@@ -72,7 +72,6 @@ export const POST = async (request) => {
       }
     );
   } catch (error) {
-    console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

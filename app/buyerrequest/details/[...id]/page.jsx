@@ -47,7 +47,7 @@ export default async function page({ params }) {
   const hasSubmittedOffer = sellerRequest.some(
     (request) => request?.sellerId._id === session?.id
   );
-  console.log(" this ", sellerRequestBid);
+
   return (
     <div>
       <Header />

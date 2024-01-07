@@ -22,13 +22,7 @@ export default function CreateProduct({ parents, categories }) {
   const [subProducts, setSubProducts] = useState([]);
 
   const handleSubmit = () => {
-    console.log({
-      images,
-      productName,
-      selectedCategory,
-      selectedSubCategories,
-      subProducts,
-    });
+   
     setSubProducts([]);
   };
 

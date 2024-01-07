@@ -25,12 +25,7 @@ export const PUT = async (request) => {
 
       storeAtive,
     } = await request.json();
-    console.log(
-      _id,
-      storeName,
 
-      storeAtive
-    );
     const UpdatedStore = await Store.findByIdAndUpdate(
       _id,
       {
@@ -54,7 +49,7 @@ export const PUT = async (request) => {
         path: "subCategories",
         model: SubCategory,
       });
-    console.log(newUpdatedStore);
+
     db.disconnectDb();
 
     return NextResponse.json(

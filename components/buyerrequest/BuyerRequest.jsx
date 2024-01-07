@@ -48,9 +48,7 @@ export default function BuyerRequest({
 
     let result = "";
     if (existedQuery) {
-      console.log("meiw");
       if (existedQuery == value) {
-        console.log("value,", value, existedQuery);
         result = {};
       } else {
         if (valueCheck !== -1) {
@@ -92,7 +90,7 @@ export default function BuyerRequest({
     const queryStr = currentQuery.toString();
 
     const newUrl = `${pathname}?${queryStr}`;
-    console.log("tghis is url", newUrl);
+
     router.push(newUrl, { scroll: false });
   };
 

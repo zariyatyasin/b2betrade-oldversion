@@ -28,7 +28,10 @@ export async function POST(request) {
     }
     if (!user) {
       return NextResponse.json(
-        { message: "Please Register", type: "register" },
+        {
+          message: "This Phone Number doesn't exist. Please Register",
+          type: "register",
+        },
         {
           status: 200,
         }

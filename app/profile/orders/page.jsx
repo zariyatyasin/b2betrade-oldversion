@@ -3,10 +3,15 @@ import { Header } from "../../../components/Header/Header";
 import Order from "../../../model/Order";
 import { getCurrentUser } from "../../../utils/session";
 import Layout from "../../../components/profile/layout/Layout";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 import Link from "next/link";
 async function getData({ params, searchParams }) {
   const session = await getCurrentUser();
-
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   const tab = searchParams.tab || 0;
 
   const filter = searchParams.q.split("__")[1];
@@ -60,16 +65,16 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        {" "}
-        <main className=" py-16 ml-10  ">
-          <div className=" ">
+        <div className="mb-8">
+          <Link className="" href={"/profile"}>
+            <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
+          </Link>
+        </div>{" "}
+        <main className=" pb-24 ">
+          <div className="   ">
             <h1 className="text-2xl text-center   w-full font-extrabold tracking-tight text-gray-900 sm:text-3xl">
               Order history
             </h1>
-            <p className="mt-1  text-center text-sm text-gray-500">
-              Check the status of recent orders, manage returns, and download
-              invoices.
-            </p>
           </div>
 
           <section aria-labelledby="recent-heading" className="mt-16">
@@ -79,7 +84,10 @@ export default async function page({ searchParams }) {
 
             <div className="space-y-20 ">
               {orders.map((order) => (
-                <div key={order.number} className=" border rounded  p-4">
+                <div
+                  key={order.number}
+                  className=" border bg-white rounded  p-4"
+                >
                   <h3 className="sr-only">
                     Order placed on{" "}
                     <time dateTime={order.datetime}>{order.date}</time>
@@ -92,18 +100,22 @@ export default async function page({ searchParams }) {
                           Date placed
                         </dt>
                         <dd className="sm:mt-1">
-                          <time dateTime={order.datetime}>{order.date}</time>
+                          {new Date(orders.createdAt).toLocaleDateString(
+                            "en-GB"
+                          )}
                         </dd>
                       </div>
                       <div className="flex justify-between pt-6 sm:block sm:pt-0">
                         <dt className="font-medium text-gray-900">
                           Order number
                         </dt>
-                        <dd className="sm:mt-1">{order.number}</dd>
+                        <dd className="sm:mt-1">{order.orderNumber}</dd>
                       </div>
                       <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
                         <dt>Total amount</dt>
-                        <dd className="sm:mt-1">{order.total}</dd>
+                        <dd className="sm:mt-1">
+                          ৳{order.totalBeforeDiscount.toLocaleString("en-US")}
+                        </dd>
                       </div>
                     </dl>
                     <Link
@@ -166,7 +178,7 @@ export default async function page({ searchParams }) {
                                   {product.name}
                                 </div>
                                 <div className="mt-1 sm:hidden">
-                                  {product.price}
+                                  ৳{product.price}
                                 </div>
                               </div>
                             </div>

@@ -21,8 +21,6 @@ export default function AddReview({ product, setReviews }) {
   const handleSubmit = () => {
     setLoading(true);
 
-    console.log({ images, size, delivery, review, style, rating });
-
     setLoading(false);
   };
 

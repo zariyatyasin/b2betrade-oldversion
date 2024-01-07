@@ -90,7 +90,6 @@ export default function UserCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
-    console.log(editedData);
     try {
       setLoading(true);
 
@@ -100,7 +99,6 @@ export default function UserCard({ data }) {
       );
 
       if (response.status === 200) {
-        console.log("Data updated successfully:", response.data.newUpdateduser);
         setuser((prevuser) => ({
           ...prevuser,
           ...response.data.newUpdateduser,
@@ -117,7 +115,7 @@ export default function UserCard({ data }) {
 
   const handleDelete = () => {
     // Implement the logic to delete the data
-    console.log("Deleting data:", user);
+
     closeDeleteConfirmation();
   };
 

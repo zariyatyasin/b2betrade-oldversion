@@ -94,7 +94,7 @@ export default function StoreCard({ data }) {
 
   const handleDelete = () => {
     // Implement the logic to delete the data
-    console.log("Deleting data:", store);
+
     closeDeleteConfirmation();
   };
 

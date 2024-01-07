@@ -27,8 +27,6 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
   });
   //seller will request handle
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log(ProductId, session.id, values);
-
     try {
       values.requestId = ProductId;
       values.sellerId = session.id;
@@ -37,11 +35,11 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
         values
       );
 
-      if (response.status === 200) {
-        console.log("Request successful:", response.data);
-      } else {
-        console.error("Request failed with status:", response.status);
-      }
+      // if (response.status === 200) {
+      //   console.log("Request successful:", response.data);
+      // } else {
+      //   console.error("Request failed with status:", response.status);
+      // }
     } catch (error) {
       console.error("Error making API request:", error);
     }
@@ -57,13 +55,10 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
     setIsTagModalOpen(true);
   };
   const handleDelete = async () => {
-    console.log(ProductId);
     try {
       const response = await axios.delete(
         `http://localhost:3000/api/productrequest/${ProductId}/${userId}`
       );
-
-      console.log("this is response ", response);
 
       if (response.status === 201) {
         router.push("/browse/buyerrequest");
@@ -79,8 +74,6 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
     setIsTagModalOpen(false);
   };
 
-  console.log("tyhis is ", session?.id !== userId);
-  console.log(session);
   return (
     <div>
       <div className="  ">

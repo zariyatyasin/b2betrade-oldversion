@@ -44,7 +44,7 @@ export default function ProductDetails({ product }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(product);
+
   return (
     <div className="bg-white mt-4 rounded-md p-4">
       <h1 className="text-xl font-semibold mb-4">Product Details</h1>

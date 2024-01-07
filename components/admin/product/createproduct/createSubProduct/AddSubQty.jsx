@@ -13,7 +13,7 @@ export default function AddSubQty({
   samePriceForAll,
 }) {
   const [noSize, setNoSize] = useState(false);
-  console.log(samePriceForAll);
+
   const handleRemoveSize = (subProductIndex, sizeIndex) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts[subProductIndex].sizes.splice(sizeIndex, 1);

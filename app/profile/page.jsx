@@ -1,32 +1,25 @@
 import React from "react";
 import { Header } from "../../components/Header/Header";
-import Profile from "../../components/profile/Profile";
+
 import Layout from "../../components/profile/layout/Layout";
-import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
-import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
+
 import { getCurrentUser } from "../../utils/session";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 import { redirect } from "next/navigation";
-import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
-import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
-import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
-import TakeoutDiningOutlinedIcon from "@mui/icons-material/TakeoutDiningOutlined";
-import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+
 import Order from "../../model/Order";
-import Signout from "./Signout";
-import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+
 import Link from "next/link";
-import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
-import Category from "../../model/Category";
-import SubCategory from "../../model/SubCategory";
+
+import FirstSection from "../../components/profile/FirstSection";
+import User from "../../model/User";
 async function getData({ params, searchParams }) {
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");
   }
   const validStatusValues = ["Not Processed", "Processing", "Dispatched"];
-
+  const user = await User.findById(session.id);
   const orders = await Order.find({
     user: session?.id,
     status: { $in: validStatusValues },
@@ -38,6 +31,7 @@ async function getData({ params, searchParams }) {
 
   const tab = searchParams.tab || 0;
   return {
+    user,
     session,
     tab,
     orders,
@@ -45,7 +39,7 @@ async function getData({ params, searchParams }) {
 }
 
 export default async function page({ searchParams }) {
-  const { session, tab, orders } = await getData({ searchParams });
+  const { session, tab, orders, user } = await getData({ searchParams });
 
   return (
     <div className="">
@@ -57,78 +51,21 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        <div className="flex flex-col sm:flex-row gap-8">
-          <div className="py-10 px-4 bg-white flex-1">
-            <div className=" w-full justify-between flex items-center mb-4">
-              <h5 className="font-semibold text-gray-950 text-xl">
-                Hi, {session.name}
-              </h5>
-              <Link href={`profile/edit`} className=" flex  items-center">
-                <div className=" text-xs text-blue-600 mr-2">Edit</div>{" "}
-                <ModeEditOutlinedIcon sx={{ fontSize: 18 }} />
-              </Link>
-            </div>
-
-            <div className="flex  flex-row flex-wrap gap-4 justify-between mt-8">
-              <div className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0">
-                <FavoriteBorderIcon sx={{ fontSize: 28 }} />
-                <p className="text-sm mt-2 text-gray-500">Wish List</p>
-              </div>
-              <Link
-                href={`/profile/orders?tab=1&q=all-orders__`}
-                className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0"
-              >
-                <TakeoutDiningOutlinedIcon sx={{ fontSize: 28 }} />
-                <p className="text-sm mt-2 text-gray-500">Orders</p>
-              </Link>
-
-              <div className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0">
-                <InventoryOutlinedIcon sx={{ fontSize: 28 }} />
-                <p className="text-sm mt-2 text-gray-500">Requested</p>
-              </div>
-              <Link
-                href={"/contact"}
-                className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0"
-              >
-                <HeadsetMicOutlinedIcon sx={{ fontSize: 28 }} />
-                <p className="text-sm mt-2 text-gray-500">Help</p>
-              </Link>
-              {/* <Signout /> */}
-            </div>
-          </div>
-          <div className="py-10 px-4 bg-white flex justify-between w-full sm:w-96">
-            <Link
-              href={"/profile/address"}
-              className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0"
-            >
-              <BusinessOutlinedIcon sx={{ fontSize: 28 }} />
-              <p className="text-sm mt-2 text-gray-500">Address</p>
-            </Link>
-            <div className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0">
-              <SmsOutlinedIcon sx={{ fontSize: 28 }} />
-              <p className="text-sm mt-2 text-gray-500">My Message</p>
-            </div>
-
-            <div className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0">
-              <FeedbackOutlinedIcon sx={{ fontSize: 28 }} />
-              <p className="text-sm mt-2 text-gray-500">FeedBack</p>
-            </div>
-          </div>
-        </div>
+        <FirstSection name={user.name} />
         <div className="mt-5 py-10 px-4 bg-white">
           <h5 className="font-semibold text-gray-950 text-xl">My Orders</h5>
 
           <div className="py-8    ">
             {orders.length !== 0 ? (
-              <div key={orders.number} className=" border rounded  p-4">
-                {orders.map((orders) => (
+              <div key={orders.number} className="    ">
+                {/* {orders.map((orders) => (
                   <div>
                     <h3 className="sr-only">
                       Order placed on{" "}
                       {new Date(orders.createdAt).toLocaleDateString()}
                     </h3>
 
-                    <div className="bg-gray-50 rounded-lg py-6 px-4 sm:px-6 sm:flex sm:items-center sm:justify-between ">
+                    <div className="bg-gray-50 rounded-lg py-6 p-2 sm:px-6 sm:flex sm:items-center sm:justify-between ">
                       <dl className="divide-y divide-gray-200 space-y-6 text-sm text-gray-600 flex-auto sm:divide-y-0 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-x-6  lg:flex-none lg:gap-x-8">
                         <div className="flex justify-between sm:block">
                           <dt className="font-medium text-gray-900">
@@ -149,7 +86,10 @@ export default async function page({ searchParams }) {
                         <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
                           <dt>Total amount</dt>
                           <dd className="sm:mt-1">
-                            {orders.totalBeforeDiscount} ৳
+                            ৳
+                            {orders?.totalBeforeDiscount.toLocaleString(
+                              "en-US"
+                            )}
                           </dd>
                         </div>
                       </dl>
@@ -164,7 +104,7 @@ export default async function page({ searchParams }) {
                       </Link>
                     </div>
                   </div>
-                ))}
+                ))} */}
 
                 <table className="mt-4 w-full text-gray-500 sm:mt-6">
                   <caption className="sr-only">Products</caption>
@@ -214,27 +154,34 @@ export default async function page({ searchParams }) {
                                 className="w-16 h-16 object-center object-cover rounded mr-6"
                               />
                               <div>
-                                <div className="font-medium lg:hidden text-gray-900">
+                                <Link
+                                  href={`/product/${product.product}/0/0`}
+                                  className="font-medium text-blue-700 lg:hidden  "
+                                >
                                   {product.name.length > 15
                                     ? `${product.name.slice(0, 20)}...`
                                     : product.name}
-                                </div>
-                                <div className="font-medium hidden sm:block text-gray-900">
+                                </Link>
+                                <Link
+                                  href={`/product/${product.product}/0/0`}
+                                  className="font-medium text-blue-700 lg:hidden  "
+                                >
                                   {product.name}
-                                </div>
+                                </Link>
                                 <div className="mt-1 sm:hidden">
-                                  {product.price}{" "}
-                                  {/* Assuming there is a 'price' property in your product object */}
+                                  ৳{product.price.toLocaleString("en-US")}X
+                                  {product.qty}
+                                  <div>{order.status} </div>
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="hidden py-6 pr-8 sm:table-cell">
-                            {product.qty}X{product.price}
+                            ৳{product.price.toLocaleString("en-US")}X
+                            {product.qty}
                           </td>
                           <td className="hidden py-6 pr-8 sm:table-cell">
                             {order.status}{" "}
-                            {/* Assuming there is a 'status' property in your order object */}
                           </td>
                           <td className="hidden py-6 pr-8 sm:table-cell">
                             {order.paymentMethod === "paypal"
@@ -250,8 +197,6 @@ export default async function page({ searchParams }) {
                               className="text-indigo-600"
                             >
                               View
-                              <span className="hidden lg:inline"> Product</span>
-                              <span className="sr-only">, {product.name}</span>
                             </Link>
                           </td>
                         </tr>

@@ -2,10 +2,12 @@ import React from "react";
 import { Header } from "../../../components/Header/Header";
 
 import Layout from "../../../components/profile/layout/Layout";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import { getCurrentUser } from "../../../utils/session";
 import User from "../../../model/User";
 import Address from "../../../components/Address/Address";
+import Link from "next/link";
 async function getData({ params, searchParams }) {
   const session = await getCurrentUser();
   if (!session) {
@@ -35,6 +37,11 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
+        <div className="mb-8">
+          <Link className="" href={"/profile"}>
+            <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
+          </Link>
+        </div>
         <Address user={address} />
       </Layout>
     </div>

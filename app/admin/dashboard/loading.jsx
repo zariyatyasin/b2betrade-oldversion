@@ -14,7 +14,6 @@ export default function Loading() {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(progress);
   return (
     <div className="   ">
       <div role="" className="  ">

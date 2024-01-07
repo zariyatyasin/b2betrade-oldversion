@@ -52,7 +52,7 @@ export async function POST(request) {
     await db.disconnectDb();
 
     return NextResponse.json(
-      "Register success! Please activate your email to start.",
+      "Register success! Please activate your phone number to start.",
       {
         status: 201,
       }

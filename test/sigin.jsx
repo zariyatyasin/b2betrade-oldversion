@@ -94,8 +94,6 @@ const page = () => {
       if (result?.error) {
         throw new Error(result.error);
       } else {
-        console.log("User signed in successfully!");
-
         return result;
       }
     } catch (error) {

@@ -40,7 +40,6 @@ export default function CreateCategories({ categories }) {
 
   //create categories
   const handleCreateCategory = async (name) => {
-    console.log(name);
     setLoading(true);
     try {
       const { data } = await axios.post("/api/admin/category", name);
@@ -87,7 +86,6 @@ export default function CreateCategories({ categories }) {
   const handleUpdateCategory = async () => {
     setLoading(true);
 
-    console.log(editData);
     try {
       const { data } = await axios.put(
         `http://localhost:3000/api/admin/category/`,

@@ -14,7 +14,6 @@ const sendOTP = async (phoneNumber, otp) => {
       to: phoneNumber,
     });
 
-    console.log(`OTP sent successfully. SID: ${message.sid}`);
     return message.sid;
   } catch (error) {
     console.error("Error sending OTP:", error.message);

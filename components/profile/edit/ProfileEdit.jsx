@@ -13,8 +13,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const ProfileEdit = ({ data }) => {
-  console.log(data);
-
   const [user, setuser] = useState(data);
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -30,7 +28,6 @@ const ProfileEdit = ({ data }) => {
   };
   const handleConfirm = async () => {
     setIsConfirmationModalOpen(false);
-    console.log(formSubmitted);
 
     try {
       setLoading(true);
@@ -41,7 +38,6 @@ const ProfileEdit = ({ data }) => {
       );
 
       if (response.status === 200) {
-        console.log("Data updated successfully:", response.data.newUpdateduser);
         setuser((prevuser) => ({
           ...prevuser,
           ...response.data.newUpdateduser,
@@ -75,10 +71,6 @@ const ProfileEdit = ({ data }) => {
                   >
                     Edit Profile
                   </h2>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Update your billing information. Please note that updating
-                    your location could affect your tax rates.
-                  </p>
                 </div>
 
                 <div className="mt-6 grid grid-cols-4 gap-6">
@@ -163,7 +155,7 @@ const ProfileEdit = ({ data }) => {
           </Form>
         )}
       </Formik>
-      <ChangePassword />
+      <ChangePassword data={data} />
       <SureConfirmationModal
         open={isConfirmationModalOpen}
         onClose={() => setIsConfirmationModalOpen(false)}

@@ -4,6 +4,7 @@ import db from "../../../utils/db";
 import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
 import Order from "../../../model/Order";
+import Link from "next/link";
 
 async function getOrder(id) {
   db.connectDb();
@@ -45,12 +46,12 @@ export default async function page({ params }) {
               <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                 Order #{order.orderNumber}
               </h1>
-              <a
-                href="#"
+              <Link
+                href="/profile"
                 className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:block"
               >
-                View invoice<span aria-hidden="true"> &rarr;</span>
-              </a>
+                Profile<span aria-hidden="true"> &rarr;</span>
+              </Link>
             </div>
             <p className="text-sm text-gray-600">
               Order placed{" "}
@@ -58,15 +59,15 @@ export default async function page({ params }) {
                 dateTime={order.createdAt}
                 className="font-medium text-gray-900"
               >
-                {order.createdAt}
+                {new Date(order.createdAt).toLocaleDateString("en-GB")}
               </time>
             </p>
-            <a
-              href="#"
+            <Link
+              href="/profile"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:hidden"
             >
-              View invoice<span aria-hidden="true"> &rarr;</span>
-            </a>
+              Go to Profile<span aria-hidden="true"> &rarr;</span>
+            </Link>
           </div>
 
           <section aria-labelledby="products-heading" className="mt-6">

@@ -12,6 +12,7 @@ import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { saveCart } from "../../request/user";
+import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
 export default function page() {
   const router = useRouter();
   const [selected, setSelected] = useState([]);
@@ -20,7 +21,7 @@ export default function page() {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const { data: session, status } = useSession();
-
+  const [loading, setLoading] = useState(false);
   const updateTotal = () => {
     setShippingFee(
       selected.reduce((a, c) => a + Number(c.shipping), 0).toFixed(2)
@@ -55,9 +56,8 @@ export default function page() {
   };
 
   const saveCartToDbHandler = async () => {
-    console.log("this is selected", selected);
-
     if (session) {
+      setLoading(true);
       try {
         const data = await axios.post("/api/user/savecart", {
           cart: selected,
@@ -73,6 +73,8 @@ export default function page() {
       } catch (error) {
         console.log("this si error", error);
         return error;
+      } finally {
+        setLoading(false);
       }
     } else {
       signIn();
@@ -82,7 +84,7 @@ export default function page() {
   return (
     <div className="">
       <Header />
-
+      {loading && <FullScreenLoading />}
       <div className="bg-[#f7f8fa]">
         <main className=" mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-[1440px] lg:px-8">
           <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">

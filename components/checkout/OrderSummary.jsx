@@ -41,13 +41,12 @@ export default function OrderSummary({
         setTotalAfterDiscount(res.totalAfterDiscount);
       }
     } catch (error) {
-      console.error("Error applying coupon:", error);
       setError("An error occurred while applying the coupon.");
     } finally {
       setLoading(false);
     }
   };
-  console.log(user?.address.length);
+
   const placeOrderHandler = async () => {
     if (user?.address.length > 0) {
       try {
@@ -66,10 +65,9 @@ export default function OrderSummary({
         setOrderError(error.response.data.message);
       } finally {
         setLoading(false);
-        // dispatch(emptyCart());
+        dispatch(emptyCart());
       }
     } else {
-      // Handle the case where user.address is empty
       toast.error("User address is empty.");
     }
   };

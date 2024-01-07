@@ -130,8 +130,6 @@ export default function BrowsePage({
 
     const queryStr = currentQuery.toString();
 
-    console.log("sdfsdf", queryStr);
-
     const newUrl = `${pathname}?${queryStr}`;
 
     router.push(newUrl, { scroll: false });

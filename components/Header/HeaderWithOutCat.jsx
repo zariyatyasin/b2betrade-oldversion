@@ -60,7 +60,7 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
 
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
-      console.log("hewo");
+
       // Modify the search parameter
       router.push(`/browse?search=${quary}`);
 

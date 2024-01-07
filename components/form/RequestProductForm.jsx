@@ -163,8 +163,6 @@ const RequestProductForm = ({ session, categories }) => {
         values
       );
 
-      console.log(response);
-
       if (response.status === 200) {
         toast.success(response.data.message);
         router.push(`/buyerrequest/details/${response.data.saveRequest._id}`);

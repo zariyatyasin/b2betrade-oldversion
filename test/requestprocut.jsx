@@ -97,14 +97,11 @@ const RequestProductForm = () => {
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
     setSubmitting(false);
   };
 
   const [selectedTags, setSelectedTags] = useState([]);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-
-  console.log(selectedTags);
 
   const handleTagClick = (tag) => {
     if (selectedTags.includes(tag)) {

@@ -28,7 +28,6 @@ const SubmitForm = () => {
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
     setSubmitting(false);
   };
 

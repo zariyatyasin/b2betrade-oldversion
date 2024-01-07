@@ -20,21 +20,21 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import { useSelector } from "react-redux";
 
 const publishingOptions = [
-  {
-    title: "B2B+B2C",
-    description: "Tailored for business-to-business interactions.",
-    current: true,
-  },
+  // {
+  //   title: "B2B+B2C",
+  //   description: "Tailored for business-to-business interactions.",
+  //   current: true,
+  // },
   {
     title: "B2B",
     description: "Tailored for business-to-business interactions.",
-    current: false,
+    current: true,
   },
-  {
-    title: "B2C",
-    description: "Designed for business-to-consumer interactions.",
-    current: false,
-  },
+  // {
+  //   title: "B2C",
+  //   description: "Designed for business-to-consumer interactions.",
+  //   current: false,
+  // },
 ];
 
 function classNames(...classes) {
@@ -60,7 +60,7 @@ export const Header = ({ categories, subCategories }) => {
 
     if (quary?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
-      console.log("hewo");
+
       // Modify the search parameter
       router.push(`/browse?search=${quary}`);
 
@@ -227,7 +227,7 @@ export const Header = ({ categories, subCategories }) => {
         <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
           <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5">
             <div className="xl:mx-3.5 mx-2.5">
-              <Link
+              {/* <Link
                 href={"/requestproduct/form"}
                 className="relative z-10 lg:top-[1px]"
               >
@@ -237,7 +237,7 @@ export const Header = ({ categories, subCategories }) => {
                 >
                   Post a Request
                 </Button>
-              </Link>
+              </Link> */}
             </div>
             <Link
               href={"/cart"}
@@ -255,43 +255,15 @@ export const Header = ({ categories, subCategories }) => {
               />
             </Link>
             <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
-              <div
-                className="  relative  cursor-pointer  z-50"
-                onMouseEnter={handleUserMenuOpen}
-                onMouseLeave={handleUserMenuClose}
-              >
-                {session.status == "authenticated" ? (
-                  <div>
-                    <button
-                      type="button"
-                      className="bg-white rounded-full flex   "
-                      id="user-menu-button"
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                    >
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src={session.data.user.image}
-                        alt=""
-                      />
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <AccountCircleOutlinedIcon
-                      sx={{ fontSize: "28px" }}
-                      className=" text-gray-950"
-                    />
-                  </div>
-                )}
-                {isOpen && (
+              <div className="  relative  cursor-pointer  z-50">
+                {
                   <Usermenu
                     session={session}
                     isLogin={isLogin}
                     onMouseEnter={handleUserMenuOpen}
                     onMouseLeave={handleUserMenuClose}
                   />
-                )}
+                }
               </div>
             </div>
           </div>
