@@ -21,7 +21,11 @@ export default function OrderCard({ data }) {
     <div key={product._id} className="product">
       <img src={product.image} alt={product.name} className=" h-8 w-8" />
       <div className="product-details">
-        <Link href={`/product/${product.product}/0/0`} target="_blank">
+        <Link
+          href={`/product/${product.product}/0/0`}
+          target="_blank"
+          prefetch={false}
+        >
           <h3 className="  text-blue-700">{product.name}</h3>
         </Link>
 

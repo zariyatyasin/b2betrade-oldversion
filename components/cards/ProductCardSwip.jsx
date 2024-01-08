@@ -45,6 +45,7 @@ function ProductCardSwip({ products }) {
       <Link
         href={`/product/${products?._id}/${active}/0 `}
         className=" sm:h-96 "
+        prefetch={false}
       >
         <div className="  h-44 md:h-72     ">
           <ProductSwiper images={images} />
@@ -60,7 +61,7 @@ function ProductCardSwip({ products }) {
         )}
       </div>
       <div className=" text-left text-gray-950 font-medium   text-sm   p-2">
-        <Link href={`/product/${products?._id}/${active}/0 `}>
+        <Link href={`/product/${products?._id}/${active}/0 `} prefetch={false}>
           {products.name.length <= 10
             ? products.name
             : products.name.slice(0, 35) + "..."}
@@ -78,8 +79,8 @@ function ProductCardSwip({ products }) {
               ) : (
                 <div>
                   <p className=" text-gray-950 text-sm md:text-lg font-bold">
-                    {lowPrice.toLocaleString("en-US")}৳ -{" "}
-                    {highPrice.toLocaleString("en-US")}৳
+                    ৳ {lowPrice.toLocaleString("en-US")} - ৳
+                    {highPrice.toLocaleString("en-US")}
                   </p>
                 </div>
               )}
@@ -89,8 +90,8 @@ function ProductCardSwip({ products }) {
             <div>
               <p className=" text-gray-950  text-sm md:text-lg font-bold">
                 {" "}
-                {minPrice.toLocaleString("en-US")}৳ -{" "}
-                {maxPrice.toLocaleString("en-US")}৳
+                ৳{minPrice.toLocaleString("en-US")} - ৳
+                {maxPrice.toLocaleString("en-US")}
               </p>
             </div>
           )}

@@ -90,6 +90,7 @@ export default function Example({ categories, subCategories }) {
                           <Link
                             href={`/browse?category=${category._id}`}
                             className="text-gray-900"
+                            prefetch={false}
                           >
                             {category.name}
                           </Link>
@@ -114,6 +115,7 @@ export default function Example({ categories, subCategories }) {
                                 <Link
                                   href={`/browse?category=${selectedCategory}&subCategories=${subCategory._id}`}
                                   className="text-gray-700 hover:font-bold"
+                                  prefetch={false}
                                 >
                                   {subCategory.name}
                                 </Link>
@@ -125,14 +127,15 @@ export default function Example({ categories, subCategories }) {
                   </ul>
                 </div>
               </div>
-              <div className="hidden lg:flex  lg:items-center  mr-5 ">
+              {/* <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
                   className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
+                  
                 >
                   <span> Browse Project</span>
                 </Link>
-              </div>
+              </div> */}
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
@@ -186,6 +189,7 @@ export default function Example({ categories, subCategories }) {
                                   <Link
                                     key={item.name}
                                     href={item.href}
+                                    prefetch={false}
                                     className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150"
                                   >
                                     {item.icon}

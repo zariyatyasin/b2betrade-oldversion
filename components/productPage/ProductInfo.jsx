@@ -322,7 +322,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               <div className="text-center justify-between items-center p-2 px-2">
                 <div className=" text-xs lg:text-sm text-gray-600d">{`${range.minQty} - ${range.maxQty}`}</div>
                 <div className="text-xs lg:text-sm font-bold">
-                  {range.price.toFixed(2)}৳
+                  ৳{range.price.toFixed(2)}
                 </div>
               </div>
             </div>
@@ -389,7 +389,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       </div>
 
       <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
-        Total Price: {formatPrice(totalPrice)}৳
+        Total Price: ৳{formatPrice(totalPrice)}
       </div>
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         <div className="bg-gray-100 h-10 p-1 rounded-lg flex flex-row relative mt-1">

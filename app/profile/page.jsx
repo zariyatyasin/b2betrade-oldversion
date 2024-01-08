@@ -194,6 +194,7 @@ export default async function page({ searchParams }) {
                           <td className="py-6 hover:cursor-pointer font-medium text-right whitespace-nowrap">
                             <Link
                               href={`/product/${product.product}/0/0`}
+                              prefetch={false}
                               className="text-indigo-600"
                             >
                               View

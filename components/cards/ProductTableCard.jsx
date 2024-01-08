@@ -154,12 +154,12 @@ export default function ProductTableCard({ data }) {
                   // Display the single price
                   <p className="text-[#2B39D1] font-bold">
                     {" "}
-                    {product.bulkPricing[0].price} ৳
+                    ৳ {product.bulkPricing[0].price}
                   </p>
                 ) : (
                   <div>
                     <p className="text-[#2B39D1] font-bold">
-                      {lowPrice}৳ - {highPrice}৳
+                      ৳ {lowPrice}- ৳{highPrice}
                     </p>
                   </div>
                 )}
@@ -169,7 +169,7 @@ export default function ProductTableCard({ data }) {
               <div>
                 <p className="text-[#2B39D1] font-bold">
                   {" "}
-                  {minPrice}৳ - {maxPrice}৳
+                  ৳{minPrice} - ৳{maxPrice}
                 </p>
               </div>
             )}
@@ -226,6 +226,7 @@ export default function ProductTableCard({ data }) {
             href={`/product/${product.slug}/0/0`}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
+            prefetch={false}
           >
             View
           </Link>
@@ -239,6 +240,7 @@ export default function ProductTableCard({ data }) {
           </a>
           <Link
             href={`/admin/dashboard/product/editproduct/${product._id}`}
+            prefetch={false}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
           >

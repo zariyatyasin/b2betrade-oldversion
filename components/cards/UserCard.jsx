@@ -158,6 +158,7 @@ export default function UserCard({ data }) {
             href={`/admin/dashboard/user/userDetails/${user._id}`}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
+            prefetch={false}
           >
             View
           </Link>

@@ -4,7 +4,7 @@ import React from "react";
 export default function BuyerRequestCard({ productData }) {
   return (
     <div className="bg-white hover:bg-slate-100 cursor-pointer p-6 ">
-      <Link href={`/buyerrequest/details/${productData._id}`}>
+      <Link href={`/buyerrequest/details/${productData._id}`} prefetch={false}>
         <div className="flex items-center mb-4">
           <div className="w-full">
             <div className="flex items-center justify-between">
@@ -23,7 +23,7 @@ export default function BuyerRequestCard({ productData }) {
             </p>
             <div className="flex justify-between items-center mb-2">
               <p className="text-base text-[#2B39D1] font-semibold">
-                {productData.budget.toLocaleString("en-US")} ৳
+                ৳ {productData.budget.toLocaleString("en-US")}
               </p>
               <p className="text-gray-500 text-sm">
                 {productData.quantity} units

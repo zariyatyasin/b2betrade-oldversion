@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import { toggleSidebar } from "../../../../store/ExpandSlice";
 import { usePathname } from "next/navigation";
@@ -14,12 +14,16 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import AdminsidebarData from "../../../../data/AdminSidebarData";
 const Sidebar = () => {
+  const { data: session, status } = useSession();
+
   const { expandSidebar } = useSelector((state) => ({ ...state }));
   const expand = expandSidebar.expandSidebar;
   const pathname = usePathname();
   const router = pathname.split("/admin/dashboard/")[1];
   const dispatch = useDispatch();
   const [openSections, setOpenSections] = useState([]);
+
+  console.log(session);
 
   const toggleSection = (index) => {
     const isOpen = openSections.includes(index);
@@ -50,16 +54,16 @@ const Sidebar = () => {
             <div>
               <img
                 className="inline-block h-10 w-10 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src={session?.user?.image}
                 alt=""
               />
             </div>
             <div className="ml-3">
               <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
-                Tom Cook
+                {session?.user.name}
               </p>
               <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
-                View profile
+                {session?.user.role}
               </p>
             </div>
           </div>
@@ -90,7 +94,7 @@ const Sidebar = () => {
                   <ul>
                     {section.links.map((link, linkIndex) => (
                       <li key={linkIndex}>
-                        <Link href={link.link}>
+                        <Link href={link.link} prefetch={false}>
                           <div
                             className={`${
                               router == link.label.toLowerCase()

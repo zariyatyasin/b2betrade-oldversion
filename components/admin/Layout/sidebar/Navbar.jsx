@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SchoolIcon from "@mui/icons-material/School";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { toggleSidebar } from "../../../../store/ExpandSlice";
+import { signOut } from "next-auth/react";
 export const Navbar = () => {
   const { expandSidebar } = useSelector((state) => ({ ...state }));
   const expand = expandSidebar.expandSidebar;
@@ -25,7 +27,13 @@ export const Navbar = () => {
       </div>
 
       <div className="flex ml-2 flex-col  justify-center">
-        {/* <div className="flex items-center">hekki</div> */}
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => signOut()}
+        >
+          <div className="mr-1"> Sign Out</div>
+          <LogoutIcon />
+        </div>
       </div>
     </div>
   );
