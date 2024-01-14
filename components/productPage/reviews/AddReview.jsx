@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Images from "./Images";
 import Select from "./Select";
-import dataURItoBlob from "../../../utils/dataURItoBlob";
+import FormData from "form-data";
+
 import { Uploadimages } from "../../../request/uploadimg";
 export default function AddReview({ product, setReviews }) {
   const [loading, setLoading] = useState(false);
@@ -18,27 +19,27 @@ export default function AddReview({ product, setReviews }) {
   let uploaded_images = [];
 
   const deliverys = ["Fast", "Slow", "Late"];
-
   const handleSubmit = async () => {
     setLoading(true);
-    if (images.length > 0) {
-      let temp = images.map((img) => {
-        return dataURItoBlob(img);
-      });
-      const path = "reviews images";
-      let formData = new FormData();
-      formData.append("path", path);
-      temp.forEach((img) => {
-        formData.append("file", img);
-      });
 
-      console.log(formData);
-      uploaded_images = await Uploadimages(formData);
+    try {
+      for (const imageUrl of images) {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const formData = new FormData();
+        formData.append("file", blob, "image.jpg");
+
+        const uploadedImage = await Uploadimages(formData);
+        console.log("this", uploadedImage);
+        uploaded_images.push(uploadedImage[0].url);
+      }
+      console.log(uploaded_images);
+      // Now you can use the uploaded_images array as needed
+    } catch (error) {
+      console.error("Error uploading images:", error);
+    } finally {
+      setLoading(false);
     }
-
-    console.log(uploaded_images);
-
-    setLoading(false);
   };
 
   return (
