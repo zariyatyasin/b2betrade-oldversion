@@ -16,6 +16,22 @@ export default function Main() {
   const search = searchParams.get("search");
   const router = useRouter();
   const [quary, setQuary] = useState(search);
+
+  const image = [
+    {
+      imageUrl:
+        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223081/rstationProduct/fg2whwxwhvuekvuh4zsu.jpg",
+    },
+    {
+      imageUrl:
+        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223081/rstationProduct/x6qpfhbxgzal5dcujd1u.jpg",
+    },
+    {
+      imageUrl:
+        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223080/rstationProduct/cisgenrr71mmaantzp3a.jpg",
+    },
+  ];
+
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -85,11 +101,11 @@ export default function Main() {
                   modules={[Pagination, Navigation, Autoplay]}
                   className={styles.swiper}
                 >
-                  {[...Array(3).keys()].map((item, id) => {
+                  {image.map((item, id) => {
                     return (
                       <SwiperSlide key={id}>
                         <img
-                          src={`./image/hero/${item + 1}.jpg`}
+                          src={item.imageUrl}
                           key={id}
                           className="md:w-full md:h-full"
                         />

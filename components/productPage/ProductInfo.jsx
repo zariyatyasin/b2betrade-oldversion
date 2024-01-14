@@ -352,15 +352,16 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </Link>
         ))}
       </div>
-      {product.colors && (
-        <h2 className="mt-4 text-lg font-semibold  text-gray-900">Color</h2>
-      )}
+
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         {product.colors &&
           product.colors.map((color, i) => (
             <div>
               {color.color && (
                 <div>
+                  <h2 className="mt-4 text-lg font-semibold  text-gray-900">
+                    Color
+                  </h2>
                   <div
                     onMouseOver={() =>
                       setActiveImg(product.subProducts[i].images[0].url)
@@ -369,6 +370,15 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                     key={i}
                   >
                     <Link href={`/product/${product.slug}/${i}`}>
+                      {color?.image ? (
+                        <h2 className="mt-4 text-lg font-semibold  text-gray-900">
+                          Color
+                        </h2>
+                      ) : (
+                        <h2 className="mt-4 text-lg font-semibold  text-gray-900">
+                          Color
+                        </h2>
+                      )}
                       {color?.image ? (
                         <img
                           src={color?.image}

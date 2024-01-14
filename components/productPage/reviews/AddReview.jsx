@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Images from "./Images";
 import Select from "./Select";
-
+import dataURItoBlob from "../../../utils/dataURItoBlob";
+import { Uploadimages } from "../../../request/uploadimg";
 export default function AddReview({ product, setReviews }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -18,8 +19,24 @@ export default function AddReview({ product, setReviews }) {
 
   const deliverys = ["Fast", "Slow", "Late"];
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
+    if (images.length > 0) {
+      let temp = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = "reviews images";
+      let formData = new FormData();
+      formData.append("path", path);
+      temp.forEach((img) => {
+        formData.append("file", img);
+      });
+
+      console.log(formData);
+      uploaded_images = await Uploadimages(formData);
+    }
+
+    console.log(uploaded_images);
 
     setLoading(false);
   };
@@ -37,12 +54,12 @@ export default function AddReview({ product, setReviews }) {
                 handleChange={setSize}
               />
 
-              <Select
+              {/* <Select
                 property={style}
                 text="Style"
                 data={product.colors.filter((x) => x !== style)}
                 handleChange={setStyle}
-              />
+              /> */}
 
               <Select
                 property={delivery}

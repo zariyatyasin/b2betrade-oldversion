@@ -48,8 +48,9 @@ export default function OrderSummary({
   };
 
   const placeOrderHandler = async () => {
-    if (user?.address.length > 0) {
+    if (selectedAddress) {
       try {
+        setOrderError("");
         setLoading(true);
         const { data } = await axios.post("/api/order/create", {
           products: cart?.products,
@@ -69,6 +70,7 @@ export default function OrderSummary({
       }
     } else {
       toast.error("User address is empty.");
+      setOrderError("User address is empty.");
     }
   };
 
@@ -117,6 +119,7 @@ export default function OrderSummary({
           </dl>
 
           <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
+            <p className=" text-red-600 text-xs mb-2">{orderError}</p>
             <div className="flex flex-col items-center   ">
               <input
                 type="text"
@@ -141,6 +144,7 @@ export default function OrderSummary({
                 </span>
               )}
             </div>
+
             <button
               type="submit"
               className="w-full bg-[#2B39D1] border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-[#2B39D1] mt-4"

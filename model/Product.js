@@ -117,6 +117,21 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    section: {
+      type: String,
+      enum: [
+        "big deal",
+        "featured",
+        "new arrival",
+        "sale",
+        "clearance",
+        "bestseller",
+        "limited edition",
+        "top rated",
+        "regular",
+      ],
+      default: "regular",
+    },
     numReviews: {
       type: Number,
       required: true,

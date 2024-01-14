@@ -129,7 +129,7 @@ const AddressForm = ({
             <div className="flex text-white">
               <button
                 className={`mr-2  px-4 py-2 ${
-                  loading ? "bg-gray-600" : "bg-gray-950"
+                  loading ? "bg-gray-600" : "bg-[#2B39D1]"
                 }`}
                 type="submit"
                 disabled={loading}
