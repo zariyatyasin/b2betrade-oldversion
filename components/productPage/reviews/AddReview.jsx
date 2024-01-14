@@ -4,8 +4,10 @@ import { useDispatch } from "react-redux";
 import Images from "./Images";
 import Select from "./Select";
 import FormData from "form-data";
-
+import UploadImagesClould from "../../../utils/UploadImagesClould";
 import { Uploadimages } from "../../../request/uploadimg";
+import axios from "axios";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 export default function AddReview({ product, setReviews }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -23,18 +25,17 @@ export default function AddReview({ product, setReviews }) {
     setLoading(true);
 
     try {
-      for (const imageUrl of images) {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        const formData = new FormData();
-        formData.append("file", blob, "image.jpg");
+      const uploadedImages = await UploadImagesClould(images);
+      console.log("All Uploaded Images:", uploadedImages);
 
-        const uploadedImage = await Uploadimages(formData);
-        console.log("this", uploadedImage);
-        uploaded_images.push(uploadedImage[0].url);
-      }
-      console.log(uploaded_images);
-      // Now you can use the uploaded_images array as needed
+      const { data } = await axios.put(`/api/product/${product._id}`, {
+        size,
+
+        delivery,
+        rating,
+        review,
+        images: uploadedImages,
+      });
     } catch (error) {
       console.error("Error uploading images:", error);
     } finally {
@@ -44,6 +45,7 @@ export default function AddReview({ product, setReviews }) {
 
   return (
     <div className="  border p-4 rounded-md shadow-md mt-4">
+      {loading && <FullScreenLoading />}
       <div className="mx-auto">
         <div className="flex flex-col md:flex-row md:space-x-4">
           <div className="w-full mt-4 md:mt-0">
@@ -69,15 +71,15 @@ export default function AddReview({ product, setReviews }) {
                 handleChange={setdelivery}
               />
             </div>
-            <Images images={images} setImages={setImages} />
+            <Images images={images} setImages={setImages} imageAllow={3} />
             <textarea
               name="review"
               value={review}
               onChange={(e) => setReview(e.target.value)}
               placeholder="Write your review here"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-300 rounded  "
             />
-            <div className="text-yellow-500 text-3xl">
+            <div className="text-[#2B39D1] text-3xl">
               <Rating
                 name="half-rating-read"
                 value={rating} // Set the value prop to control the rating
@@ -86,7 +88,7 @@ export default function AddReview({ product, setReviews }) {
               />
             </div>
             <button
-              className={`bg-blue-500 text-white py-2 px-4 mt-4 rounded-lg ${
+              className={`bg-[#2B39D1] text-white py-2 px-4 mt-4 rounded-lg ${
                 loading ? "bg-gray-400 cursor-not-allowed" : ""
               }`}
               onClick={() => handleSubmit()}

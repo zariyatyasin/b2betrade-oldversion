@@ -22,7 +22,7 @@ const reviewSchema = new mongoose.Schema({
     color: String,
     image: String,
   },
-  fit: {
+  delivery: {
     type: String,
   },
   images: [],

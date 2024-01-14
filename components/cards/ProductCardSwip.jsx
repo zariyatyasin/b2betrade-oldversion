@@ -44,10 +44,10 @@ function ProductCardSwip({ products }) {
     <div className=" bg-white border border-gray-200 rounded-md overflow-hidden  ">
       <Link
         href={`/product/${products?._id}/${active}/0 `}
-        className=" sm:h-96 "
+        className="   "
         prefetch={false}
       >
-        <div className="  h-44 md:h-72     ">
+        <div className=" aspect-w-3 aspect-h-4   group-hover:opacity-75 sm:aspect-none sm:h-72     ">
           <ProductSwiper images={images} />
         </div>
       </Link>

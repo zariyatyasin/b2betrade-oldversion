@@ -61,14 +61,14 @@ export default function ProductReviews({ product }) {
         {session?.user.role === "admin" && (
           <AddReview product={product} setReviews={setReviews} />
         )}
-        {/* <div className="mt-4">
-          <Table
-            reviews={reviews}
-            allSizes={product.allSizes}
-            colors={product.colors}
-          />
-        </div> */}
       </div>
+      {/* <div className="mt-4">
+        <Table
+          reviews={reviews}
+          allSizes={product.allSizes}
+          colors={product.colors}
+        />
+      </div> */}
     </div>
   );
 }

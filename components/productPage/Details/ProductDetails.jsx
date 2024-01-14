@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Table from "../reviews/Table";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +41,7 @@ function a11yProps(index) {
 
 export default function ProductDetails({ product }) {
   const [value, setValue] = React.useState(0);
+  const [reviews, setReviews] = React.useState(product?.reviews);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -56,6 +58,7 @@ export default function ProductDetails({ product }) {
             aria-label="basic tabs example"
           >
             <Tab label="Product Details" {...a11yProps(0)} />
+            <Tab label="Reviews" {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -70,7 +73,11 @@ export default function ProductDetails({ product }) {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <Table
+            reviews={reviews}
+            allSizes={product.allSizes}
+            colors={product.colors}
+          />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Three

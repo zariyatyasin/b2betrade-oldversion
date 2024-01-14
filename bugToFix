@@ -60,3 +60,9 @@ in some getData() i didn;t used db.connect(). see if there any problem withotu i
 
 LINK in next js send request when ever the page is load so in Link you have to use 
 <Link href="" prefetch = {false}/>
+
+
+
+
+
+add this await db.connectDb()

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-export default function Images({ images, setImages }) {
+export default function Images({ images, setImages, imageAllow }) {
   const [error, setError] = useState("");
   const inputRef = useRef(null);
 
@@ -8,8 +8,8 @@ export default function Images({ images, setImages }) {
     let files = Array.from(e.target.files);
 
     files.forEach((img, i) => {
-      if (images.length === 3 || i === 2) {
-        alert("Maximum 3 images are allowed.");
+      if (images.length === imageAllow || i === imageAllow) {
+        alert(`Maximum ${imageAllow} images are allowed.`);
         return;
       }
       if (!["image/jpeg", "image/png", "image/webp"].includes(img.type)) {

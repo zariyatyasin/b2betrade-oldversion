@@ -11,41 +11,22 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Images from "../../productPage/reviews/Images";
 
 const HeroImageUploaderForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [files, setFiles] = useState([]);
+
   const [imageType, setImageType] = useState("other");
+  const [images, setImages] = useState([]);
 
   const onSubmit = (formData) => {
     console.log("Form data submitted:", formData);
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-  };
-
-  const handleDelete = (index) => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("imageType", imageType);
-
-    files.forEach((file, index) => {
-      formData.append(`image_${index + 1}`, file);
-    });
-
-    console.log(formData);
+    const formData = { title, description, imageType, images };
 
     onSubmit(formData);
   };
@@ -58,12 +39,7 @@ const HeroImageUploaderForm = () => {
         onChange={(e) => setTitle(e.target.value)}
         required
       />
-      <TextField
-        label="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+
       <FormControl>
         <InputLabel id="imageTypeLabel">Image Type</InputLabel>
         <Select
@@ -78,26 +54,10 @@ const HeroImageUploaderForm = () => {
           <MenuItem value="other">Other</MenuItem>
         </Select>
       </FormControl>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        multiple
-        required
-      />
+
       <Box mt={2}>
-        {files.map((file, index) => (
-          <Box key={index} display="flex" alignItems="center">
-            <img
-              src={URL.createObjectURL(file)}
-              alt={`Preview-${index}`}
-              style={{ width: "100px", marginRight: "10px" }}
-            />
-            <IconButton color="secondary" onClick={() => handleDelete(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        ))}
+        {/* Pass title and setImages to Images component */}
+        <Images images={images} setImages={setImages} imageAllow={5} />
       </Box>
       <Button type="submit" variant="contained" color="primary">
         Upload

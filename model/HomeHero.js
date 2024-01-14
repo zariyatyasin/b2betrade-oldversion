@@ -10,12 +10,17 @@ const HomeHeroSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    imageUrl: [],
+    imageUrl: [{
+      title:String,
+      url:String
+    }],
     imageType: {
       type: String,
       enum: ["hero", "middle", "other"],
       default: "other",
     },
+     
+   
   },
   {
     timestamps: true,

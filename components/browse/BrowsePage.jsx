@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 import Style from "./filter/Styles";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 export default function BrowsePage({
   categories,
   products,
@@ -423,7 +424,9 @@ export default function BrowsePage({
                   <span className="text-sm font-medium text-gray-700">
                     Filters
                   </span>
-                  <div>PlusSmIcon</div>
+                  <div>
+                    <FilterListOutlinedIcon />
+                  </div>
                 </button>
 
                 <div className="hidden lg:block   ">
@@ -486,7 +489,7 @@ export default function BrowsePage({
                     replaceQuery={replaceQuery}
                   />
                 </div>
-                <div className=" h-screen  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div className="   grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-4">
                   {products?.map((item, id) => (
                     <div className="  " key={id}>
                       <ProductCardSwip products={item} />

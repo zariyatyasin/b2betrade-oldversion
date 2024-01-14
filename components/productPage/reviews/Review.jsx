@@ -1,16 +1,28 @@
-import { Rating } from "@mui/material";
-
+import { Rating, Dialog, DialogContent, IconButton } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
+import { useState } from "react";
 export default function Review({ review }) {
   const { name, image } = review?.reviewBy;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  const openModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+    setIsModalOpen(false);
+  };
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+    <div className="bg-white border-b  ">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 text-gray-600 font-semibold text-xl mr-4">
+          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-600 font-semibold   mr-4">
             {name.slice(0, 1)}
           </div>
-          <img src={image} alt={name} className="w-10 h-10 rounded-full" />
+          <p className="text-gray-950 text-lg">{review.review}</p>
         </div>
         {review.rating ? (
           <Rating
@@ -18,21 +30,11 @@ export default function Review({ review }) {
             value={review.rating}
             precision={0.5}
             readOnly
-            style={{ color: "#facf19" }}
+            style={{ color: "#2B39D1" }}
           />
         ) : (
           <p>No Rating</p>
         )}
-      </div>
-      <p className="text-gray-700 my-4">{review.review}</p>
-      <div className="flex justify-between text-gray-600">
-        <div className="flex items-center">
-          <span className="font-semibold">Overall Fit:</span>
-          <span className="ml-2">{review.fit}</span>
-          <span className="mx-2">Size:</span>
-          <span>{review.size}</span>
-        </div>
-        <img src={review.style.image} alt="" className="w-16 h-16" />
       </div>
       <div className="flex justify-between mt-4">
         <div className="flex items-center space-x-2">
@@ -40,20 +42,45 @@ export default function Review({ review }) {
             review.images.map((img, index) => (
               <img
                 key={index}
-                src={img?.url}
+                src={img}
                 alt={`Review Image ${index + 1}`}
                 className="w-16 h-16 rounded-md"
+                onClick={() => openModal(img)}
               />
             ))}
         </div>
-        <div className="flex items-center">
-          <div className="flex items-center mr-2">
-            {review.likes && review.likes?.likes}
-            like
-          </div>
-          <div className="text-gray-600">{review?.updatedAt?.slice(0, 10)}</div>
-        </div>
       </div>
+      <div className="flex justify-between mt-4 mb-4">
+        <div className="flex items-center">
+          <span className=" text-gray-950 text-sm font-semibold">
+            Delivery:
+          </span>
+          <span className="ml-2">{review?.delivery}</span>
+        </div>
+        {/* <img src={review.style.image} alt="" className="w-16 h-16" /> */}
+      </div>
+      <Dialog open={isModalOpen} onClose={closeModal} maxWidth="md">
+        <DialogContent>
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={closeModal}
+            aria-label="close"
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <img
+            src={selectedImage}
+            alt="Selected Image"
+            className="w-full h-full"
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
