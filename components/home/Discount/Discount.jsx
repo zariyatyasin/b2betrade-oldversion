@@ -26,9 +26,9 @@ const Discount = () => {
               </div>
             </div>
             <div>
-              <div className="w-full aspect-w-3 aspect-h-2   overflow-hidden">
+              <div className="w-full aspect-w-3 aspect-h-2    overflow-hidden">
                 <img
-                  src="/image/hero/2.webp"
+                  src="/image/hero/1.webp"
                   alt="Front zipper pouch with included key ring."
                   className="w-full h-full object-center object-cover"
                 />

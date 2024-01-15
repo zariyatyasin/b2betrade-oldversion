@@ -40,6 +40,17 @@ const orderSchema = new mongoose.Schema(
         price: {
           type: Number,
         },
+        SingleStatus: {
+          type: String,
+          default: "Not Processed",
+          enum: [
+            "Not Processed",
+            "Processing",
+            "Dispatched",
+            "Cancelled",
+            "Completed",
+          ],
+        },
       },
     ],
     shippingAddress: {

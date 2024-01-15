@@ -56,8 +56,6 @@ export async function getData({ params, searchParams }) {
         }
       : {};
 
-  // If the user is not an admin, fetch only their Order
-
   const store = await Store.findOne({ owner: session.id });
   const OwnerStoreId = store._id;
   Orders = await Order.find();
@@ -67,7 +65,7 @@ export async function getData({ params, searchParams }) {
     });
 
     return {
-      ...order._doc, // Convert Mongoose document to plain JavaScript object
+      ...order._doc,
       products: matchingProducts,
     };
   }).filter((order) => order.products.length > 0);

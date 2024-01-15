@@ -178,28 +178,25 @@ export default function OrderCard({ data }) {
           <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
         </td>
         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-          <a
-            href="#"
+          <div
             onClick={openViewModel}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-indigo-600 cursor-pointer hover:text-indigo-900"
           >
             View
-          </a>
+          </div>
           {" | "}
-          <a
-            href="#"
+          <div
             onClick={openDeleteConfirmation}
-            className="text-red-600 hover:text-red-900"
+            className="text-red-600 hover:text-red-900 cursor-pointer"
           >
             Delete
-          </a>
-          <a
-            href="#"
+          </div>
+          <div
             onClick={openEditModal}
-            className="text-indigo-600 hover:text-indigo-900"
+            className="text-indigo-600 cursor-pointer hover:text-indigo-900"
           >
             Edit
-          </a>
+          </div>
         </td>
       </tr>
       {isEditModalOpen && (

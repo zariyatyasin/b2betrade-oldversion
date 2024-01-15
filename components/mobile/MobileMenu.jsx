@@ -149,6 +149,7 @@ function MobileMenu({ categories, subCategories }) {
               </Tab.Group> */}
               {categories.map((category, i) => (
                 <MobileCategory
+                  key={i}
                   category={category}
                   subCategories={subCategories}
                 />

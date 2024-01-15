@@ -8,7 +8,7 @@ import { getCurrentUser } from "../../utils/session";
 import { redirect } from "next/navigation";
 
 import Order from "../../model/Order";
-
+import CancelOrderButton from "../../components/profile/CancelOrderButton";
 import Link from "next/link";
 
 import FirstSection from "../../components/profile/FirstSection";
@@ -138,7 +138,7 @@ export default async function page({ searchParams }) {
                         scope="col"
                         className="w-0 py-3 font-normal text-right"
                       >
-                        Info
+                        Edit
                       </th>
                     </tr>
                   </thead>
@@ -148,26 +148,31 @@ export default async function page({ searchParams }) {
                         <tr key={product._id}>
                           <td className="py-6 pr-8">
                             <div className="flex items-center">
-                              <img
-                                src={product.image} // Assuming there is an 'image' property in your product object
-                                alt={product.name} // Assuming there is a 'name' property in your product object
-                                className="w-16 h-16 object-center object-cover rounded mr-6"
-                              />
+                              <Link
+                                href={`/product/${product.product}/0/0`}
+                                className="font-medium text-blue-700   "
+                              >
+                                <img
+                                  src={product.image} // Assuming there is an 'image' property in your product object
+                                  alt={product.name} // Assuming there is a 'name' property in your product object
+                                  className="w-16 h-16 object-center object-cover rounded mr-6"
+                                />
+                              </Link>
                               <div>
                                 <Link
                                   href={`/product/${product.product}/0/0`}
-                                  className="font-medium text-blue-700 lg:hidden  "
+                                  className="font-medium text-blue-700   "
                                 >
                                   {product.name.length > 15
                                     ? `${product.name.slice(0, 20)}...`
                                     : product.name}
                                 </Link>
-                                <Link
+                                {/* <Link
                                   href={`/product/${product.product}/0/0`}
                                   className="font-medium text-blue-700 lg:hidden  "
                                 >
                                   {product.name}
-                                </Link>
+                                </Link> */}
                                 <div className="mt-1 sm:hidden">
                                   ৳{product.price.toLocaleString("en-US")}X
                                   {product.qty}
@@ -192,13 +197,14 @@ export default async function page({ searchParams }) {
                           </td>
 
                           <td className="py-6 hover:cursor-pointer font-medium text-right whitespace-nowrap">
-                            <Link
+                            {/* <Link
                               href={`/product/${product.product}/0/0`}
                               prefetch={false}
                               className="text-indigo-600"
                             >
-                              View
-                            </Link>
+                              Cancle
+                            </Link> */}
+                            <CancelOrderButton />
                           </td>
                         </tr>
                       ))

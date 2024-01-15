@@ -23,8 +23,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [openSections, setOpenSections] = useState([]);
 
-  console.log(session);
-
   const toggleSection = (index) => {
     const isOpen = openSections.includes(index);
     if (isOpen) {

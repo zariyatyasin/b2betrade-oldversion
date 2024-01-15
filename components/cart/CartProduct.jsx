@@ -134,9 +134,11 @@ const CartProduct = ({
                 ? `+ ৳ ${product.shipping} Shipping fee`
                 : "Free Shipping"}
             </div>
-            <div className="mt-2 text-gray-950 font-bold  text-xs">
-              {product.price}X{product.qty}৳
-              {formatPrice(product.price * product.qty)}
+            <div className="mt-2 text-gray-950 font-bold flex items-center  text-xs">
+              {product.price}X{product.qty}{" "}
+              <div className="ml-2 text-lg">
+                ৳{formatPrice(product.price * product.qty)}
+              </div>
             </div>
 
             {product.quantity < 1 && (
@@ -193,7 +195,7 @@ const CartProduct = ({
 
             <div className=" hidden md:block absolute top-0 right-0">
               {product.price && (
-                <p className=" ml-2 text-sm  text-orange-600 font-bold">
+                <p className=" ml-2 text-sm  text-gray-950 font-bold">
                   ৳ {formatPrice(product.price * product.qty)}
                 </p>
               )}

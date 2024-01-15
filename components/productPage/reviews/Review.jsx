@@ -42,7 +42,7 @@ export default function Review({ review }) {
             review.images.map((img, index) => (
               <img
                 key={index}
-                src={img}
+                src={img.secure_url}
                 alt={`Review Image ${index + 1}`}
                 className="w-16 h-16 rounded-md"
                 onClick={() => openModal(img)}

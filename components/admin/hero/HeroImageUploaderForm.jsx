@@ -8,31 +8,78 @@ import {
   FormControl,
   InputLabel,
   Box,
-  IconButton,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Images from "../../productPage/reviews/Images";
 
-const HeroImageUploaderForm = () => {
+import Images from "../../productPage/reviews/Images";
+import UploadImagesClould from "../../../utils/UploadImagesClould";
+import axios from "axios";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
+const HeroImageUploaderForm = ({ data }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const [imageType, setImageType] = useState("other");
+  const [heroImageSide, setheroImageSide] = useState("none");
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activeStatus, setActiveStatus] = useState({});
+  console.log(data);
+  const handleToggleActive = async (id) => {
+    try {
+      setLoading(true);
 
-  const onSubmit = (formData) => {
-    console.log("Form data submitted:", formData);
+      await axios.put(`/api/admin/hero/active/${id}`);
+    } catch (error) {
+      console.error("Error updating active status:", error.message);
+    } finally {
+      setActiveStatus((prevStatus) => ({
+        ...prevStatus,
+        [id]: !prevStatus[id],
+      }));
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = { title, description, imageType, images };
+  const handleDelete = async (id) => {
+    try {
+      // Make a DELETE request to delete the item
+      // await axios.delete(`/api/your-delete-endpoint/${id}`);
+      // Update the local state or trigger a callback to refetch the data
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
+  };
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const uploadedImages = await UploadImagesClould(images);
 
-    onSubmit(formData);
+      const response = await axios.post("/api/admin/hero", {
+        title,
+        description,
+        imageType,
+        heroImageSide,
+        images: uploadedImages,
+      });
+
+      // Handle the response as needed
+      console.log("Response:", response);
+
+      setTitle("");
+      setDescription("");
+      setImageType("other");
+      setheroImageSide("none");
+      setImages([]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
+      {loading && <FullScreenLoading />}
       <TextField
         label="Title"
         value={title}
@@ -54,15 +101,73 @@ const HeroImageUploaderForm = () => {
           <MenuItem value="other">Other</MenuItem>
         </Select>
       </FormControl>
+      <FormControl className=" ml-2">
+        <InputLabel id="heroImageSide">Hero Image Side</InputLabel>
+        <Select
+          labelId="heroImageSide"
+          id="heroImageSide"
+          value={heroImageSide}
+          label="heroImageSide"
+          onChange={(e) => setheroImageSide(e.target.value)}
+        >
+          <MenuItem value="none">None</MenuItem>
+          <MenuItem value="left">Left</MenuItem>
+          <MenuItem value="right">Right</MenuItem>
+        </Select>
+      </FormControl>
 
       <Box mt={2}>
         {/* Pass title and setImages to Images component */}
         <Images images={images} setImages={setImages} imageAllow={5} />
       </Box>
-      <Button type="submit" variant="contained" color="primary">
+      <Button
+        type="button"
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+      >
         Upload
       </Button>
-    </form>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data?.map((item) => (
+          <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
+            <div className="flex flex-wrap gap-2">
+              {item.images.map((imageArray, arrayIndex) =>
+                imageArray.map((image, index) => (
+                  <img
+                    key={`${arrayIndex}-${index}`}
+                    src={image.secure_url}
+                    alt={`${item.title} - ${arrayIndex}-${index}`}
+                    className="mb-2 rounded-md w-24 h-24 object-cover"
+                  />
+                ))
+              )}
+            </div>
+            <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+            <p className="text-gray-600 mb-2">{item.description}</p>
+            <p className="text-gray-500 mb-2">Image Type: {item.imageType}</p>
+            <p className="text-gray-500 mb-4">
+              Hero Image Side: {item.heroImageSide}
+            </p>
+            <button
+              className={`bg-${
+                item.active ? "green" : "red"
+              }-500 text-white py-2 px-4 rounded-full`}
+              onClick={() => handleToggleActive(item._id)}
+            >
+              {item.active ? "Active" : "Inactive"}
+            </button>
+            <button
+              className="bg-red-500 ml-2 text-white py-2 px-4 rounded-full"
+              onClick={() => handleDelete(item._id)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

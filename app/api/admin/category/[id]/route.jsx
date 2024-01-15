@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/utils/session";
-import db from "@/utils/db";
+import db from "../../../../../utils/db";
 import Category from "../../../../../model/Category";
 import slugify from "slugify";
 export const DELETE = async (request, { params }) => {

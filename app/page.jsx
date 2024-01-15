@@ -16,6 +16,7 @@ import db from "../utils/db";
 import Category from "../model/Category";
 import SubCategory from "../model/SubCategory";
 import MobileMenu from "../components/mobile/MobileMenu";
+import HomeHero from "../model/HomeHero";
 export const dynamic = "auto";
 // export const dynamicParams = true;
 // export const revalidate = false;
@@ -33,16 +34,20 @@ async function getData({ searchParams }) {
         ? { productType: productTypeQuery }
         : {};
 
-    let products = await Product.find({ ...productType })
+    let newProduct = await Product.find({ ...productType })
       .sort({ createdAt: -1 })
+      .limit(10)
       .lean();
     let categories = await Category.find().lean();
+    let homeHero = await HomeHero.find({ imageType: "hero" }).lean();
+
     let subCategories = await SubCategory.find().populate({
       path: "parent",
       model: Category,
     });
     return {
-      products: JSON.parse(JSON.stringify(products)),
+      newProduct: JSON.parse(JSON.stringify(newProduct)),
+      homeHero: JSON.parse(JSON.stringify(homeHero)),
       categories: JSON.parse(JSON.stringify(categories)),
 
       subCategories: JSON.parse(JSON.stringify(subCategories)),
@@ -53,7 +58,7 @@ async function getData({ searchParams }) {
   }
 }
 export default async function Home({ searchParams }) {
-  const { products, categories, subCategories } = await getData({
+  const { newProduct, homeHero, categories, subCategories } = await getData({
     searchParams,
   });
 
@@ -67,14 +72,16 @@ export default async function Home({ searchParams }) {
       <HeaderPolicy /> */}
 
       <div className=" max-w-[1600px]  mx-auto">
-        <Main />
+        <Main data={homeHero} />
         {/* <Categories />
         <FlashDeals />
-        <Discount />
+    
         <Tabs /> */}
+
         <div className=" max-w-[1440px] mx-auto ">
-          <NewProducts products={products} />
+          <NewProducts products={newProduct} />
         </div>
+        {/* <Discount /> */}
       </div>
 
       <Footer />

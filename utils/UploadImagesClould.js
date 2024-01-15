@@ -12,8 +12,8 @@ export default async function UploadImagesClould(images) {
       formData.append("file", blob, "image.jpg");
 
       const uploadedImage = await Uploadimages(formData);
- 
-      uploadedImages.push(uploadedImage[0].secure_url);
+      console.log(uploadedImage);
+      uploadedImages.push(uploadedImage );
     } catch (error) {
       console.error("Error uploading image:", error);
     }

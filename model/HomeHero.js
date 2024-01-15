@@ -10,14 +10,20 @@ const HomeHeroSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    imageUrl: [{
-      title:String,
-      url:String
-    }],
+    images: [],
     imageType: {
       type: String,
       enum: ["hero", "middle", "other"],
       default: "other",
+    },
+    heroImageSide: {
+      type: String,
+      enum: ["left", "right","none"],
+      default: "none",
+    },
+    active: {
+      type: Boolean,
+      default: false,
     },
      
    

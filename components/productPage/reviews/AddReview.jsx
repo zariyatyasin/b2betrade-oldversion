@@ -5,7 +5,7 @@ import Images from "./Images";
 import Select from "./Select";
 import FormData from "form-data";
 import UploadImagesClould from "../../../utils/UploadImagesClould";
-import { Uploadimages } from "../../../request/uploadimg";
+
 import axios from "axios";
 import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 export default function AddReview({ product, setReviews }) {
@@ -26,7 +26,6 @@ export default function AddReview({ product, setReviews }) {
 
     try {
       const uploadedImages = await UploadImagesClould(images);
-      console.log("All Uploaded Images:", uploadedImages);
 
       const { data } = await axios.put(`/api/product/${product._id}`, {
         size,
