@@ -39,11 +39,11 @@ const DynamicFormModel = ({ data, fields, menuItem, onClose, onSave }) => {
   const handleSave = () => {
     const editedPassword = editedData.password;
     if (editedPassword !== undefined && editedPassword !== data.password) {
-      onSave(editedData);
+      onSave({ ...editedData, orderId: data?.orderId }); // Include the order ID in the edited data
     } else {
       // Password not edited, send other data
       const { password, ...dataWithoutPassword } = editedData;
-      onSave(dataWithoutPassword);
+      onSave({ ...dataWithoutPassword, orderId: data?.orderId }); // Include the order ID in the edited data
     }
     onClose();
   };

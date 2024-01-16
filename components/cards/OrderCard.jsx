@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
   const { data: session, status } = useSession();
+  const [editedProduct, setEditedProduct] = useState(null); // New state for edited product
 
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
@@ -33,6 +34,10 @@ export default function OrderCard({ data }) {
         <p>Price: {product.price}</p>
         <p>Quantity: {product.qty}</p>
         <p>Total Price: {product.qty * product.price}</p>
+        <p>Total Price: {product?.status}</p>
+        <button onClick={() => openEditProductModal(product)}>
+          Edit Product
+        </button>
         {product.color.color ? (
           <div
             className="color-box"
@@ -65,17 +70,17 @@ export default function OrderCard({ data }) {
   const getStatusColor = (status) => {
     switch (status) {
       case "Not Processed":
-        return "red"; // You can use your desired color here
+        return "red";
       case "Processing":
-        return "orange"; // You can use your desired color here
+        return "orange";
       case "Dispatched":
-        return "blue"; // You can use your desired color here
+        return "blue";
       case "Cancelled":
-        return "gray"; // You can use your desired color here
+        return "gray";
       case "Completed":
-        return "green"; // You can use your desired color here
+        return "green";
       default:
-        return "black"; // Default color if status is not recognized
+        return "black";
     }
   };
 
@@ -86,7 +91,13 @@ export default function OrderCard({ data }) {
   const openEditModal = () => {
     setEditModalOpen(true);
   };
-
+  const openEditProductModal = (product) => {
+    setEditedProduct({
+      ...product,
+      orderId: order._id,
+    });
+    openEditModal();
+  };
   const closeEditModal = () => {
     setEditModalOpen(false);
   };
@@ -107,13 +118,18 @@ export default function OrderCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
+    console.log(editedData);
+
     try {
       setLoading(true);
 
-      const response = await axios.put(
-        `/api/order/update/${editedData._id}`,
-        editedData
-      );
+      const url = editedData.orderId
+        ? `/api/order/update/${editedData.orderId}`
+        : `/api/order/update/${editedData._id}`;
+
+      console.log(url);
+
+      const response = await axios.put(url, editedData);
 
       if (response.status === 200) {
         setorder((prevorder) => ({
@@ -201,7 +217,8 @@ export default function OrderCard({ data }) {
       </tr>
       {isEditModalOpen && (
         <DynamicFormModel
-          data={order}
+          data={editedProduct || order} // Use editedProduct if available, else use order
+          orderId={order._id} // Pass the order ID as a prop
           fields={fields}
           menuItem={menuItem}
           onClose={closeEditModal}

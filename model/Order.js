@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
           type: ObjectId,
           ref: "Product",
         },
-        storeId:{ type: ObjectId, ref:"Store"},
+        storeId: { type: ObjectId, ref: "Store" },
         name: {
           type: String,
         },
@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema(
         price: {
           type: Number,
         },
-        SingleStatus: {
+        status: {
           type: String,
           default: "Not Processed",
           enum: [
