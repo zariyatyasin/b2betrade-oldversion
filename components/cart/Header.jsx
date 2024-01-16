@@ -21,7 +21,7 @@ export default function Header() {
               </div>
 
               <div className=" flex items-center text-xs  md:text-sm text-gray-700">
-                <Link href={`/browser`}>
+                <Link href={`/browse`}>
                   <div className="bor">CONTINUE SHOPPING</div>
                 </Link>
                 <div>

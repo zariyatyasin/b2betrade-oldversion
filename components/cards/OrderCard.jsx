@@ -124,7 +124,7 @@ export default function OrderCard({ data }) {
       setLoading(true);
 
       const url = editedData.orderId
-        ? `/api/order/update/${editedData.orderId}`
+        ? `/api/order/updatesingleorder/${editedData.orderId}`
         : `/api/order/update/${editedData._id}`;
 
       console.log(url);

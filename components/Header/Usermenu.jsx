@@ -1,6 +1,7 @@
 import React from "react";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
@@ -125,7 +126,7 @@ const Usermenu = ({ isLogin, session }) => {
 
     <Menu as="div" className="ml-3 relative">
       <div>
-        <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full ">
+        <Menu.Button className="max-w-xs  flex items-center text-sm rounded-full ">
           <span className="sr-only">Open user menu</span>
           {session?.status === "authenticated" ? (
             <img
@@ -136,7 +137,7 @@ const Usermenu = ({ isLogin, session }) => {
           ) : (
             <AccountCircleOutlinedIcon
               sx={{ fontSize: "28px" }}
-              className="text-gray-950"
+              className=" text-white"
             />
           )}
         </Menu.Button>

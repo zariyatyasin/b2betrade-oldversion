@@ -29,7 +29,7 @@ export const PUT = async (request, { params }) => {
     }
 
     const productIndex = order.products.findIndex(
-      (product) => product._id.toString() === product.toString()
+      (product) => product.toString() === product.toString()
     );
 
     if (productIndex === -1) {

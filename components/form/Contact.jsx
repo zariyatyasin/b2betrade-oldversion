@@ -207,19 +207,6 @@ export default function Contact() {
 
             {/* Contact form */}
             <div className="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
-              {/* <dt className="flex items-center mb-4">
-                <p className="text-lg font-medium text-gray-900">Call Us</p>
-                <dd className="flex text-base text-gray-950 ml-8">
-                  <PhoneIcon
-                    className="flex-shrink-0 w-6 h-6 text-gray-950"
-                    aria-hidden="true"
-                  />
-                  <a href="tel:01630713428" className="ml-3 text-xl">
-                    01630713428
-                  </a>
-                </dd>
-              </dt> */}
-
               <h3 className="text-lg font-medium text-gray-900">
                 Send us a message
               </h3>
