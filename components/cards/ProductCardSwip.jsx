@@ -62,9 +62,11 @@ function ProductCardSwip({ products }) {
       </div>
       <div className=" text-left text-gray-950 font-medium   text-sm   p-2">
         <Link href={`/product/${products?._id}/${active}/0 `} prefetch={false}>
-          {products.name.length <= 10
-            ? products.name
-            : products.name.slice(0, 35) + "..."}
+          <h1>
+            {products.name.length <= 10
+              ? products.name
+              : products.name.slice(0, 35) + "..."}
+          </h1>
         </Link>
 
         <div className="mt-1 ">

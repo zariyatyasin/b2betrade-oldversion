@@ -22,7 +22,7 @@ export const PUT = async (request, { params }) => {
 
     const order = await Order.findById(id);
 
-    console.log(status);
+  
 
     if (!order) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });

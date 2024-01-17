@@ -31,10 +31,10 @@ async function getData({ params, searchParams }) {
 
   const tab = searchParams.tab || 0;
   return {
-    user,
     session,
     tab,
-    orders,
+    orders: JSON.parse(JSON.stringify(orders)),
+    user: JSON.parse(JSON.stringify(user)),
   };
 }
 
@@ -186,7 +186,7 @@ export default async function page({ searchParams }) {
                             {product.qty}
                           </td>
                           <td className="hidden py-6 pr-8 sm:table-cell">
-                            {order.status}{" "}
+                            {product.status}{" "}
                           </td>
                           <td className="hidden py-6 pr-8 sm:table-cell">
                             {order.paymentMethod === "paypal"
@@ -204,7 +204,7 @@ export default async function page({ searchParams }) {
                             >
                               Cancle
                             </Link> */}
-                            <CancelOrderButton />
+                            <CancelOrderButton order={order} />
                           </td>
                         </tr>
                       ))

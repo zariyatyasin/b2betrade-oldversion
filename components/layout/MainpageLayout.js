@@ -2,7 +2,9 @@ import React from "react";
 import Category from "../../model/Category";
 import SubCategory from "../../model/SubCategory";
 import { Header } from "../Header/Header";
+import db from "../../utils/db";
 async function getData() {
+ await db.connectDb()
   let categories = await Category.find().lean();
   let subCategories = await SubCategory.find().populate({
     path: "parent",

@@ -118,8 +118,6 @@ export default function OrderCard({ data }) {
     setDeleteConfirmationOpen(false);
   };
   const saveEditedData = async (editedData) => {
-    console.log(editedData);
-
     try {
       setLoading(true);
 
