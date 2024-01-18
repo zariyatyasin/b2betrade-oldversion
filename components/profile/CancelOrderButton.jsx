@@ -21,28 +21,25 @@ export default function CancelOrderButton({ order }) {
     setIsConfirmationModalOpen(false);
   };
 
-  // Function to handle confirming the cancellation
   const handleConfirmation = async () => {
+    const editedData = { ...order, status: "Cancelled" };
     try {
       const response = await axios.put(
-        `/api/order/updatesingleorder//${order._id}`,
-        {
-          status: "Cancelled",
-        }
+        `/api/order/update/${order._id}`,
+        editedData
       );
 
       closeConfirmationModal();
     } catch (error) {
       console.error("Error cancelling order:", error);
-      // Handle errors, e.g., show an error message
     }
   };
 
   return (
     <div className="text-blue-800">
-      <Button variant="outlined" onClick={openConfirmationModal}>
+      <button className="" variant="outlined" onClick={openConfirmationModal}>
         Cancel Order
-      </Button>
+      </button>
       <Dialog
         open={isConfirmationModalOpen}
         onClose={closeConfirmationModal}

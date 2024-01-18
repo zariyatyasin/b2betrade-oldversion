@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "../../components/Header/Header";
-
+import OrderCard from "../../components/profile/OrderCard";
 import Layout from "../../components/profile/layout/Layout";
 
 import { getCurrentUser } from "../../utils/session";
@@ -106,111 +106,7 @@ export default async function page({ searchParams }) {
                   </div>
                 ))} */}
 
-                <table className="mt-4 w-full text-gray-500 sm:mt-6">
-                  <caption className="sr-only">Products</caption>
-                  <thead className="sr-only text-sm text-gray-500 text-left sm:not-sr-only">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="sm:w-2/5 lg:w-1/3 pr-8 py-3 font-normal"
-                      >
-                        Product
-                      </th>
-                      <th
-                        scope="col"
-                        className="hidden w-1/5 pr-8 py-3 font-normal sm:table-cell"
-                      >
-                        Price
-                      </th>
-                      <th
-                        scope="col"
-                        className="hidden pr-8 py-3 font-normal sm:table-cell"
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        className="hidden pr-8 py-3 font-normal sm:table-cell"
-                      >
-                        payment
-                      </th>
-                      <th
-                        scope="col"
-                        className="w-0 py-3 font-normal text-right"
-                      >
-                        Edit
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="border-b border-gray-200 divide-y divide-gray-200 text-sm sm:border-t">
-                    {orders?.map((order) =>
-                      order.products.map((product) => (
-                        <tr key={product._id}>
-                          <td className="py-6 pr-8">
-                            <div className="flex items-center">
-                              <Link
-                                href={`/product/${product.product}/0/0`}
-                                className="font-medium text-blue-700   "
-                              >
-                                <img
-                                  src={product.image} // Assuming there is an 'image' property in your product object
-                                  alt={product.name} // Assuming there is a 'name' property in your product object
-                                  className="w-16 h-16 object-center object-cover rounded mr-6"
-                                />
-                              </Link>
-                              <div>
-                                <Link
-                                  href={`/product/${product.product}/0/0`}
-                                  className="font-medium text-blue-700   "
-                                >
-                                  {product.name.length > 15
-                                    ? `${product.name.slice(0, 20)}...`
-                                    : product.name}
-                                </Link>
-                                {/* <Link
-                                  href={`/product/${product.product}/0/0`}
-                                  className="font-medium text-blue-700 lg:hidden  "
-                                >
-                                  {product.name}
-                                </Link> */}
-                                <div className="mt-1 sm:hidden">
-                                  ৳{product.price.toLocaleString("en-US")}X
-                                  {product.qty}
-                                  <div>{order.status} </div>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="hidden py-6 pr-8 sm:table-cell">
-                            ৳{product.price.toLocaleString("en-US")}X
-                            {product.qty}
-                          </td>
-                          <td className="hidden py-6 pr-8 sm:table-cell">
-                            {product.status}{" "}
-                          </td>
-                          <td className="hidden py-6 pr-8 sm:table-cell">
-                            {order.paymentMethod === "paypal"
-                              ? "Paypal"
-                              : order.paymentMethod === "credit_card"
-                              ? "Credit Card"
-                              : "COD"}
-                          </td>
-
-                          <td className="py-6 hover:cursor-pointer font-medium text-right whitespace-nowrap">
-                            {/* <Link
-                              href={`/product/${product.product}/0/0`}
-                              prefetch={false}
-                              className="text-indigo-600"
-                            >
-                              Cancle
-                            </Link> */}
-                            <CancelOrderButton order={order} />
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                <OrderCard order={orders} />
               </div>
             ) : (
               <div className="flex flex-col items-center">
