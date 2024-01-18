@@ -57,12 +57,33 @@ async function getData({ params, searchParams }) {
   const price =
     priceQuery && priceQuery !== ""
       ? {
-          "subProducts.sizes.price": {
-            $gte: Number(priceQuery[0]) || 0,
-            $lte: Number(priceQuery[1]) || Infinity,
-          },
+          $or: [
+            {
+              "subProducts.sizes.bulkPricing.price": {
+                $gte: Number(priceQuery[0]) || 0,
+                $lte: Number(priceQuery[1]) || Infinity,
+              },
+            },
+            {
+              "bulkPricing.price": {
+                $gte: Number(priceQuery[0]) || 0,
+                $lte: Number(priceQuery[1]) || Infinity,
+              },
+            },
+          ],
         }
       : {};
+
+  // const price =
+  // priceQuery.length === 2
+  //   ? {
+  //       "subProducts.sizes.bulkPricing.price": {
+  //         $gte: Number(priceQuery[0]) || 0,
+  //         $lte: Number(priceQuery[1]) || Infinity,
+  //       },
+  //     }
+  //   : {};
+
   const search =
     searchQuery && searchQuery !== ""
       ? {
@@ -163,9 +184,13 @@ async function getData({ params, searchParams }) {
       : sortQuery == "topReviewed"
       ? { rating: -1 }
       : sortQuery == "priceHighToLow"
-      ? { "subProducts.sizes.price": -1 }
+      ? { "subProducts.sizes.bulkPricing.price": -1 }
+      : sortQuery == "priceHighToLow"
+      ? { "bulkPricing.price": -1 }
       : sortQuery == "priceLowToHigh"
-      ? { "subProducts.sizes.price": 1 }
+      ? { "subProducts.sizes.bulkPricing.price": 1 }
+      : sortQuery == "priceLowToHigh"
+      ? { "bulkPricing.price": 1 }
       : {};
   let productsDb = await Product.find({
     ...search,

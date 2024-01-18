@@ -139,25 +139,25 @@ export default function Example({ categories, subCategories }) {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
-                  <a
-                    href="#"
+                  <Link
+                    href="/list?storeType=supplier"
                     className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
-                  >
-                    <FactoryOutlinedIcon
-                      sx={{ fontSize: "18px", marginRight: 1 }}
-                    />
-                    <span> Manufacturer</span>
-                  </a>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a
-                    href="#"
-                    className="text-sm flex items-center f text-gray-950 ml-2 hover:text-gray-800"
                   >
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
                     />
                     <span> Supplier</span>
-                  </a>
+                  </Link>
+                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                  <Link
+                    href="/list?storeType=manufacturer"
+                    className="text-sm flex items-center f text-gray-950 ml-2 hover:text-gray-800"
+                  >
+                    <FactoryOutlinedIcon
+                      sx={{ fontSize: "18px", marginRight: 1 }}
+                    />
+                    <span> Manufacturer</span>
+                  </Link>
                 </div>
 
                 <div className="hidden ml-5  lg:flex">

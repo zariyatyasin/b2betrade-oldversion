@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
+import Image from "next/image";
 
 const ProductSwiper = ({ images }) => {
   const swiperRef = useRef(null);
@@ -31,7 +32,9 @@ const ProductSwiper = ({ images }) => {
       >
         {images?.map((img, id) => (
           <SwiperSlide key={id}>
-            <img
+            <Image
+              width={500}
+              height={100}
               src={img.url}
               alt=""
               className="w-full h-full object-center object-contain sm:w-full sm:h-full"

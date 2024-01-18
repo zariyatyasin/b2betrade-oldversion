@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import styles from "./styles.module.css";
+import Image from "next/image";
 
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -106,9 +107,11 @@ export default function Main({ data }) {
                     if (item.active && item.heroImageSide === "left") {
                       return item.images.map((image, index) => (
                         <SwiperSlide key={`${id}-${index}`}>
-                          <img
+                          <Image
                             src={image[0].url}
                             alt={item.title}
+                            width={500}
+                            height={100}
                             className="md:w-full md:h-full"
                           />
                         </SwiperSlide>
@@ -139,9 +142,11 @@ export default function Main({ data }) {
                     if (item.active && item.heroImageSide === "right") {
                       return item.images.map((image, index) => (
                         <SwiperSlide key={`${id}-${index}`}>
-                          <img
+                          <Image
                             src={image[0].url}
                             alt={item.title}
+                            width={500}
+                            height={250}
                             className="md:w-full md:h-full"
                           />
                         </SwiperSlide>

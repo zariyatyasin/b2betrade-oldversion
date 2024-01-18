@@ -56,7 +56,12 @@ export default function MobileCategory({
             .map((subCategory) => (
               <div key={subCategory._id} className="ml-4 p-2">
                 <label htmlFor={subCategory._id}>
-                  <a className="text-sm">{subCategory.name}</a>
+                  <Link
+                    href={`/browse?subCategories=${subCategory._id}`}
+                    className="text-sm"
+                  >
+                    {subCategory.name}
+                  </Link>
                 </label>
               </div>
             ))}

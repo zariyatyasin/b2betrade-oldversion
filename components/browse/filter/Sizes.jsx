@@ -28,7 +28,6 @@ export default function Size({ data, name, sizeHandle, replaceQuery }) {
           {data?.map((size, i) => {
             const check = replaceQuery("size", size);
 
-            console.log(check);
             return (
               <div
                 className="grid grid-cols-2 gap-4"

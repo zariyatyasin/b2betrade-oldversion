@@ -1,8 +1,32 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/outline";
+"use client";
 
+import { MailIcon, PhoneIcon } from "@heroicons/react/outline";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import Footer from "../Footer/Footer";
 export default function Contact() {
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+8801841480230";
+    const whatsappLink = `https://wa.me/${phoneNumber}`;
+
+    window.open(whatsappLink, "_blank");
+  };
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 relative">
+      <div
+        className=" static lg:fixed right-0 bottom-72 bg-white p-4 z-40 rounded-md  border shadow-md cursor-pointer items-center flex-col mb-4 sm:mb-0"
+        onClick={handleWhatsAppClick}
+      >
+        <div className=" flex flex-col  relative   items-center justify-center">
+          <WhatsAppIcon sx={{ fontSize: 28 }} className=" text-[#25D366]" />
+          <p className="text-sm mt-2 text-gray-500 flex items-center ">
+            Live Chat{" "}
+            <div className=" ml-1  relative flex h-3 w-3 ">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#25D366]"></span>
+            </div>
+          </p>
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto  px-4 sm:py-24 sm:px-6 lg:px-8">
         <div className="relative bg-white shadow-xl">
           <h2 className="sr-only">Contact us</h2>
@@ -129,9 +153,12 @@ export default function Contact() {
                     className="flex-shrink-0 w-6 h-6 text-indigo-200"
                     aria-hidden="true"
                   />
-                  <span className="ml-3 text-2xl font-bold">
-                    +8801630713428
-                  </span>
+                  <a
+                    href="tel:+8801841480230"
+                    className="ml-3 text-2xl font-bold"
+                  >
+                    +8801841480230
+                  </a>
                 </dd>
                 <dt>
                   <span className="sr-only">Email</span>
@@ -141,7 +168,7 @@ export default function Contact() {
                     className="flex-shrink-0 w-6 h-6 text-indigo-200"
                     aria-hidden="true"
                   />
-                  <span className="ml-3">support@workcation.com</span>
+                  <span className="ml-3">b2betradebd@gmail.com</span>
                 </dd>
               </dl>
               <ul role="list" className="mt-8 flex space-x-12">
@@ -220,7 +247,7 @@ export default function Contact() {
                     htmlFor="first-name"
                     className="block text-sm font-medium text-gray-900"
                   >
-                    First name
+                    Full Name
                   </label>
                   <div className="mt-1">
                     <input
@@ -232,40 +259,7 @@ export default function Contact() {
                     />
                   </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="last-name"
-                    className="block text-sm font-medium text-gray-900"
-                  >
-                    Last name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="last-name"
-                      id="last-name"
-                      autoComplete="family-name"
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-900"
-                  >
-                    Email
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
+
                 <div>
                   <div className="flex justify-between">
                     <label
@@ -274,9 +268,6 @@ export default function Contact() {
                     >
                       Phone
                     </label>
-                    <span id="phone-optional" className="text-sm text-gray-500">
-                      Optional
-                    </span>
                   </div>
                   <div className="mt-1">
                     <input
@@ -289,22 +280,7 @@ export default function Contact() {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-900"
-                  >
-                    Subject
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="subject"
-                      id="subject"
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
+
                 <div className="sm:col-span-2">
                   <div className="flex justify-between">
                     <label
@@ -313,9 +289,6 @@ export default function Contact() {
                     >
                       Message
                     </label>
-                    <span id="message-max" className="text-sm text-gray-500">
-                      Max. 500 characters
-                    </span>
                   </div>
                   <div className="mt-1">
                     <textarea
@@ -341,6 +314,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

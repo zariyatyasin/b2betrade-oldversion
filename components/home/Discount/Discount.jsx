@@ -6,14 +6,14 @@ const Discount = () => {
       <div className=" px-4  sm:px-6   lg:px-8 mb-12 md:mb-14 lg:mb-16">
         {/* Details section */}
         <section aria-labelledby="details-heading">
-          <div className="flex flex-col items-center text-center">
+          {/* <div className="flex flex-col items-center ">
             <h2
               id="details-heading"
-              className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+              className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl xl:leading-10 font-bold text-heading text-gr"
             >
               On Selling Products
             </h2>
-          </div>
+          </div> */}
 
           <div className="mt-16 grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-8">
             <div>

@@ -114,11 +114,15 @@ export default function OrderCard({ order }) {
                       : "COD"}
                   </td>
                   <td className="py-6 font-medium text-right whitespace-nowrap">
-                    <a href={product.href} className="text-indigo-600">
+                    <Link
+                      href={`/product/${product?._id}/0/0`}
+                      className="text-indigo-600"
+                      prefetch={false}
+                    >
                       View
                       <span className="hidden lg:inline"> Product</span>
                       <span className="sr-only">, {product.name}</span>
-                    </a>
+                    </Link>
                   </td>
                 </tr>
               ))}

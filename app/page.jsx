@@ -73,15 +73,14 @@ export default async function Home({ searchParams }) {
 
       <div className=" max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
-        {/* <Categories />
-        <FlashDeals />
-    
-        <Tabs /> */}
+        {/* <Categories /> */}
 
-        <div className=" max-w-[1440px] mx-auto ">
-          <NewProducts products={newProduct} />
-        </div>
-        {/* <Discount /> */}
+        {/* <Tabs /> */}
+        {/* <FlashDeals /> */}
+
+        <NewProducts products={newProduct} name={"New Arrival"} />
+
+        <Discount />
       </div>
 
       <Footer />

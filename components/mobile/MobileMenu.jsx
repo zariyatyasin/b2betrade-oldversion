@@ -4,6 +4,9 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { useRouter } from "next/navigation";
+import FactoryOutlinedIcon from "@mui/icons-material/FactoryOutlined";
+
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -18,6 +21,7 @@ import { Navigation } from "../../data/Navigation";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MobileCategory from "./MobileCategory";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 function MobileMenu({ categories, subCategories }) {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = useState(false);
@@ -156,34 +160,36 @@ function MobileMenu({ categories, subCategories }) {
               ))}
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
-                {Navigation.pages.map((page) => (
-                  <div key={page.name} className="flow-root">
-                    <a
-                      href={page.href}
-                      className="-m-2 p-2 block font-medium text-gray-900"
-                    >
-                      {page.name}
-                    </a>
-                  </div>
-                ))}
+                <div className="flow-root">
+                  <Link
+                    href="/list?storeType=supplier"
+                    className="-m-2 p-2 block font-medium text-gray-900"
+                  >
+                    <PersonOutlineOutlinedIcon
+                      sx={{ fontSize: "18px", marginRight: 1 }}
+                    />
+                    <span> Supplier</span>
+                  </Link>
+                  <Link
+                    href="/list?storeType=manufacturerlist"
+                    className="-m-2 p-2 block font-medium text-gray-900"
+                  >
+                    <FactoryOutlinedIcon
+                      sx={{ fontSize: "18px", marginRight: 1 }}
+                    />
+                    <span> Manufacturer</span>
+                  </Link>
+                </div>
               </div>
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div className="flow-root">
-                  <a
-                    href="#"
+                  <Link
+                    href="/signin"
                     className="-m-2 p-2 block font-medium text-gray-900"
                   >
-                    Sign in
-                  </a>
-                </div>
-                <div className="flow-root">
-                  <a
-                    href="#"
-                    className="-m-2 p-2 block font-medium text-gray-900"
-                  >
-                    Create account
-                  </a>
+                    Sign in/ Register
+                  </Link>
                 </div>
               </div>
             </div>
