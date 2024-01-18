@@ -198,19 +198,23 @@ export default function OrderCard({ data }) {
           >
             View
           </div>
-          {" | "}
-          <div
-            onClick={openDeleteConfirmation}
-            className="text-red-600 hover:text-red-900 cursor-pointer"
-          >
-            Delete
-          </div>
-          <div
-            onClick={openEditModal}
-            className="text-indigo-600 cursor-pointer hover:text-indigo-900"
-          >
-            Edit
-          </div>
+
+          {session?.user.role === "admin" && (
+            <div>
+              <div
+                onClick={openDeleteConfirmation}
+                className="text-red-600 hover:text-red-900 cursor-pointer"
+              >
+                Delete
+              </div>
+              <div
+                onClick={openEditModal}
+                className="text-indigo-600 cursor-pointer hover:text-indigo-900"
+              >
+                Edit
+              </div>
+            </div>
+          )}
         </td>
       </tr>
       {isEditModalOpen && (

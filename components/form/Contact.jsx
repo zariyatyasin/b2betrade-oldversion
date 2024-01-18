@@ -3,13 +3,52 @@
 import { MailIcon, PhoneIcon } from "@heroicons/react/outline";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Footer from "../Footer/Footer";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
+
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { useState } from "react";
+import Link from "next/link";
 export default function Contact() {
+  const [loading, setLoading] = useState(false);
+
   const handleWhatsAppClick = () => {
     const phoneNumber = "+8801841480230";
     const whatsappLink = `https://wa.me/${phoneNumber}`;
 
     window.open(whatsappLink, "_blank");
   };
+  const validationSchema = Yup.object({
+    fullName: Yup.string().required("Full Name is required"),
+    phone: Yup.string()
+      .required("Phone Number is required")
+      .matches(
+        /^(01)\d{9}$/,
+        "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
+      ),
+    message: Yup.string().required("Message is required"),
+  });
+
+  const initialValues = {
+    fullName: "",
+    phone: "",
+    message: "",
+  };
+  const onSubmit = async (values) => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post("/api/contact", values);
+
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error("Error submitting form:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-gray-100 relative">
       <div
@@ -173,7 +212,10 @@ export default function Contact() {
               </dl>
               <ul role="list" className="mt-8 flex space-x-12">
                 <li>
-                  <a className="text-indigo-200 hover:text-indigo-100" href="#">
+                  <Link
+                    className="text-indigo-200 hover:text-indigo-100"
+                    href="https://www.facebook.com/b2betrade/"
+                  >
                     <span className="sr-only">Facebook</span>
                     <svg
                       width={24}
@@ -189,10 +231,13 @@ export default function Contact() {
                         fill="currentColor"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-indigo-200 hover:text-indigo-100" href="#">
+                  <Link
+                    className="text-indigo-200 hover:text-indigo-100"
+                    href="https://www.instagram.com/b2betrade/"
+                  >
                     <span className="sr-only">GitHub</span>
                     <svg
                       width={24}
@@ -208,26 +253,27 @@ export default function Contact() {
                         fill="currentColor"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-indigo-200 hover:text-indigo-100" href="#">
-                    <span className="sr-only">Twitter</span>
+                  <Link
+                    className="text-indigo-200 hover:text-indigo-100"
+                    href="https://www.linkedin.com/company/b2betrade/"
+                  >
+                    <span className="sr-only">LinkdIN</span>
                     <svg
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      aria-hidden="true"
+                      height="24"
+                      width="24"
+                      viewBox="0 0 448 512"
                     >
+                      {" "}
                       <path
-                        d="M7.548 22.501c9.056 0 14.01-7.503 14.01-14.01 0-.213 0-.425-.015-.636A10.02 10.02 0 0024 5.305a9.828 9.828 0 01-2.828.776 4.94 4.94 0 002.165-2.724 9.867 9.867 0 01-3.127 1.195 4.929 4.929 0 00-8.391 4.491A13.98 13.98 0 011.67 3.9a4.928 4.928 0 001.525 6.573A4.887 4.887 0 01.96 9.855v.063a4.926 4.926 0 003.95 4.827 4.917 4.917 0 01-2.223.084 4.93 4.93 0 004.6 3.42A9.88 9.88 0 010 20.289a13.941 13.941 0 007.548 2.209"
-                        fill="currentColor"
+                        fill="#e0ecff"
+                        d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
                       />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -237,79 +283,98 @@ export default function Contact() {
               <h3 className="text-lg font-medium text-gray-900">
                 Send us a message
               </h3>
-              <form
-                action="#"
-                method="POST"
-                className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
               >
-                <div>
-                  <label
-                    htmlFor="first-name"
-                    className="block text-sm font-medium text-gray-900"
-                  >
-                    Full Name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="first-name"
-                      id="first-name"
-                      autoComplete="given-name"
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between">
+                <Form className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                  <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor="fullName"
                       className="block text-sm font-medium text-gray-900"
                     >
-                      Phone
+                      Full Name
                     </label>
+                    <div className="mt-1">
+                      <Field
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        autoComplete="given-name"
+                        className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                      />
+                      <ErrorMessage
+                        name="fullName"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
                   </div>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="phone"
-                      id="phone"
-                      autoComplete="tel"
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                      aria-describedby="phone-optional"
-                    />
-                  </div>
-                </div>
 
-                <div className="sm:col-span-2">
-                  <div className="flex justify-between">
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-gray-900"
+                  <div>
+                    <div className="flex justify-between">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Phone
+                      </label>
+                    </div>
+                    <div className="mt-1">
+                      <Field
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        autoComplete="tel"
+                        className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        aria-describedby="phone-optional"
+                      />
+                      <ErrorMessage
+                        name="phone"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <div className="flex justify-between">
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Message
+                      </label>
+                    </div>
+                    <div className="mt-1">
+                      <Field
+                        as="textarea"
+                        id="message"
+                        name="message"
+                        rows={4}
+                        className="py-3 px-4 block w-full  shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+                        aria-describedby="message-max"
+                      />
+                      <ErrorMessage
+                        name="message"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2 sm:flex sm:justify-end">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
                     >
-                      Message
-                    </label>
+                      {loading ? "Submitting..." : "Submit"}
+                    </button>
                   </div>
-                  <div className="mt-1">
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      className="py-3 px-4 block w-full border shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                      aria-describedby="message-max"
-                      defaultValue={""}
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2 sm:flex sm:justify-end">
-                  <button
-                    type="submit"
-                    className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
+                </Form>
+              </Formik>
             </div>
           </div>
         </div>
