@@ -157,7 +157,7 @@ export const Header = ({ categories, subCategories }) => {
                 onMouseEnter={handleUserMenuOpen}
                 onMouseLeave={handleUserMenuClose}
               >
-                {session.status == "authenticated" ? (
+                {session?.status == "authenticated" ? (
                   <div>
                     <button
                       type="button"
@@ -169,7 +169,7 @@ export const Header = ({ categories, subCategories }) => {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={session.data.user.image}
+                        src={session?.data.user.image}
                         alt=""
                       />
                     </button>

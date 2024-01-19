@@ -70,25 +70,25 @@ export default function AddSubProductColor({
   };
 
   return (
-    <Box  >
-      <Button
-        variant="contained"
-        color="primary"
+    <Box>
+      <div
+        className=" text-white bg-blue-500 hover:bg-blue-500    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
         onClick={() => setIsImgOrCOlor((prev) => !prev)}
       >
         {!isImgorCOlor
           ? "Click if product has Color"
           : "Click if product has Image"}
-      </Button>
+      </div>
       {isImgorCOlor ? (
         <div>
           <h4>Color code</h4>
-          <Button
+          <div
+            className=" text-white bg-blue-500 hover:bg-blue-500    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
             sx={{ border: "1px solid #ccc", p: 2, mt: 2 }}
             onClick={() => setShowColor(!showCOlor)}
           >
             add color
-          </Button>
+          </div>
           <div
             style={{
               width: "50px",
@@ -123,17 +123,21 @@ export default function AddSubProductColor({
           {subProduct.color.image && (
             <div>
               <img
-                src={URL.createObjectURL(subProduct.color.image)}
+                src={
+                  subProduct.color.image &&
+                  URL.createObjectURL(subProduct.color.image)
+                }
                 alt="Color Image"
                 style={{ maxWidth: "100px", maxHeight: "100px" }}
               />
-              <Button
+              <div
+                className="text-white bg-red-500 hover:bg-red-500    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
                 variant="contained"
                 color="error"
                 onClick={() => handleRemoveColorImage(index)}
               >
                 Remove
-              </Button>
+              </div>
             </div>
           )}
         </div>

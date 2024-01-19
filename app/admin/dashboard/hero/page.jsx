@@ -4,7 +4,7 @@ import HeroImageUploaderForm from "../../../../components/admin/hero/HeroImageUp
 import HomeHero from "../../../../model/HomeHero";
 import db from "../../../../utils/db";
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   try {
     const homeHero = await HomeHero.find({}).sort({ updatedAt: -1 }).lean();

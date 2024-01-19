@@ -5,8 +5,6 @@ import Product from "../../../../../model/Product";
 import db from "../../../../../utils/db";
 import React from "react";
 async function getData() {
-  db.connectDb();
-
   try {
     await db.connectDb();
     const products = await Product.find({})

@@ -7,10 +7,10 @@ import Store from "../../../../model/Store";
 import { getCurrentUser } from "../../../../utils/session";
 export const POST = async (request) => {
   const session = await getCurrentUser();
-  db.connectDb();
+  await db.connectDb();
 
   if (!session) {
-    return NextResponse.json("you must be login in", {
+    return new NextResponse.json("you must be login in", {
       status: 201,
     });
   }
@@ -20,7 +20,7 @@ export const POST = async (request) => {
     let store = await Store.findOne({ owner: session.id });
 
     if (!store) {
-      return NextResponse(
+      return new NextResponse(
         { message: "YOu need to create store" },
         { status: 202 }
       );

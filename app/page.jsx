@@ -17,16 +17,10 @@ import Category from "../model/Category";
 import SubCategory from "../model/SubCategory";
 import MobileMenu from "../components/mobile/MobileMenu";
 import HomeHero from "../model/HomeHero";
-export const dynamic = "auto";
-// export const dynamicParams = true;
-// export const revalidate = false;
-// export const fetchCache = "auto";
-// export const runtime = "nodejs";
-// export const preferredRegion = "auto";
-// export const maxDuration = 5;
+
 async function getData({ searchParams }) {
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const productTypeQuery = searchParams.productType || "";
     const productType =
@@ -55,6 +49,8 @@ async function getData({ searchParams }) {
   } catch (error) {
     console.error("Error during database operations:", error);
     throw error; // Rethrow to handle errors appropriately
+  } finally {
+    await db.disconnectDb;
   }
 }
 export default async function Home({ searchParams }) {

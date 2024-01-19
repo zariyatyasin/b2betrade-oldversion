@@ -7,14 +7,17 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Images from "../../productPage/reviews/Images";
 import UploadImagesClould from "../../../utils/UploadImagesClould";
+import axios from "axios";
 export default function StoreEditHeader({ description, image, storeName, id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedDescription, setEditedDescription] = useState(description);
-
+  console.log(image[0]);
   const [images, setImages] = useState([]);
   const handleEditButtonClick = () => {
     setIsModalOpen(true);
   };
+
+  console.log(image.length);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -38,7 +41,19 @@ export default function StoreEditHeader({ description, image, storeName, id }) {
   return (
     <div className="relative">
       <div className="absolute inset-0">
-        <img className="w-full h-full object-cover" src={image} alt="" />
+        {image.length > 0 ? (
+          <img
+            className="w-full h-full object-cover"
+            src={image[0][0].secure_url}
+            alt=""
+          />
+        ) : (
+          <img
+            className="w-full h-full object-cover"
+            src="https://res.cloudinary.com/drtexlmq7/image/upload/v1705667745/rstationProduct/el1vfsk3gzgark4zvmwq.png"
+            alt=""
+          />
+        )}
         <div
           className="absolute inset-0 bg-gray-400 mix-blend-multiply"
           aria-hidden="true"

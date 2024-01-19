@@ -26,7 +26,6 @@ async function getData() {
 export default async function page() {
   const { StoreData } = await getData();
 
-  console.log(StoreData);
   return (
     <Layout>
       <StoreEditHeader

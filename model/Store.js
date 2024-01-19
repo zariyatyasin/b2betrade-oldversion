@@ -25,11 +25,7 @@ const storeSchema = new mongoose.Schema(
       required: true,
     },
     image: [
-      {
-        type: String,
-        default:
-          "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
-      },
+       
     ],
     ratings: [
       {

@@ -6,7 +6,7 @@ import Coupon from "../../../../model/Coupon";
 import React from "react";
 import db from "../../../../utils/db";
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   try {
     const coupon = await Coupon.find({}).sort({ updatedAt: -1 }).lean();

@@ -18,7 +18,7 @@ import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
 
 export async function getData({ params, searchParams }) {
-  db.connectDb();
+  await db.connectDb();
 
   const session = await getCurrentUser();
   if (!session) {
@@ -97,7 +97,6 @@ export default async function page({ searchParams }) {
   return (
     <Layout>
       <OrderComp
-        linkhref={"/admin/dashboard/order"}
         key={componentKey}
         Orders={Orders}
         paginationCount={paginationCount}

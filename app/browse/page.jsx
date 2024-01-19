@@ -17,7 +17,7 @@ function createRegex(data, styleRegex) {
   return styleRegex;
 }
 async function getData({ params, searchParams }) {
-  db.connectDb();
+  await db.connectDb();
   const searchQuery = searchParams.search || "";
   const categoryQuery = searchParams.category || "";
   const subcategoryQuery = searchParams.subCategories || "";

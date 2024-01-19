@@ -30,13 +30,13 @@ export default function ListSupplierCard({ store }) {
         <div className="mt-6 space-y-4 sm:mt-0 sm:ml-6 sm:flex-none sm:w-40">
           <Link
             href={`store/${store._id}`}
-            className="w-full flex items-center justify-center bg-[#2B39D1] py-2 px-2.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-full sm:flex-grow-0"
+            className="w-full flex items-center justify-center bg-[#2B39D1] py-2 px-2.5 b  rounded-md shadow-sm text-sm font-medium text-white h sm:w-full sm:flex-grow-0"
           >
             View Details
           </Link>
           <button
             type="button"
-            className="w-full flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-full sm:flex-grow-0"
+            className="w-full flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50  sm:w-full sm:flex-grow-0"
           >
             Send Message
           </button>

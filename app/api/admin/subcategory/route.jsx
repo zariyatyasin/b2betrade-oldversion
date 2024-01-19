@@ -17,7 +17,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const { name, parent } = await request.json();
     const slugs = slugify(name);

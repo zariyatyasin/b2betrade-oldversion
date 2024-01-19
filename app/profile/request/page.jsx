@@ -20,7 +20,7 @@ function createRegex(data, styleRegex) {
 }
 
 async function getData({ params, searchParams }) {
-  db.connectDb();
+  await db.connectDb();
 
   const session = await getCurrentUser();
   if (!session) {

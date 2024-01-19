@@ -6,7 +6,7 @@ import db from "../../../../utils/db";
 import { getCurrentUser } from "../../../../utils/session";
 import UserManage from "../../../../components/admin/Users/UserManage";
 async function getData({ searchParams }) {
-  db.connectDb();
+  await db.connectDb();
 
   const validStatusValues = [
     "subadmin",

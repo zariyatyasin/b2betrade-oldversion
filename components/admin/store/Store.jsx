@@ -92,7 +92,7 @@ export default function Store({ Stores, paginationCount }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar linkUrl="/admin/dashboard/store" />
+      <MiniSearchBar />
       <button
         className="border text-sm  p-2 bg-[#2B39D1] text-white rounded-3xl   "
         onClick={() => router.push("/admin/dashboard/store")}

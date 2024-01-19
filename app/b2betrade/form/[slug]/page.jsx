@@ -4,10 +4,10 @@ import db from "../../../../utils/db";
 import Category from "../../../../model/Category";
 
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   const categories = await Category.find().lean();
-  db.disconnectDb();
+  await db.disconnectDb();
 
   return {
     categories: JSON.parse(JSON.stringify(categories)),

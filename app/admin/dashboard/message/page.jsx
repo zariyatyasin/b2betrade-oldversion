@@ -9,7 +9,7 @@ import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
 
 export async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   const session = await getCurrentUser();
   if (!session) {

@@ -10,7 +10,7 @@ import SubCategory from "../../../../../../model/SubCategory";
 import Order from "../../../../../../model/Order";
 import User from "../../../../../../model/User";
 export async function getData({ params }) {
-  db.connectDb();
+  await db.connectDb();
   let store;
   let orders;
   let user;

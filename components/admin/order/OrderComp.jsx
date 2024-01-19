@@ -9,10 +9,12 @@ import SortingDropdown from "../../selects/SortingDropdown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import OrderCard from "../../cards/OrderCard";
-export default function OrderComp({ Orders, paginationCount, linkhref, user }) {
+import { useSession } from "next-auth/react";
+export default function OrderComp({ Orders, paginationCount, user }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const headers = {
     storeName: "Shipping Address",
     categorySubCategory: "Products",
@@ -22,7 +24,10 @@ export default function OrderComp({ Orders, paginationCount, linkhref, user }) {
 
     edit: "Edit",
   };
-
+  let linkUrl =
+    session?.role === "admin"
+      ? "/admin/dashboard/order"
+      : "/supplier/dashboard/order";
   const filterUrl = ({ page, sort }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 
@@ -95,11 +100,11 @@ export default function OrderComp({ Orders, paginationCount, linkhref, user }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar linkUrl={linkhref} />
+      <MiniSearchBar />
       <div className="   flex  items-center justify-end mt-2">
         <button
           className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "
-          onClick={() => router.push({ linkhref })}
+          onClick={() => router.push(linkUrl)}
         >
           Clear All ({Array.from(searchParams).length})
         </button>

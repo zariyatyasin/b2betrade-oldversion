@@ -6,7 +6,7 @@ import SubCategory from "../../../../model/SubCategory";
 import CreateSubCategory from "../../../../components/admin/subcategory/CreateSubCategory";
 
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   try {
     const categories = await Category.find({}).sort({ updatedAt: -1 }).lean();

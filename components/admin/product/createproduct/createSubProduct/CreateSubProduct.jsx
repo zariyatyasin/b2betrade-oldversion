@@ -114,14 +114,12 @@ const CreateSubProduct = ({
                 setSubProducts={setSubProducts}
                 initialImages={editedProduct?.subProducts[index]?.images}
               />
-              <Button
-                className="flex bg-white text-gray-950 border"
-                variant="contained"
-                color="primary"
+              <div
+                className="text-white bg-blue-800 hover:bg-blue-800 w-36   text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
                 onClick={() => handleAddSize(index)}
               >
                 Add Size
-              </Button>
+              </div>
 
               {subProduct.sizes.map((size, sizeIndex) => (
                 <AddSubQty
@@ -144,9 +142,12 @@ const CreateSubProduct = ({
           )}
         </div>
       ))}
-      <Button className="flex    border" onClick={handleAddSubProduct}>
+      <div
+        className="text-white bg-blue-800 hover:bg-blue-800 w-36   text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d "
+        onClick={handleAddSubProduct}
+      >
         Add Product
-      </Button>
+      </div>
     </div>
   );
 };

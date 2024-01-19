@@ -10,7 +10,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import axios from "axios";
 
-export default function CancelOrderButton({ order }) {
+export default function CancelOrderButton({ order, setLoading }) {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const openConfirmationModal = () => {
@@ -23,15 +23,18 @@ export default function CancelOrderButton({ order }) {
 
   const handleConfirmation = async () => {
     const editedData = { ...order, status: "Cancelled" };
+    closeConfirmationModal();
     try {
+      setLoading(true);
       const response = await axios.put(
         `/api/order/update/${order._id}`,
         editedData
       );
-
-      closeConfirmationModal();
+      window.location.reload();
     } catch (error) {
       console.error("Error cancelling order:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

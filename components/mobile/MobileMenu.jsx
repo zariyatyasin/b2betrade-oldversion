@@ -38,13 +38,13 @@ function MobileMenu({ categories, subCategories }) {
       if (!session) {
         signIn();
       } else {
-        if (session.user.role === "admin") {
+        if (session?.user.role === "admin") {
           router.push("/admin/dashboard");
         }
-        if (session.user.role === "supplier") {
+        if (session?.user.role === "supplier") {
           router.push("/supplier/dashboard");
         }
-        if (session.user.role === "user") {
+        if (session?.user.role === "user") {
           router.push("/profile");
         }
       }

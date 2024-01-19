@@ -20,7 +20,11 @@ export default function OrderCard({ data }) {
   ];
   const renderProduct = (product) => (
     <div key={product._id} className="product">
-      <img src={product.image} alt={product.name} className=" h-8 w-8" />
+      <img
+        src={product.image}
+        alt={product.name}
+        className=" h-8 w-8 object-fit border"
+      />
       <div className="product-details">
         <Link
           href={`/product/${product.product}/0/0`}

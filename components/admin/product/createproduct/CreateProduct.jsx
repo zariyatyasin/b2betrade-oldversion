@@ -25,6 +25,7 @@ import Questions from "./addToClick/Questions";
 import AdminInput from "../../../selects/AdminPut";
 import { Uploadimages } from "../../../../request/uploadimg";
 import axios from "axios";
+import FullScreenLoading from "../../../fullScreenOverlay/FullScreenLoading";
 const initialState = {
   name: "",
   description: "",
@@ -134,7 +135,7 @@ export default function CreateProduct({ categories }) {
   };
   const handleSubmit = async () => {
     const updatedSubProducts = [];
-
+    setLoading(true);
     for (const subProduct of subProducts) {
       const formData = new FormData();
 
@@ -177,6 +178,8 @@ export default function CreateProduct({ categories }) {
       });
     } catch (error) {
       console.error("Error creating product:", error);
+    } finally {
+      setLoading(false);
     }
   };
   const validate = Yup.object({
@@ -192,6 +195,7 @@ export default function CreateProduct({ categories }) {
   });
   return (
     <Box>
+      {loading && <FullScreenLoading />}
       <Formik
         enableReinitialize
         initialValues={product}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductPageImage from "./ProductPageImage";
 import ProductInfo from "./ProductInfo";
 import ProductReviews from "./reviews/ProductReviews";
@@ -8,12 +8,26 @@ import StoreSide from "./StoreSide";
 import SideImage from "./SideImage";
 import ProductDetails from "./Details/ProductDetails";
 import SideProductInfo from "./SideProductInfo";
+import { useRouter } from "next/navigation";
 const ProductMain = ({ product, params }) => {
   const [activeImg, setActiveImg] = useState("");
-
+  const router = useRouter();
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  useEffect(() => {
+    // Check if router.events is available before subscribing
+    if (router.events) {
+      const handleRouteChange = (url) => {
+        window.history.replaceState(null, null, url);
+      };
 
+      router.events.on("routeChangeComplete", handleRouteChange);
+
+      return () => {
+        router.events.off("routeChangeComplete", handleRouteChange);
+      };
+    }
+  }, [router.events]);
   return (
     <div>
       <div className="    flex flex-col justify-center   lg:flex-row gap-4  ">

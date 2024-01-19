@@ -93,13 +93,13 @@ export default function AddSubProductImage({
           ))}
       </div>
       <div className="   flex  justify-center">
-        <Button
-          className="flex bg-white text-gray-950 border"
+        <div
+          className="text-white bg-blue-800 hover:bg-blue-800 w-36   text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
           onClick={() => handleAddImage(index)}
         >
           <CloudUploadIcon className="mr-2 text-blue-500" />
           Add Image
-        </Button>
+        </div>
       </div>
       <input
         type="file"

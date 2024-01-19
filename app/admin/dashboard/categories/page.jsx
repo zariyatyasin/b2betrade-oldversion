@@ -5,7 +5,7 @@ import Category from "../../../../model/Category";
 import CreateCategories from "../../../../components/admin/categories/CreateCategories";
 
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
 
   try {
     const categories = await Category.find({}).sort({ updatedAt: -1 }).lean();

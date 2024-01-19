@@ -12,7 +12,7 @@ import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
 export const revalidate = 3;
 export async function GetData({ params, searchParams }) {
-  db.connectDb();
+  await db.connectDb();
 
   const session = await getCurrentUser();
   if (!session) {

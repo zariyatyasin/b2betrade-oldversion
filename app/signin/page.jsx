@@ -39,7 +39,7 @@ const page = () => {
   };
 
   useEffect(() => {
-    if (session.status === "authenticated") {
+    if (session?.status === "authenticated") {
       const callbackUrl = params.get("callbackUrl");
       if (callbackUrl) {
         redirect(callbackUrl);
@@ -233,9 +233,12 @@ const page = () => {
                             component="div"
                             className="text-red-500 text-sm"
                           />
-                          <div className=" text-xs text-gray-500 mt-2">
+                          <Link
+                            href={"/contact"}
+                            className=" text-xs text-gray-500 mt-2"
+                          >
                             Forget Password?
-                          </div>
+                          </Link>
 
                           <label
                             htmlFor="remember-me"

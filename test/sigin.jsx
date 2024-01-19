@@ -30,7 +30,7 @@ const page = () => {
   const [success, setSuccess] = useState(null);
 
   useEffect(() => {
-    if (session.status === "authenticated") {
+    if (session?.status === "authenticated") {
       const callbackUrl = params.get("callbackUrl");
       if (callbackUrl) {
         redirect(callbackUrl);

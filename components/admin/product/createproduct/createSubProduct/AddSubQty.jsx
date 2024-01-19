@@ -77,16 +77,14 @@ export default function AddSubQty({
   return (
     <div className=" border py-8 p-4 mt-8" key={sizeIndex}>
       <div className="flex items-end justify-end ">
-        <Button
-          className="flex items-end justify-end bg-white text-gray-950 border"
-          variant="contained"
-          color="primary"
+        <div
+          className="text-white bg-blue-800 hover:bg-blue-800     text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
           onClick={() => setNoSize((prev) => !prev)}
         >
           {!noSize
             ? "Click if product has size"
             : "Click if product has no size"}
-        </Button>
+        </div>
       </div>
 
       <h4>QTY {sizeIndex + 1}</h4>
@@ -172,18 +170,22 @@ export default function AddSubQty({
                     }
                   />
                 </div>
-                <Button
+                <div
+                  className="text-white bg-red-500 hover:bg-red-500     text-center  cursor-pointer  font-medium rounded-lg text-sm  p-2"
                   onClick={() =>
                     handleRemoveBulkPricing(index, sizeIndex, pricingIndex)
                   }
                 >
                   Remove Bulk Pricing
-                </Button>
+                </div>
               </div>
             ))}
-            <Button onClick={() => handleAddBulkPricing(index, sizeIndex)}>
+            <div
+              className="text-white bg-blue-800 hover:bg-blue-800   text-center  cursor-pointer  font-medium rounded-lg text-sm p-2 d"
+              onClick={() => handleAddBulkPricing(index, sizeIndex)}
+            >
               Add Bulk Pricing
-            </Button>
+            </div>
           </div>
         )}
       </div>

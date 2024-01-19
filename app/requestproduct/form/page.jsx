@@ -6,7 +6,7 @@ import db from "../../../utils/db";
 import Category from "../../../model/Category";
 import { getCurrentUser } from "../../../utils/session";
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");

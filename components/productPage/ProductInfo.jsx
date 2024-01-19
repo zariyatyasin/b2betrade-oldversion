@@ -89,7 +89,20 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     setIsModalOpen(false);
   };
   const dispatch = useDispatch();
+  useEffect(() => {
+    // Check if router.events is available before subscribing
+    if (router.events) {
+      const handleRouteChange = (url) => {
+        window.history.replaceState(null, null, url);
+      };
 
+      router.events.on("routeChangeComplete", handleRouteChange);
+
+      return () => {
+        router.events.off("routeChangeComplete", handleRouteChange);
+      };
+    }
+  }, [router.events]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   useEffect(() => {
@@ -353,36 +366,24 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         ))}
       </div>
 
-      <div className="mt-2 flex select-none flex-wrap items-center gap-2">
-        {product.colors &&
-          product.colors.map((color, i) => (
-            <div>
-              {color.color && (
-                <div>
-                  <h2 className="mt-4 text-lg font-semibold  text-gray-900">
-                    Color
-                  </h2>
+      <div className="mt-2     ">
+        {product.colors && product.colors.length > 0 && (
+          <div className=" flex flex-col">
+            <h2 className="mt-4 text-lg font-semibold text-gray-900">Color</h2>
+            <div className="flex gap-2">
+              {product.colors.map((color, i) => (
+                <div key={i}>
                   <div
                     onMouseOver={() =>
                       setActiveImg(product.subProducts[i].images[0].url)
                     }
                     onMouseLeave={() => setActiveImg("")}
-                    key={i}
                   >
-                    <Link href={`/product/${product.slug}/${i}`}>
-                      {color?.image ? (
-                        <h2 className="mt-4 text-lg font-semibold  text-gray-900">
-                          Color
-                        </h2>
-                      ) : (
-                        <h2 className="mt-4 text-lg font-semibold  text-gray-900">
-                          Color
-                        </h2>
-                      )}
-                      {color?.image ? (
+                    <Link href={`/product/${product.slug}/${i}/0`}>
+                      {color.image ? (
                         <img
-                          src={color?.image}
-                          className="h-5 w-5 rounded-full"
+                          src={color.image}
+                          className="h-14 w-14 rounded-full"
                         />
                       ) : (
                         <div
@@ -393,9 +394,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                     </Link>
                   </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+          </div>
+        )}
       </div>
 
       <div className="text-2xl font-bold mt-4 text-[#2B39D1]">

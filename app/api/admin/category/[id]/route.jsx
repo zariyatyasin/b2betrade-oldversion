@@ -5,7 +5,7 @@ import Category from "../../../../../model/Category";
 import slugify from "slugify";
 export const DELETE = async (request, { params }) => {
   try {
-    db.connectDb();
+    await db.connectDb();
     const { id } = params;
 
     const deletedCategory = await Category.findByIdAndRemove(id);

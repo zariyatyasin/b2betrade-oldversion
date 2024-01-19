@@ -7,7 +7,7 @@ import Order from "../../../model/Order";
 import Link from "next/link";
 
 async function getOrder(id) {
-  db.connectDb();
+  await db.connectDb();
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");

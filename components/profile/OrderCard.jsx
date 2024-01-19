@@ -3,11 +3,15 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import CancelOrderButton from "./CancelOrderButton";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 
 export default function OrderCard({ order }) {
   const [orders, setOrder] = useState(order);
+
+  const [loading, setLoading] = useState(false);
   return (
     <div className="space-y-20 ">
+      {loading && <FullScreenLoading />}
       {orders?.map((order) => (
         <div key={order.number} className=" border bg-white rounded  p-4">
           <h3 className="sr-only">
@@ -42,7 +46,7 @@ export default function OrderCard({ order }) {
               <div>
                 {" "}
                 {order.status === "Not Processed" && (
-                  <CancelOrderButton order={order} />
+                  <CancelOrderButton order={order} setLoading={setLoading} />
                 )}
               </div>
               <div> {order.status}</div>

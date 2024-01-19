@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import db from "../../../../../utils/db";
 import { getCurrentUser } from "../../../../../utils/session";
-import Store from "../../../../../model/Product";
+import Store from "../../../../../model/Store";
 
 export const PUT = async (request, { params }) => {
   const session = await getCurrentUser();
@@ -17,14 +17,12 @@ export const PUT = async (request, { params }) => {
     const { id } = params;
     const { description, image } = await request.json();
 
-    console.log(image, description);
-
     const store = await Store.findById(id);
 
     store.description = description;
 
     if (image && image.length > 0) {
-      store.image = await handleImageUpdates(image);
+      store.image = image;
     }
 
     await store.save();
@@ -40,10 +38,4 @@ export const PUT = async (request, { params }) => {
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-};
-
-const handleImageUpdates = async (image) => {
-  return image.map((image) => {
-    return updatedImageUrl;
-  });
 };

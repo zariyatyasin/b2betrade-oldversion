@@ -15,7 +15,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const { name } = await request.json();
     const slugs = slugify(name);
@@ -50,7 +50,7 @@ export const POST = async (request) => {
 };
 export const PUT = async (request) => {
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const { id, name } = await request.json();
 

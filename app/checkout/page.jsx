@@ -8,7 +8,7 @@ import Header from "../../components/cart/Header";
 import Checkout from "../../components/checkout/Checkout";
 import FullScreenLoading from "../../loading/FullScreenLoading";
 async function getCart() {
-  db.connectDb();
+  await db.connectDb();
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");
@@ -19,7 +19,7 @@ async function getCart() {
   if (!cart) {
     redirect("/cart ");
   }
-  db.disconnectDb();
+  await db.disconnectDb();
 
   return {
     cart: JSON.parse(JSON.stringify(cart)),

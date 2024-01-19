@@ -19,7 +19,7 @@ import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
 
 export async function getData({ params, searchParams }) {
-  db.connectDb();
+  await db.connectDb();
 
   const session = await getCurrentUser();
   if (!session) {
@@ -58,7 +58,11 @@ export async function getData({ params, searchParams }) {
 
   const store = await Store.findOne({ owner: session.id });
   const OwnerStoreId = store._id;
-  Orders = await Order.find();
+  Orders = await Order.find({ ...sort, ...search })
+    .skip(pageSize * (page - 1))
+
+    .limit(pageSize);
+  Orders = sortQuery && sortQuery !== "" ? Orders : Orders;
   const filteredOrders = Orders.map((order) => {
     const matchingProducts = order.products.filter((product) => {
       return product.storeId.toString() === OwnerStoreId.toString();

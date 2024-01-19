@@ -111,7 +111,7 @@ export default function UserManage({ users, paginationCount }) {
           </button>
         </div>
       </div>
-      <MiniSearchBar linkUrl="/admin/dashboard/user" />
+      <MiniSearchBar />
       <div className="   flex  items-center justify-end mt-2">
         <button
           className="border text-sm   p-2 bg-[#2B39D1] text-white rounded-3xl  "

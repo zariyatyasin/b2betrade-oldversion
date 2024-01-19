@@ -7,7 +7,7 @@ import CreateProduct from "../../../../components/admin/product/createproduct/Cr
 import Store from "../../../../model/Store";
  
 async function getData() {
-  db.connectDb();
+  await db.connectDb();
   const session = await getCurrentUser();
 
   let data;

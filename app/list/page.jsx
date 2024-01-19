@@ -19,54 +19,61 @@ function createRegex(data, styleRegex) {
 }
 
 async function getData({ params, searchParams }) {
-  db.connectDb();
-  const storeQuery = searchParams.storeType || "";
-  const page = searchParams.page || 1;
-  const searchQuery = searchParams.search || "";
-  const sortQuery = searchParams.sort || "";
-  const pageSize = 10;
+  try {
+    await db.connectDb();
+    const storeQuery = searchParams.storeType || "";
+    const page = searchParams.page || 1;
+    const searchQuery = searchParams.search || "";
+    const sortQuery = searchParams.sort || "";
+    const pageSize = 10;
 
-  const categoryQuery = searchParams.category || "";
-  const locationQuery = searchParams.location?.split("_") || "";
-  const locationRegex = `^${locationQuery[0]}`;
-  const locationSearchRegex = createRegex(locationQuery, locationRegex);
-  const category =
-    categoryQuery && categoryQuery !== "" ? { category: categoryQuery } : {};
-  const store =
-    storeQuery && storeQuery !== "" ? { storeType: storeQuery } : {};
-  const location =
-    locationQuery && locationQuery !== ""
-      ? {
-          "address.city": {
-            $regex: locationSearchRegex,
-            $options: "i",
-          },
-        }
-      : "";
+    const categoryQuery = searchParams.category || "";
+    const locationQuery = searchParams.location?.split("_") || "";
+    const locationRegex = `^${locationQuery[0]}`;
+    const locationSearchRegex = createRegex(locationQuery, locationRegex);
+    const category =
+      categoryQuery && categoryQuery !== "" ? { category: categoryQuery } : {};
+    const store =
+      storeQuery && storeQuery !== "" ? { storeType: storeQuery } : {};
+    const location =
+      locationQuery && locationQuery !== ""
+        ? {
+            "address.city": {
+              $regex: locationSearchRegex,
+              $options: "i",
+            },
+          }
+        : "";
 
-  let categories = await Category.find().lean();
-  let subCategories = await SubCategory.find().populate({
-    path: "parent",
-    model: Category,
-  });
+    let categories = await Category.find().lean();
+    let subCategories = await SubCategory.find().populate({
+      path: "parent",
+      model: Category,
+    });
 
-  let locations = await Store.find({ ...category }).distinct("address.city");
-  let StoreDb = await Store.find({
-    ...store,
-    ...location,
-    ...category,
-  })
-    .skip(pageSize * (page - 1))
-    .limit(pageSize);
+    let locations = await Store.find({ ...category }).distinct("address.city");
+    let StoreDb = await Store.find({
+      ...store,
+      ...location,
+      ...category,
+    })
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
 
-  return {
-    categories: JSON.parse(JSON.stringify(categories)),
-    locations: JSON.parse(JSON.stringify(locations)),
+    return {
+      categories: JSON.parse(JSON.stringify(categories)),
+      locations: JSON.parse(JSON.stringify(locations)),
 
-    subCategories: JSON.parse(JSON.stringify(subCategories)),
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
 
-    StoreDb: JSON.parse(JSON.stringify(StoreDb)),
-  };
+      StoreDb: JSON.parse(JSON.stringify(StoreDb)),
+    };
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    throw error;
+  } finally {
+    await db.disconnectDb();
+  }
 }
 
 export default async function page({ searchParams }) {
