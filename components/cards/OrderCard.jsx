@@ -34,10 +34,16 @@ export default function OrderCard({ data }) {
         <p>Price: {product.price}</p>
         <p>Quantity: {product.qty}</p>
         <p>Total Price: {product.qty * product.price}</p>
-        <p>Total Price: {product?.status}</p>
-        <button onClick={() => openEditProductModal(product)}>
-          Edit Product
-        </button>
+        <p>Status: {product?.status}</p>
+        {session?.user.role === "admin" && (
+          <button
+            className=" text-blue-600"
+            onClick={() => openEditProductModal(product)}
+          >
+            Edit Product
+          </button>
+        )}
+
         {product.color.color ? (
           <div
             className="color-box"

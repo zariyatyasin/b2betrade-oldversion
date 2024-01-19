@@ -24,11 +24,13 @@ const storeSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    image: {
-      type: String,
-      default:
-        "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
-    },
+    image: [
+      {
+        type: String,
+        default:
+          "https://res.cloudinary.com/dmhcnhtng/image/upload/v1664642478/992490_b0iqzq.png",
+      },
+    ],
     ratings: [
       {
         rating: Number,

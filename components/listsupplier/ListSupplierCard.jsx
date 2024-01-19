@@ -21,9 +21,9 @@ export default function ListSupplierCard({ store }) {
             <p className="text-sm text-gray-500 ">
               <span>{store.description}</span>
             </p>
-            <p className="mt-1 f  text-gray-900">
-              Location {store.address.city}
-              {store.address.street}
+            <p className="md:mt-8 mt-1 text-sm  text-gray-500">
+              <h1>Location: {store.address.city}</h1>
+              <h2> {store.ShopAddress}</h2>
             </p>
           </div>
         </div>

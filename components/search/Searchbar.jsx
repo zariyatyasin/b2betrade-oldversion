@@ -25,8 +25,6 @@ export const MiniSearchBar = ({ linkUrl }) => {
 
       // Use the `router.push` function to navigate to the new URL
       router.push(newURL, undefined, { shallow: true });
-    } else {
-      router.push(linkUrl, { shallow: true });
     }
   };
 

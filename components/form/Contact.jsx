@@ -35,7 +35,7 @@ export default function Contact() {
     phone: "",
     message: "",
   };
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       setLoading(true);
 
@@ -45,6 +45,7 @@ export default function Contact() {
     } catch (error) {
       console.error("Error submitting form:", error.message);
     } finally {
+      resetForm();
       setLoading(false);
     }
   };

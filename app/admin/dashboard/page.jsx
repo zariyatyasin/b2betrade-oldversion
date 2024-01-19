@@ -31,12 +31,10 @@ export async function getData() {
     0
   );
 
-  let Users = await User.find().lean();
-  let Products = await Product.find().lean();
-  let Stores = await Store.find().lean();
-  const totalUser = Users.length;
-  const totalProduct = Products.length;
-  const totalStore = Stores.length;
+  let totalUser = await User.countDocuments();
+  let totalProduct = await Product.countDocuments();
+  let totalStore = await Store.countDocuments();
+
   return {
     totalOrdersCount,
     completedOrdersCount,
@@ -60,17 +58,6 @@ export default async function page() {
     totalStore,
     notProcessedOrders,
   } = await getData();
-
-  // const totalOrders = Orders.length;
-  // const totalUsers = Users.length;
-
-  // const completedOrders = Orders.filter(
-  //   (order) => order.status === "Completed"
-  // ).length;
-
-  // const notProcessedOrders = Orders.filter(
-  //   (order) => order.status === "Not Processed"
-  // ).length;
 
   return (
     <Layout>

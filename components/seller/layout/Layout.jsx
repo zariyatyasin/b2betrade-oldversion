@@ -1,6 +1,7 @@
 "use client";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import {
   BellIcon,
   CalendarIcon,
@@ -12,6 +13,7 @@ import {
   UsersIcon,
   XIcon,
 } from "@heroicons/react/outline";
+
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import { signOut } from "next-auth/react";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -39,14 +41,19 @@ const navigation = [
     current: false,
   },
   { name: "Message", href: "#", icon: FolderIcon, current: false },
-  { name: "Coupon", href: "#", icon: CalendarIcon, current: false },
+  {
+    name: "Setting",
+    href: "/supplier/dashboard/setting",
+    icon: UsersIcon,
+    current: false,
+  },
   {
     name: "Create Product",
     href: "/supplier/dashboard/createproduct",
     icon: InboxIcon,
     current: false,
   },
-  { name: "Help", href: "#", icon: ChartBarIcon, current: false },
+  { name: "Help", href: "/contact", icon: ChartBarIcon, current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },

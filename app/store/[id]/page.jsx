@@ -46,7 +46,7 @@ export default async function page({ params }) {
       <div className=" max-w-7xl mx-auto">
         <StoreHeader
           storeName={StoreData.storeName}
-          headerImage={StoreData.headerImage}
+          headerImage={StoreData.image}
           storeDescription={StoreData.description}
         />
         {

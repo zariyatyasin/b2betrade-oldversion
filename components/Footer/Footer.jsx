@@ -7,7 +7,7 @@ const navigation = {
     { name: "Terms & Conditions", href: "/terms" },
     { name: "Returns & Refunds", href: "/returns" },
     { name: "Buyer & Seller  Policy", href: "/buyerpolicy" },
-    { name: "Contact us", href: "#" },
+    { name: "Contact us", href: "/contact" },
     { name: "Partners", href: "#" },
   ],
   social: [

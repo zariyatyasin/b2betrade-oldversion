@@ -27,7 +27,7 @@ export async function getData({ params, searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
-  const pageSize = 10;
+  const pageSize = 20;
   let Orders;
   const sort =
     sortQuery == ""

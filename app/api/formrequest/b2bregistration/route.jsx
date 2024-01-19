@@ -55,6 +55,7 @@ export const POST = async (request) => {
       storeName,
       owner: savedUser._id,
       address,
+      storeType: role,
       category,
       ShopAddress,
       subCategories,
