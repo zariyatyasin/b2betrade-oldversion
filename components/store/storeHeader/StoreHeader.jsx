@@ -6,7 +6,7 @@ export default function StoreHeader({
   storeName,
 }) {
   return (
-    <div className="relative  ">
+    <div className="relative  mt-4 ">
       <div className="absolute inset-0">
         <img
           className="w-full h-full object-cover"

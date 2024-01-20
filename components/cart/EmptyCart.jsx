@@ -34,7 +34,7 @@ const EmptyCart = () => {
               </div>
             )}
             {session?.user && ( // Render only if the user is logged in
-              <Link href={"/browser"} prefetch={false}>
+              <Link href={"/browse"} prefetch={false}>
                 <div className="text-center uppercase w-full p-2 bg-[#2B39D1] text-white t  font-semibold">
                   Continue shopping
                 </div>

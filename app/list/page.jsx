@@ -59,12 +59,17 @@ async function getData({ params, searchParams }) {
     })
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-
+    let totalProducts = await Store.countDocuments({
+      ...store,
+      ...location,
+      ...category,
+    });
     return {
       categories: JSON.parse(JSON.stringify(categories)),
       locations: JSON.parse(JSON.stringify(locations)),
 
       subCategories: JSON.parse(JSON.stringify(subCategories)),
+      paginationCount: Math.ceil(totalProducts / pageSize),
 
       StoreDb: JSON.parse(JSON.stringify(StoreDb)),
     };
@@ -77,9 +82,10 @@ async function getData({ params, searchParams }) {
 }
 
 export default async function page({ searchParams }) {
-  const { StoreDb, categories, locations, subCategories } = await getData({
-    searchParams,
-  });
+  const { StoreDb, categories, locations, subCategories, paginationCount } =
+    await getData({
+      searchParams,
+    });
 
   return (
     <>
@@ -97,6 +103,7 @@ export default async function page({ searchParams }) {
         categories={categories}
         subCategories={subCategories}
         locations={locations}
+        paginationCount={paginationCount}
       />
     </>
   );

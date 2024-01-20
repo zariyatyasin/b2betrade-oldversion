@@ -8,6 +8,9 @@ import SubCategory from "../../../model/SubCategory";
 import StoreHeader from "../../../components/store/storeHeader/StoreHeader";
 import StoreNavbar from "../../../components/store/storeHeader/StoreNavbar";
 import ProductCardSwip from "../../../components/cards/ProductCardSwip";
+import GobackPage from "../../../components/gobackPage/GobackPage";
+import Footer from "../../../components/Footer/Footer";
+
 async function getData({ params }) {
   let StoreData = await Store.findById(params.id)
     .populate({
@@ -39,11 +42,13 @@ export default async function page({ params }) {
   const { StoreData, products } = await getData({
     params,
   });
-  console.log(StoreData);
+
   return (
     <>
       <Header />
+
       <div className=" max-w-7xl mx-auto">
+        <GobackPage />
         <StoreHeader
           storeName={StoreData.storeName}
           headerImage={StoreData.image}
@@ -51,8 +56,12 @@ export default async function page({ params }) {
         />
         {
           <>
-            <StoreNavbar subCategory={StoreData.subCategories} />
-            <div className="h-screen  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <StoreNavbar
+              subCategory={StoreData.subCategories}
+              storeName={StoreData.storeName}
+              storeId={StoreData._id}
+            />
+            <div className=" pb-24 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               {products?.map((item, id) => (
                 <div className="   " key={id}>
                   <ProductCardSwip products={item} />
@@ -62,6 +71,7 @@ export default async function page({ params }) {
           </>
         }
       </div>
+      <Footer />
     </>
   );
 }

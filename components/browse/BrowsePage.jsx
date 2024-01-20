@@ -404,11 +404,11 @@ export default function BrowsePage({
           <main className="max-w-3xl mx-auto py-16 px-4 sm:py-24 sm:px-6  lg:max-w-[1500px] lg:px-8">
             <div className="  border-gray-200 pb-10">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-                New Arrivals
+                Product List
               </h1>
               <p className="mt-4 text-base text-gray-500">
-                Checkout out the latest release of Basic Tees, new and improved
-                with four openings!
+                {" "}
+                Explore our selection of wholesale products below.
               </p>
             </div>
 
@@ -438,30 +438,30 @@ export default function BrowsePage({
                       checkChecked={checkChecked}
                       subcategoryHandle={subcategoryHandle}
                     />
-
+                    {/* 
                     <Sizes
                       data={sizes}
                       name={"Sizes"}
                       sizeHandle={sizeHandle}
                       replaceQuery={replaceQuery}
-                    />
-                    <ColorsFilter
+                    /> */}
+                    {/* <ColorsFilter
                       colors={colors}
                       replaceQuery={replaceQuery}
                       colorHandle={colorHandle}
-                    />
+                    /> */}
 
                     <Brand
                       brands={brands}
                       brandHandle={brandHandle}
                       replaceQuery={replaceQuery}
                     />
-                    <Style
+                    {/* <Style
                       data={styles}
                       name={"Styles"}
                       replaceQuery={replaceQuery}
                       styleHandle={styleHandle}
-                    />
+                    /> */}
                     <Pattern
                       data={patterns}
                       name={"Patterns"}
