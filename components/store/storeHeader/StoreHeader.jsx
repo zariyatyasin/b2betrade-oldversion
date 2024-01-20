@@ -8,7 +8,16 @@ export default function StoreHeader({
   return (
     <div className="relative  ">
       <div className="absolute inset-0">
-        <img className="w-full h-full object-cover" src={headerImage} alt="" />
+        <img
+          className="w-full h-full object-cover"
+          src={
+            headerImage.length > 0
+              ? headerImage[0][0].secure_url
+              : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png"
+          }
+          alt=""
+        />
+
         <div
           className="absolute inset-0 bg-gray-400 mix-blend-multiply"
           aria-hidden="true"

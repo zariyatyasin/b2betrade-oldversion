@@ -3,7 +3,8 @@ import MainpageLayout from "../../components/layout/MainpageLayout";
 import Footer from "../../components/Footer/Footer";
 export default function page() {
   return (
-    <MainpageLayout>
+    <>
+      <MainpageLayout />
       <div className="relative bg-white">
         <div className="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
           <div className="lg:col-start-2 lg:pl-8">
@@ -716,6 +717,6 @@ export default function page() {
         </div>
       </div>
       <Footer />
-    </MainpageLayout>
+    </>
   );
 }

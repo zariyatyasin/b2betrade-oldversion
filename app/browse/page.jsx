@@ -286,7 +286,8 @@ export default async function page({ searchParams }) {
   } = await getData({ searchParams });
   const componentKey = Date.now();
   return (
-    <MainpageLayout>
+    <>
+      <MainpageLayout />
       <BrowsePage
         key={componentKey}
         patterns={patterns}
@@ -302,6 +303,6 @@ export default async function page({ searchParams }) {
         rating={rating}
         paginationCount={paginationCount}
       />
-    </MainpageLayout>
+    </>
   );
 }

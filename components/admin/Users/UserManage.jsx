@@ -97,8 +97,8 @@ export default function UserManage({ users, paginationCount }) {
   ];
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center mb-2 ">
+    <div className="px-4 sm:px-6 lg:px-8  h-screen ">
+      <div className="sm:flex sm:items-center mb-2">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">Orders</h1>
         </div>

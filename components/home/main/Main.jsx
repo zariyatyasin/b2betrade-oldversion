@@ -17,7 +17,7 @@ export default function Main({ data }) {
   const search = searchParams.get("search");
   const router = useRouter();
   const [quary, setQuary] = useState(search);
-  console.log(data);
+
   const image = [
     {
       imageUrl:

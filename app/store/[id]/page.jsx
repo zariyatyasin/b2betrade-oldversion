@@ -39,7 +39,7 @@ export default async function page({ params }) {
   const { StoreData, products } = await getData({
     params,
   });
-
+  console.log(StoreData);
   return (
     <>
       <Header />

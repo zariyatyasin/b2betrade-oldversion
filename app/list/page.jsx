@@ -82,7 +82,8 @@ export default async function page({ searchParams }) {
   });
 
   return (
-    <MainpageLayout>
+    <>
+      <MainpageLayout />
       {/* <BuyerRequest
         products={products}
         categories={categories}
@@ -97,6 +98,6 @@ export default async function page({ searchParams }) {
         subCategories={subCategories}
         locations={locations}
       />
-    </MainpageLayout>
+    </>
   );
 }

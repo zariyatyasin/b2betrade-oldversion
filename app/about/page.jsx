@@ -5,10 +5,9 @@ import Footer from "../../components/Footer/Footer";
 export default function page() {
   return (
     <div>
-      <MainpageLayout>
-        <Hero />
-        <Footer />
-      </MainpageLayout>
+      <MainpageLayout />
+      <Hero />
+      <Footer />
     </div>
   );
 }

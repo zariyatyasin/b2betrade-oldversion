@@ -1,20 +1,32 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import InquiryForm from "../chat/InquiryForm";
 
 export default function ListSupplierCard({ store }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div>
       <div key={store.id} className="py-6 sm:flex">
         <div className="flex space-x-4 sm:min-w-0 sm:flex-1 sm:space-x-6 lg:space-x-8">
           <img
-            src={store.image}
+            src={
+              store.image.length > 0
+                ? store.image[0][0].secure_url
+                : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png"
+            }
             alt={store.storeName}
             className="flex-none w-20 h-20 rounded-md object-center object-cover sm:w-48 sm:h-48"
           />
           <div className="pt-1.5 min-w-0 flex-1 sm:pt-0">
             <h1 className="text-lg font-medium text-gray-900">
               <Link href={`store/${store._id}`}>
-                {" "}
                 <div>{store.storeName}</div>
               </Link>
             </h1>
@@ -35,13 +47,22 @@ export default function ListSupplierCard({ store }) {
             View Details
           </Link>
           <button
-            type="button"
+            onClick={openModal}
             className="w-full flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50  sm:w-full sm:flex-grow-0"
           >
             Send Message
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="fixed z-50 bottom-0 left-1/2 md:left-auto md:right-0    transform -translate-x-1/2 md:translate-x-0   bg-white p-8 rounded-md w-full md:w-1/2 shadow-2xl border">
+          <InquiryForm
+            name={store.storeName}
+            onClose={closeModal}
+            storeId={store._id}
+          />
+        </div>
+      )}
     </div>
   );
 }

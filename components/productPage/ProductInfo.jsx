@@ -1,20 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+
 import Rating from "@mui/material/Rating";
 import axios from "axios";
-import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
+
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
-import Accordian from "../accordion/Accordion";
 import InquiryForm from "../chat/InquiryForm";
 import { toast } from "react-toastify";
-import { useSearchParams } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateCart } from "../../store/cartSlice";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -32,6 +30,7 @@ import {
 import { Line } from "react-chartjs-2";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button } from "../ui/button";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,7 +43,11 @@ ChartJS.register(
 
 const ProductInfo = ({ product, setActiveImg, params }) => {
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <FullScreenLoading />
+      </div>
+    );
   }
 
   const [loading, setLoading] = useState(false);
@@ -296,7 +299,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   return (
-    <div className="flex-1 bg-white p-4 rounded-md ">
+    <div className="flex-1 bg-white p-4 rounded-md relative ">
       <h1 className="text-xl   font-medium text-qblack mb-2 ">
         {product?.name}
       </h1>
@@ -349,9 +352,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
         {product.size.map((size, i) => (
           <Link
-            href={`/product/${product.slug}/${UrlStyle}/${i}`}
+            href={`/product/${product._id}/${UrlStyle}/${i}`}
             key={i}
             onClick={() => setStaySize(i)}
+            scroll={false}
           >
             <div
               key={i}
@@ -379,7 +383,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                     }
                     onMouseLeave={() => setActiveImg("")}
                   >
-                    <Link href={`/product/${product.slug}/${i}/0`}>
+                    <Link
+                      href={`/product/${product._id}/${i}/0`}
+                      scroll={false}
+                    >
                       {color.image ? (
                         <img
                           src={color.image}
@@ -522,10 +529,12 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       {error && <span className="text-red-600 mt-2">{error}</span>}
 
       {isModalOpen && (
-        <div className="fixed z-50 bottom-0 flex right-8  ">
-          <div className="bg-white p-8 rounded-md   shadow-2xl  border">
-            <InquiryForm onClose={closeModal} />
-          </div>
+        <div className="fixed z-50 bottom-0 left-1/2 md:left-auto md:right-0    transform -translate-x-1/2 md:translate-x-0   bg-white p-8 rounded-md w-full md:w-1/2 shadow-2xl border">
+          <InquiryForm
+            onClose={closeModal}
+            productId={product._id}
+            storeId={product.storeId._id}
+          />
         </div>
       )}
     </div>

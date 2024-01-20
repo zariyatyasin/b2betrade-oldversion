@@ -38,6 +38,11 @@ const AdminsidebarData = [
         icon: <MailOutlineOutlinedIcon sx={{ fontSize: 18 }} />,
         link: "/admin/dashboard/message",
       },
+      {
+        label: "Send Inquiry",
+        icon: <MailOutlineOutlinedIcon sx={{ fontSize: 18 }} />,
+        link: "/admin/dashboard/sendInquiry",
+      },
     ],
   },
   {

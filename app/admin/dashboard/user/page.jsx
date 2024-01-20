@@ -35,7 +35,7 @@ async function getData({ searchParams }) {
       : sortQuery == "manufacturer"
       ? { role: "manufacturer" }
       : sortQuery == "seller"
-      ? { role: "seller" }
+      ? { role: "user" }
       : sortQuery == "user"
       ? { role: "user" }
       : sortQuery == "newest"
@@ -89,10 +89,14 @@ async function getData({ searchParams }) {
 }
 export default async function page({ searchParams }) {
   const { users, paginationCount } = await getData({ searchParams });
-
+  const componentKey = Date.now();
   return (
     <Layout>
-      <UserManage users={users} paginationCount={paginationCount} />
+      <UserManage
+        key={componentKey}
+        users={users}
+        paginationCount={paginationCount}
+      />
     </Layout>
   );
 }

@@ -72,7 +72,7 @@ export default function AddSubProductColor({
   return (
     <Box>
       <div
-        className=" text-white bg-blue-500 hover:bg-blue-500    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
+        className=" text-white bg-blue-500 hover:bg-blue-500 w-64    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
         onClick={() => setIsImgOrCOlor((prev) => !prev)}
       >
         {!isImgorCOlor
@@ -123,15 +123,14 @@ export default function AddSubProductColor({
           {subProduct.color.image && (
             <div>
               <img
-                src={
-                  subProduct.color.image &&
-                  URL.createObjectURL(subProduct.color.image)
-                }
+                src={subProduct?.color.image}
+                // &&
+                //   URL.createObjectURL(subProduct.color.image)
                 alt="Color Image"
                 style={{ maxWidth: "100px", maxHeight: "100px" }}
               />
               <div
-                className="text-white bg-red-500 hover:bg-red-500    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
+                className="text-white bg-red-500 hover:bg-red-500   w-64    text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
                 variant="contained"
                 color="error"
                 onClick={() => handleRemoveColorImage(index)}

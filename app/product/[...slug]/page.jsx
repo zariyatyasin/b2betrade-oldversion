@@ -9,6 +9,7 @@ import db from "../../../utils/db";
 import Link from "next/link";
 import MainpageLayout from "../../../components/layout/MainpageLayout";
 import mongoose from "mongoose";
+import Footer from "../../../components/Footer/Footer";
 
 async function getData(url) {
   const ObjectId = mongoose.Types.ObjectId;
@@ -123,7 +124,8 @@ export default async function Page({ params, searchParams }) {
   const { product } = await getData(params);
 
   return (
-    <MainpageLayout>
+    <>
+      <MainpageLayout />
       <div className="pt-4 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
         <div className="flex items-center pb-4 ">
           <ol className="flex items-center w-full overflow-hidden">
@@ -141,9 +143,9 @@ export default async function Page({ params, searchParams }) {
                 {product?.category.name}
               </Link>
             </li>
-            <li className="text-base text-body mt-0.5">/</li>
+            <li className="text-base text-body mt-0.5 hidden l ">/</li>
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
-              <div className=" text-sm font-medium text-gray-500 hover:text-gray-700">
+              <div className=" text-sm hidden  font-medium text-gray-500 hover:text-gray-700">
                 {product?.subCategories?.map((sub) => (
                   <Link href={`/browse?subCategories=${sub._id}`}>
                     <span>{sub.name}</span>
@@ -155,6 +157,7 @@ export default async function Page({ params, searchParams }) {
         </div>
         <ProductMain product={product} params={params} />
       </div>
-    </MainpageLayout>
+      <Footer />
+    </>
   );
 }

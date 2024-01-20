@@ -6,9 +6,9 @@ const navigation = {
     { name: "About B2BeTrade", href: "/about" },
     { name: "Terms & Conditions", href: "/terms" },
     { name: "Returns & Refunds", href: "/returns" },
-    { name: "Buyer & Seller  Policy", href: "/buyerpolicy" },
+    // { name: "Buyer & Seller  Policy", href: "/buyerpolicy" },
     { name: "Contact us", href: "/contact" },
-    { name: "Partners", href: "#" },
+    { name: "Partners", href: "/partner" },
   ],
   social: [
     {

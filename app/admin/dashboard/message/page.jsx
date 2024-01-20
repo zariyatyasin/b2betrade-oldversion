@@ -24,7 +24,7 @@ export async function getData() {
 }
 export default async function page() {
   const { messages } = await getData();
-  console.log(messages);
+
   const componentKey = Date.now();
   return (
     <Layout>

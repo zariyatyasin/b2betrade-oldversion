@@ -8,16 +8,15 @@ import TextField from "@mui/material/TextField";
 import Images from "../../productPage/reviews/Images";
 import UploadImagesClould from "../../../utils/UploadImagesClould";
 import axios from "axios";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 export default function StoreEditHeader({ description, image, storeName, id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedDescription, setEditedDescription] = useState(description);
-  console.log(image[0]);
+  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const handleEditButtonClick = () => {
     setIsModalOpen(true);
   };
-
-  console.log(image.length);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -25,6 +24,7 @@ export default function StoreEditHeader({ description, image, storeName, id }) {
 
   const handleSaveChanges = async () => {
     try {
+      setLoading(true);
       const uploadedImages = await UploadImagesClould(images);
 
       const { data } = await axios.put(`/api/store/update/${id}`, {
@@ -34,12 +34,14 @@ export default function StoreEditHeader({ description, image, storeName, id }) {
     } catch (error) {
       console.error("Error uploading images:", error);
     } finally {
+      setIsModalOpen(false);
+      setLoading(false);
     }
-    setIsModalOpen(false);
   };
 
   return (
     <div className="relative">
+      {loading && <FullScreenLoading />}
       <div className="absolute inset-0">
         {image.length > 0 ? (
           <img

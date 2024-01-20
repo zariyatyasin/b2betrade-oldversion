@@ -1,16 +1,12 @@
 import Footer from "../components/Footer/Footer";
-import Example from "../components/Header/Example";
+
 import MainpageLayout from "../components/layout/MainpageLayout";
-import { Header } from "../components/Header/Header";
-import { HeaderPolicy } from "../components/Header/HeaderPolicy";
-import { HeaderAds } from "../components/Header/HeaderAds";
-import TopNavbar from "../components/Header/TopNavbar";
+
 import Discount from "../components/home/Discount/Discount";
-import { Categories } from "../components/home/category/Categories";
-import FlashDeals from "../components/home/flashDeals/FlashDeals";
+
 import Main from "../components/home/main/Main";
 import NewProducts from "../components/home/newProducts/NewProducts";
-import Tabs from "../components/home/sudzarTabs/Tabs";
+
 import Product from "../model/Product";
 import db from "../utils/db";
 import Category from "../model/Category";
@@ -59,7 +55,8 @@ export default async function Home({ searchParams }) {
   });
 
   return (
-    <MainpageLayout>
+    <>
+      <MainpageLayout />
       {/* <HeaderAds /> */}
       {/* <TopNavbar/> */}
       {/* <Header categories={categories} subCategories={subCategories} /> */}
@@ -76,11 +73,11 @@ export default async function Home({ searchParams }) {
 
         <NewProducts products={newProduct} name={"New Arrival"} />
 
-        <Discount />
+        {/* <Discount /> */}
       </div>
 
       <Footer />
       <MobileMenu categories={categories} subCategories={subCategories} />
-    </MainpageLayout>
+    </>
   );
 }

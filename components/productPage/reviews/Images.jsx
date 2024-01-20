@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-
+import CancelIcon from "@mui/icons-material/Cancel";
 export default function Images({ images, setImages, imageAllow }) {
   const [error, setError] = useState("");
   const inputRef = useRef(null);
@@ -50,13 +50,13 @@ export default function Images({ images, setImages, imageAllow }) {
         multiple
         accept="image/png,image/jpeg,image/webp"
       />
-      <button
-        className="bg-blue-500 text-white py-2 px-4 mt-4 rounded-lg hover:bg-blue-600"
+      <div
+        className="bg-blue-500 text-white py-2 cursor-pointer px-4 mt-4 rounded-lg hover:bg-blue-600"
         style={{ width: "150px" }}
         onClick={() => inputRef.current.click()}
       >
         Add Images
-      </button>
+      </div>
       {error && <div className="text-red-500 mt-2">{error}</div>}
       <div className="mt-4 flex flex-wrap">
         {images.length > 0 &&
@@ -66,12 +66,12 @@ export default function Images({ images, setImages, imageAllow }) {
                 onClick={() => removeImage(img)}
                 className="absolute top-0 right-0 cursor-pointer text-red-500 hover:text-red-700"
               >
-                Remove
+                <CancelIcon />
               </div>
               <img
                 src={img}
                 alt=""
-                className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                className="w-32 h-32 object-cover  rounded-lg border border-gray-300"
               />
             </div>
           ))}
