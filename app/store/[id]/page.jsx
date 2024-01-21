@@ -61,7 +61,7 @@ export default async function page({ params }) {
               storeName={StoreData.storeName}
               storeId={StoreData._id}
             />
-            <div className=" pb-24 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div className=" pb-24 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
               {products?.map((item, id) => (
                 <div className="   " key={id}>
                   <ProductCardSwip products={item} />

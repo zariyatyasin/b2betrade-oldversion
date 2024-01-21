@@ -97,13 +97,18 @@ export default function StoreEditHeader({ description, image, storeName, id }) {
             <TextField
               label="Description"
               multiline
+              fullWidth // Add this line to make the TextField full width
               value={editedDescription}
               onChange={(e) => setEditedDescription(e.target.value)}
+              inputProps={{ maxLength: 240 }} // Add this line to set the maximum character length
             />
 
             <Images images={images} setImages={setImages} imageAllow={5} />
 
-            <Button onClick={handleSaveChanges}>Save Changes</Button>
+            <Button onClick={handleSaveChanges}>
+              {loading ? "Loading..." : "Save Changes"}
+            </Button>
+            <Button onClick={handleModalClose}>Cancle</Button>
           </Box>
         </Modal>
       </div>

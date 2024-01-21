@@ -20,6 +20,7 @@ export default function Main({ data }) {
   const suggestionListRef = useRef();
   const [query, setQuery] = useState(search);
   const [suggestions, setSuggestions] = useState([]);
+
   const highlightMatchedText = (text, query) => {
     if (!query) return <span>{text}</span>;
 
@@ -92,7 +93,6 @@ export default function Main({ data }) {
     if (query?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
-      // Modify the search parameter
       router.push(`/browse?search=${query}`);
 
       // Generate the new URL with the modified search parameter
@@ -105,6 +105,17 @@ export default function Main({ data }) {
     } else {
       router.push("/browse", { shallow: true });
     }
+  };
+  const modifyImageUrl = (url) => {
+    const uploadIndex = url?.indexOf("/upload/");
+    if (uploadIndex !== -1) {
+      const modifiedUrl =
+        url.slice(0, uploadIndex + 8) +
+        "f_auto,q_auto/" +
+        url.slice(uploadIndex + 8);
+      return modifiedUrl;
+    }
+    return url;
   };
 
   return (
@@ -182,8 +193,8 @@ export default function Main({ data }) {
                     if (item.active && item.heroImageSide === "left") {
                       return item.images.map((image, index) => (
                         <SwiperSlide key={`${id}-${index}`}>
-                          <Image
-                            src={image[0].url}
+                          <img
+                            src={modifyImageUrl(image[0].url)}
                             alt={item.title}
                             width={500}
                             height={100}
@@ -217,8 +228,8 @@ export default function Main({ data }) {
                     if (item.active && item.heroImageSide === "right") {
                       return item.images.map((image, index) => (
                         <SwiperSlide key={`${id}-${index}`}>
-                          <Image
-                            src={image[0].url}
+                          <img
+                            src={modifyImageUrl(image[0].url)}
                             alt={item.title}
                             width={500}
                             height={250}

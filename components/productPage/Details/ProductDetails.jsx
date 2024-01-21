@@ -48,7 +48,7 @@ export default function ProductDetails({ product }) {
   };
 
   return (
-    <div className="bg-white mt-4 rounded-md p-4">
+    <div className="bg-white mt-4 rounded-md p-4 shadow">
       <h1 className="text-xl font-semibold mb-4">Product Details</h1>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -63,7 +63,7 @@ export default function ProductDetails({ product }) {
         </Box>
         <CustomTabPanel value={value} index={0}>
           <div
-            dangerouslySetInnerHTML={{ __html: product.description }}
+            dangerouslySetInnerHTML={{ __html: product?.description }}
             style={{
               fontSize: "16px",
               lineHeight: "1.6",

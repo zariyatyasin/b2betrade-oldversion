@@ -8,7 +8,7 @@ export default function StatusCard({ name, stat }) {
     >
       <dt className="text-sm font-medium text-gray-500 truncate">{name}</dt>
       <dd className="mt-1 text-3xl font-semibold text-gray-900">
-        {stat.toLocaleString()}
+        {stat?.toLocaleString()}
       </dd>
     </div>
   );

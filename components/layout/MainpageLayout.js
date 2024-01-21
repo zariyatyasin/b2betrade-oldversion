@@ -12,14 +12,9 @@ async function getData() {
       path: "parent",
       model: Category,
     });
-    const suggestions = await Product.find({
-      name: { $regex: query, $options: "i" },
-    }) // Adapt this to your model and search logic
-      .limit(5)
-      .select("name");
-
+   
     return {
-      suggestions: JSON.parse(JSON.stringify(suggestions)),
+   
       categories: JSON.parse(JSON.stringify(categories)),
       subCategories: JSON.parse(JSON.stringify(subCategories)),
     };
@@ -28,17 +23,13 @@ async function getData() {
   }}
 
 export default async function MainpageLayout({ children }) {
-  const data = await getData();
+  const { categories, subCategories } = await getData();
 
-  if (!data || !data.categories) {
    
-    console.error("Categories not available");
-    return null;  
-  }
-  const { categories, subCategories } = data;
+ 
   return (
     <>
-      <Header suggestions={suggestions}  categories={categories} subCategories={subCategories} />
+      <Header   categories={categories} subCategories={subCategories} />
    
     </>
   );

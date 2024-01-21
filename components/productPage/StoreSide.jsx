@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ChatBox from "../../components/chat/ChatBox";
 import Link from "next/link";
 import EnergySavingsLeafOutlinedIcon from "@mui/icons-material/EnergySavingsLeafOutlined";
+import Image from "next/image";
 export default function StoreSide({ store }) {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -12,31 +13,47 @@ export default function StoreSide({ store }) {
   const handleCloseChat = () => {
     setIsChatOpen(false);
   };
-  return (
-    <div className=" mx-auto  max-w-md">
-      <div className="   bg-white   rounded-md   p-4">
-        <div className="flex justify-center">
-          {/* <img
-            src={store.image}
-            alt=""
-            className="rounded-full w-24 h-24 shadow-md border-4 border-white transform hover:scale-11ß0"
-          /> */}
-        </div>
+  const modifyImageUrl = (url) => {
+    const uploadIndex = url?.indexOf("/upload/");
+    if (uploadIndex !== -1) {
+      const modifiedUrl =
+        url?.slice(0, uploadIndex + 8) +
+        "f_auto,q_auto/" +
+        url?.slice(uploadIndex + 8);
+      return modifiedUrl;
+    }
+    return url;
+  };
+  const imageUrl =
+    store.image.length > 0
+      ? modifyImageUrl(store.image[0][0].url)
+      : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png";
 
-        <div className="mt-6 text-center">
-          <div className="font-bold text-xl">{store?.storeName}</div>
-          {store?.isVerify === "true" && (
+  return (
+    <div className=" mx-auto  rounded-md  overflow-hidden shadow   max-w-xs">
+      <div className="flex justify-center  ">
+        <Image
+          height={128}
+          width={280}
+          src={imageUrl}
+          alt=""
+          className=" w-full max-h-32  object-cover "
+        />
+      </div>
+      <div className="   bg-white   rounded-md   p-4">
+        <div className="mt-2 text-center">
+          {
             <div className="flex items-center justify-center mt-2">
+              <div className="font-bold text-xl">{store?.storeName}</div>
               <img
                 src="https://www.cdnlogo.com/logos/t/77/twitter-verified-badge.svg"
-                className="h-4 w-4 mr-2 rounded-full"
+                className="h-4 w-4 ml-2 rounded-full"
                 alt="Verified Badge"
               />
-              <span className="text-gray-500">Verified</span>
             </div>
-          )}
-          <p className="text-gray-400 font-medium text-sm mt-2">
-            UI Components Factory
+          }
+          <p className="text-gray-400 font-medium text-sm mt-2 uppercase">
+            {store?.storeType}
           </p>
         </div>
 
@@ -69,8 +86,8 @@ export default function StoreSide({ store }) {
 
         <div className="flex items-center justify-between mt-6 px-2">
           <div className="text-center">
-            <p className="text-gray-500 font-medium text-xs">Response time</p>
-            <div className="text-sm font-bold">&le;3h</div>
+            <p className="text-gray-500 font-medium text-xs">Location</p>
+            <div className="text-sm font-bold">{store.address.city} </div>
           </div>
           <div className="text-center">
             <p className="text-gray-500 font-medium text-xs">Floorspace</p>
@@ -91,17 +108,16 @@ export default function StoreSide({ store }) {
         </div>
 
         <div className="mt-6">
-          <h3 className="font-medium text-gray-900">Services</h3>
-          <div className="mt-2 text-sm text-center">
-            <p>Custom UI Design</p>
-            <p>Responsive Web Development</p>
+          <h3 className="font-medium text-gray-500  text-xs  ">Services</h3>
+          <div className="mt-2 text-xs  r">
+            <p>{store.description}</p>
           </div>
         </div>
       </div>
 
-      {isChatOpen && (
+      {/* {isChatOpen && (
         <ChatBox storeName={store.storeName} onClose={handleCloseChat} />
-      )}
+      )} */}
     </div>
   );
 }

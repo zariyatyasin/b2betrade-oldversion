@@ -26,14 +26,10 @@ export const POST = async (request) => {
       );
     }
 
-    // const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-    // const uniqueSuffix = `${session.id.slice(-5)}-${otherData.name}`;
-    // otherData.slug = slugify(
-    //   `${otherData.name}-${uniqueSuffix}-${currentDate}`
-    // );
+    const newSlug = slugify(`${otherData.name}-${currentDate}`);
 
-    otherData.slug = slugify(otherData.name);
     const newProduct = new Product({
       userId: session.id,
 
@@ -44,7 +40,9 @@ export const POST = async (request) => {
       details: otherData.details,
       bulkPricing: otherData.bulkPricing,
       questions: otherData.questions,
-      slug: otherData.slug,
+      slug: newSlug,
+      section: otherData.section,
+      shipping: otherData.shipping,
       category: otherData.category,
       subCategories: otherData.subCategories,
       subProducts: otherData.updatedSubProducts,
@@ -54,7 +52,7 @@ export const POST = async (request) => {
     let savedProduct = await newProduct.save();
 
     store.products.push(savedProduct._id);
-    db.disconnectDb();
+
     return new NextResponse(
       { message: "Product created Successfully." },
       { status: 200 }

@@ -12,7 +12,7 @@ export default function ProductReviews({ product }) {
   const [reviews, setReviews] = useState(product?.reviews);
 
   return (
-    <div className="bg-white mt-4 rounded-md p-4  ">
+    <div className="bg-white mt-4 rounded-md p-4 shadow  ">
       <div className=" ">
         <h1 className="text-xl font-semibold mb-4">
           Customer Reviews ({product?.reviews.length})

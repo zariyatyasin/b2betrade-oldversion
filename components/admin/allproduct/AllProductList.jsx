@@ -100,7 +100,7 @@ export default function AllProductList({ products, paginationCount }) {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center mb-2 ">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Orders</h1>
+          <h1 className="text-xl font-semibold text-gray-900">All Product</h1>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button

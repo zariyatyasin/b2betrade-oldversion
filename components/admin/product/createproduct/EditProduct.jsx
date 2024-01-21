@@ -25,7 +25,12 @@ import Questions from "./addToClick/Questions";
 import AdminInput from "../../../selects/AdminPut";
 import { Uploadimages } from "../../../../request/uploadimg";
 import axios from "axios";
+import FullScreenLoading from "../../../fullScreenOverlay/FullScreenLoading";
+import { useRouter } from "next/navigation";
 export default function EditProduct({ editedProduct, categories, id }) {
+  const subCategoriesIds = editedProduct.subCategories.map(
+    (subCategory) => subCategory._id
+  );
   const [product, setProduct] = useState({
     name: editedProduct.name,
     description: editedProduct.description,
@@ -37,7 +42,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
     description_images: [],
     parent: "", // Add the appropriate property from editedProduct
     category: editedProduct.category._id,
-    subCategories: [], // Add the appropriate property from editedProduct
+    subCategories: subCategoriesIds, // Add the appropriate property from editedProduct
     details: editedProduct.details,
     bulkPricing: editedProduct.bulkPricing,
     questions: editedProduct.questions,
@@ -61,7 +66,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
       matchVisual: false,
     },
   };
-
+  const router = useRouter();
   const formats = [
     "header",
     "bold",
@@ -135,13 +140,19 @@ export default function EditProduct({ editedProduct, categories, id }) {
     // }
 
     try {
+      setLoading(true);
       const { data } = await axios.put(`/api/admin/product/update/${id}`, {
         ...product,
-        updatedSubProducts,
+        subProducts,
       });
-      console.log("Product created successfully:", data);
+
+      console.log(product);
+      console.log(subProducts);
     } catch (error) {
       console.error("Error creating product:", error);
+    } finally {
+      router.push(`/product/${id}/0/0`);
+      setLoading(false);
     }
   };
 
@@ -150,6 +161,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
   });
   return (
     <Box>
+      {loading && <FullScreenLoading />}
       <Formik
         enableReinitialize
         initialValues={product}

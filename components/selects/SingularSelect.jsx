@@ -1,4 +1,3 @@
-import { MenuItem, TextField } from "@mui/material";
 import { ErrorMessage, useField } from "formik";
 
 export default function SingularSelect({
@@ -17,25 +16,25 @@ export default function SingularSelect({
   return (
     <div className="mb-4">
       {header && <div className="mb-2 font-bold">{header}</div>}
-      <TextField
-        variant="outlined"
+      <select
         name={field.name}
-        select
-        fullWidth
-        disabled={isDisabled}
-        label={placeholder}
-        value={field.value || ""}
         onChange={handleChange}
-        error={meta.touched && meta.error ? true : false}
-        helperText={meta.touched && meta.error ? meta.error : ""}
+        value={field.value || ""}
+        disabled={isDisabled}
+        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
       >
-        <MenuItem value="">Select an option</MenuItem>
+        <option value="">Select an option</option>
         {data?.map((option) => (
-          <MenuItem key={option._id} value={option._id || option.name}>
+          <option key={option._id} value={option._id || option.name}>
             {option.name}
-          </MenuItem>
+          </option>
         ))}
-      </TextField>
+      </select>
+      {meta.touched && meta.error && (
+        <div className="text-red-500 text-sm mt-1">
+          <ErrorMessage name={field.name} />
+        </div>
+      )}
     </div>
   );
 }

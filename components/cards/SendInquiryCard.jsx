@@ -15,6 +15,17 @@ export default function SendInquiryCard({ data }) {
     userId: { name: userName, phoneNumber, image: userImage },
   } = data;
 
+  const modifyImageUrl = (url) => {
+    const uploadIndex = url?.indexOf("/upload/");
+    if (uploadIndex !== -1) {
+      const modifiedUrl =
+        url.slice(0, uploadIndex + 8) +
+        "w_700,c_scale/" +
+        url.slice(uploadIndex + 8);
+      return modifiedUrl;
+    }
+    return url;
+  };
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white m-4">
       <div className="px-6 py-4">
@@ -39,7 +50,7 @@ export default function SendInquiryCard({ data }) {
                 height={500}
                 width={400}
                 className="w-full h-32 object-cover mb-2 rounded"
-                src={imgArray[0].url}
+                src={modifyImageUrl(imgArray[0].url)}
                 alt={`Product Image ${index + 1}`}
               />
             ))}

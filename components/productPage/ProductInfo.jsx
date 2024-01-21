@@ -50,6 +50,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     );
   }
 
+  console.log("color", product.colors);
+
   const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
@@ -145,8 +147,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     { date: "2022-01-01", price: 25.0 },
     { date: "2022-01-02", price: 28.5 },
     { date: "2022-01-03", price: 22.0 },
-    { date: "2022-01-04", price: 30.0 },
-    { date: "2022-01-05", price: 35.5 },
+    { date: "2022-01-04", price: 20.0 },
+    { date: "2022-01-05", price: 15.5 },
     // Add more entries as needed
   ];
 
@@ -296,9 +298,9 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setLoading(false);
     }
   };
-
+  console.log(product.size);
   return (
-    <div className="flex-1 bg-white p-4 rounded-md relative ">
+    <div className="flex-1 bg-white p-4 rounded-md relative  shadow ">
       <h1 className="text-xl   font-medium text-qblack mb-2 ">
         {product?.name}
       </h1>
@@ -345,65 +347,81 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </div>
       </div>
 
-      <h2 className="mt-2 text-lg font-medium  text-gray-900">
-        Select the Size
-      </h2>
+      {product.size &&
+        product.size.some((size) => size.size && size.size.trim() !== "") && (
+          <h2 className="mt-2 text-lg font-medium text-gray-900">
+            Select the Size
+          </h2>
+        )}
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">
-        {product.size.map((size, i) => (
-          <Link
-            href={`/product/${product._id}/${UrlStyle}/${i}`}
-            key={i}
-            onClick={() => setStaySize(i)}
-            scroll={false}
-          >
-            <div
-              key={i}
-              className={`rounded-lg border ${
-                i === staySize ? "bg-[#2B39D1] text-white" : "border-black"
-              }  p-2 font-medium cursor-pointer  text-sm transition-all duration-300 ease-in-out`}
-              onClick={() => handleSizeSelection({ size: size.size, index: i })}
-            >
-              {size.size}
-            </div>
-          </Link>
-        ))}
+        {product.size &&
+          product.size.length > 0 &&
+          product.size
+            .filter((size) => size.size && size.size.trim() !== "")
+            .map((size, i) => (
+              <Link
+                href={`/product/${product._id}/${UrlStyle}/${i}`}
+                key={i}
+                onClick={() => setStaySize(i)}
+                scroll={false}
+              >
+                <div
+                  key={i}
+                  className={`rounded-lg border ${
+                    i === staySize ? "bg-[#2B39D1] text-white" : "border-black"
+                  }  p-2 font-medium cursor-pointer  text-sm transition-all duration-300 ease-in-out`}
+                  onClick={() =>
+                    handleSizeSelection({ size: size.size, index: i })
+                  }
+                >
+                  {size.size}
+                </div>
+              </Link>
+            ))}
       </div>
 
       <div className="mt-2     ">
-        {product.colors && product.colors.length > 0 && (
-          <div className=" flex flex-col">
-            <h2 className="mt-4 text-lg font-semibold text-gray-900">Color</h2>
-            <div className="flex gap-2">
-              {product.colors.map((color, i) => (
-                <div key={i}>
-                  <div
-                    onMouseOver={() =>
-                      setActiveImg(product.subProducts[i].images[0].url)
-                    }
-                    onMouseLeave={() => setActiveImg("")}
-                  >
-                    <Link
-                      href={`/product/${product._id}/${i}/0`}
-                      scroll={false}
-                    >
-                      {color.image ? (
-                        <img
-                          src={color.image}
-                          className="h-14 w-14 rounded-full"
-                        />
-                      ) : (
-                        <div
-                          className={`h-5 w-5 rounded-full`}
-                          style={{ backgroundColor: color.color }}
-                        ></div>
-                      )}
-                    </Link>
+        {product.colors &&
+          product.colors.some(
+            (color) => color.color !== "" || color.image !== ""
+          ) && (
+            <div className="flex flex-col">
+              <h2 className="mt-4 text-lg font-semibold text-gray-900">
+                Color
+              </h2>
+              <div className="flex gap-2">
+                {product.colors.map((color, i) => (
+                  <div key={i}>
+                    {color.color !== "" || color.image !== "" ? (
+                      <div
+                        onMouseOver={() =>
+                          setActiveImg(product.subProducts[i].images[0].url)
+                        }
+                        onMouseLeave={() => setActiveImg("")}
+                      >
+                        <Link
+                          href={`/product/${product._id}/${i}/0`}
+                          scroll={false}
+                        >
+                          {color.image ? (
+                            <img
+                              src={color.image}
+                              className="h-14 w-14 rounded-full"
+                            />
+                          ) : (
+                            <div
+                              className={`h-5 w-5 rounded-full`}
+                              style={{ backgroundColor: color.color }}
+                            ></div>
+                          )}
+                        </Link>
+                      </div>
+                    ) : null}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
 
       <div className="text-2xl font-bold mt-4 text-[#2B39D1]">
@@ -530,6 +548,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       {isModalOpen && (
         <div className="fixed z-50 bottom-0 left-1/2 md:left-auto md:right-0    transform -translate-x-1/2 md:translate-x-0   bg-white p-8 rounded-md w-full md:w-1/2 shadow-2xl border">
           <InquiryForm
+            name={product.storeId.storeName}
             onClose={closeModal}
             productId={product._id}
             storeId={product.storeId._id}

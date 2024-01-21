@@ -10,6 +10,7 @@ import StoreHeader from "../../../../components/store/storeHeader/StoreHeader";
 import StoreNavbar from "../../../../components/store/storeHeader/StoreNavbar";
 import { redirect } from "next/navigation";
 import ProductCardSwip from "../../../../components/cards/ProductCardSwip";
+import ProductDeleteButto from "../../../../components/productPage/productDelete/ProductDeleteButton"
 async function getData() {
   const session = await getCurrentUser();
 
@@ -34,7 +35,9 @@ async function getData() {
       model: SubCategory,
     });
 
-  const products = await Product.find({ userId: session.id });
+    const products = await Product.find({ userId: session.id })
+    .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
+    
 
   return {
     StoreData: JSON.parse(JSON.stringify(StoreData)),
@@ -44,21 +47,24 @@ async function getData() {
 
 export default async function page() {
   const { StoreData, products } = await getData();
+  
+ 
 
   return (
     <Layout>
       <StoreHeader
         storeName={StoreData[0].storeName}
-        headerImage={StoreData[0].headerImage}
+        headerImage={StoreData[0].image}
         storeDescription={StoreData[0].description}
       />
 
-      {StoreData[0].storeAtive === "active" && (
+      {  (
         <>
           <StoreNavbar subCategory={StoreData[0].subCategories} />
-          <div className="h-screen  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <div className="h-screen  grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
             {products?.map((item, id) => (
-              <div className="   " key={id}>
+              <div className=" relative   " key={id}>
+                 <ProductDeleteButto id={item._id}/>
                 <ProductCardSwip products={item} />
               </div>
             ))}

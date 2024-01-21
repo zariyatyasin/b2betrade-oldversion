@@ -17,16 +17,18 @@ export async function getData() {
     redirect("/signin");
   }
 
-  const allOrders = await Order.find().lean();
+  const totalOrdersCount = await Order.countDocuments();
   const completedOrders = await Order.find({ status: "Completed" }).lean();
+  const cancledOrders = await Order.countDocuments({
+    status: "Cancelled",
+  }).lean();
   const notProcessedOrders = await Order.find({
     status: "Not Processed",
   }).lean();
 
-  const totalOrdersCount = allOrders.length;
   const completedOrdersCount = completedOrders.length;
   const notProcessedOrdersCount = notProcessedOrders.length;
-  const totalSell = allOrders.reduce(
+  const totalSell = completedOrders.reduce(
     (acc, order) => acc + order.totalBeforeDiscount,
     0
   );
@@ -36,6 +38,7 @@ export async function getData() {
   let totalStore = await Store.countDocuments();
 
   return {
+    cancledOrders,
     totalOrdersCount,
     completedOrdersCount,
     notProcessedOrdersCount,
@@ -57,6 +60,7 @@ export default async function page() {
     totalSell,
     totalStore,
     notProcessedOrders,
+    cancledOrders,
   } = await getData();
 
   return (
@@ -72,6 +76,7 @@ export default async function page() {
         <StatusCard name="Total Product" stat={totalProduct} />
         <StatusCard name="Total Sell" stat={totalSell} />
         <StatusCard name="Total Store" stat={totalStore} />
+        <StatusCard name="Cancelled Order" stat={cancledOrders} />
       </div>
 
       <div className="px-4 sm:px-6 lg:px-8  mt-5">

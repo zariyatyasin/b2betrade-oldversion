@@ -26,13 +26,14 @@ import AdminInput from "../../../selects/AdminPut";
 import { Uploadimages } from "../../../../request/uploadimg";
 import axios from "axios";
 import FullScreenLoading from "../../../fullScreenOverlay/FullScreenLoading";
+import { toast } from "react-toastify";
 const initialState = {
   name: "",
   description: "",
   brand: "",
   sku: "",
-  discount: 0,
-  productType: "",
+  shipping: 0,
+  section: "",
   description_images: [],
   parent: "",
   category: "",
@@ -57,7 +58,6 @@ const initialState = {
       answer: "",
     },
   ],
-  shippingFee: "",
 };
 export default function CreateProduct({ categories }) {
   const [product, setProduct] = useState(initialState);
@@ -101,12 +101,33 @@ export default function CreateProduct({ categories }) {
   //     return response.data.url || "YOUR_CLOUDINARY_URL";
   //   });
   // };
-  const productType = [
+  const section = [
     {
-      name: "B2B",
+      name: "big-deal",
     },
     {
-      name: "B2C",
+      name: "featured",
+    },
+    {
+      name: "new-arrival",
+    },
+    {
+      name: "sale",
+    },
+    {
+      name: "clearance",
+    },
+    {
+      name: "bestseller",
+    },
+    {
+      name: "limited-edition",
+    },
+    {
+      name: "top-rated",
+    },
+    {
+      name: "regular",
     },
   ];
 
@@ -135,6 +156,9 @@ export default function CreateProduct({ categories }) {
   };
   const handleSubmit = async () => {
     const updatedSubProducts = [];
+
+    console.log(product);
+
     setLoading(true);
     for (const subProduct of subProducts) {
       const formData = new FormData();
@@ -176,9 +200,13 @@ export default function CreateProduct({ categories }) {
         ...product,
         updatedSubProducts,
       });
+
+      console.log("data", data);
     } catch (error) {
       console.error("Error creating product:", error);
     } finally {
+      toast.success("Product successfully created");
+      window.location.reload();
       setLoading(false);
     }
   };
@@ -186,10 +214,14 @@ export default function CreateProduct({ categories }) {
     name: Yup.string()
       .required("Please add a name")
       .min(10, "Product name must be between 10 and 300 characters.")
-      .max(300, "Product name must be between 10 and 300 characters."),
+      .max(300, "Product name must be between 10 and 300 characters.")
+      .matches(
+        /^[^\(\)\[\]@{}$#]+$/,
+        "Name cannot contain @, {}, $, #, (), [] symbols"
+      ),
     brand: Yup.string().required("Please add a brand"),
     category: Yup.string().required("Please select a category."),
-    sku: Yup.string().required("Please add an SKU/number"),
+    // sku: Yup.string().required("Please add an SKU/number"),
 
     description: Yup.string().required("Please add a description"),
   });
@@ -207,13 +239,12 @@ export default function CreateProduct({ categories }) {
             <h1 className="font-semibold tracking-tight text-2xl">
               Create Product
             </h1>
-            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
                 <Paper className="p-4">
                   {" "}
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
-                      {" "}
                       <AdminInput
                         type="text"
                         label="Name"
@@ -224,11 +255,11 @@ export default function CreateProduct({ categories }) {
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <SingularSelect
-                        name="Product Type"
-                        value={product.productType}
-                        placeholder="Product Type"
-                        data={productType}
-                        header="Select Product Type"
+                        name="section"
+                        value={product.section}
+                        placeholder="Feature Product type if any"
+                        data={section}
+                        header="Feature Product type if any"
                         handleChange={handleChange}
                       />
                     </Grid>
@@ -254,12 +285,11 @@ export default function CreateProduct({ categories }) {
                     </Grid>
 
                     <Grid item xs={12} lg={6}>
-                      {" "}
                       <AdminInput
                         type="text"
-                        label="Discount"
-                        name="discount"
-                        placholder="Product discount"
+                        label="Shipping Free"
+                        name="shipping"
+                        placholder="Shipping Free"
                         onChange={handleChange}
                       />
                     </Grid>

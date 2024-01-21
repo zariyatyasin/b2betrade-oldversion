@@ -138,12 +138,12 @@ export default function ProductTableCard({ data }) {
   return (
     <>
       <tr>
-        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-          <div className=" flex items-center">
-            <div className=" h-44 w-44   cursor-pointer ">
+        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm sm:pl-6">
+          <div className=" flex items-center max-w-xs">
+            <div className=" h-20 w-20  mr-2  cursor-pointer ">
               <ProductSwiper images={images} />
             </div>
-            <p> {product.name}</p>
+            <p className=" truncate"> {product.name}</p>
           </div>
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

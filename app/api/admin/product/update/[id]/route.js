@@ -20,9 +20,11 @@ export const PUT = async (request, { params }) => {
 
     const editedData = await request.json();
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, editedData, {
-      new: true,
-    });
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { $set: editedData }, 
+      { new: true }
+    );
     const newUpdatedProduct = await Product.findById(updatedProduct._id)
       .populate({
         path: "category",

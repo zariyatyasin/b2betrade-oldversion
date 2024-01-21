@@ -60,8 +60,7 @@ const productSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      required: true,
-      unique: true,
+     
       //lowercase: true,
     },
     storeId: {
@@ -120,14 +119,14 @@ const productSchema = new mongoose.Schema(
     section: {
       type: String,
       enum: [
-        "big deal",
+        "big-deal",
         "featured",
-        "new arrival",
+        "new-arrival",
         "sale",
         "clearance",
         "bestseller",
-        "limited edition",
-        "top rated",
+        "limited-edition",
+        "top-rated",
         "regular",
       ],
       default: "regular",
@@ -139,7 +138,7 @@ const productSchema = new mongoose.Schema(
     },
     shipping: {
       type: Number,
-      required: true,
+      
       default: 0,
     },
     description_images: [],

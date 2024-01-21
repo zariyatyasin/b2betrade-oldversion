@@ -12,6 +12,19 @@ const ProductSwiper = ({ images }) => {
   useEffect(() => {
     swiperRef.current.swiper.autoplay.stop();
   }, [swiperRef]);
+  const modifyImageUrl = (url) => {
+    const uploadIndex = url.indexOf("/upload/");
+    if (uploadIndex !== -1) {
+      const modifiedUrl =
+        url.slice(0, uploadIndex + 8) +
+        "f_auto,q_auto/" +
+        url.slice(uploadIndex + 8);
+      return modifiedUrl;
+    }
+
+    console.log("new", url);
+    return url;
+  };
   return (
     <div
       className=" "
@@ -35,7 +48,7 @@ const ProductSwiper = ({ images }) => {
             <Image
               width={500}
               height={500}
-              src={img.url}
+              src={modifyImageUrl(img.url)}
               alt=""
               className="w-full h-full object-center object-contain sm:w-full sm:h-full"
             />
