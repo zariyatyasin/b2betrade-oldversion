@@ -5,6 +5,7 @@ import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
 import Order from "../../../model/Order";
 import Link from "next/link";
+import Footer from "../../../components/Footer/Footer";
 
 async function getOrder(id) {
   await db.connectDb();
@@ -162,7 +163,7 @@ export default async function page({ params }) {
                   >
                     <h2
                       id="order-status-heading"
-                      className="font-medium text-gray-900 text-xl"
+                      className="font-medium px-4 sm:px-6 text-gray-900 text-xl"
                     >
                       Order Status
                     </h2>
@@ -171,46 +172,17 @@ export default async function page({ params }) {
                       <h4 className="sr-only">Status</h4>
                       <p className="text-sm font-medium text-gray-900">
                         Preparing to ship on{" "}
-                        <time dateTime={order.updatedAt}>
-                          {order.updatedAt}
-                        </time>
+                        <span className=" text-red-600">
+                          {new Date(order.updatedAt).toLocaleDateString(
+                            "en-US"
+                          )}
+                        </span>
                       </p>
-                      <div className="mt-6" aria-hidden="true">
-                        <div className="bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className={`h-2 bg-indigo-600 rounded-full w-${progressBarWidth}`}
-                          ></div>
-                        </div>
-                        <div className="sm:grid grid-cols-4 text-sm font-medium text-gray-600 mt-6">
-                          <div
-                            className={`text-${
-                              progressBarWidth >= 33.33
-                                ? "indigo-600"
-                                : "gray-500"
-                            }`}
-                          >
-                            Order placed
-                          </div>
-                          <div
-                            className={`text-center ${
-                              progressBarWidth >= 66.66
-                                ? "text-indigo-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            Processing
-                          </div>
-                          <div
-                            className={`text-center ${
-                              progressBarWidth >= 100
-                                ? "text-indigo-600"
-                                : "text-gray-500"
-                            }`}
-                          >
-                            Shipped
-                          </div>
-                          <div className="text-right">Delivered</div>
-                        </div>
+                      <div
+                        className="mt-2 text-sm font-medium text-blue-800"
+                        aria-hidden="true"
+                      >
+                        <p className="">{order.status}</p>
                       </div>
                     </div>
                   </section>
@@ -279,7 +251,7 @@ export default async function page({ params }) {
                 <div className="pt-4 flex items-center justify-between">
                   <dt className="font-medium text-gray-900">Order total</dt>
                   <dd className="font-medium text-indigo-600">
-                    ${order.total}
+                    ${order.totalBeforeDiscount}
                   </dd>
                 </div>
               </dl>
@@ -287,6 +259,7 @@ export default async function page({ params }) {
           </section>
         </main>
       </div>
+      <Footer />
     </div>
   );
 }

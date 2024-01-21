@@ -8,8 +8,6 @@ import { getCurrentUser } from "../../utils/session";
 import { redirect } from "next/navigation";
 
 import Order from "../../model/Order";
-import CancelOrderButton from "../../components/profile/CancelOrderButton";
-import Link from "next/link";
 
 import FirstSection from "../../components/profile/FirstSection";
 import User from "../../model/User";

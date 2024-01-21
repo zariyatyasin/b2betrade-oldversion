@@ -34,6 +34,7 @@ export default function CancelOrderButton({ order, setLoading }) {
     } catch (error) {
       console.error("Error cancelling order:", error);
     } finally {
+      window.location.reload();
       setLoading(false);
     }
   };

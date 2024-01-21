@@ -5,7 +5,7 @@ import Layout from "../../../components/profile/layout/Layout";
 
 import { getCurrentUser } from "../../../utils/session";
 import User from "../../../model/User";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 import ProfileEdit from "../../../components/profile/edit/ProfileEdit";
 import MobileMenu from "../../../components/mobile/MobileMenu";
 import Category from "../../../model/Category";
@@ -48,12 +48,6 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        <div className="mb-8">
-          <Link className="" href={"/profile"}>
-            <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
-          </Link>
-        </div>
-
         <ProfileEdit data={user} />
         <MobileMenu categories={categories} subCategories={subCategories} />
       </Layout>

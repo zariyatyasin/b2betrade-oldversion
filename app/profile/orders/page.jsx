@@ -3,9 +3,7 @@ import { Header } from "../../../components/Header/Header";
 import Order from "../../../model/Order";
 import { getCurrentUser } from "../../../utils/session";
 import Layout from "../../../components/profile/layout/Layout";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-import Link from "next/link";
 import OrderCard from "../../../components/profile/OrderCard";
 async function getData({ params, searchParams }) {
   const session = await getCurrentUser();
@@ -66,11 +64,6 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        <div className="mb-8">
-          <Link className="" href={"/profile"}>
-            <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
-          </Link>
-        </div>{" "}
         <main className=" pb-24 ">
           <div className="   ">
             <h1 className="text-2xl text-center   w-full font-extrabold tracking-tight text-gray-900 sm:text-3xl">

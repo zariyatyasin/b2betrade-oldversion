@@ -1,13 +1,23 @@
 "use client";
 import React from "react";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { usePathname } from "next/navigation";
+
 export default function GobackPage() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/"; // Update this based on your home page route
+
   const goBack = () => {
     window.history.back();
   };
+
   return (
-    <div className="mb-8 mt-2" onClick={goBack}>
-      <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
+    <div
+      className={`text-white ${isHomePage ? "hidden" : "lg:hidden"}`}
+      onClick={goBack}
+    >
+      <ArrowBackIosIcon sx={{ fontSize: 28 }} />
     </div>
   );
 }

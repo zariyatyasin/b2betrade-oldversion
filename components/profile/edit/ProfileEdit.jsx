@@ -53,7 +53,10 @@ const ProfileEdit = ({ data }) => {
   };
 
   return (
-    <section aria-labelledby="payment-details-heading">
+    <section
+      aria-labelledby="payment-details-heading"
+      className=" pb-14 lg:pb-0"
+    >
       {loading && <FullScreenLoading />}
       <Formik
         initialValues={initialValues}

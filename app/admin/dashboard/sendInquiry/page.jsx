@@ -39,9 +39,11 @@ export default async function page() {
   const componentKey = Date.now();
   return (
     <Layout>
-      {sendInquiry.map((sendInquiry) => (
-        <SendInquiryCard key={sendInquiry._id} data={sendInquiry} />
-      ))}
+      <div className=" flex flex-wrap">
+        {sendInquiry.map((sendInquiry) => (
+          <SendInquiryCard key={sendInquiry._id} data={sendInquiry} />
+        ))}
+      </div>
     </Layout>
   );
 }

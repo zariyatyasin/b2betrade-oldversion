@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -12,35 +12,88 @@ import Image from "next/image";
 
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 export default function Main({ data }) {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const router = useRouter();
-  const [quary, setQuary] = useState(search);
+  const suggestionListRef = useRef();
+  const [query, setQuery] = useState(search);
+  const [suggestions, setSuggestions] = useState([]);
+  const highlightMatchedText = (text, query) => {
+    if (!query) return <span>{text}</span>;
 
-  const image = [
-    {
-      imageUrl:
-        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223081/rstationProduct/fg2whwxwhvuekvuh4zsu.jpg",
-    },
-    {
-      imageUrl:
-        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223081/rstationProduct/x6qpfhbxgzal5dcujd1u.jpg",
-    },
-    {
-      imageUrl:
-        "https://res.cloudinary.com/drtexlmq7/image/upload/v1705223080/rstationProduct/cisgenrr71mmaantzp3a.jpg",
-    },
-  ];
+    const regex = new RegExp(`(${query})`, "ig");
 
+    const parts = text.split(regex);
+
+    return (
+      <span>
+        {parts.map((part, index) =>
+          regex.test(part) ? (
+            <span
+              key={index}
+              className="text-gray-950 font-bold text-xs lg:text-base"
+            >
+              {part}
+            </span>
+          ) : (
+            <span className=" text-gray-600 text-xs lg:text-base" key={index}>
+              {part}
+            </span>
+          )
+        )}
+      </span>
+    );
+  };
+  const handleSuggestionClick = (suggestion) => {
+    // Set the clicked suggestion in the input field
+    setQuery(suggestion.name);
+  };
+  const handleSuggestionSelect = (suggestion) => {
+    setQuery(suggestion.name);
+    setSuggestions([]);
+  };
+  const handleClickOutside = (event) => {
+    if (
+      suggestionListRef.current &&
+      !suggestionListRef.current.contains(event.target)
+    ) {
+      setSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const response = await axios.get(`/api/search/${query}`);
+        setSuggestions(response.data.suggestions);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      }
+    };
+
+    if (query?.length > 1) {
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [query]);
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (quary?.length > 1) {
+    if (query?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
       // Modify the search parameter
-      router.push(`/browse?search=${quary}`);
+      router.push(`/browse?search=${query}`);
 
       // Generate the new URL with the modified search parameter
       // const newURL = `${
@@ -53,6 +106,7 @@ export default function Main({ data }) {
       router.push("/browse", { shallow: true });
     }
   };
+
   return (
     <div className="relative  mt-5  px-4 md:px-6 lg:px-8 2xl:px-10">
       <div className="xl:flex md:pb-2.5 mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
@@ -74,7 +128,8 @@ export default function Main({ data }) {
                 placeholder="What are you looking..."
                 aria-label="top-bar-search"
                 name="search"
-                onChange={(e) => setQuary(e.target.value)}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
               <button
                 type=" submit"
@@ -83,6 +138,26 @@ export default function Main({ data }) {
                 <SearchIcon sx={{ fontSize: 24 }} />
               </button>
             </label>
+            {suggestions.length > 0 && (
+              <div
+                ref={suggestionListRef}
+                className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              >
+                {suggestions.length > 0 && (
+                  <ul className="flex flex-col gap-y-2   select-none py-2 pl-3 pr-9">
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSuggestionSelect(suggestion)}
+                        className="hover:cursor-pointer hover:bg-gray-100"
+                      >
+                        {highlightMatchedText(suggestion.name, query)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </form>
           <div className="mb-3 md:mb-4 lg:mb-5 xl:mb-6">
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 2xl:gap-5">

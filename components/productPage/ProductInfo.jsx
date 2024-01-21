@@ -236,65 +236,64 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   };
 
   const addToCartHandler = async () => {
-    if (hasNullPrice && minQty > qty) {
-      toast.error(`minimum order quantity ${minQty}`);
-    } else if (!hasNullPrice && minQty2 > qty) {
-      toast.error(`minimum order quantity ${minQty2}`);
-    } else {
-      if (!UrlSize) {
-        setError("Please Select a size");
-        return;
-      }
+    // if (hasNullPrice && minQty > qty) {
+    //   toast.error(`minimum order quantity ${minQty}`);
+    // } else if (!hasNullPrice && minQty2 > qty) {
+    //   toast.error(`minimum order quantity ${minQty2}`);
+    // } else {
+    if (!UrlSize) {
+      setError("Please Select a size");
+      return;
+    }
 
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        const { data } = await axios.get(
-          `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
+      const { data } = await axios.get(
+        `/api/product/${product._id}/${UrlStyle}/${UrlSize}`
+      );
+
+      if (qty > data.quantity) {
+        setError(
+          "The Quantity you have chosen is more than in stock. Try and lower the Qty"
         );
+      } else if (data.quantity < 1) {
+        setError("This Product is out of stock.");
+        return;
+      } else {
+        let _uid = `${data._id}_${product.style}_${UrlSize}`;
+        let exist = cart.cartItems.find((p) => p._uid === _uid);
 
-        if (qty > data.quantity) {
-          setError(
-            "The Quantity you have chosen is more than in stock. Try and lower the Qty"
-          );
-        } else if (data.quantity < 1) {
-          setError("This Product is out of stock.");
-          return;
+        const productToAdd = {
+          ...data,
+          qty,
+          size: data.size,
+          _uid,
+          storeId: product.storeId,
+          price: selectedRange.price, // Include the selected price in the product data
+        };
+
+        if (exist) {
+          let newCart = cart.cartItems.map((p) => {
+            if (p._uid === exist._uid) {
+              return { ...p, qty, price: selectedRange.price }; // Update the price in existing item
+            }
+            return p;
+          });
+
+          dispatch(updateCart(newCart));
+          toast.success("Cart Updated");
         } else {
-          let _uid = `${data._id}_${product.style}_${UrlSize}`;
-          let exist = cart.cartItems.find((p) => p._uid === _uid);
-
-          const productToAdd = {
-            ...data,
-            qty,
-            size: data.size,
-            _uid,
-            storeId: product.storeId,
-            price: selectedRange.price, // Include the selected price in the product data
-          };
-
-          if (exist) {
-            let newCart = cart.cartItems.map((p) => {
-              if (p._uid === exist._uid) {
-                return { ...p, qty, price: selectedRange.price }; // Update the price in existing item
-              }
-              return p;
-            });
-
-            dispatch(updateCart(newCart));
-            toast.success("Cart Updated");
-          } else {
-            dispatch(addToCart(productToAdd));
-            toast.success("Product Added to Cart");
-          }
+          dispatch(addToCart(productToAdd));
+          toast.success("Product Added to Cart");
         }
-      } catch (error) {
-        // Handle errors
-
-        toast.error("Error adding to Cart");
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      // Handle errors
+
+      toast.error("Error adding to Cart");
+    } finally {
+      setLoading(false);
     }
   };
 

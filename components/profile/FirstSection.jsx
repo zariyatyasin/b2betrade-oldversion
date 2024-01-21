@@ -77,10 +77,13 @@ export default function FirstSection({ name }) {
           <p className="text-sm mt-2 text-gray-500">My Message</p>
         </div> */}
 
-        <div className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0">
+        <Link
+          href={"/contact"}
+          className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0"
+        >
           <FeedbackOutlinedIcon sx={{ fontSize: 28 }} />
           <p className="text-sm mt-2 text-gray-500">FeedBack</p>
-        </div>
+        </Link>
         <div
           className="flex justify-center cursor-pointer items-center flex-col mb-4 sm:mb-0"
           onClick={() => signOut()}

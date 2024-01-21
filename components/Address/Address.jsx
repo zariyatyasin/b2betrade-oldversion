@@ -120,7 +120,7 @@ export default function Address({ cart, user, setSelectedAddress }) {
   return (
     <div>
       {loading && <FullScreenLoading />}
-      <div className=" py-6 poin px-4 sm:px-6 bg-white border border-gray-200   lg:px-8 ">
+      <div className=" pb-14 lg:pb-0 py-6 poin px-4 sm:px-6 bg-white border border-gray-200   lg:px-8 ">
         <h2 className="text-2xl font-black text-gray-900">
           Shipping information
         </h2>

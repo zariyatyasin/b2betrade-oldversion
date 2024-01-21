@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export default function SendInquiryCard({ data }) {
@@ -18,7 +19,9 @@ export default function SendInquiryCard({ data }) {
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white m-4">
       <div className="px-6 py-4">
         <div className="flex items-center mb-4">
-          <img
+          <Image
+            height={500}
+            width={400}
             className="w-12 h-12 rounded-full mr-4"
             src={userImage}
             alt="User Avatar"
@@ -31,8 +34,10 @@ export default function SendInquiryCard({ data }) {
         <div className="mb-4">
           {image &&
             image.map((imgArray, index) => (
-              <img
+              <Image
                 key={index}
+                height={500}
+                width={400}
                 className="w-full h-32 object-cover mb-2 rounded"
                 src={imgArray[0].url}
                 alt={`Product Image ${index + 1}`}

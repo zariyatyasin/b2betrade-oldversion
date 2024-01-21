@@ -10,7 +10,7 @@ export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
   const { data: session, status } = useSession();
   const [editedProduct, setEditedProduct] = useState(null); // New state for edited product
-
+  let totalProductNumber = 0;
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
     { value: "Processing", label: "Processing" },
@@ -18,57 +18,98 @@ export default function OrderCard({ data }) {
     { value: "Cancelled", label: "Cancelled" },
     { value: "Completed", label: "Completed" },
   ];
-  const renderProduct = (product) => (
-    <div key={product._id} className="product">
-      <img
-        src={product.image}
-        alt={product.name}
-        className=" h-8 w-8 object-fit border"
-      />
-      <div className="product-details">
-        <Link
-          href={`/product/${product.product}/0/0`}
-          target="_blank"
-          prefetch={false}
-        >
-          <h3 className="  text-blue-700">{product.name}</h3>
-        </Link>
-
-        <p>Size: {product.size}</p>
-        <p>Price: {product.price}</p>
-        <p>Quantity: {product.qty}</p>
-        <p>Total Price: {product.qty * product.price}</p>
-        <p>Status: {product?.status}</p>
-        {session?.user.role === "admin" && (
-          <button
-            className=" text-blue-600"
-            onClick={() => openEditProductModal(product)}
-          >
-            Edit Product
-          </button>
-        )}
-
-        {product.color.color ? (
-          <div
-            className="color-box"
-            style={{
-              backgroundColor: product.color.color,
-              width: "20px",
-              height: "20px",
-            }}
-          ></div>
-        ) : product.color.image ? (
+  const renderProduct = (product, index) => {
+    totalProductNumber += 1;
+    return (
+      <div
+        key={product._id}
+        className="product mt-4 bg-gray-100 p-2  mb-4 max-w-xs"
+      >
+        <div className=" h-14 w-14">
           <img
-            src={product.color.image}
-            alt="Color Image"
-            className="color-image"
+            src={product.image}
+            alt={product.name}
+            className=" h-full w-full object-fit border"
           />
-        ) : (
-          <div className="no-color-info">No color information available</div>
-        )}
+        </div>
+        <div className="product-details">
+          <Link
+            href={`/product/${product.product}/0/0`}
+            target="_blank"
+            prefetch={false}
+          >
+            <h3 className="  text-blue-700 truncate">
+              <span className="  text-blue-700  text-lg font-semibold truncate">{`${
+                index + 1
+              }`}</span>{" "}
+              {product.name}
+            </h3>
+          </Link>
+
+          <div className="flex flex-wrap">
+            <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+              <p className="mb-2">
+                <span className="text-blue-700 font-bold">Size:</span>{" "}
+                <span className="text-gray-950 font-bold">{product.size}</span>
+              </p>
+              <p className="mb-2">
+                <span className="text-green-700 font-bold">Price:</span>{" "}
+                <span className="text-gray-950 font-bold">{product.price}</span>
+              </p>
+              <p className="mb-2">
+                <span className="text-yellow-700 font-bold">Quantity:</span>{" "}
+                <span className="text-gray-950 font-bold">{product.qty}</span>
+              </p>
+            </div>
+            <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+              <p className="mb-2">
+                <span className="text-indigo-700 font-bold">Total Price:</span>{" "}
+                <span className="text-gray-950 font-bold">
+                  {product.qty * product.price}
+                </span>
+              </p>
+              <p className="mb-2">
+                <span className="text-red-700 font-bold">Status:</span>{" "}
+                <span className="text-gray-950 font-bold">
+                  {product?.status}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {session?.user.role === "admin" && (
+            <button
+              className=" text-blue-600"
+              onClick={() => openEditProductModal(product)}
+            >
+              Edit Product
+            </button>
+          )}
+
+          {product.color.color ? (
+            <div
+              className="color-box"
+              style={{
+                backgroundColor: product.color.color,
+                width: "20px",
+                height: "20px",
+              }}
+            ></div>
+          ) : product.color.image ? (
+            <div className="h-8 w-8 rounded-full overflow-hidden">
+              <img
+                src={product.color.image}
+                alt="Color Image"
+                className=" h-full w-full rounded-full"
+              />
+            </div>
+          ) : (
+            <div className="no-color-info">No color information available</div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
   const fields = [
     {
       type: "text",
@@ -161,7 +202,7 @@ export default function OrderCard({ data }) {
   return (
     <>
       <tr>
-        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 hover:bg-gray-100">
           <div className="shipping-address">
             <p>Full Name: {order.shippingAddress.fullName}</p>
             <p>Phone Number: {order.shippingAddress.phoneNumber}</p>
@@ -172,7 +213,9 @@ export default function OrderCard({ data }) {
         </td>
 
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-          {order.products.map(renderProduct)}
+          {order.products.map((product, index) =>
+            renderProduct(product, index)
+          )}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <p>User Name: {order.user.name}</p>
@@ -183,6 +226,9 @@ export default function OrderCard({ data }) {
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <p className=" font-bold text-gray-950">
             Order Number: {order.orderNumber}
+          </p>
+          <p className=" font-bold text-gray-950">
+            Order Total Number: {totalProductNumber}
           </p>
           <p>Payment Method: {order.paymentMethod}</p>
           {session?.user.role === "admin" && (

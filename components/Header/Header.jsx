@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import React, { useEffect, useState, useRef } from "react";
+
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Usermenu from "./Usermenu";
@@ -10,12 +10,13 @@ import { Listbox, Transition } from "@headlessui/react";
 import Example from "./Example";
 import { Button } from "../ui/button";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 
-import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 
+import GobackPage from "../../components/gobackPage/GobackPage";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import { useSelector } from "react-redux";
 
@@ -46,23 +47,24 @@ export const Header = ({ categories, subCategories }) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const router = useRouter();
-  const [quary, setQuary] = useState(search);
+  const [query, setQuery] = useState(search);
   const [isLogin, setLogin] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const [selected, setSelected] = useState(publishingOptions[0]);
   const handleUserMenuOpen = () => {
     setOpen(true);
   };
   const { cart } = useSelector((state) => ({ ...state }));
-
+  const suggestionListRef = useRef();
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (quary?.length > 1) {
+    if (query?.length > 1) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
       // Modify the search parameter
-      router.push(`/browse?search=${quary}`);
+      router.push(`/browse?search=${query}`);
 
       // Generate the new URL with the modified search parameter
       // const newURL = `${
@@ -87,7 +89,46 @@ export const Header = ({ categories, subCategories }) => {
       }
     }
   }, []);
+  const highlightMatchedText = (text, query) => {
+    if (!query) return <span>{text}</span>;
 
+    const regex = new RegExp(`(${query})`, "ig");
+
+    const parts = text.split(regex);
+
+    return (
+      <span>
+        {parts.map((part, index) =>
+          regex.test(part) ? (
+            <span key={index} className="text-gray-950 font-bold">
+              {part}
+            </span>
+          ) : (
+            <span className=" text-gray-600" key={index}>
+              {part}
+            </span>
+          )
+        )}
+      </span>
+    );
+  };
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const response = await axios.get(`/api/search/${query}`);
+        setSuggestions(response.data.suggestions);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      }
+    };
+
+    if (query?.length > 1) {
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [query]);
   const handleSelectionChange = (option) => {
     setSelected(option);
     if (option.title) {
@@ -98,26 +139,49 @@ export const Header = ({ categories, subCategories }) => {
       }
     }
   };
-
+  const handleSuggestionSelect = (suggestion) => {
+    setQuery(suggestion.name);
+    setSuggestions([]);
+  };
   const handleUserMenuClose = () => {
     setOpen(false);
   };
+  const handleClickOutside = (event) => {
+    if (
+      suggestionListRef.current &&
+      !suggestionListRef.current.contains(event.target)
+    ) {
+      setSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className=" bg-[#2B39D1]   ">
       <div className="flex items-center justify-between h-16 py-6  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
-        <Link
-          href="/"
-          className="inline-block focus:outline-none text-white font-bold text-xl md:text-3xl max-w-[131px] "
-        >
-          B2B
-          <span className="  text-[#FFD700] text-2xl lg:text-3xl">eTrade</span>
-        </Link>
+        <div className="flex items-center">
+          <GobackPage />
+          <Link
+            href="/"
+            className="inline-block focus:outline-none text-white font-bold text-xl md:text-3xl max-w-[131px] "
+          >
+            B2B
+            <span className="  text-[#FFD700] text-2xl lg:text-3xl">
+              eTrade
+            </span>
+          </Link>
+        </div>
 
-        <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
-          <div className="overlay cursor-pointer invisible w-full h-full opacity-0 flex top-0 p ltr:left-0 rtl:right-0 transition-all duration-300 fixed"></div>
-          <div className="relative z-30 flex flex-col justify-center w-full shrink-0">
-            <div className="flex flex-col w-full mx-auto">
+        <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
+          <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
+            <div className="flex flex-col w-full mx-auto  justify-center relative  ">
               <form
                 className="relative flex w-full rounded-md"
                 noValidate=""
@@ -126,7 +190,7 @@ export const Header = ({ categories, subCategories }) => {
               >
                 <label
                   htmlFor="top-bar-search"
-                  className="flex flex-1 items-center py-0.5"
+                  className="flex flex-1 items-center py-0.5 relative"
                 >
                   <Listbox value={selected} onChange={handleSelectionChange}>
                     {({ open }) => (
@@ -211,8 +275,10 @@ export const Header = ({ categories, subCategories }) => {
                     placeholder="What are you looking..."
                     aria-label="top-bar-search"
                     name="search"
-                    onChange={(e) => setQuary(e.target.value)}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
+
                   <button
                     type=" submit"
                     className=" bg-[#FFD700] flex items-center   rounded-r-md justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-white"
@@ -222,6 +288,26 @@ export const Header = ({ categories, subCategories }) => {
                 </label>
               </form>
             </div>
+            {suggestions.length > 0 && (
+              <div
+                ref={suggestionListRef}
+                className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              >
+                {suggestions.length > 0 && (
+                  <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSuggestionSelect(suggestion)}
+                        className="hover:cursor-pointer hover:bg-gray-100"
+                      >
+                        {highlightMatchedText(suggestion.name, query)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">

@@ -24,10 +24,12 @@ export default function OrderComp({ Orders, paginationCount, user }) {
 
     edit: "Edit",
   };
+
   let linkUrl =
-    session?.role === "admin"
+    session?.user.role === "admin"
       ? "/admin/dashboard/order"
       : "/supplier/dashboard/order";
+
   const filterUrl = ({ page, sort }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 

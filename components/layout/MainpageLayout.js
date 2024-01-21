@@ -3,6 +3,7 @@ import Category from "../../model/Category";
 import SubCategory from "../../model/SubCategory";
 import { Header } from "../Header/Header";
 import db from "../../utils/db";
+import Product from "../../model/Product";
 async function getData() {
   await db.connectDb();
   try {
@@ -11,8 +12,14 @@ async function getData() {
       path: "parent",
       model: Category,
     });
+    const suggestions = await Product.find({
+      name: { $regex: query, $options: "i" },
+    }) // Adapt this to your model and search logic
+      .limit(5)
+      .select("name");
 
     return {
+      suggestions: JSON.parse(JSON.stringify(suggestions)),
       categories: JSON.parse(JSON.stringify(categories)),
       subCategories: JSON.parse(JSON.stringify(subCategories)),
     };
@@ -31,7 +38,7 @@ export default async function MainpageLayout({ children }) {
   const { categories, subCategories } = data;
   return (
     <>
-      <Header categories={categories} subCategories={subCategories} />
+      <Header suggestions={suggestions}  categories={categories} subCategories={subCategories} />
    
     </>
   );

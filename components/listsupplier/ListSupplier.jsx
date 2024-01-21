@@ -4,7 +4,6 @@ import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import { useSearchParams } from "next/navigation";
 
@@ -125,11 +124,6 @@ export default function BuyerRequest({
 
   return (
     <div>
-      <div className="mt-4 mb-4 px-4 lg:hidden">
-        <Link className="" href={"/"}>
-          <KeyboardBackspaceIcon sx={{ fontSize: 28 }} />
-        </Link>
-      </div>
       <div className="bg-white  max-w-6xl mx-auto mt-8">
         <div>
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>

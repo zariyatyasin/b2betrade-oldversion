@@ -42,10 +42,13 @@ export default function Checkout({ cart, user }) {
                       <KeyboardArrowRightOutlinedIcon />
                     </div>
                   </div>
-                  <ul role="list" className=" flex gap-4">
+                  <ul
+                    role="list"
+                    className="  gap-4 flex-wrap  grid grid-cols-3 sm:flex"
+                  >
                     {cart.products.map((item, id) => (
                       <li
-                        className="flex flex-col py-5   max-w-[110px]   "
+                        className="flex flex-col py-5    max-w-[110px]   "
                         key={id}
                       >
                         <div className=" relative flex-shrink-0">
