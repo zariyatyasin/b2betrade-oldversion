@@ -3,11 +3,6 @@ import Layout from "../../../../components/admin/Layout/Layout";
 import StoreComp from "../../../../components/admin/store/Store";
 import { revalidatePath } from "next/cache";
 import db from "../../../../utils/db";
-import {
-  filterArray,
-  randomize,
-  removeDuplicates,
-} from "../../../../utils/Array";
 
 import Store from "../../../../model/Store";
 import User from "../../../../model/User";
@@ -27,7 +22,7 @@ export async function getData({ params, searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
-  const pageSize = 10;
+  const pageSize = 15;
   let Stores;
   const sort =
     sortQuery == ""
@@ -41,16 +36,25 @@ export async function getData({ params, searchParams }) {
       : sortQuery == "block"
       ? { storeAtive: "block" }
       : {};
+
   const search =
     searchQuery && searchQuery !== ""
       ? {
-          storeName: {
-            $regex: searchParams.search,
-            $options: "i",
-          },
+          $or: [
+            {
+              storeName: {
+                $regex: new RegExp(searchParams.search, "i"),
+              },
+            },
+            {
+              phoneNumber: {
+                $regex: searchParams.search,
+                $options: "i",
+              },
+            },
+          ],
         }
       : {};
-
   if (session?.role === "admin") {
     // If the user is an admin, fetch all stores
     Stores = await Store.find({ ...sort, ...search })

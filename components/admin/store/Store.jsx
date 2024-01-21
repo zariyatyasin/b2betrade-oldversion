@@ -73,6 +73,14 @@ export default function Store({ Stores, paginationCount }) {
       name: "block",
       value: "block",
     },
+    {
+      name: "newest",
+      value: "newest",
+    },
+    {
+      name: "oldest",
+      value: "oldest",
+    },
 
     // ... (other sorting options)
   ];

@@ -71,6 +71,7 @@ async function getData({ params, searchParams }) {
     await db.disconnectDb();
     return {
       categories: JSON.parse(JSON.stringify(categories)),
+      products: JSON.parse(JSON.stringify(products)),
       subCategory: JSON.parse(JSON.stringify(subCategory)),
       paginationCount: Math.ceil(totalProducts / pageSize),
     };

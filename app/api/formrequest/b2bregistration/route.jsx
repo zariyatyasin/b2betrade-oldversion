@@ -53,6 +53,7 @@ export const POST = async (request) => {
 
     const CreateStore = await new Store({
       storeName,
+      phoneNumber,
       owner: savedUser._id,
       address,
       storeType: role,

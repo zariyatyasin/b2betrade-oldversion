@@ -123,7 +123,7 @@ export default function StoreCard({ data }) {
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 ">
           <div className="text-gray-900"> {store?.category?.name}</div>
 
-          <div className="flex max-w-xs flex-wrap">
+          {/* <div className="flex max-w-xs flex-wrap">
             {store?.subCategories?.map((subcategory, index) => (
               <div
                 key={index}
@@ -132,7 +132,7 @@ export default function StoreCard({ data }) {
                 <div className="text-white">{subcategory.name}</div>
               </div>
             ))}
-          </div>
+          </div> */}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <span

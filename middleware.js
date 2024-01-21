@@ -21,6 +21,20 @@ export async function middleware(req) {
       return NextResponse.redirect(new URL(origin, req.url));
     }
   }
+  if (req.nextUrl.pathname.startsWith("/editproduct")) {
+    if (!session) {
+      return NextResponse.redirect(new URL(origin, req.url));
+    }
+
+    // Check if the user's role is "admin", "supplier", or "manufacturer"
+    if (
+      session.role !== "admin" &&
+      session.role !== "supplier" &&
+      session.role !== "manufacturer"
+    ) {
+      return NextResponse.redirect(new URL(origin, req.url));
+    }
+  }
   if (req.nextUrl.pathname.startsWith("/profile")) {
     if (!session) {
       return NextResponse.redirect(new URL(origin, req.url));

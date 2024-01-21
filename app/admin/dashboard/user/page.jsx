@@ -49,13 +49,32 @@ async function getData({ searchParams }) {
       : sortQuery == "active"
       ? { verified: "active" }
       : {};
+  // const search =
+  //   searchQuery && searchQuery !== ""
+  //     ? {
+  //         phoneNumber: {
+  //           $regex: searchParams.search,
+  //           $options: "i",
+  //         },
+  //       }
+  //     : {};
+
   const search =
     searchQuery && searchQuery !== ""
       ? {
-          phoneNumber: {
-            $regex: searchParams.search,
-            $options: "i",
-          },
+          $or: [
+            {
+              name: {
+                $regex: new RegExp(searchParams.search, "i"),
+              },
+            },
+            {
+              phoneNumber: {
+                $regex: searchParams.search,
+                $options: "i",
+              },
+            },
+          ],
         }
       : {};
 

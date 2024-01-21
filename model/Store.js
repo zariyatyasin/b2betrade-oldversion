@@ -15,7 +15,10 @@ const storeSchema = new mongoose.Schema(
       postalCode: String,
       country: String,
     },
-
+    phoneNumber: {
+      type: String,
+      unique: true,
+    },
     ShopAddress: {
       type: String,
     },
@@ -24,9 +27,7 @@ const storeSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    image: [
-       
-    ],
+    image: [],
     ratings: [
       {
         rating: Number,
