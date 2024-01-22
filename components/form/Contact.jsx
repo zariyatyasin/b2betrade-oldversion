@@ -25,7 +25,7 @@ export default function Contact() {
       .required("Phone Number is required")
       .matches(
         /^(01)\d{9}$/,
-        "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
+        "Invalid phoneNumber number. It should start with &apos;0&apos; and have a total of 11 digits."
       ),
     message: Yup.string().required("Message is required"),
   });
@@ -179,7 +179,7 @@ export default function Contact() {
 
               <p className="mt-6 text-base text-indigo-50 max-w-3xl">
                 Have questions or need assistance? Feel free to reach out to us
-                using the contact form above. We're here to help you with
+                using the contact form above. We&apos;re here to help you with
                 anything you need on your journey to a great shopping
                 experience.
               </p>

@@ -28,12 +28,12 @@ export default function page() {
                 invoice, and accessories.
               </li>
               <li>
-                Return the product in its original, undamaged manufacturer's
-                packaging/box.
+                Return the product in its original, undamaged
+                manufacturer&apos;s packaging/box.
               </li>
               <li>
-                Do not tape or attach stickers directly to the manufacturer's
-                packaging/box.
+                Do not tape or attach stickers directly to the
+                manufacturer&apos;s packaging/box.
               </li>
             </ul>
 

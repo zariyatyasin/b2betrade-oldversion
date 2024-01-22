@@ -85,7 +85,7 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
         setSelected(selectedOption);
       }
     }
-  }, []);
+  }, [searchParam]);
 
   const handleSelectionChange = (option) => {
     setSelected(option);

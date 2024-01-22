@@ -36,6 +36,7 @@ export default function CheckBoxFilter({
             const check = replaceQuery("location", data);
             return (
               <label
+                key={i}
                 htmlFor={data}
                 onClick={() => handle(check.result)}
                 className="flex items-center   cursor-pointer"

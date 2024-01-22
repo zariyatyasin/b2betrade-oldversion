@@ -13,7 +13,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { saveCart } from "../../request/user";
 import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [selected, setSelected] = useState([]);
   const { cart } = useSelector((state) => ({ ...state }));

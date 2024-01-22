@@ -146,8 +146,8 @@ export default async function Page({ params, searchParams }) {
             <li className="text-base text-body mt-0.5 hidden l ">/</li>
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">
               <div className=" text-sm hidden  font-medium text-gray-500 hover:text-gray-700">
-                {product?.subCategories?.map((sub) => (
-                  <Link href={`/browse?subCategories=${sub._id}`}>
+                {product?.subCategories?.map((sub, id) => (
+                  <Link key={id} href={`/browse?subCategories=${sub._id}`}>
                     <span>{sub.name}</span>
                   </Link>
                 ))}

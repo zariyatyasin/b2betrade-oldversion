@@ -114,7 +114,7 @@ export default function Profile({ data }) {
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {sidebarData.map((item, i) => (
                   <SideBarItem
-                    kye={i}
+                    key={i}
                     item={item}
                     visible={data.tab == i.toString()}
                     index={i.toString()}

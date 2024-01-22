@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     ),
 });
 
-const page = () => {
+const Page = () => {
   const session = useSession();
   const params = useSearchParams();
   const [isRegistering, setIsRegistering] = useState(null);
@@ -244,7 +244,7 @@ const page = () => {
                             htmlFor="remember-me"
                             className=" text-xs block  mt-2 text-gray-500"
                           >
-                            Don't have account?
+                            Don&apos;t have account?
                             <span
                               className="ml-1  font-medium hover:cursor-pointer"
                               onClick={handleSignInClick}
@@ -349,4 +349,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

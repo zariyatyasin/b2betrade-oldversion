@@ -5,39 +5,40 @@ export default function page() {
   return (
     <>
       <MainpageLayout />
-      <div className="relative bg-white">
-        <div className="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
-          <div className="lg:col-start-2 lg:pl-8">
-            <div className="text-base lg:mr-0">
-              <h3 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+      <div className="relative bg-white&apos">
+        <div className="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto &apos">
+          <div className="lg:col-start-2 lg:pl-8&apos">
+            <div className="text-base lg:mr-0&apos">
+              <h3 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl&apos">
                 Terms and Conditions
               </h3>
 
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   INTRODUCTION
                 </h2>
-                <p className=" mt-8 text-gray-950">
-                  Greetings from B2BeTrade, referred to as "we," "us," or
-                  "B2BeTrade." As an online wholesale marketplace, these terms
-                  and conditions govern your access and usage of B2BeTrade,
-                  including its sub-domains, sites, mobile app, services, and
-                  tools collectively referred to as the "Site." By engaging with
-                  the Site, you acknowledge and accept these terms and
-                  conditions, constituting the "User Agreement." Your use of the
+                <p className=" mt-8 text-gray-950&apos">
+                  Greetings from B2BeTrade, referred to as &apos;we,&apos;
+                  &apos;us,&apos; or &apos;B2BeTrade.&apos; As an online
+                  wholesale marketplace, these terms and conditions govern your
+                  access and usage of B2BeTrade, including its sub-domains,
+                  sites, mobile app, services, and tools collectively referred
+                  to as the &apos;Site.&apos; By engaging with the Site, you
+                  acknowledge and accept these terms and conditions,
+                  constituting the &apos;User Agreement.&apos; Your use of the
                   Site signifies your agreement to comply with these terms, and
                   this User Agreement becomes effective immediately. If you
                   disagree with these terms, kindly refrain from accessing,
                   registering, or using the Site. B2BeTrade is owned and
                   operated by B2BeTrade, a company incorporated under [Relevant
-                  Jurisdiction's Business Laws].
+                  Jurisdiction&apos;s Business Laws].
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   YOUR ACCOUNT
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   In order to access specific services provided by our platform,
                   you may be required to create an account or furnish personal
                   information for account creation. We reserve the right, at our
@@ -65,11 +66,11 @@ export default function page() {
                   authorized or not.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   PRIVACY
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Kindly examine our Privacy Agreement, a document that extends
                   its jurisdiction to your interactions with the Site. We handle
                   the personal information/data you provide or generate through
@@ -80,11 +81,11 @@ export default function page() {
                   recommend refraining from using the Site.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   PLATFORM FOR COMMUNICATION
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   By utilizing the Site, you acknowledge that it functions as an
                   online platform facilitating your purchase of products at the
                   indicated prices, accessible from any location and at any
@@ -102,11 +103,11 @@ export default function page() {
                   Site.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   CONTINUED AVAILABILITY OF THE SITE
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   While we strive to maintain consistent, uninterrupted, and
                   error-free access to the Site, we acknowledge that the
                   inherent nature of the Internet and the Site itself may pose
@@ -119,11 +120,11 @@ export default function page() {
                   duration of any such suspension or restriction.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   CONTINUED AVAILABILITY OF THE SITE
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   To access the Site, you affirm your ability to form legally
                   binding contracts, confirming that you are at least 18 years
                   old or accessing the Site under the supervision of a parent or
@@ -148,8 +149,8 @@ export default function page() {
                   personal use of the Site, excluding downloading or
                   modification. This license excludes resale, commercial use,
                   collection of product listings, derivative use, downloading of
-                  account information for another seller's benefit, or use of
-                  data mining tools. Reproduction, duplication, sale,
+                  account information for another seller&apos;s benefit, or use
+                  of data mining tools. Reproduction, duplication, sale,
                   distribution, or exploitation of any portion of this Site for
                   commercial purposes without express written consent is
                   strictly prohibited. Use of framing techniques, meta tags, or
@@ -162,19 +163,19 @@ export default function page() {
                   transactions: Non-compliance with these Terms and Conditions
                   or related guidelines. Impersonation or misrepresentation of
                   affiliation. Illegal use of the Site. Attempted unauthorized
-                  access to computer systems. Interference with another user's
-                  enjoyment of the Site. Posting, promoting, or transmitting
-                  prohibited materials. Use or upload of software containing
-                  viruses or damaging components. Use of the Site in violation
-                  of acceptable use policies, internet standards, and applicable
-                  laws.
+                  access to computer systems. Interference with another
+                  user&apos;s enjoyment of the Site. Posting, promoting, or
+                  transmitting prohibited materials. Use or upload of software
+                  containing viruses or damaging components. Use of the Site in
+                  violation of acceptable use policies, internet standards, and
+                  applicable laws.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   YOUR CONDUCT
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Usage of the website must not result in, or have the potential
                   to result in, interruption, damage, or impairment of the Site
                   or its access. Activities causing harm to the Site, its
@@ -199,19 +200,19 @@ export default function page() {
                   states. Engagement in objectionable or otherwise unlawful
                   activities. Content consisting of or containing software
                   viruses, political campaigning, commercial solicitation, chain
-                  letters, mass mailings, or any form of "spam." Usage for
-                  illegal purposes or to cause annoyance, inconvenience, or
+                  letters, mass mailings, or any form of &apos;spam.&apos; Usage
+                  for illegal purposes or to cause annoyance, inconvenience, or
                   needless anxiety. Application for any purpose other than the
                   intended purpose outlined by us.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   YOUR SUBMISSION
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Any content submitted to the Site, including questions,
-                  reviews, comments, and suggestions ("Submissions"),
+                  reviews, comments, and suggestions (&apos;Submissions&apos;),
                   automatically becomes our sole and exclusive property and will
                   not be returned. In addition to the rights applicable to any
                   Submission, posting comments or reviews grants us the right to
@@ -223,45 +224,45 @@ export default function page() {
                   or legal course applicable to us in this regard.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   CLAIMS AGAINST OBJECTIONABLE CONTENT
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   We list thousands of products for sale offered by numerous
                   sellers on the Site and host multiple comments on listings, it
                   is not possible for us to be aware of the contents of each
                   product listed for sale, or each comment or review that is
-                  displayed. Accordingly, we operate on a "claim, review and
-                  takedown" basis. If you believe that any content on the Site
-                  is illegal, offensive (including but not limited to material
-                  that is sexually explicit content or which promotes racism,
-                  bigotry, hatred or physical harm), deceptive, misleading,
-                  abusive, indecent, harassing, blasphemous, defamatory,
-                  libellous, obscene, pornographic, paedophilic or menacing;
-                  ethnically objectionable, disparaging; or is otherwise
-                  injurious to third parties; or relates to or promotes money
-                  laundering or gambling; or is harmful to minors in any way; or
-                  impersonates another person; or threatens the unity,
-                  integrity, security or sovereignty of Bangladesh or friendly
-                  relations with foreign States; or objectionable or otherwise
-                  unlawful in any manner whatsoever; or which consists of or
-                  contains software viruses, (" objectionable content ") . We
-                  will make all practical endeavours to investigate and remove
-                  valid objectionable content complained about within a
-                  reasonable amount of time. Please ensure to provide your name,
-                  address, contact information and as many relevant details of
-                  the claim including name of objectionable content party,
-                  instances of objection, proof of objection amongst other.
-                  Please note that providing incomplete details will render your
-                  claim invalid and unusable for legal purposes.
+                  displayed. Accordingly, we operate on a &apos;claim, review
+                  and takedown&apos; basis. If you believe that any content on
+                  the Site is illegal, offensive (including but not limited to
+                  material that is sexually explicit content or which promotes
+                  racism, bigotry, hatred or physical harm), deceptive,
+                  misleading, abusive, indecent, harassing, blasphemous,
+                  defamatory, libellous, obscene, pornographic, paedophilic or
+                  menacing; ethnically objectionable, disparaging; or is
+                  otherwise injurious to third parties; or relates to or
+                  promotes money laundering or gambling; or is harmful to minors
+                  in any way; or impersonates another person; or threatens the
+                  unity, integrity, security or sovereignty of Bangladesh or
+                  friendly relations with foreign States; or objectionable or
+                  otherwise unlawful in any manner whatsoever; or which consists
+                  of or contains software viruses, (&apos; objectionable content
+                  &apos;) . We will make all practical endeavours to investigate
+                  and remove valid objectionable content complained about within
+                  a reasonable amount of time. Please ensure to provide your
+                  name, address, contact information and as many relevant
+                  details of the claim including name of objectionable content
+                  party, instances of objection, proof of objection amongst
+                  other. Please note that providing incomplete details will
+                  render your claim invalid and unusable for legal purposes.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   TRADEMARKS AND COPYRIGHTS FOR B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   B2BETrade, the B2BETrade logo, and other marks displayed on
                   our B2B wholesale platform are trademarks or registered
                   trademarks in the relevant jurisdiction(s). Our graphics,
@@ -285,11 +286,11 @@ export default function page() {
                   rights are reserved.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   DISCLAIMER FOR B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   You acknowledge and undertake that you are utilizing the
                   services on the B2BETrade platform and engaging in
                   transactions at your own discretion, exercising best judgment
@@ -310,24 +311,25 @@ export default function page() {
                   B2BETrade platform. While precautions have been taken to avoid
                   inaccuracies in content, the B2BETrade platform, all content,
                   information (including product prices), software, products,
-                  services, and related graphics are provided on an "as is"
-                  basis, without any warranty. B2BETrade does not implicitly or
-                  explicitly endorse the sale or purchase of any products on the
-                  platform. At no time shall any right, title, or interest in
-                  the products sold through or displayed on the B2BETrade
-                  platform vest with us, nor does B2BETrade have any obligations
-                  or liabilities regarding any transactions on the platform.
-                  Additionally, B2BETrade shall not be liable or responsible for
-                  any actions or inactions of other service providers listed on
-                  our platform, including but not limited to payment providers,
-                  installment offerings, and warranty services.
+                  services, and related graphics are provided on an &apos;as
+                  is&apos; basis, without any warranty. B2BETrade does not
+                  implicitly or explicitly endorse the sale or purchase of any
+                  products on the platform. At no time shall any right, title,
+                  or interest in the products sold through or displayed on the
+                  B2BETrade platform vest with us, nor does B2BETrade have any
+                  obligations or liabilities regarding any transactions on the
+                  platform. Additionally, B2BETrade shall not be liable or
+                  responsible for any actions or inactions of other service
+                  providers listed on our platform, including but not limited to
+                  payment providers, installment offerings, and warranty
+                  services.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   PARTY BUSINESSES FOR B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   In the realm of B2BETrade, various entities beyond B2BETrade
                   and its affiliates operate within the platform, providing
                   diverse services or offering product lines. For instance,
@@ -350,11 +352,11 @@ export default function page() {
                   interactions with
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   COMMUNICATING WITH B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   In the context of B2BETrade, communication plays a crucial
                   role in ensuring a seamless experience for our users engaged
                   in wholesale transactions. When you interact with the
@@ -375,31 +377,31 @@ export default function page() {
                   B2BETrade and its users.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   LOSSES
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   In the realm of B2BETrade, our responsibility extends solely
                   to the direct and foreseeable aspects of your engagement with
                   the platform. Therefore, B2BETrade, its affiliates, and
                   associates will not be held accountable for any business or
                   personal losses. These losses encompass, but are not limited
                   to, profits, revenue, contracts, anticipated savings, data,
-                  goodwill, or any incurred wasted expenditure. It's essential
-                  to recognize that we shall not be liable for any indirect or
-                  consequential losses that were not reasonably foreseeable by
-                  both parties at the initiation of your usage of the B2BETrade
-                  platform. This provision aims to establish a clear
-                  understanding of the scope of our liability and ensures
+                  goodwill, or any incurred wasted expenditure. It&apos;s
+                  essential to recognize that we shall not be liable for any
+                  indirect or consequential losses that were not reasonably
+                  foreseeable by both parties at the initiation of your usage of
+                  the B2BETrade platform. This provision aims to establish a
+                  clear understanding of the scope of our liability and ensures
                   transparency in our interactions with you.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   MODIFICATIONS TO TERMS OF SERVICE FOR B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   At B2BETrade, we retain the flexibility to enhance and evolve
                   our platform. This includes the right to modify the Site, its
                   policies, the terms and conditions, and any other publicly
@@ -415,30 +417,30 @@ export default function page() {
                   dynamic and reliable B2BETrade platform remains steadfast.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   UNFORESEEN EVENTS IN B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   B2BETrade acknowledges that certain circumstances may arise
                   beyond our control, leading to delays or the inability to
                   fulfill our obligations under these terms. In such instances,
                   where the cause is deemed beyond our reasonable control, we
-                  will not be held responsible. It's important to note that this
-                  provision does not infringe upon your statutory rights. Our
-                  commitment is to address challenges proactively and uphold the
-                  integrity of our service under circumstances within our
+                  will not be held responsible. It&apos;s important to note that
+                  this provision does not infringe upon your statutory rights.
+                  Our commitment is to address challenges proactively and uphold
+                  the integrity of our service under circumstances within our
                   control.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
-                  B2BETrade's Right to Act
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
+                  B2BETrade&apos;s Right to Act
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Recognizing that B2BETrade is a private commercial entity, we
                   emphasize our right to conduct business in a manner that
-                  aligns with our objectives. It's important for users to
+                  aligns with our objectives. It&apos;s important for users to
                   acknowledge that in the event of a breach of the conditions
                   outlined on our platform, our decision to take no immediate
                   action does not forfeit our right to enforce our remedies in
@@ -447,11 +449,11 @@ export default function page() {
                   of our platform.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Termination of Agreement by B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   B2BETrade reserves the right to terminate the Terms and
                   Conditions or revoke your granted rights without prior notice.
                   In such cases, you are required to cease all access and use of
@@ -466,28 +468,29 @@ export default function page() {
                   B2BETrade.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Governing Law and Jurisdiction for B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   These terms and conditions are subject to the laws of The
-                  People's Republic of Bangladesh and are construed accordingly.
-                  By using the B2BETrade platform, you consent to the exclusive
-                  jurisdiction of the courts, tribunals, and/or quasi-judicial
-                  bodies located in Dhaka, Bangladesh, for the resolution of any
-                  disputes arising within Bangladesh under this Agreement.
+                  People&apos;s Republic of Bangladesh and are construed
+                  accordingly. By using the B2BETrade platform, you consent to
+                  the exclusive jurisdiction of the courts, tribunals, and/or
+                  quasi-judicial bodies located in Dhaka, Bangladesh, for the
+                  resolution of any disputes arising within Bangladesh under
+                  this Agreement.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Our Software for B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Our software, encompassing any provided software, updates, or
                   upgrades, is a valuable tool enabling your interaction with
-                  the B2BETrade platform (the "Software"). Your usage of the
-                  Software is strictly for facilitating your access and
+                  the B2BETrade platform (the &apos;Software&apos;). Your usage
+                  of the Software is strictly for facilitating your access and
                   enjoyment of our services, adhering to the Terms and
                   Conditions and any relevant terms outlined on the platform.
                   Incorporating the Software into your programs, transferring it
@@ -510,32 +513,33 @@ export default function page() {
                   provided to keep the Software current, with or without notice.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Conditions of Sale for B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Prior to placing an order for any products with the Sellers
-                  ("We" or "Our" or "Us"), carefully review these conditions on
-                  the B2BETrade platform. Your agreement to be bound by these
-                  conditions is implied upon placing an order.
+                  (&apos;We&apos; or &apos;Our&apos; or &apos;Us&apos;),
+                  carefully review these conditions on the B2BETrade platform.
+                  Your agreement to be bound by these conditions is implied upon
+                  placing an order.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Conditions Related to Sale of Wholesale Products or Services
                   on B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   This section outlines the conditions associated with the sale
                   of wholesale products or services on the B2BETrade platform.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   The Contract for B2BETrade Wholesale Products
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Your order serves as a legal offer to the seller, initiating
                   the process to purchase wholesale products showcased on our
                   B2BETrade platform. Confirmation or status updates received
@@ -557,20 +561,22 @@ export default function page() {
                   frames.
                 </p>
               </div>
-              <div className="mt-5  text-gray-500">
-                <div class="bg-white p-8   ">
-                  <h1 class="text-2xl font-bold mb-4">
+              <div className="mt-5  text-gray-500&apos">
+                <div className="bg-white p-8   &apos">
+                  <h1 className="text-2xl font-bold mb-4&apos">
                     Return Policy - B2BETrade
                   </h1>
 
-                  <p class="text-gray-700 mb-4">
+                  <p className="text-gray-700 mb-4&apos">
                     At B2BETrade, we strive to provide you with high-quality
                     products. If you encounter any issues with your purchase,
                     our return policy ensures a hassle-free process.
                   </p>
 
-                  <h2 class="text-xl font-bold mb-2">Return Eligibility</h2>
-                  <ul class="list-disc pl-6 mb-4">
+                  <h2 className="text-xl font-bold mb-2&apos">
+                    Return Eligibility
+                  </h2>
+                  <ul className="list-disc pl-6 mb-4&apos">
                     <li>Products must be unused, unworn, and without flaws.</li>
                     <li>
                       For fashion items, products may be tried on to check for
@@ -582,18 +588,18 @@ export default function page() {
                     </li>
                     <li>
                       Return the product in its original, undamaged
-                      manufacturer's packaging/box.
+                      manufacturer&apos;s packaging/box.
                     </li>
                     <li>
                       Do not tape or attach stickers directly to the
-                      manufacturer's packaging/box.
+                      manufacturer&apos;s packaging/box.
                     </li>
                   </ul>
 
-                  <h2 class="text-xl font-bold mb-2">
+                  <h2 className="text-xl font-bold mb-2&apos">
                     Valid Reasons for Return
                   </h2>
-                  <ul class="list-disc pl-6 mb-4">
+                  <ul className="list-disc pl-6 mb-4&apos">
                     <li>
                       Delivered product is damaged, physically destroyed, or
                       broken.
@@ -609,13 +615,15 @@ export default function page() {
                     <li>Product does not fit - size is unsuitable.</li>
                   </ul>
 
-                  <p class="text-gray-700 mb-4">
+                  <p className="text-gray-700 mb-4&apos">
                     If your return request falls within the eligibility criteria
                     mentioned above, we will process it accordingly.
                   </p>
 
-                  <h2 class="text-xl font-bold mb-2">Return Process</h2>
-                  <p class="text-gray-700 mb-4">
+                  <h2 className="text-xl font-bold mb-2&apos">
+                    Return Process
+                  </h2>
+                  <p className="text-gray-700 mb-4&apos">
                     When returning a product, ensure it meets the eligibility
                     criteria. Indicate the Order Number and Return Tracking
                     Number on the package. Hand over the package to the
@@ -623,13 +631,15 @@ export default function page() {
                     B2BETrade Return Acknowledgment paper for reference.
                   </p>
 
-                  <p class="text-gray-700 mb-4">
+                  <p className="text-gray-700 mb-4&apos">
                     Note: Failure to meet return requirements may result in
                     rejection of the return request.
                   </p>
 
-                  <h2 class="text-xl font-bold mb-2">Additional Information</h2>
-                  <p class="text-gray-700">
+                  <h2 className="text-xl font-bold mb-2&apos">
+                    Additional Information
+                  </h2>
+                  <p className="text-gray-700&apos">
                     For electronic appliances and mobile phones, check warranty
                     coverage for post-usage issues. Change of mind is accepted
                     for selected categories (refer to the Return Policy per
@@ -637,11 +647,11 @@ export default function page() {
                   </p>
                 </div>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Taxes - B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   As a valued user of B2BETrade, it is imperative to acknowledge
                   your responsibility for the payment of all fees, costs, and
                   charges linked to the procurement of products from our
@@ -651,11 +661,11 @@ export default function page() {
                   laws.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Representations and Warranties - B2BETrade
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   At B2BETrade, we operate as a platform facilitating
                   transactions between buyers and sellers in the B2B wholesale
                   marketplace. It is crucial to note that we do not provide any
@@ -685,11 +695,11 @@ export default function page() {
                   or clarifications, feel free to contact our support team.
                 </p>
               </div>
-              <div className="mt-5 prose prose-indigo text-gray-500">
-                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase">
+              <div className="mt-5 prose prose-indigo text-gray-500&apos">
+                <h2 className="leading-6 text-indigo-600 font-semibold tracking-wide uppercase&apos">
                   Others
                 </h2>
-                <p className=" mt-8 text-gray-950">
+                <p className=" mt-8 text-gray-950&apos">
                   Stock Availability: The fulfillment of orders is contingent
                   upon the availability of stock. Delivery Timeline: Please be
                   advised that the delivery timeline may extend beyond the usual

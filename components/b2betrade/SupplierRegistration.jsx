@@ -182,10 +182,10 @@ export default function SupplierRegistration({ categories, userType }) {
               <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
                 Discover a seamless B2B and B2C experience at B2BeTrade. Browse
                 our curated selection of products or submit a product request if
-                you can't find what you need. Our unique dynamic bidding system
-                empowers you to choose the perfect supplier for your specific
-                requirements. Connect with suppliers who can fulfill your needs
-                effectively and efficiently.
+                you can&apos;t find what you need. Our unique dynamic bidding
+                system empowers you to choose the perfect supplier for your
+                specific requirements. Connect with suppliers who can fulfill
+                your needs effectively and efficiently.
               </p>
             </div>
           </div>

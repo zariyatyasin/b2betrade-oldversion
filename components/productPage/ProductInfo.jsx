@@ -42,27 +42,8 @@ ChartJS.register(
 );
 
 const ProductInfo = ({ product, setActiveImg, params }) => {
-  if (!product) {
-    return (
-      <div>
-        <FullScreenLoading />
-      </div>
-    );
-  }
-
-  const [loading, setLoading] = useState(false);
-  const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
-  const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
-  // const [priceHistory, setPriceHistory] = useState([]);
-  const router = useRouter();
-  const [showPriceHistory, setShowPriceHistory] = useState(false);
-  const formatPrice = (price) => {
-    const formattedPrice = parseFloat(price).toFixed(2);
-    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-  const togglePriceHistory = () => {
-    setShowPriceHistory(!showPriceHistory);
-  };
+  const UrlSize = params?.slug[2];
+  const UrlStyle = params?.slug[1];
   const hasNullPrice =
     product?.bulkPricing &&
     product?.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
@@ -70,28 +51,28 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const minQty2 = product.bulkPricing[0].minQty;
   const minQty = firstSizeBulkPricing[0].minQty;
 
-  const UrlSize = params?.slug[2];
-  const UrlStyle = params?.slug[1];
+  const [loading, setLoading] = useState(false);
+  const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
+  const [selectedRange, setSelectedRange] = useState(null); // Initialize with null
+  // const [priceHistory, setPriceHistory] = useState([]);
+  const router = useRouter();
+  const [showPriceHistory, setShowPriceHistory] = useState(false);
+
   const { cart } = useSelector((state) => ({ ...state }));
   const [size, setSize] = useState(UrlSize);
 
   const [qty, setQty] = useState(hasNullPrice ? minQty : minQty2);
   const [maxQty, setMaxQty] = useState(qty);
   const [totalPrice, setTotalPrice] = useState(product?.price);
-
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const [staySize, setStaySize] = useState(
     UrlSize !== undefined ? parseInt(UrlSize) : -1
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  useEffect(() => {}, [router.asPath]);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  const dispatch = useDispatch();
+  useEffect(() => {}, [router.asPath]);
   useEffect(() => {
     // Check if router.events is available before subscribing
     if (router.events) {
@@ -106,8 +87,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       };
     }
   }, [router.events]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   useEffect(() => {
     // Find the correct price based on the selected quantity
     const selectedPriceRange = priceRanges.find(
@@ -118,38 +97,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setTotalPrice(selectedPriceRange.price * qty);
     }
   }, [qty]);
-  const handleQtyChange = (e) => {
-    const newQty = Number(e.target.value.replace(/^0+/, ""));
-
-    const selectedPriceRange = priceRanges.find(
-      (range) => newQty >= range.minQty && newQty <= range.maxQty
-    );
-
-    if (selectedPriceRange) {
-      setQty(newQty);
-      setTotalPrice(selectedPriceRange.price * newQty);
-      setSelectedRange(selectedPriceRange);
-    } else {
-      const closestRange = priceRanges.reduce((closest, range) => {
-        const currentDiff = Math.abs(newQty - closest.minQty);
-        const newDiff = Math.abs(newQty - range.minQty);
-        return newDiff < currentDiff ? range : closest;
-      });
-
-      setQty(newQty);
-      setTotalPrice(closestRange.price * newQty);
-      setSelectedRange(closestRange);
-    }
-  };
-  const priceHistory = [
-    { date: "2022-01-01", price: 25.0 },
-    { date: "2022-01-02", price: 28.5 },
-    { date: "2022-01-03", price: 22.0 },
-    { date: "2022-01-04", price: 20.0 },
-    { date: "2022-01-05", price: 15.5 },
-    // Add more entries as needed
-  ];
-
   useEffect(() => {
     if (!hasNullPrice) {
       setPriceRanges(product?.bulkPricing || []);
@@ -184,6 +131,61 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setQty(product?.quantity);
     }
   }, [UrlSize]);
+
+  if (!product) {
+    return (
+      <div>
+        <FullScreenLoading />
+      </div>
+    );
+  }
+
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const togglePriceHistory = () => {
+    setShowPriceHistory(!showPriceHistory);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleQtyChange = (e) => {
+    const newQty = Number(e.target.value.replace(/^0+/, ""));
+
+    const selectedPriceRange = priceRanges.find(
+      (range) => newQty >= range.minQty && newQty <= range.maxQty
+    );
+
+    if (selectedPriceRange) {
+      setQty(newQty);
+      setTotalPrice(selectedPriceRange.price * newQty);
+      setSelectedRange(selectedPriceRange);
+    } else {
+      const closestRange = priceRanges.reduce((closest, range) => {
+        const currentDiff = Math.abs(newQty - closest.minQty);
+        const newDiff = Math.abs(newQty - range.minQty);
+        return newDiff < currentDiff ? range : closest;
+      });
+
+      setQty(newQty);
+      setTotalPrice(closestRange.price * newQty);
+      setSelectedRange(closestRange);
+    }
+  };
+  const priceHistory = [
+    { date: "2022-01-01", price: 25.0 },
+    { date: "2022-01-02", price: 28.5 },
+    { date: "2022-01-03", price: 22.0 },
+    { date: "2022-01-04", price: 20.0 },
+    { date: "2022-01-05", price: 15.5 },
+    // Add more entries as needed
+  ];
 
   const handleSizeSelection = (size) => {
     setSize(size.size);

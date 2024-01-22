@@ -15,7 +15,7 @@ export default function TopNavbar() {
             <p className="  text-gray-900 truncate text-sm">
               <span className="md:hidden">We announced a new product!</span>
               <span className="hidden md:inline">
-                Big news! We're excited to announce a brand new product.
+                Big news! We&apos;re excited to announce a brand new product.
               </span>
             </p>
           </div>

@@ -1,13 +1,10 @@
 import React from "react";
 import Layout from "../../../../components/admin/Layout/Layout";
-
 import db from "../../../../utils/db";
-
 import Contact from "../../../../model/Contact";
 import MessageCard from "../../../../components/cards/MessageCard";
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
-
 export async function getData() {
   await db.connectDb();
 
@@ -22,14 +19,13 @@ export async function getData() {
     messages: JSON.parse(JSON.stringify(messages)),
   };
 }
-export default async function page() {
+export default async function Page() {
   const { messages } = await getData();
 
-  const componentKey = Date.now();
   return (
     <Layout>
-      {messages.map((message) => (
-        <MessageCard key={message._id} message={message} />
+      {messages.map((message, id) => (
+        <MessageCard key={id} message={message} />
       ))}
     </Layout>
   );

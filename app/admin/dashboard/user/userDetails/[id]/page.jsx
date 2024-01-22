@@ -163,8 +163,8 @@ export default async function page({ params }) {
       {/* Order Information */}
       <div>
         <h2 className="text-xl font-bold mb-4">Order Information</h2>
-        {orders.map((order) => (
-          <OrderCard data={order} />
+        {orders.map((order, id) => (
+          <OrderCard data={order} key={id} />
         ))}
       </div>
     </div>

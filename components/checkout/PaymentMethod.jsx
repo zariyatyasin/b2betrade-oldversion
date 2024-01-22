@@ -13,8 +13,8 @@ export default function PaymentMethod({ selectedMethod, setSelectedMethod }) {
       <fieldset className="mt-4">
         <legend className="sr-only">Payment type</legend>
         <div className="flex flex-col">
-          {paymentMethods.map((method) => (
-            <div className="flex w-full items-center">
+          {paymentMethods.map((method, id) => (
+            <div key={id} className="flex w-full items-center">
               <label
                 key={method.id}
                 className={`${

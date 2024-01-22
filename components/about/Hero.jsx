@@ -104,7 +104,7 @@ export default function Hero() {
             <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
               <div className="lg:grid lg:grid-cols-2 lg:gap-8">
                 <h2 className="max-w-md mx-auto text-3xl font-extrabold text-[#2B39D1] text-center lg:max-w-xl lg:text-left">
-                  The Bangladesh's most innovative companies partner with
+                  The Bangladesh&apos;s most innovative companies partner with
                   B2BeTrade.
                 </h2>
                 <div className="flow-root self-center mt-8 lg:mt-0">
@@ -166,21 +166,21 @@ export default function Hero() {
                 My Story
               </p>
               <p className="mt-5 text-lg text-gray-300">
-                I'm Yasin, a computer science enthusiast who decided to embark
+                I&apos;m Yasin, a computer science enthusiast who decided to embark
                 on a thrilling journey that led to the creation of B2BeTrade in
                 January 2024. Back in university, I was knee-deep in code and
                 algorithms, but my mind was always buzzing with ideas beyond the
                 classroom. It struck me that there was a gap in the market—a
                 need for a platform that could simplify the process of
                 businesses getting their hands on wholesale products straight
-                from the source. And that's how the seed for B2BeTrade was
+                from the source. And that&apos;s how the seed for B2BeTrade was
                 planted.
               </p>
               <p className="mt-5 text-lg text-gray-300">
-                I didn't go at it alone; I teamed up with some brilliant minds
+                I didn&apos;t go at it alone; I teamed up with some brilliant minds
                 who shared my vision. Together, we pulled all-nighters, faced
                 challenges head-on, and fine-tuned our platform to create
-                something revolutionary. B2BeTrade wasn't just about building a
+                something revolutionary. B2BeTrade wasn&apos;t just about building a
                 website; it was about reshaping the B2B e-commerce landscape and
                 fostering a community of businesses.B2BeTrade was becoming more
                 than just a project—it was becoming a mission to simplify and
@@ -204,16 +204,16 @@ export default function Hero() {
                   My Story
                 </h2>
                 <p className="text-xl text-gray-500">
-                  I'm Yasin, a computer science enthusiast who decided to embark
-                  on a thrilling journey that led to the creation of B2BeTrade
-                  in January 2024. Back in university, I was knee-deep in code
-                  and algorithms, but my mind was always buzzing with ideas
-                  beyond the classroom. It struck me that there was a gap in the
-                  market—a need for a platform that could simplify the process
-                  of businesses getting their hands on wholesale products
-                  straight from the source. And that's how the seed for
-                  B2BeTrade was planted. I didn't go at it alone; I teamed up
-                  with some brilliant minds who shared my vision.{" "}
+                  I&apos;m Yasin, a computer science enthusiast who decided to
+                  embark on a thrilling journey that led to the creation of
+                  B2BeTrade in January 2024. Back in university, I was knee-deep
+                  in code and algorithms, but my mind was always buzzing with
+                  ideas beyond the classroom. It struck me that there was a gap
+                  in the market—a need for a platform that could simplify the
+                  process of businesses getting their hands on wholesale
+                  products straight from the source. And that&apos;s how the
+                  seed for B2BeTrade was planted. I didn&apos;t go at it alone;
+                  I teamed up with some brilliant minds who shared my vision.{" "}
                   <span className=" text-lg font-bold">
                     A special acknowledgment
                   </span>
