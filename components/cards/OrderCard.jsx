@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
   const { data: session, status } = useSession();
-  const [editedProduct, setEditedProduct] = useState(null); // New state for edited product
+  const [editedProduct, setEditedProduct] = useState(null);
   let totalProductNumber = 0;
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
@@ -245,12 +245,14 @@ export default function OrderCard({ data }) {
           <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
         </td>
         <td className="relative whitespace-nowrap pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-          <div
+          <Link
+            href={`/orderdetails/${order._id}`}
+            target="_blank"
             onClick={openViewModel}
             className="text-indigo-600 cursor-pointer hover:text-indigo-900"
           >
             View
-          </div>
+          </Link>
 
           {session?.user.role === "admin" && (
             <div>
@@ -281,21 +283,15 @@ export default function OrderCard({ data }) {
         />
       )}
 
-      {isViewModalOpen && (
+      {/* {isViewModalOpen && (
         <ViewDetailsModal data={order} onClose={closeViewModel} />
-      )}
+      )} */}
 
       {isDeleteConfirmationOpen && (
         <DeleteConfirmationModal
           onClose={closeDeleteConfirmation}
           onDelete={handleDelete}
         />
-      )}
-
-      {isLoading && (
-        <div className="fixed z-50 top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center">
-          <div className="text-white">Loading...</div>
-        </div>
       )}
     </>
   );

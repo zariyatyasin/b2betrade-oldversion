@@ -8,6 +8,7 @@ import User from "../../../../model/User";
 
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
+import Store from "../../../../model/Store";
 
 export async function getData({ params, searchParams }) {
   await db.connectDb();
@@ -66,10 +67,12 @@ export async function getData({ params, searchParams }) {
       path: "user",
       model: User,
     })
+    .populate({
+      path: "products.storeId",
+      model: "Store",
+    })
     .sort(sortbydate)
-
     .skip(pageSize * (page - 1))
-
     .limit(pageSize);
 
   Orders = sortQuery && sortQuery !== "" ? Orders : Orders;

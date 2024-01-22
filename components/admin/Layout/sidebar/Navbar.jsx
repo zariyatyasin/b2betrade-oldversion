@@ -5,6 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { toggleSidebar } from "../../../../store/ExpandSlice";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 export const Navbar = () => {
   const { expandSidebar } = useSelector((state) => ({ ...state }));
   const expand = expandSidebar.expandSidebar;
@@ -24,6 +25,14 @@ export const Navbar = () => {
         >
           <MenuOutlinedIcon />
         </div>
+        <Link
+          href="/"
+          target="_blank"
+          className="inline-block ml-2 focus:outline-none text-white font-bold text-xl  "
+        >
+          <span className=" text-blue-800"> B2B</span>
+          <span className="  text-[#FFD700] text-xl  ">eTrade</span>
+        </Link>
       </div>
 
       <div className="flex ml-2 flex-col  justify-center">

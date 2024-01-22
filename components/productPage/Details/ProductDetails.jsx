@@ -48,7 +48,7 @@ export default function ProductDetails({ product }) {
   };
 
   return (
-    <div className="bg-white mt-4 rounded-md p-4 shadow">
+    <div className="bg-white mt-4 rounded-md p-4  mb-16 shadow">
       <h1 className="text-xl font-semibold mb-4">Product Details</h1>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

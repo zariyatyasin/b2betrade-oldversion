@@ -50,8 +50,6 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     );
   }
 
-  console.log("color", product.colors);
-
   const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
   const [selectedRange, setSelectedRange] = useState(null); // Initialize with null

@@ -25,7 +25,7 @@ export default function StoreSide({ store }) {
     return url;
   };
   const imageUrl =
-    store.image.length > 0
+    store?.image.length > 0
       ? modifyImageUrl(store.image[0][0].url)
       : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png";
 
@@ -87,7 +87,7 @@ export default function StoreSide({ store }) {
         <div className="flex items-center justify-between mt-6 px-2">
           <div className="text-center">
             <p className="text-gray-500 font-medium text-xs">Location</p>
-            <div className="text-sm font-bold">{store.address.city} </div>
+            <div className="text-sm font-bold">{store?.address.city} </div>
           </div>
           <div className="text-center">
             <p className="text-gray-500 font-medium text-xs">Floorspace</p>
@@ -110,7 +110,7 @@ export default function StoreSide({ store }) {
         <div className="mt-6">
           <h3 className="font-medium text-gray-500  text-xs  ">Services</h3>
           <div className="mt-2 text-xs  r">
-            <p>{store.description}</p>
+            <p>{store?.description}</p>
           </div>
         </div>
       </div>
