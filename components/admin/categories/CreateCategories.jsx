@@ -14,7 +14,7 @@ import {
 import CreateForm from "../../../components/form/CreateForm";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "../../../components/loading/FullScreenLoading";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 export default function CreateCategories({ categories }) {
   const [data, setData] = useState(categories);
   const [loading, setLoading] = useState(false);
