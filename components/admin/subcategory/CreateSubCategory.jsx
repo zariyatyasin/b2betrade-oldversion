@@ -15,7 +15,7 @@ import {
 import { Button } from "../../../components/ui/button";
 import axios from "axios";
 import { toast } from "react-toastify";
-import FullScreenLoading from "../../../components/loading/FullScreenLoading";
+import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 import CreateSubCategoryForm from "../../../components/form/CreateSubCategoryForm";
 export default function CreateSubCategory({ categories, subcategories }) {
   const [data, setData] = useState(subcategories);

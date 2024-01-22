@@ -1,20 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import AddressForm from "./AddressFrom";
-import {
-  saveAddress,
-  changeActiveAddress,
-  deleteAddress,
-} from "../../request/user";
+import React, { useState } from "react";
+
 import { paymentMethods } from "../../data/paymentMethods";
-import AddressCard from "./AddressCard";
+
 import Address from "../Address/Address";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import FullScreenLoading from "../../loading/FullScreenLoading";
-import AddIcon from "@mui/icons-material/Add";
-import Steps from "../steps/Steps";
-import DeliveryMethod from "../../components/checkout/DeliveryMethod";
-import PaymentMethod from "../../components/checkout/PaymentMethod";
+
 import OrderSummary from "../../components/checkout/OrderSummary";
 export default function Checkout({ cart, user }) {
   const [selectedAddress, setSelectedAddress] = useState();
