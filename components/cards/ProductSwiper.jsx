@@ -22,7 +22,6 @@ const ProductSwiper = ({ images }) => {
       return modifiedUrl;
     }
 
-    console.log("new", url);
     return url;
   };
   return (

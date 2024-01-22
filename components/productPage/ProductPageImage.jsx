@@ -9,8 +9,6 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 const ProductPageImage = ({ images, activeImg }) => {
-  console.log(images);
-
   const modifyImageUrl = (url) => {
     const uploadIndex = url?.indexOf("/upload/");
     if (uploadIndex !== -1) {

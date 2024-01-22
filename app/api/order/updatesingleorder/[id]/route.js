@@ -16,7 +16,7 @@ export const PUT = async (request, { params }) => {
   try {
     db.connectDb();
     const { id } = params;
-    console.log(id);
+ 
     const editedData = await request.json();
     const { product, status, otherFields } = editedData;
 
@@ -38,9 +38,9 @@ export const PUT = async (request, { params }) => {
         { status: 404 }
       );
     }
-    console.log(productIndex);
+   
     order.products[productIndex].status = status;
-    console.log(order);
+     
     const updatedOrder = await order.save();
 
     const newUpdatedOrder = await Order.findById(updatedOrder._id).populate({

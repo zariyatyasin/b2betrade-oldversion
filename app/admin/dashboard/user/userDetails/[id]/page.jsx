@@ -46,8 +46,6 @@ export async function getData({ params }) {
 export default async function page({ params }) {
   const { orders, store, user } = await getData({ params });
 
-  console.log(user);
-
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-xl font-bold mb-4">User Information</h2>

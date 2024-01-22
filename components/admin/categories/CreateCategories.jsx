@@ -64,7 +64,7 @@ export default function CreateCategories({ categories }) {
 
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/api/admin/category/${deleteItemId}`
+        ` /api/admin/category/${deleteItemId}`
       );
 
       setData(data.categories);
@@ -87,13 +87,10 @@ export default function CreateCategories({ categories }) {
     setLoading(true);
 
     try {
-      const { data } = await axios.put(
-        `http://localhost:3000/api/admin/category/`,
-        {
-          id: editData._id,
-          name: editData.name,
-        }
-      );
+      const { data } = await axios.put(`/api/admin/category/`, {
+        id: editData._id,
+        name: editData.name,
+      });
       setData(data.categories);
       toast.success(data.message);
       setOpenEditDialog(false);

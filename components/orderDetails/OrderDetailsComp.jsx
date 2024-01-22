@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 
 export default function OrderDetailsComp({ order }) {
-  console.log(order);
   return (
     <div className="bg-gray-50">
       <main className="max-w-2xl mx-auto pt-8 pb-24 sm:pt-16 sm:px-6 lg:max-w-7xl lg:px-8">

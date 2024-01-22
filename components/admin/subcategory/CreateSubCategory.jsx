@@ -84,7 +84,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
 
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/api/admin/subcategory/${deleteItemId}`
+        `/api/admin/subcategory/${deleteItemId}`
       );
 
       setData(data.subcategories);

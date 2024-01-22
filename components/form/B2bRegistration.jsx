@@ -60,7 +60,7 @@ function B2bRegistration({ categories, userType }) {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/formrequest/b2bregistration",
+        "/api/formrequest/b2bregistration",
 
         values
       );

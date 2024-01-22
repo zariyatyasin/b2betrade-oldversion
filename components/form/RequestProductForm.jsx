@@ -158,10 +158,7 @@ const RequestProductForm = ({ session, categories }) => {
     try {
       setLoading(true);
       values.userId = session.id;
-      const response = await axios.post(
-        "http://localhost:3000/api/productrequest",
-        values
-      );
+      const response = await axios.post("/api/productrequest", values);
 
       if (response.status === 200) {
         toast.success(response.data.message);

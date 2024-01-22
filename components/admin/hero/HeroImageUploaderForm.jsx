@@ -23,7 +23,7 @@ const HeroImageUploaderForm = ({ data }) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeStatus, setActiveStatus] = useState({});
-  console.log(data);
+
   const handleToggleActive = async (id) => {
     try {
       setLoading(true);
@@ -61,9 +61,6 @@ const HeroImageUploaderForm = ({ data }) => {
         heroImageSide,
         images: uploadedImages,
       });
-
-      // Handle the response as needed
-      console.log("Response:", response);
 
       setTitle("");
       setDescription("");

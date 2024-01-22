@@ -19,7 +19,7 @@ export const POST = async (request) => {
   
     const { title, description, imageType, heroImageSide, images } = await request.json();
 
-    console.log(images);
+   
     const newHero = new HomeHero({
       title,
       description,

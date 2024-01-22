@@ -30,10 +30,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
     try {
       values.requestId = ProductId;
       values.sellerId = session.id;
-      const response = await axios.post(
-        "http://localhost:3000/api/sellerRequest",
-        values
-      );
+      const response = await axios.post("/api/sellerRequest", values);
 
       // if (response.status === 200) {
       //   console.log("Request successful:", response.data);
@@ -57,7 +54,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/productrequest/${ProductId}/${userId}`
+        `/api/productrequest/${ProductId}/${userId}`
       );
 
       if (response.status === 201) {

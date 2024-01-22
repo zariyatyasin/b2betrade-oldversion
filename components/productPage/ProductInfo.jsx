@@ -296,7 +296,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       setLoading(false);
     }
   };
-  console.log(product.size);
+
   return (
     <div className="flex-1 bg-white p-4 rounded-md relative  shadow ">
       <h1 className="text-xl   font-medium text-qblack mb-2 ">
@@ -348,7 +348,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
       {product.size &&
         product.size.some((size) => size.size && size.size.trim() !== "") && (
           <h2 className="mt-2 text-lg font-medium text-gray-900">
-            Select the Size
+            Select option
           </h2>
         )}
       <div className="mt-2 flex select-none flex-wrap items-center gap-2">

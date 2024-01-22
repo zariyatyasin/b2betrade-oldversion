@@ -9,8 +9,6 @@ export const GET = async (request, { params }) => {
 
     const { query } = params;
 
-    console.log(query);
-
     const suggestions = await Product.find({
       name: { $regex: query, $options: "i" },
     }) // Adapt this to your model and search logic

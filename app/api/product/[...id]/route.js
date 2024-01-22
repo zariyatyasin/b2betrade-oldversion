@@ -62,7 +62,7 @@ export const PUT = async (request, { params }) => {
    
     const reviewData = await request.json();
  
-   console.log(reviewData.images);
+ 
   
     const product = await Product.findById(id);
     if (product) {

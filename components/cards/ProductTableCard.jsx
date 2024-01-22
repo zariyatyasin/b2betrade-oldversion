@@ -141,7 +141,7 @@ export default function ProductTableCard({ data }) {
       const response = await axios.delete(
         `/api/admin/product/delete/${product._id}`
       );
-      console.log(response);
+
       toast.success(response.data.message);
     } catch (error) {
       console.error("Error deleting product:", error.message);

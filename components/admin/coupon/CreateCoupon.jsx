@@ -69,7 +69,7 @@ export default function CreateCoupon({ categories, coupon }) {
 
     try {
       if (formData.action === "edit") {
-        const { data } = await axios.put("http://localhost:3000/api/coupon", {
+        const { data } = await axios.put("/api/coupon", {
           id: formData.editId,
           ...formData.values,
         });
@@ -78,10 +78,7 @@ export default function CreateCoupon({ categories, coupon }) {
         toast.success(data.message);
       } else {
         // Create operation
-        const { data } = await axios.post(
-          "http://localhost:3000/api/coupon",
-          formData.values
-        );
+        const { data } = await axios.post("/api/coupon", formData.values);
 
         setData(data.coupon);
         toast.success(data.message);

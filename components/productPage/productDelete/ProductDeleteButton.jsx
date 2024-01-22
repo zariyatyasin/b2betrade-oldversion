@@ -18,7 +18,7 @@ const ProductDeleteButton = ({ id, visible }) => {
       setLoading(true);
 
       const response = await axios.delete(`/api/admin/product/delete/${id}`);
-      console.log(response);
+
       toast.success(response.data.message);
     } catch (error) {
       // Handle error, e.g., show an error message

@@ -15,7 +15,7 @@ export const DELETE = async (request, { params }) => {
   try {
     db.connectDb();
     const { id } = params;
-    console.log(id);
+
     const existingProduct = await Product.findById(id);
     if (!existingProduct) {
       db.disconnectDb();

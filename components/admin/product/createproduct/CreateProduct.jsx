@@ -34,7 +34,7 @@ const initialState = {
   sku: "",
   shipping: 0,
   productvisibility: "visible",
-  section: "",
+  section: "regular",
   description_images: [],
   parent: "",
   category: "",
@@ -166,8 +166,6 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    console.log(product);
-
     setLoading(true);
     for (const subProduct of subProducts) {
       const formData = new FormData();
@@ -209,13 +207,12 @@ export default function CreateProduct({ categories }) {
         ...product,
         updatedSubProducts,
       });
-
-      console.log("data", data);
     } catch (error) {
       console.error("Error creating product:", error);
+      toast.success(error);
     } finally {
       toast.success("Product successfully created");
-      window.location.reload();
+
       setLoading(false);
     }
   };

@@ -185,9 +185,6 @@ export default function EditProduct({ editedProduct, categories, id }) {
         ...product,
         subProducts,
       });
-
-      console.log(product);
-      console.log(subProducts);
     } catch (error) {
       console.error("Error creating product:", error);
     } finally {

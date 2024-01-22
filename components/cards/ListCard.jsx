@@ -3,8 +3,6 @@ import { ChevronRightIcon, MailIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 
 export default function ListCard({ notProcessedOrders }) {
-  console.log(notProcessedOrders);
-
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <ul role="list" className="divide-y divide-gray-200">
