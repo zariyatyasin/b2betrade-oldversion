@@ -7,16 +7,38 @@ import Store from "../../../../model/Store";
 import Category from "../../../../model/Category";
 import SubCategory from "../../../../model/SubCategory";
 import StoreHeader from "../../../../components/store/storeHeader/StoreHeader";
-import StoreNavbar from "../../../../components/store/storeHeader/StoreNavbar";
+import SuplierNavbar from "../../../../components/store/storeHeader/SuplierNavbar";
 import { redirect } from "next/navigation";
 import ProductCardSwip from "../../../../components/cards/ProductCardSwip";
-import ProductDeleteButto from "../../../../components/productPage/productDelete/ProductDeleteButton"
-async function getData() {
+import ProductDeleteButto from "../../../../components/productPage/productDelete/ProductDeleteButton";
+async function getData({ searchParams }) {
   const session = await getCurrentUser();
 
   if (!session) {
     redirect("/signin");
   }
+
+  const page = searchParams.page || 1;
+
+  const sortQuery = searchParams.sort || "";
+  const sortvisibleQuery = searchParams.sortvisible || "";
+  const pageSize = 15;
+  const sortvisible =
+    sortvisibleQuery == ""
+      ? {}
+      : sortvisibleQuery == "visible"
+      ? { productvisibility: "visible" }
+      : sortvisibleQuery == "hidden"
+      ? { productvisibility: "hidden" }
+      : {};
+  const sort =
+    sortQuery == ""
+      ? {}
+      : sortQuery == "oldest"
+      ? { createdAt: 1 }
+      : sortQuery == "newest"
+      ? { createdAt: -1 }
+      : {};
   let StoreData = await Store.find({ owner: session.id })
     .populate({
       path: "owner",
@@ -35,21 +57,27 @@ async function getData() {
       model: SubCategory,
     });
 
-    const products = await Product.find({ userId: session.id })
-    .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
-    
-
+  const products = await Product.find({ ...sortvisible, userId: session.id })
+    .sort(sort)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .lean();
+  let totalProducts = await Product.countDocuments({
+    ...sortvisible,
+    userId: session.id,
+  });
   return {
     StoreData: JSON.parse(JSON.stringify(StoreData)),
     products: JSON.parse(JSON.stringify(products)),
+    paginationCount: Math.ceil(totalProducts / pageSize),
   };
 }
 
-export default async function page() {
-  const { StoreData, products } = await getData();
-  
- 
-
+export default async function page({ searchParams }) {
+  const { StoreData, products, paginationCount } = await getData({
+    searchParams,
+  });
+  const componentKey = Date.now();
   return (
     <Layout>
       <StoreHeader
@@ -58,19 +86,23 @@ export default async function page() {
         storeDescription={StoreData[0].description}
       />
 
-      {  (
+      {
         <>
-          <StoreNavbar subCategory={StoreData[0].subCategories} />
+          <SuplierNavbar paginationCount={paginationCount} />
+
           <div className="h-screen  grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
             {products?.map((item, id) => (
               <div className=" relative   " key={id}>
-                 <ProductDeleteButto id={item._id}/>
-                <ProductCardSwip products={item} />
+                <ProductDeleteButto
+                  id={item._id}
+                  visible={item.productvisibility}
+                />
+                <ProductCardSwip products={item} key={componentKey} />
               </div>
             ))}
           </div>
         </>
-      )}
+      }
     </Layout>
   );
 }

@@ -4,8 +4,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
-const ProductDeleteButton = ({ id }) => {
+const ProductDeleteButton = ({ id, visible }) => {
   const [loading, setLoading] = useState(false);
+  const result =
+    visible === "visible"
+      ? "visible"
+      : visible === "hidden"
+      ? "hidden"
+      : "unknown";
 
   const handleDelete = async () => {
     try {
@@ -24,13 +30,13 @@ const ProductDeleteButton = ({ id }) => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex   items-center">
       <button
         onClick={handleDelete}
         disabled={loading}
         className="border border-red-500 rounded-md p-2"
       >
-        {loading ? "Deleting..." : "Delete Product"}
+        {loading ? "Deleting..." : "Delete "}
       </button>
       <Link
         href={`/editproduct/${id}`}
@@ -39,6 +45,12 @@ const ProductDeleteButton = ({ id }) => {
       >
         Edit
       </Link>
+      <div
+        style={{ background: result === "visible" ? "blue" : "red" }}
+        className=" text-white p-1 rounded"
+      >
+        {result}
+      </div>
     </div>
   );
 };

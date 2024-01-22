@@ -33,6 +33,7 @@ const initialState = {
   brand: "",
   sku: "",
   shipping: 0,
+  productvisibility: "visible",
   section: "",
   description_images: [],
   parent: "",
@@ -128,6 +129,14 @@ export default function CreateProduct({ categories }) {
     },
     {
       name: "regular",
+    },
+  ];
+  const visibility = [
+    {
+      name: "visible",
+    },
+    {
+      name: "hidden",
     },
   ];
 
@@ -260,6 +269,16 @@ export default function CreateProduct({ categories }) {
                         placeholder="Feature Product type if any"
                         data={section}
                         header="Feature Product type if any"
+                        handleChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <SingularSelect
+                        name="productvisibility"
+                        value={product.productvisibility}
+                        placeholder="Visibility"
+                        data={visibility}
+                        header="Visibility"
                         handleChange={handleChange}
                       />
                     </Grid>

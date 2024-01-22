@@ -30,7 +30,7 @@ export default function OrderComp({ Orders, paginationCount, user }) {
       ? "/admin/dashboard/order"
       : "/supplier/dashboard/order";
 
-  const filterUrl = ({ page, sort }) => {
+  const filterUrl = ({ page, sort, sortbydate }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 
     if (page !== undefined) {
@@ -39,13 +39,24 @@ export default function OrderComp({ Orders, paginationCount, user }) {
     if (sort !== undefined) {
       currentQuery.set("sort", sort);
     }
+    if (sortbydate !== undefined) {
+      currentQuery.set("sortbydate", sortbydate);
+    }
     const queryStr = currentQuery.toString();
 
     const newUrl = `${pathname}?${queryStr}`;
 
     router.push(newUrl, { scroll: false });
   };
-
+  const sortbydateHandler = (sortbydate) => {
+    if (sortbydate) {
+      filterUrl({ sortbydate });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("sortbydate");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
+  };
   const pageHandler = (e, page) => {
     filterUrl({ page });
   };
@@ -58,7 +69,30 @@ export default function OrderComp({ Orders, paginationCount, user }) {
       router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
     }
   };
-  useEffect(() => {}, []);
+  const sortbydatte = [
+    {
+      name: "Recommend",
+      value: "",
+    },
+    {
+      name: "newest",
+      value: "newest",
+    },
+    {
+      name: "oldest",
+      value: "oldest",
+    },
+    {
+      name: "high to low",
+      value: "hightolow",
+    },
+    {
+      name: "low to high",
+      value: "lowtohigh",
+    },
+
+    // ... (other sorting options)
+  ];
   const sortingOptions = [
     {
       name: "Recommend",
@@ -114,13 +148,17 @@ export default function OrderComp({ Orders, paginationCount, user }) {
           sortingOptions={sortingOptions}
           sortHandler={sortHandler}
         />
+        <SortingDropdown
+          sortingOptions={sortbydatte}
+          sortHandler={sortbydateHandler}
+        />
       </div>
       <Table headers={headers} data={Orders} CardComponent={OrderCard} />
 
       <Stack spacing={2}>
         <Pagination
           count={paginationCount}
-          defaultPage={Number(searchParams.page) || 1}
+          defaultPage={Number(searchParams.get("page")) || 1}
           onChange={pageHandler}
           variant="outlined"
           shape="rounded"

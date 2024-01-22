@@ -23,8 +23,10 @@ export async function getData({ params }) {
     _id: params.id,
     userId: session.id,
   });
-  if (productCount === 0 || session.role !== "admin") {
-    redirect("/supplier/dashboard");
+  if (productCount === 0) {
+    if (session.role !== "admin") {
+      redirect("/supplier/dashboard");
+    }
   }
 
   let editedProduct = await Product.find({ _id: params.id })

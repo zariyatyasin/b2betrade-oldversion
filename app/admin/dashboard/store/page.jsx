@@ -22,8 +22,21 @@ export async function getData({ params, searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
-  const pageSize = 15;
+  const sortbydateQuery = searchParams.sortbydate || "";
+  const pageSize = 20;
   let Stores;
+
+  const sortbydate =
+    sortbydateQuery == ""
+      ? {}
+      : sortbydateQuery == "newest"
+      ? { createdAt: -1 }
+      : sortbydateQuery == "oldest"
+      ? { createdAt: 1 }
+      : sortbydateQuery == "topReviewed"
+      ? { rating: -1 }
+      : {};
+
   const sort =
     sortQuery == ""
       ? {}
@@ -55,42 +68,27 @@ export async function getData({ params, searchParams }) {
           ],
         }
       : {};
-  if (session?.role === "admin") {
-    // If the user is an admin, fetch all stores
-    Stores = await Store.find({ ...sort, ...search })
-      .populate({
-        path: "owner",
-        model: User,
-      })
-      .populate({
-        path: "category",
-        model: Category,
-      })
-      .populate({
-        path: "subCategories",
-        model: SubCategory,
-      })
-      .skip(pageSize * (page - 1))
 
-      .limit(pageSize);
+  Stores = await Store.find({ ...sort, ...search })
+    .populate({
+      path: "owner",
+      model: User,
+    })
+    .populate({
+      path: "category",
+      model: Category,
+    })
+    .populate({
+      path: "subCategories",
+      model: SubCategory,
+    })
+    .skip(pageSize * (page - 1))
+    .sort(sortbydate)
 
-    Stores = sortQuery && sortQuery !== "" ? Stores : Stores;
-  } else {
-    // If the user is not an admin, fetch only their store
-    Stores = await Store.find({ owner: session.id })
-      .populate({
-        path: "owner",
-        model: User,
-      })
-      .populate({
-        path: "category",
-        model: Category,
-      })
-      .populate({
-        path: "subCategories",
-        model: SubCategory,
-      });
-  }
+    .limit(pageSize);
+
+  // Stores = sortQuery && sortQuery !== "" ? Stores : Stores;
+
   let totalProducts = await Store.countDocuments({ ...search });
   return {
     Stores: JSON.parse(JSON.stringify(Stores)),

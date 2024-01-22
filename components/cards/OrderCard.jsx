@@ -39,7 +39,7 @@ export default function OrderCard({ data }) {
             prefetch={false}
           >
             <h3 className="  text-blue-700 truncate">
-              <span className="  text-blue-700  text-lg font-semibold truncate">{`${
+              <span className="  text-blue-700  text-sm font-semibold truncate">{`${
                 index + 1
               }`}</span>{" "}
               {product.name}
@@ -74,17 +74,16 @@ export default function OrderCard({ data }) {
                   {product?.status}
                 </span>
               </p>
+              {session?.user.role === "admin" && (
+                <button
+                  className=" text-blue-600"
+                  onClick={() => openEditProductModal(product)}
+                >
+                  Edit Product
+                </button>
+              )}
             </div>
           </div>
-
-          {session?.user.role === "admin" && (
-            <button
-              className=" text-blue-600"
-              onClick={() => openEditProductModal(product)}
-            >
-              Edit Product
-            </button>
-          )}
 
           {product.color.color ? (
             <div
@@ -176,8 +175,6 @@ export default function OrderCard({ data }) {
         ? `/api/order/updatesingleorder/${editedData.orderId}`
         : `/api/order/update/${editedData._id}`;
 
-      console.log(url);
-
       const response = await axios.put(url, editedData);
 
       if (response.status === 200) {
@@ -202,7 +199,7 @@ export default function OrderCard({ data }) {
   return (
     <>
       <tr>
-        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6 hover:bg-gray-100">
+        <td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 hover:bg-gray-100">
           <div className="shipping-address">
             <p>Full Name: {order.shippingAddress.fullName}</p>
             <p>Phone Number: {order.shippingAddress.phoneNumber}</p>
@@ -212,18 +209,18 @@ export default function OrderCard({ data }) {
           </div>
         </td>
 
-        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        <td className="whitespace-nowrap px-3 text-sm text-gray-500">
           {order.products.map((product, index) =>
             renderProduct(product, index)
           )}
         </td>
-        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        <td className="whitespace-nowrap px-3 text-sm text-gray-500">
           <p>User Name: {order.user.name}</p>
           <p>Email: {order.user.email || "N/A"}</p>
           <p>Phone Number: {order.user.phoneNumber}</p>
           <p>User Role: {order.user.role}</p>
         </td>
-        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        <td className="whitespace-nowrap px-3 text-sm text-gray-500">
           <p className=" font-bold text-gray-950">
             Order Number: {order.orderNumber}
           </p>
@@ -247,7 +244,7 @@ export default function OrderCard({ data }) {
 
           <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
         </td>
-        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+        <td className="relative whitespace-nowrap pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
           <div
             onClick={openViewModel}
             className="text-indigo-600 cursor-pointer hover:text-indigo-900"

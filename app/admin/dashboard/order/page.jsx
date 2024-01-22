@@ -3,16 +3,8 @@ import Layout from "../../../../components/admin/Layout/Layout";
 import OrderComp from "../../../../components/admin/order/OrderComp";
 import db from "../../../../utils/db";
 
-import {
-  filterArray,
-  randomize,
-  removeDuplicates,
-} from "../../../../utils/Array";
-
 import Order from "../../../../model/Order";
 import User from "../../../../model/User";
-import Category from "../../../../model/Category";
-import SubCategory from "../../../../model/SubCategory";
 
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
@@ -27,7 +19,9 @@ export async function getData({ params, searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
-  const pageSize = 20;
+  const sortbydateQuery = searchParams.sortbydate || "";
+
+  const pageSize = 15;
   let Orders;
   const sort =
     sortQuery == ""
@@ -42,8 +36,20 @@ export async function getData({ params, searchParams }) {
       ? { status: "Cancelled" }
       : sortQuery == "Completed"
       ? { status: "Completed" }
-      : sortQuery == "newest"
+      : {};
+  const sortbydate =
+    sortbydateQuery == ""
+      ? {}
+      : sortbydateQuery == "newest"
       ? { createdAt: -1 }
+      : sortbydateQuery == "oldest"
+      ? { createdAt: 1 }
+      : sortbydateQuery == "topReviewed"
+      ? { rating: -1 }
+      : sortbydateQuery == "hightolow"
+      ? { totalBeforeDiscount: -1 }
+      : sortbydateQuery == "lowtohigh"
+      ? { totalBeforeDiscount: 1 }
       : {};
   const search =
     searchQuery && searchQuery !== ""
@@ -55,35 +61,19 @@ export async function getData({ params, searchParams }) {
         }
       : {};
 
-  if (session?.role === "admin") {
-    // If the user is an admin, fetch all Orders
-    Orders = await Order.find({ ...sort, ...search })
-      .populate({
-        path: "user",
-        model: User,
-      })
+  Orders = await Order.find({ ...sort, ...search })
+    .populate({
+      path: "user",
+      model: User,
+    })
+    .sort(sortbydate)
 
-      .skip(pageSize * (page - 1))
+    .skip(pageSize * (page - 1))
 
-      .limit(pageSize);
+    .limit(pageSize);
 
-    Orders = sortQuery && sortQuery !== "" ? Orders : Orders;
-  } else {
-    // If the user is not an admin, fetch only their Order
-    Orders = await Order.find({ owner: session.id })
-      .populate({
-        path: "owner",
-        model: User,
-      })
-      .populate({
-        path: "category",
-        model: Category,
-      })
-      .populate({
-        path: "subCategories",
-        model: SubCategory,
-      });
-  }
+  Orders = sortQuery && sortQuery !== "" ? Orders : Orders;
+
   let totalProducts = await Order.countDocuments({ ...search });
   return {
     Orders: JSON.parse(JSON.stringify(Orders)),

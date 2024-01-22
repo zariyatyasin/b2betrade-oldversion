@@ -60,7 +60,7 @@ const productSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-     
+
       //lowercase: true,
     },
     storeId: {
@@ -112,6 +112,11 @@ const productSchema = new mongoose.Schema(
       default: "pending",
       enum: ["pending", "ban", "block", "active"],
     },
+    productvisibility: {
+      type: String,
+      default: "visible",
+      enum: ["visible", "hidden"],
+    },
     discount: {
       type: Number,
       default: 0,
@@ -138,7 +143,7 @@ const productSchema = new mongoose.Schema(
     },
     shipping: {
       type: Number,
-      
+
       default: 0,
     },
     description_images: [],

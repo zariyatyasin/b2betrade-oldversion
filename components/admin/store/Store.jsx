@@ -23,7 +23,7 @@ export default function Store({ Stores, paginationCount }) {
     edit: "Edit",
   };
 
-  const filterUrl = ({ page, sort }) => {
+  const filterUrl = ({ page, sort, sortbydate }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 
     if (page !== undefined) {
@@ -31,6 +31,9 @@ export default function Store({ Stores, paginationCount }) {
     }
     if (sort !== undefined) {
       currentQuery.set("sort", sort);
+    }
+    if (sortbydate !== undefined) {
+      currentQuery.set("sortbydate", sortbydate);
     }
     const queryStr = currentQuery.toString();
 
@@ -51,7 +54,16 @@ export default function Store({ Stores, paginationCount }) {
       router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
     }
   };
-  useEffect(() => {}, []);
+  const sortbydateHandler = (sortbydate) => {
+    if (sortbydate) {
+      filterUrl({ sortbydate });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("sortbydate");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
+  };
+
   const sortingOptions = [
     {
       name: "Recommend",
@@ -72,6 +84,14 @@ export default function Store({ Stores, paginationCount }) {
     {
       name: "block",
       value: "block",
+    },
+
+    // ... (other sorting options)
+  ];
+  const sortbydatte = [
+    {
+      name: "Recommend",
+      value: "",
     },
     {
       name: "newest",
@@ -101,16 +121,22 @@ export default function Store({ Stores, paginationCount }) {
         </div>
       </div>
       <MiniSearchBar />
-      <button
-        className="border text-sm  p-2 bg-[#2B39D1] text-white rounded-3xl   "
-        onClick={() => router.push("/admin/dashboard/store")}
-      >
-        Clear All ({Array.from(searchParams).length})
-      </button>
+
       <div className="   flex items-end justify-end">
+        <button
+          className="border text-sm  p-2 bg-[#2B39D1] text-white rounded-3xl   "
+          onClick={() => router.push("/admin/dashboard/store")}
+        >
+          Clear All ({Array.from(searchParams).length})
+        </button>
         <SortingDropdown
           sortingOptions={sortingOptions}
           sortHandler={sortHandler}
+        />
+
+        <SortingDropdown
+          sortingOptions={sortbydatte}
+          sortHandler={sortbydateHandler}
         />
       </div>
       <Table headers={headers} data={Stores} CardComponent={StoreCard} />
@@ -118,7 +144,7 @@ export default function Store({ Stores, paginationCount }) {
       <Stack spacing={2}>
         <Pagination
           count={paginationCount}
-          defaultPage={Number(searchParams.page) || 1}
+          defaultPage={Number(searchParams.get("page")) || 1}
           onChange={pageHandler}
           variant="outlined"
           shape="rounded"

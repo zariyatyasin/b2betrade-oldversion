@@ -37,7 +37,9 @@ export default function EditProduct({ editedProduct, categories, id }) {
     brand: editedProduct.brand,
     sku: editedProduct.sku,
     slug: editedProduct.slug,
+    productvisibility: editedProduct.productvisibility,
     discount: editedProduct.discount,
+    section: editedProduct.section,
     productType: "", // Add the appropriate property from editedProduct
     description_images: [],
     parent: "", // Add the appropriate property from editedProduct
@@ -55,6 +57,44 @@ export default function EditProduct({ editedProduct, categories, id }) {
   const [samePriceForAll, setSamePriceForAll] = useState(true);
   const [editorHtml, setEditorHtml] = useState(editedProduct.description);
   const [subProducts, setSubProducts] = useState(editedProduct.subProducts);
+
+  const section = [
+    {
+      name: "big-deal",
+    },
+    {
+      name: "featured",
+    },
+    {
+      name: "new-arrival",
+    },
+    {
+      name: "sale",
+    },
+    {
+      name: "clearance",
+    },
+    {
+      name: "bestseller",
+    },
+    {
+      name: "limited-edition",
+    },
+    {
+      name: "top-rated",
+    },
+    {
+      name: "regular",
+    },
+  ];
+  const visibility = [
+    {
+      name: "visible",
+    },
+    {
+      name: "hidden",
+    },
+  ];
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }],
@@ -194,6 +234,26 @@ export default function EditProduct({ editedProduct, categories, id }) {
                         name="brand"
                         placholder="Product brand"
                         onChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <SingularSelect
+                        name="section"
+                        value={product.section}
+                        placeholder="Feature Product type if any"
+                        data={section}
+                        header="Feature Product type if any"
+                        handleChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <SingularSelect
+                        name="productvisibility"
+                        value={product.productvisibility}
+                        placeholder="Visibility"
+                        data={visibility}
+                        header="Visibility"
+                        handleChange={handleChange}
                       />
                     </Grid>
                     <Grid item xs={12} lg={6}>

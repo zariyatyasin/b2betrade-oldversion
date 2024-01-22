@@ -30,7 +30,10 @@ async function getData({ params }) {
       model: SubCategory,
     });
 
-  const products = await Product.find({ storeId: params.id });
+  const products = await Product.find({
+    productvisibility: "visible",
+    storeId: params.id,
+  });
 
   return {
     StoreData: JSON.parse(JSON.stringify(StoreData)),

@@ -8,24 +8,27 @@ const SortingDropdown = ({ sortingOptions, sortHandler }) => {
   const [show, setShow] = useState(false);
   const searchParams = useSearchParams();
 
-  const sortQuery = searchParams.get("sort") || "";
+  const sortQuery =
+    searchParams.get("sort") || "" || searchParams.get("sortvisible");
 
   return (
-    <div className=" z-50  ">
-      <div className="relative  z-50">
+    <div className=" first-letter:  ">
+      <div className="relative    ">
         <button
-          className="  bg-white border text-black text-sm p-2 px-4 rounded  m-1"
+          className="bg-white border text-black w-32 text-sm p-2 px-4 rounded m-1"
           onMouseOver={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
         >
           {sortQuery === ""
             ? "Recommend"
-            : sortingOptions.find((x) => x.value === sortQuery).name}
+            : sortingOptions.find((x) => x.value === sortQuery)?.name ||
+              "Unknown"}
         </button>
+
         <ul
           className={`transition-transform ${
             show ? "scale-100" : "scale-0"
-          } absolute bg-white p-2 rounded-md shadow-md z-50`}
+          } absolute bg-white p-2   rounded-md shadow-md z-50`}
           onMouseOver={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
         >

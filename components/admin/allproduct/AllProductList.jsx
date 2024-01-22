@@ -14,6 +14,7 @@ import ProductTableCard from "../../cards/ProductTableCard";
 export default function AllProductList({ products, paginationCount }) {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const pathname = usePathname();
   const headers = {
     name: "Product Name",
@@ -24,11 +25,14 @@ export default function AllProductList({ products, paginationCount }) {
     edit: "Edit",
   };
 
-  const filterUrl = ({ page, sort }) => {
+  const filterUrl = ({ page, sort, sortvisible }) => {
     const currentQuery = new URLSearchParams(searchParams.toString());
 
     if (page !== undefined) {
       currentQuery.set("page", page);
+    }
+    if (sortvisible !== undefined) {
+      currentQuery.set("sortvisible", sortvisible);
     }
     if (sort !== undefined) {
       currentQuery.set("sort", sort);
@@ -52,47 +56,44 @@ export default function AllProductList({ products, paginationCount }) {
       router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
     }
   };
-  useEffect(() => {}, []);
+  const sortvisibleHandler = (sortvisible) => {
+    if (sortvisible) {
+      filterUrl({ sortvisible });
+    } else {
+      const currentQuery = new URLSearchParams(searchParams.toString());
+      currentQuery.delete("sortvisible");
+      router.push(`${pathname}?${currentQuery.toString()}`, { scroll: false });
+    }
+  };
+
   const sortingOptions = [
     {
       name: "Recommend",
       value: "",
     },
+
     {
-      name: "pending",
-      value: "pending",
+      name: "newest",
+      value: "newest",
     },
     {
-      name: "active",
-      value: "active",
+      name: "oldest",
+      value: "oldest",
+    },
+  ];
+  const sortvisibleOptions = [
+    {
+      name: "Recommend",
+      value: "",
+    },
+
+    {
+      name: "visible",
+      value: "visible",
     },
     {
-      name: "ban",
-      value: "ban",
-    },
-    {
-      name: "block",
-      value: "block",
-    },
-    {
-      name: "subadmin",
-      value: "subadmin",
-    },
-    {
-      name: "supplier",
-      value: "supplier",
-    },
-    {
-      name: "manufacturer",
-      value: "manufacturer",
-    },
-    {
-      name: "seller",
-      value: "seller",
-    },
-    {
-      name: "user",
-      value: "user",
+      name: "hidden",
+      value: "hidden",
     },
   ];
 
@@ -124,6 +125,10 @@ export default function AllProductList({ products, paginationCount }) {
       sortHandler={sortHandler}
     /> */}
         <SortingDropdown
+          sortingOptions={sortvisibleOptions}
+          sortHandler={sortvisibleHandler}
+        />
+        <SortingDropdown
           sortingOptions={sortingOptions}
           sortHandler={sortHandler}
         />
@@ -137,7 +142,7 @@ export default function AllProductList({ products, paginationCount }) {
       <Stack spacing={2}>
         <Pagination
           count={paginationCount}
-          defaultPage={Number(searchParams.page) || 1}
+          defaultPage={Number(searchParams.get("page")) || 1}
           onChange={pageHandler}
           variant="outlined"
           shape="rounded"

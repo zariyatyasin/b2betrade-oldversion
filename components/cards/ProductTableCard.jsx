@@ -5,8 +5,10 @@ import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmation
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 import ProductSwiper from "./ProductSwiper";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 export default function ProductTableCard({ data }) {
   const [product, setproduct] = useState(data);
+  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState(data.subProducts[0].images);
   const hasNullPrice =
     product.bulkPricing &&
@@ -66,7 +68,7 @@ export default function ProductTableCard({ data }) {
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
-        return "red";
+        return "green";
       case "supplier":
         return "orange";
       case "ban":
@@ -83,7 +85,7 @@ export default function ProductTableCard({ data }) {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+
   const openEditModal = () => {
     setEditModalOpen(true);
   };
@@ -131,12 +133,27 @@ export default function ProductTableCard({ data }) {
     }
   };
 
-  const handleDelete = () => {
-    closeDeleteConfirmation();
+  const handleDelete = async () => {
+    try {
+      closeDeleteConfirmation();
+      setLoading(true);
+
+      const response = await axios.delete(
+        `/api/admin/product/delete/${product._id}`
+      );
+      console.log(response);
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error("Error deleting product:", error.message);
+    } finally {
+      window.location.reload();
+      setLoading(false);
+    }
   };
 
   return (
     <>
+      {loading && <FullScreenLoading />}
       <tr>
         <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm sm:pl-6">
           <div className=" flex items-center max-w-xs">
@@ -189,7 +206,7 @@ export default function ProductTableCard({ data }) {
               className=" font-bold text-white px-2 py-1 rounded-full text-xs m-1"
               style={{ background: getStatusColor(product.productAtive) }}
             >
-              {product.productAtive}
+              {product.productAtive} / {product?.productvisibility}
             </span>
           </p>
         </td>
@@ -223,7 +240,7 @@ export default function ProductTableCard({ data }) {
         </td> */}
         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
           <Link
-            href={`/product/${product.slug}/0/0`}
+            href={`/product/${product._id}/0/0`}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
             prefetch={false}
@@ -239,7 +256,7 @@ export default function ProductTableCard({ data }) {
             Delete
           </a>
           <Link
-            href={`/admin/dashboard/product/editproduct/${product._id}`}
+            href={`/product/editproduct/${product._id}`}
             prefetch={false}
             target="_blank"
             className="text-indigo-600 hover:text-indigo-900"
@@ -269,11 +286,11 @@ export default function ProductTableCard({ data }) {
         />
       )}
 
-      {isLoading && (
+      {/* {isLoading && (
         <div className="fixed z-50 top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center">
           <div className="text-white">Loading...</div>
         </div>
-      )}
+      )} */}
     </>
   );
 }

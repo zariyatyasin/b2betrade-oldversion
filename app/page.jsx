@@ -24,7 +24,10 @@ async function getData({ searchParams }) {
         ? { productType: productTypeQuery }
         : {};
 
-    let newProduct = await Product.find({ ...productType })
+    let newProduct = await Product.find({
+      productvisibility: "visible",
+      ...productType,
+    })
       .sort({ createdAt: -1 })
       .limit(10)
       .lean();

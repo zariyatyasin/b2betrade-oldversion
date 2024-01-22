@@ -19,6 +19,7 @@ async function getData({ params, searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";
+  const sortvisibleQuery = searchParams.sortvisible || "";
   const pageSize = 15;
   const categoryQuery = searchParams.category || "";
   const search =
@@ -39,22 +40,28 @@ async function getData({ params, searchParams }) {
         }
       : {};
 
-  // const search =
-  // searchQuery && searchQuery !== ""
-  //   ? {
-  //       $or: [
-  //         { name: { $regex: searchParams.search, $options: "i" } },
-  //         {
-  //           _id: searchParams.search,
-  //         },
-  //       ],
-  //     }
-  //   : {};
+  const sortvisible =
+    sortvisibleQuery == ""
+      ? {}
+      : sortvisibleQuery == "visible"
+      ? { productvisibility: "visible" }
+      : sortvisibleQuery == "hidden"
+      ? { productvisibility: "hidden" }
+      : {};
+  const sort =
+    sortQuery == ""
+      ? {}
+      : sortQuery == "oldest"
+      ? { createdAt: 1 }
+      : sortQuery == "newest"
+      ? { createdAt: -1 }
+      : {};
+
   try {
     await db.connectDb();
-    const products = await Product.find({ ...search })
+    const products = await Product.find({ ...sortvisible, ...search })
       .populate({ path: "category", model: Category })
-      .sort({ createdAt: -1 })
+      .sort(sort)
       .limit(pageSize)
       .skip(pageSize * (page - 1))
       .lean();

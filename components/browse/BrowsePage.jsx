@@ -295,7 +295,7 @@ export default function BrowsePage({
     }
   };
 
-  const pageHandler = (e, page) => {
+  const pageHandler = (page) => {
     filterUrl({ page });
   };
 
@@ -501,7 +501,7 @@ export default function BrowsePage({
                   <Stack spacing={2}>
                     <Pagination
                       count={paginationCount}
-                      defaultPage={Number(searchParams.page) || 1}
+                      defaultPage={Number(searchParams.get("page")) || 1}
                       onChange={pageHandler}
                       variant="outlined"
                       shape="rounded"

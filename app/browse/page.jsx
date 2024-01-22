@@ -193,6 +193,7 @@ async function getData({ params, searchParams }) {
       ? { "bulkPricing.price": 1 }
       : {};
   let productsDb = await Product.find({
+    productvisibility: "visible",
     ...search,
     ...category,
     ...subCategories,
