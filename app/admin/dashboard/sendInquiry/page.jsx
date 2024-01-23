@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import User from "../../../../model/User";
 import Store from "../../../../model/Store";
 
-export async function getData() {
+async function getData() {
   await db.connectDb();
 
   const session = await getCurrentUser();

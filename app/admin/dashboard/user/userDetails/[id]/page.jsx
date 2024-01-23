@@ -9,7 +9,7 @@ import Category from "../../../../../../model/Category";
 import SubCategory from "../../../../../../model/SubCategory";
 import Order from "../../../../../../model/Order";
 import User from "../../../../../../model/User";
-export async function getData({ params }) {
+async function getData({ params }) {
   await db.connectDb();
   let store;
   let orders;

@@ -10,7 +10,7 @@ import Product from "../../../model/Product";
 import Store from "../../../model/Store";
 import ListCard from "../../../components/cards/ListCard";
 
-export async function getData() {
+async function getData() {
   await db.connectDb();
   const session = await getCurrentUser();
   if (!session) {

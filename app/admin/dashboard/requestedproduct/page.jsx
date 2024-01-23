@@ -66,7 +66,7 @@ async function getData({ params, searchParams }) {
   };
 }
 
-async function page({ searchParams }) {
+export default async function page({ searchParams }) {
   const { products, categories, locations, subCategories } = await getData({
     searchParams,
   });
@@ -83,5 +83,3 @@ async function page({ searchParams }) {
     </Layout>
   );
 }
-
-export default page;

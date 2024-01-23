@@ -11,8 +11,7 @@ import Store from "../../../../../../model/Store";
 import EditProduct from "../../../../../../components/admin/product/createproduct/EditProduct";
 import { getCurrentUser } from "../../../../../../utils/session";
 import { redirect } from "next/navigation";
-
-export async function getData({ params }) {
+async function getData({ params }) {
   await db.connectDb();
 
   const session = await getCurrentUser();

@@ -5,7 +5,8 @@ import Contact from "../../../../model/Contact";
 import MessageCard from "../../../../components/cards/MessageCard";
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
-export async function getData() {
+
+async function getData() {
   await db.connectDb();
 
   const session = await getCurrentUser();

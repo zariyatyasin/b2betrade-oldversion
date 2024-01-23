@@ -11,7 +11,7 @@ import EditProduct from "../../../components/admin/product/createproduct/EditPro
 import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
 
-export async function getData({ params }) {
+async function getData({ params }) {
   await db.connectDb();
 
   const session = await getCurrentUser();

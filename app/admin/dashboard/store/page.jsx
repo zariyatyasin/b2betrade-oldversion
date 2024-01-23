@@ -11,8 +11,7 @@ import SubCategory from "../../../../model/SubCategory";
 
 import { getCurrentUser } from "../../../../utils/session";
 import { redirect } from "next/navigation";
-
-export async function getData({ params, searchParams }) {
+async function getData({ params, searchParams }) {
   await db.connectDb();
 
   const session = await getCurrentUser();
