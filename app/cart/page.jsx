@@ -20,7 +20,8 @@ export default function Page() {
   const [shippingFee, setShippingFee] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const { status } = useSession();
   const [loading, setLoading] = useState(false);
   const updateTotal = () => {
     setShippingFee(
@@ -66,8 +67,6 @@ export default function Page() {
         if (data.status === 201) {
           router.push("/checkout");
         } else {
-          // Handle other success cases here if needed
-          // For now, let's show an alert for any other status code
           alert("An error occurred while saving the cart.");
         }
       } catch (error) {
@@ -116,6 +115,7 @@ export default function Page() {
             </section>
 
             <OrderSummary
+              status={status}
               subtotal={subtotal}
               shippingFee={shippingFee}
               total={total}

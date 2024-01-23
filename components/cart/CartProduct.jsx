@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCart, removeFromCart } from "../../store/cartSlice";
+import Link from "next/link";
 const CartProduct = ({
   product,
   selected,
@@ -76,15 +77,14 @@ const CartProduct = ({
           <div>
             <div className="flex justify-between">
               <h3 className="md:text-sm text-xs">
-                <a
-                  href="#"
-                  className="font-medium text-gray-700 hover:text-gray-800"
+                <Link
+                  href={`/product/${[product._id]}/0/0`}
+                  className="font-medium text-gray-700 hover:text-gray-800  truncate"
                 >
-                  {" "}
                   {product.name.length > 30
                     ? `${product.name.substring(0, 30)}`
                     : product.name}
-                </a>
+                </Link>
               </h3>
             </div>
             {/* <div className="mt-1 flex text-sm">
@@ -134,9 +134,11 @@ const CartProduct = ({
                 ? `+ ৳ ${product.shipping} Shipping fee`
                 : "Free Shipping"}
             </div>
-            <div className="mt-2 text-gray-950 font-bold flex items-center  text-xs">
-              {product.price}X{product.qty}{" "}
-              <div className="ml-2 text-lg">
+            <div className="mt-2   flex-col text-gray-950 font-bold flex md:flex-row md:items-center  text-xs">
+              <div>
+                {formatPrice(product.price)}X{product.qty}{" "}
+              </div>
+              <div className="md:ml-2 text-sm md:text-lg">
                 ৳{formatPrice(product.price * product.qty)}
               </div>
             </div>

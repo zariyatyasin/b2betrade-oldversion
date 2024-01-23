@@ -6,7 +6,8 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 
 const EmptyCart = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const { status } = useSession();
 
   return (
     <div className="flex flex-col items-center text-center mt-10">

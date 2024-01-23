@@ -57,26 +57,7 @@ export const Header = ({ categories, subCategories }) => {
   };
   const { cart } = useSelector((state) => ({ ...state }));
   const suggestionListRef = useRef();
-  const handleSearch = (e) => {
-    e.preventDefault();
 
-    if (query?.length > 1) {
-      const currentSearchParams = new URLSearchParams(window.location.search);
-
-      // Modify the search parameter
-      router.push(`/browse?search=${query}`);
-
-      // Generate the new URL with the modified search parameter
-      // const newURL = `${
-      //   window.location.pathname
-      // }?${currentSearchParams.toString()}`;
-
-      // // Use the `router.push` function to navigate to the new URL
-      // router.push(newURL, undefined, { shallow: true });
-    } else {
-      router.push("/browse", { shallow: true });
-    }
-  };
   // Add this code inside your component
   useEffect(() => {
     const searchParam = searchParams.get("productType");
@@ -89,6 +70,56 @@ export const Header = ({ categories, subCategories }) => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const response = await axios.get(`/api/search/${query}`);
+        setSuggestions(response.data.suggestions);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      }
+    };
+
+    if (query?.length > 1) {
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [query]);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  const handleSuggestionSelect = (suggestion) => {
+    setQuery(suggestion.name);
+    setSuggestions([]);
+  };
+  const handleUserMenuClose = () => {
+    setOpen(false);
+  };
+  const handleClickOutside = (event) => {
+    if (
+      suggestionListRef.current &&
+      !suggestionListRef.current.contains(event.target)
+    ) {
+      setSuggestions([]);
+    }
+  };
+  const handleSelectionChange = (option) => {
+    setSelected(option);
+    if (option.title) {
+      if (option.title === publishingOptions[0].title) {
+        router.push(`?productType= `);
+      } else {
+        router.push(`?productType=${option.title}`);
+      }
+    }
+  };
   const highlightMatchedText = (text, query) => {
     if (!query) return <span>{text}</span>;
 
@@ -112,57 +143,26 @@ export const Header = ({ categories, subCategories }) => {
       </span>
     );
   };
-
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      try {
-        const response = await axios.get(`/api/search/${query}`);
-        setSuggestions(response.data.suggestions);
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
-      }
-    };
+  const handleSearch = (e) => {
+    e.preventDefault();
 
     if (query?.length > 1) {
-      fetchSuggestions();
+      const currentSearchParams = new URLSearchParams(window.location.search);
+
+      // Modify the search parameter
+      router.push(`/browse?search=${query}`);
+
+      // Generate the new URL with the modified search parameter
+      // const newURL = `${
+      //   window.location.pathname
+      // }?${currentSearchParams.toString()}`;
+
+      // // Use the `router.push` function to navigate to the new URL
+      // router.push(newURL, undefined, { shallow: true });
     } else {
-      setSuggestions([]);
-    }
-  }, [query]);
-  const handleSelectionChange = (option) => {
-    setSelected(option);
-    if (option.title) {
-      if (option.title === publishingOptions[0].title) {
-        router.push(`?productType= `);
-      } else {
-        router.push(`?productType=${option.title}`);
-      }
+      router.push("/browse", { shallow: true });
     }
   };
-  const handleSuggestionSelect = (suggestion) => {
-    setQuery(suggestion.name);
-    setSuggestions([]);
-  };
-  const handleUserMenuClose = () => {
-    setOpen(false);
-  };
-  const handleClickOutside = (event) => {
-    if (
-      suggestionListRef.current &&
-      !suggestionListRef.current.contains(event.target)
-    ) {
-      setSuggestions([]);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className=" bg-[#2B39D1]   ">
       <div className="flex items-center justify-between h-16 py-6  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">

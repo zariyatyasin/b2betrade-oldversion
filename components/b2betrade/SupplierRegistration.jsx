@@ -90,11 +90,6 @@ export default function SupplierRegistration({ categories, userType }) {
                     <Link href={"/"} className=" text-2xl font-bold ">
                       B2BeTrade
                     </Link>
-                    <div className="-mr-2 flex items-center md:hidden">
-                      <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                        <span className="sr-only">Open main menu</span>=
-                      </Popover.Button>
-                    </div>
                   </div>
                 </div>
                 {/* <div className="hidden md:flex md:space-x-10">
@@ -108,7 +103,7 @@ export default function SupplierRegistration({ categories, userType }) {
                     </a>
                   ))}
                 </div> */}
-                <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
+                <div className=" absolute  flex  items-center justify-end inset-y-0 right-0">
                   <span className="inline-flex rounded-md shadow">
                     <Link
                       href="/signin"

@@ -11,7 +11,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { Button } from "../ui/button";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
@@ -49,6 +49,8 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
   const [isLogin, setLogin] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [selected, setSelected] = useState(publishingOptions[0]);
+  const pathname = usePathname();
+  const siginIN = pathname === "/signin";
   const handleUserMenuOpen = () => {
     setOpen(true);
   };
@@ -225,20 +227,25 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
         </div>
         <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
           <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5">
-            {/* <div className="xl:mx-3.5 mx-2.5">
+            <div className={`xl:mx-3.5  ${siginIN ? "flex" : "hidden"} mx-2.5`}>
               <Link
-                href={"/requestproduct/form"}
+                href={"/b2betrade/form/supplier"}
                 className="relative z-10 lg:top-[1px]"
               >
                 <Button
                   type="button"
-                  className=" text-sm text-white bg-[#2B39D1]   "
+                  className=" text-xs text-white bg-[#FFD700]   "
                 >
-                  Post a Request
+                  Become a supplier
                 </Button>
               </Link>
-            </div> */}
-            <Link href={"/contact"} className="relative z-10 lg:top-[1px]">
+            </div>
+            <Link
+              href={"/contact"}
+              className={`relative z-10  ${
+                siginIN ? "hidden" : "flex"
+              } lg:top-[1px] `}
+            >
               <Button
                 type="button"
                 className=" text-sm text-white bg-[#2B39D1]   "

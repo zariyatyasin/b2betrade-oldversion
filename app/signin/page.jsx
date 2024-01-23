@@ -10,6 +10,7 @@ import { redirect, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
 import Link from "next/link";
+import Footer from "../../components/Footer/Footer";
 const validationSchema = Yup.object({
   phoneNumber: Yup.string()
     .required("Phone Number is required")
@@ -29,14 +30,6 @@ const Page = () => {
   const [success, setSuccess] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState();
   const [password, setpassword] = useState();
-
-  const router = useRouter();
-
-  const handleSignInClick = (event) => {
-    event.preventDefault();
-
-    location.reload();
-  };
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -141,6 +134,11 @@ const Page = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const handleSignInClick = (event) => {
+    event.preventDefault();
+
+    location.reload();
   };
 
   return (
@@ -345,6 +343,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

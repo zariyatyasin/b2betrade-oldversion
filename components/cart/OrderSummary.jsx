@@ -6,6 +6,7 @@ export default function OrderSummary({
   total,
   selected,
   saveCartToDbHandler,
+  status,
 }) {
   const formatPrice = (price) => {
     const formattedPrice = parseFloat(price).toFixed(2);
@@ -93,7 +94,11 @@ export default function OrderSummary({
         <button
           type="submit"
           className="w-full bg-[#2B39D1] border border-transparent   shadow-sm py-3 px-4 text-base font-medium text-white  "
-          disabled={selected.length == 0}
+          disabled={
+            selected.length == 0 ||
+            status === "loading" ||
+            status === "unauthenticated"
+          }
           style={{
             background: `${selected.length == 0 ? "#eee" : ""}`,
             cursor: `${selected.length == 0 ? "not-allowed" : ""}`,
