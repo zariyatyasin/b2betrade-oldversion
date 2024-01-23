@@ -32,7 +32,7 @@ export const DELETE = async (request,{ params }  ) => {
       }
     
       try {
-      db.connectDb();
+        await  db.connectDb();
     
  await RequestProduct.findByIdAndRemove(id);
 

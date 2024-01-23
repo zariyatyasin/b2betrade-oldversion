@@ -18,7 +18,7 @@ function createRegex(data, styleRegex) {
   return styleRegex;
 }
 
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   try {
     await db.connectDb();
     const storeQuery = searchParams.storeType || "";

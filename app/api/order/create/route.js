@@ -14,7 +14,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const {
       products,

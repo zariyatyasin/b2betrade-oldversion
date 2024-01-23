@@ -15,7 +15,7 @@ function createRegex(data, styleRegex) {
   return styleRegex;
 }
 
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   const page = searchParams.page || 1;
   const searchQuery = searchParams.search || "";
   const sortQuery = searchParams.sort || "";

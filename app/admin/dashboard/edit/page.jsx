@@ -6,7 +6,7 @@ import { getCurrentUser } from "../../../../utils/session";
 import User from "../../../../model/User";
 
 import ProfileEdit from "../../../../components/profile/edit/ProfileEdit";
-async function getData({ params, searchParams }) {
+async function getData() {
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");

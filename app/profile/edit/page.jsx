@@ -11,7 +11,7 @@ import MobileMenu from "../../../components/mobile/MobileMenu";
 import Category from "../../../model/Category";
 import SubCategory from "../../../model/SubCategory";
 import Link from "next/link";
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   const session = await getCurrentUser();
   //   if (!session) {
   //     redirect("/signin");

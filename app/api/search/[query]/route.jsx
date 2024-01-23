@@ -5,8 +5,6 @@ import { NextResponse } from "next/server";
 export const GET = async (request, { params }) => {
   await db.connectDb();
   try {
-    db.connectDb();
-
     const { query } = params;
 
     const suggestions = await Product.find({

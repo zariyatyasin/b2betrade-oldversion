@@ -7,7 +7,7 @@ export const GET = async (request  ) => {
  
  
     try {
-     db.connectDb()
+      await db.connectDb()
   let products = await Product.find().sort({ createdAt: -1 }).lean();
        db.disconnectDb()
       return NextResponse.json( {

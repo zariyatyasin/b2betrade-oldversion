@@ -7,7 +7,7 @@ async function getData() {
   await db.connectDb();
 
   try {
-    const homeHero = await HomeHero.find({}).sort({ updatedAt: -1 }).lean();
+    const homeHero = await HomeHero.find().sort({ updatedAt: -1 }).lean();
     db.disconnectDb();
 
     return {

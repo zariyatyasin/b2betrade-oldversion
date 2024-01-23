@@ -7,7 +7,7 @@ export const GET = async (request , { params } ) => {
  
  
     try {
-     db.connectDb()
+      await db.connectDb()
        const id = params.id[0];
        const style = params.id[1] || 0;
        const size = params.id[2] || 0;

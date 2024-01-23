@@ -35,7 +35,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await  db.connectDb();
     const { cart } = await request.json();
 
     let products = [];

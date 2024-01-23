@@ -4,7 +4,7 @@ import User from "../../../../../model/User";
 
 export async function POST(request) {
   try {
-    await db.connectDb();
+    await await db.connectDb();
     const { phoneNumber, password } = await request.json();
 
     if (!phoneNumber) {

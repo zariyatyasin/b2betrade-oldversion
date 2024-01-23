@@ -5,7 +5,7 @@ import { getCurrentUser } from "../../../utils/session";
 import SendInquiry from "../../../model/SendInquiry ";
 export const POST = async (request) => {
   try {
-    db.connectDb();
+    await db.connectDb();
     const session = await getCurrentUser();
     if (!session) {
       return new NextResponse.json("You must be logged in", {

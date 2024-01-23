@@ -15,7 +15,7 @@ export const PUT = async (request  ) => {
       })
  }
     try {
-    db.connectDb()
+      await db.connectDb()
     const {id} = await request.json();
     let user = await User.findById(session.id);
     let user_addresses = user.address;

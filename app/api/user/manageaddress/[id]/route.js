@@ -10,7 +10,7 @@ export const DELETE = async (request ,{ params } ) => {
     
    
       try {
-        db.connectDb()
+        await db.connectDb()
         const { id } = params;
    
         

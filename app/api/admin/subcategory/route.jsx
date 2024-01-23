@@ -61,7 +61,7 @@ export const POST = async (request) => {
 };
 export const PUT = async (request) => {
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const { id, name, parent } = await request.json();
 

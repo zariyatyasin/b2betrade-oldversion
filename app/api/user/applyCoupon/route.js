@@ -17,7 +17,7 @@ export const POST = async (request  ) => {
     }
  
     try {
-    db.connectDb()
+      await db.connectDb()
     const {coupon} = await request.json();
     const user = await User.findById(session.id);
     const checkCoupon = await Coupon.findOne({coupon})

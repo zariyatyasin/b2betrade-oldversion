@@ -7,7 +7,7 @@ import { getCurrentUser } from "../../../utils/session";
 import User from "../../../model/User";
 import Address from "../../../components/Address/Address";
 
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");

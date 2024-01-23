@@ -11,7 +11,7 @@ import Order from "../../model/Order";
 
 import FirstSection from "../../components/profile/FirstSection";
 import User from "../../model/User";
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   const session = await getCurrentUser();
   if (!session) {
     redirect("/signin");

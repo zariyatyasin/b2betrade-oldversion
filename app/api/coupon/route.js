@@ -15,7 +15,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const {
       coupon,
@@ -81,7 +81,7 @@ export const PUT = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const {
       id,

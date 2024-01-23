@@ -13,7 +13,7 @@ export const PUT = async (request, { params }) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
     const { id } = params;
     const { description, image } = await request.json();
 

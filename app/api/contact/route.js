@@ -5,7 +5,7 @@ import Contact from "../../../model/Contact";
 
 export const POST = async (request) => {
   try {
-    db.connectDb();
+    await  db.connectDb();
 
     const { fullName, phone, message } = await request.json();
     const newContact = new Contact({

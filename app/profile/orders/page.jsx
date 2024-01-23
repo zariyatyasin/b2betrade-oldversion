@@ -5,7 +5,7 @@ import { getCurrentUser } from "../../../utils/session";
 import Layout from "../../../components/profile/layout/Layout";
 
 import OrderCard from "../../../components/profile/OrderCard";
-async function getData({ params, searchParams }) {
+async function getData({ searchParams }) {
   const session = await getCurrentUser();
   const formatPrice = (price) => {
     const formattedPrice = parseFloat(price).toFixed(2);

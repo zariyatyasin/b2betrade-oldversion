@@ -41,7 +41,7 @@ export const DELETE = async (request, { params }) => {
 
 export const GET = async (request, { params }) => {
   try {
-    db.connectDb();
+    await db.connectDb();
 
     const { id } = params;
 

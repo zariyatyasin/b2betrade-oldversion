@@ -13,7 +13,7 @@ export const POST = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
     const { address } = await request.json();
 
     const user = await User.findById(session.id);

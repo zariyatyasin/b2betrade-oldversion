@@ -19,7 +19,8 @@ async function getData() {
       subCategories: JSON.parse(JSON.stringify(subCategories)),
     };
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching data:", error);
+    throw error;  
   }}
 
 export default async function MainpageLayout({ children }) {

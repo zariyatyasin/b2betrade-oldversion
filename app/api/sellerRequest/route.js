@@ -15,7 +15,7 @@ export const POST = async (request  ) => {
     }
   
     try {
-    db.connectDb();
+      await db.connectDb();
   
       const requestData = await request.json();
     

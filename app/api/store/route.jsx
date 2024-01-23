@@ -16,7 +16,7 @@ export const PUT = async (request) => {
   }
 
   try {
-    db.connectDb();
+    await db.connectDb();
 
     // Extract the necessary fields from the JSON request
     const {

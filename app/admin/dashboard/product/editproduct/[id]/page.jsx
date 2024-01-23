@@ -41,7 +41,7 @@ async function getData({ params }) {
     data: JSON.parse(JSON.stringify(data)),
   };
 }
-export default async function page({ params, searchParams }) {
+export default async function page({ params }) {
   const { editedProduct, data } = await getData({ params });
 
   const componentKey = Date.now();

@@ -6,7 +6,7 @@ import Coupon from "../../../../model/Coupon";
 import Category from "../../../../model/Category";
 export const GET = async (request, { params }) => {
   try {
-    db.connectDb();
+    await db.connectDb();
     const { id } = params;
 
     const coupon = await Coupon.findById(id).populate({
@@ -28,7 +28,7 @@ export const GET = async (request, { params }) => {
 };
 export const DELETE = async (request, { params }) => {
   try {
-    db.connectDb();
+    await db.connectDb();
     const { id } = params;
 
     const deletedCoupon = await Coupon.findByIdAndRemove(id);

@@ -6,7 +6,7 @@ import Store from "../../../../model/Store";
 import bcrypt from "bcrypt";
 export const POST = async (request) => {
   try {
-    db.connectDb();
+    await db.connectDb();
     const {
       name,
       role,
