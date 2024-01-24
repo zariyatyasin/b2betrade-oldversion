@@ -299,7 +299,7 @@ export const Header = ({ categories, subCategories }) => {
                       <li
                         key={index}
                         onClick={() => handleSuggestionSelect(suggestion)}
-                        className="hover:cursor-pointer hover:bg-gray-100"
+                        className="hover:cursor-pointer hover:bg-gray-100 truncate"
                       >
                         {highlightMatchedText(suggestion.name, query)}
                       </li>

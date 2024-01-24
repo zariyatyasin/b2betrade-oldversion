@@ -68,7 +68,6 @@ export default function Footer() {
           {navigation.main.map((item) => (
             <div key={item.name} className="px-5 py-2">
               <Link
-                target="_blnak"
                 href={item.href}
                 className="text-base text-gray-500 hover:text-gray-900"
               >

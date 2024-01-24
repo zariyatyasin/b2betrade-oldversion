@@ -58,9 +58,9 @@ const CartProduct = ({
   };
 
   return (
-    <li className="flex  py-6 sm:py-10 bg-white md:px-4 px-2">
+    <li className="flex    py-6 sm:py-10 bg-white md:px-4 px-2">
       <div
-        className={`h-4 w-4 mr-2 md:mr-4 border border-gray-950 hover:border-2  rounded-full cursor-pointer ${
+        className={` h-4 w-4 mr-2 md:mr-4 border border-gray-950 hover:border-2  rounded-full cursor-pointer ${
           active ? styles.cartCheckActive : ""
         }  `}
         onClick={() => handleSelect()}
@@ -79,11 +79,15 @@ const CartProduct = ({
               <h3 className="md:text-sm text-xs">
                 <Link
                   href={`/product/${[product._id]}/0/0`}
-                  className="font-medium text-gray-700 hover:text-gray-800  truncate"
+                  className="font-medium text-gray-700 hover:text-gray-800   "
                 >
-                  {product.name.length > 30
-                    ? `${product.name.substring(0, 30)}`
-                    : product.name}
+                  {product.name.length > 30 ? (
+                    <span title={product.name}>
+                      {product.name.substring(0, 30)}...
+                    </span>
+                  ) : (
+                    <span>{product.name}</span>
+                  )}
                 </Link>
               </h3>
             </div>
@@ -138,7 +142,7 @@ const CartProduct = ({
               <div>
                 {formatPrice(product.price)}X{product.qty}{" "}
               </div>
-              <div className="md:ml-2 text-sm md:text-lg">
+              <div className="md:ml-2 text-xs md:text-lg">
                 ৳{formatPrice(product.price * product.qty)}
               </div>
             </div>

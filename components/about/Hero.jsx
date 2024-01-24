@@ -56,10 +56,17 @@ export default function Hero() {
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
             <div className=" ">
               <div className="relative shadow-xl h-[400px]   sm:overflow-hidden">
-                <div className="absolute inset-0">
+                <div className="absolute hidden md:flex inset-0">
                   <img
-                    className="h-full w-full object-cover"
+                    className="h-full w-full  object-cover"
                     src="https://res.cloudinary.com/drtexlmq7/image/upload/v1705473154/rstationProduct/tyhd2prb6e2nfzut0wyc.png"
+                    alt=" B2BeTrade Logo"
+                  />
+                </div>
+                <div className="absolute   md:hidden inset-0">
+                  <img
+                    className="h-full w-full  object-cover"
+                    src="https://res.cloudinary.com/drtexlmq7/image/upload/v1706072995/rch8ik1bqcxu6gpafjcm.png"
                     alt=" B2BeTrade Logo"
                   />
                 </div>
@@ -103,7 +110,7 @@ export default function Hero() {
           <div className="bg-indigo-200 bg-opacity-25">
             <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
               <div className="lg:grid lg:grid-cols-2 lg:gap-8">
-                <h2 className="max-w-md mx-auto text-3xl font-extrabold text-[#2B39D1] text-center lg:max-w-xl lg:text-left">
+                <h2 className="max-w-md mx-auto text-lg md:text-3xl font-extrabold text-[#2B39D1] text-center lg:max-w-xl lg:text-left">
                   The Bangladesh&apos;s most innovative companies partner with
                   B2BeTrade.
                 </h2>

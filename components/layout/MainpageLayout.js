@@ -3,7 +3,7 @@ import Category from "../../model/Category";
 import SubCategory from "../../model/SubCategory";
 import { Header } from "../Header/Header";
 import db from "../../utils/db";
-import Product from "../../model/Product";
+ 
 async function getData() {
   await db.connectDb();
   try {

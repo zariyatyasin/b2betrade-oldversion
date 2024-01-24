@@ -85,7 +85,7 @@ export default function Page() {
       <Header />
       {loading && <FullScreenLoading />}
       <div className="bg-[#f7f8fa]">
-        <main className=" mx-auto pt-16 pb-24 px-4 sm:px-6 lg:max-w-[1440px] lg:px-8">
+        <main className=" mx-auto pt-16 pb-24   sm:px-6 lg:max-w-[1440px] lg:px-8">
           <div className="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
             <section aria-labelledby="cart-heading" className="lg:col-span-8">
               <CartHeader

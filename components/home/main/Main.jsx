@@ -47,10 +47,7 @@ export default function Main({ data }) {
       </span>
     );
   };
-  const handleSuggestionClick = (suggestion) => {
-    // Set the clicked suggestion in the input field
-    setQuery(suggestion.name);
-  };
+
   const handleSuggestionSelect = (suggestion) => {
     setQuery(suggestion.name);
     setSuggestions([]);
@@ -160,7 +157,7 @@ export default function Main({ data }) {
                       <li
                         key={index}
                         onClick={() => handleSuggestionSelect(suggestion)}
-                        className="hover:cursor-pointer hover:bg-gray-100"
+                        className="hover:cursor-pointer truncate hover:bg-gray-100"
                       >
                         {highlightMatchedText(suggestion.name, query)}
                       </li>

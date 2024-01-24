@@ -70,14 +70,16 @@ function ProductCardSwip({ products }) {
             <div>
               {products.bulkPricing.length === 1 ? (
                 // Display the single price
-                <p className=" text-gray-950 text-sm md:text-l font-bold">
-                  {" "}
-                  {products.bulkPricing[0].price.toLocaleString("en-US")} ৳
+                <p className=" text-gray-950 text-sm md:text-lg font-bold">
+                  <span className=" text-xs  ">৳</span>{" "}
+                  {products.bulkPricing[0].price.toLocaleString("en-US")}
                 </p>
               ) : (
                 <div>
                   <p className=" text-gray-950 text-sm md:text-lg font-bold">
-                    ৳ {lowPrice.toLocaleString("en-US")} - ৳
+                    <span className=" text-xs  ">৳</span>{" "}
+                    {lowPrice.toLocaleString("en-US")} -{" "}
+                    <span className=" text-xs md:text-lg">৳</span>
                     {highPrice.toLocaleString("en-US")}
                   </p>
                 </div>
@@ -87,8 +89,9 @@ function ProductCardSwip({ products }) {
           {hasNullPrice && (
             <div>
               <p className=" text-gray-950  text-sm md:text-lg font-bold">
-                {" "}
-                ৳{minPrice.toLocaleString("en-US")} - ৳
+                <span className=" text-xs  ">৳</span>{" "}
+                {minPrice.toLocaleString("en-US")} -{" "}
+                <span className=" text-xs  ">৳</span>{" "}
                 {maxPrice.toLocaleString("en-US")}
               </p>
             </div>

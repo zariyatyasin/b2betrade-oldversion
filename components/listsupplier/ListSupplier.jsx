@@ -6,7 +6,7 @@ import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 
 import { useSearchParams } from "next/navigation";
-
+import FloatingWhatsapp from "../../components/floatingwhatsapp/FloatingWhatsapp";
 import ListSupplierCard from "./ListSupplierCard";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -124,6 +124,7 @@ export default function BuyerRequest({
 
   return (
     <div>
+      <FloatingWhatsapp />
       <div className="bg-white  max-w-6xl mx-auto mt-8">
         <div>
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
