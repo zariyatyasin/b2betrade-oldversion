@@ -30,14 +30,20 @@ export default function ListSupplierCard({ store }) {
                 <div>{store.storeName}</div>
               </Link>
             </h1>
-
+            <p className="text-sm mt-4 hidden lg:flex text-gray-950   ">
+              <span>
+                {store.description.length > 120
+                  ? `${store.description.substring(0, 120)}...`
+                  : store.description}
+              </span>
+            </p>
             <p className="md:mt-8 mt-1 text-sm  text-gray-950">
               <h1>Location: {store.address.city}</h1>
               <h2 className=" truncate"> {store.ShopAddress}</h2>
             </p>
           </div>
         </div>
-        <p className="text-sm mt-4 text-gray-950   ">
+        <p className="text-sm mt-4 flex lg:hidden text-gray-950   ">
           <span>
             {store.description.length > 80
               ? `${store.description.substring(0, 80)}...`
