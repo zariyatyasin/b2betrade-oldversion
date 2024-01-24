@@ -6,7 +6,7 @@ import Rating from "@mui/material/Rating";
 import axios from "axios";
 
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
@@ -42,14 +42,18 @@ ChartJS.register(
 );
 
 const ProductInfo = ({ product, setActiveImg, params }) => {
-  const UrlSize = params?.slug[2];
-  const UrlStyle = params?.slug[1];
+  const UrlSize = params?.slug[2] || 0;
+  const UrlStyle = params?.slug[1] || 0;
   const hasNullPrice =
     product?.bulkPricing &&
     product?.bulkPricing.some((bulkPrice) => bulkPrice.price === null);
   const firstSizeBulkPricing = product.subProducts[0].sizes[0].bulkPricing;
   const minQty2 = product.bulkPricing[0].minQty;
   const minQty = firstSizeBulkPricing[0].minQty;
+
+  const pathname = usePathname();
+  const match = pathname.match(/\/product\/\w+\/(\d+)/);
+  const stringAfterId = match ? match[1] : null;
 
   const [loading, setLoading] = useState(false);
   const [priceRanges, setPriceRanges] = useState([]); // Initialize with an empty array
@@ -62,10 +66,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
   const [size, setSize] = useState(UrlSize);
 
   const [qty, setQty] = useState(hasNullPrice ? minQty : minQty2);
-  const [maxQty, setMaxQty] = useState(qty);
+
   const [totalPrice, setTotalPrice] = useState(product?.price);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [staySize, setStaySize] = useState(
@@ -406,7 +410,11 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                           {color.image ? (
                             <img
                               src={color.image}
-                              className="h-14 w-14 rounded-full"
+                              className={`${
+                                i === parseInt(UrlStyle)
+                                  ? "border-2 border-[#2B39D1] "
+                                  : "border "
+                              } h-14 w-14  rounded-full`}
                             />
                           ) : (
                             <div
