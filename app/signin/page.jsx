@@ -148,7 +148,11 @@ const Page = () => {
       <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-xl mb-8 font-bold text-gray-900">
-            Sign In/Register
+            {isRegistering
+              ? "Sign In"
+              : isRegistering === false
+              ? "Register"
+              : "Sign In/Register"}
           </h2>
         </div>
 

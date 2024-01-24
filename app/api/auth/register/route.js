@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { sendEmail } from "../../../../utils/sendEmail";
 import { createActivationToken } from "../../../../utils/token";
 
-async function POST(request) {
+export async function POST(request) {
   try {
     await db.connectDb();
     const { phoneNumber, password, name } = await request.json();
