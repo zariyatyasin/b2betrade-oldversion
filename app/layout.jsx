@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "B2BeTrade",
-  description: "A B2B Wholesale E-commerce Store",
+  description: "A B2B Wholesale E-commerce Platform",
 };
 
 export default function RootLayout({ children }) {
