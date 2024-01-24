@@ -19,7 +19,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <head>{/* <link rel="shortcut icon" href="/favicon.ico" /> */}</head>
+      <head>
+        {/* <link rel="shortcut icon" href="/favicon.ico" /> */}
+        <meta
+          name="google-site-verification"
+          content="f7itwVimUVUgsmoN2Hb8fn79r85GGP5afxv6rv7z7yY"
+        />
+      </head>
       <body className={inter.className}>
         <QueryProvider>
           <ReduxProvider>
