@@ -46,7 +46,7 @@ export default function StoreEditHeader({ description, image, storeName, id }) {
         {image.length > 0 ? (
           <img
             className="w-full h-full object-cover"
-            src={image[0][0].secure_url}
+            src={image[0][0]?.secure_url}
             alt=""
           />
         ) : (

@@ -26,7 +26,7 @@ const ProductSwiper = ({ images }) => {
   };
   return (
     <div
-      className=" "
+      className="  "
       onMouseEnter={() => {
         swiperRef.current.swiper.autoplay.start();
       }}

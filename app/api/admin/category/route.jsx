@@ -19,9 +19,10 @@ export const POST = async (request) => {
 
     const { name } = await request.json();
     const slugs = slugify(name);
+
     const exists = await Category.find({ slug: slugs });
 
-    if (exists) {
+    if (exists.length > 0) {
       return NextResponse.json(
         "This Category name already exists, try with a different name",
         {

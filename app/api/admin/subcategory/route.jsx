@@ -22,7 +22,7 @@ export const POST = async (request) => {
     const { name, parent } = await request.json();
     const slugs = slugify(name);
     const exists = await SubCategory.find({ slug: slugs });
-    if (exists) {
+    if (exists.length > 0) {
       return NextResponse.json(
         {
           message:
