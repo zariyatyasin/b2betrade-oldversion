@@ -9,11 +9,11 @@ async function getData() {
   await db.connectDb();
 
   try {
-    const categories = await Category.find({}).sort({ updatedAt: -1 }).lean();
-    const subcategories = await SubCategory.find({})
-      .populate({ path: "parent", model: Category })
-      .sort({ updatedAt: -1 })
-      .lean();
+    const categories = await Category.find();
+    const subcategories = await SubCategory.find().populate({
+      path: "parent",
+      model: Category,
+    });
 
     return {
       categories: JSON.parse(JSON.stringify(categories)),
