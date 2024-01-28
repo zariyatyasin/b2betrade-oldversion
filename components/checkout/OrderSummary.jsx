@@ -87,18 +87,18 @@ export default function OrderSummary({
 
           <dl className="  border-gray-200 py-6 px-4 space-y-2 sm:px-6">
             <div className="flex items-center justify-between">
-              <dt className="text-sm">Subtotal</dt>
-              <dd className="text-sm font-medium text-gray-900">
-                ৳ {cart?.cartTotal}
+              <dt className="text-sm">Total</dt>
+              <dd className="text-sm font-bold text-gray-900">
+                ৳ {cart?.cartTotal.toLocaleString("en-US")}
               </dd>
             </div>
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <dt className="text-sm">Coupon Discount</dt>
               <dd className="text-sm font-medium text-gray-900">
                 - ৳ {discount?.toFixed(2)}
               </dd>
-            </div>
-            <div className="flex items-center justify-between">
+            </div> */}
+            {/* <div className="flex items-center justify-between">
               <dt className="text-sm">Shipping</dt>
               <dd className="text-sm font-medium text-gray-900">$0.00</dd>
             </div>
@@ -115,12 +115,12 @@ export default function OrderSummary({
                     New price : <b>{totalAfterDiscount}$</b>
                   </span>
                 )}
-            </div>
+            </div> */}
           </dl>
 
           <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
             <p className=" text-red-600 text-xs mb-2">{orderError}</p>
-            <div className="flex flex-col items-center   ">
+            {/* <div className="flex flex-col items-center   ">
               <input
                 type="text"
                 placeholder="Enter coupon code"
@@ -143,7 +143,7 @@ export default function OrderSummary({
                   Coupon applied : <b>-{discount}%</b>
                 </span>
               )}
-            </div>
+            </div> */}
 
             <button
               type="submit"

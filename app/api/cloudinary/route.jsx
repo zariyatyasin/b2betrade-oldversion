@@ -34,9 +34,7 @@ export const POST = async (request) => {
 
       await writeFile(filePath, buffer);
 
-      const response = await cloudinary.uploader.upload(filePath, {
-        resource_type: "auto",
-      });
+      const response = await cloudinary.uploader.upload(filePath);
       images.push({
         url: response.url,
         secure_url: response.secure_url,

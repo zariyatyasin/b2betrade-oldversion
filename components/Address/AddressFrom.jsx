@@ -8,8 +8,6 @@ const validationSchema = Yup.object().shape({
 
   phoneNumber: Yup.string().required("Phone Number is required"),
   address1: Yup.string().required("Address Line 1 is required"),
-  street: Yup.string().required("Street is required"),
-  city: Yup.string().required("City is required"),
 });
 
 const AddressForm = ({
@@ -34,9 +32,6 @@ const AddressForm = ({
         fullName: values.fullName,
         phoneNumber: values.phoneNumber,
         address1: values.address1,
-        address2: values.address2,
-        street: values.street,
-        city: values.city,
       };
       onSave(address);
     },
@@ -88,7 +83,7 @@ const AddressForm = ({
               helperText={formik.touched.address1 && formik.errors.address1}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TextField
               fullWidth
               id="address2"
@@ -123,7 +118,7 @@ const AddressForm = ({
               error={formik.touched.city && formik.errors.city}
               helperText={formik.touched.city && formik.errors.city}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <div className="flex text-white">

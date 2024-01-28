@@ -39,6 +39,10 @@ export default function Page() {
   useEffect(() => {
     updateTotal();
   }, [selected]);
+  useEffect(() => {
+    setSelected([...cart.cartItems]);
+    updateTotal();
+  }, [cart.cartItems]);
 
   const handleQuantityChange = (productId, newQuantity) => {
     const updatedSelected = selected.map((p) => {

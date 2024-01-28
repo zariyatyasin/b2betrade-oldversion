@@ -31,7 +31,7 @@ const ProductSwiper = ({ images }) => {
         swiperRef.current.swiper.autoplay.start();
       }}
       onMouseLeave={() => {
-        swiperRef.current.swiper.autoplay.stop();
+        swiperRef.current.swiper?.autoplay.stop();
         swiperRef.current.swiper.slideTo(0);
       }}
     >

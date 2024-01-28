@@ -6,6 +6,9 @@ import { redirect } from "next/navigation";
 import Order from "../../../model/Order";
 import Link from "next/link";
 import Footer from "../../../components/Footer/Footer";
+import MobileMenu from "../../../components/mobile/MobileMenu";
+import Category from "../../../model/Category";
+import SubCategory from "../../../model/SubCategory";
 
 async function getOrder(id) {
   await db.connectDb();
@@ -13,7 +16,11 @@ async function getOrder(id) {
   if (!session) {
     redirect("/signin");
   }
-
+  let categories = await Category.find().lean();
+  let subCategories = await SubCategory.find().populate({
+    path: "parent",
+    model: Category,
+  });
   const order = await Order.findById(id).populate("user").lean();
 
   if (!order) {
@@ -23,11 +30,13 @@ async function getOrder(id) {
 
   return {
     order: JSON.parse(JSON.stringify(order)),
+    categories: JSON.parse(JSON.stringify(categories)),
+    subCategories: JSON.parse(JSON.stringify(subCategories)),
   };
 }
 
 export default async function page({ params }) {
-  const { order } = await getOrder(params.id);
+  const { order, subCategories, categories } = await getOrder(params.id);
   const statusMap = {
     "Not Processed": 1,
     Processing: 2,
@@ -65,9 +74,9 @@ export default async function page({ params }) {
             </p>
             <Link
               href="/profile"
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:hidden"
+              className="text-lg font-medium text-indigo-600 hover:text-indigo-500 "
             >
-              Go to Profile<span aria-hidden="true"> &rarr;</span>
+              Go to Home<span aria-hidden="true"> &rarr;</span>
             </Link>
           </div>
 
@@ -259,6 +268,7 @@ export default async function page({ params }) {
           </section>
         </main>
       </div>
+      <MobileMenu categories={categories} subCategories={subCategories} />
       <Footer />
     </div>
   );

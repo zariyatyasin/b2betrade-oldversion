@@ -1,7 +1,7 @@
 import Footer from "../components/Footer/Footer";
 
 import MainpageLayout from "../components/layout/MainpageLayout";
-
+import { Categories } from "../components/home/category/Categories";
 import Discount from "../components/home/Discount/Discount";
 
 import Main from "../components/home/main/Main";
@@ -69,7 +69,7 @@ export default async function Home({ searchParams }) {
 
       <div className=" max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
-        {/* <Categories /> */}
+        <Categories />
 
         {/* <Tabs /> */}
         {/* <FlashDeals /> */}

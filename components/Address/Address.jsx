@@ -19,16 +19,11 @@ export default function Address({ cart, user, setSelectedAddress }) {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editedAddressIndex, setEditedAddressIndex] = useState(null);
 
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
-
   const [formData, setFormData] = useState({
     fullName: "",
 
     phoneNumber: "",
     address1: "",
-    address2: "",
-    street: "",
-    city: "",
   });
 
   useEffect(() => {
@@ -66,9 +61,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
 
       phoneNumber: "",
       address1: "",
-      address2: "",
-      street: "",
-      city: "",
     });
   };
 
@@ -110,7 +102,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
 
       setAddresses(res);
     } catch (error) {
-      // Handle error if needed
     } finally {
       setLoading(false);
     }
@@ -169,9 +160,6 @@ export default function Address({ cart, user, setSelectedAddress }) {
 
                   phoneNumber: "",
                   address1: "",
-                  address2: "",
-                  street: "",
-                  city: "",
                 });
               }}
               addresses={addresses}
