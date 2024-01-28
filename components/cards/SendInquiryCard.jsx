@@ -5,16 +5,20 @@ export default function SendInquiryCard({ data }) {
   const {
     quantity,
     details,
-    image,
-    storeId: {
-      storeName,
-      owner,
-      address: { city, country },
-    },
+    image: rawImage,
+    storeId,
     productId,
-    userId: { name: userName, phoneNumber, image: userImage },
+    userId,
   } = data;
+  const { name: userName, phoneNumber, image: userImage } = userId || {};
+  const {
+    storeName,
+    owner,
+    address: { city, country },
+  } = storeId || {};
 
+  // Check if image exists before using it
+  const image = rawImage || [];
   const modifyImageUrl = (url) => {
     const uploadIndex = url?.indexOf("/upload/");
     if (uploadIndex !== -1) {

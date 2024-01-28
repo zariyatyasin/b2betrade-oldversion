@@ -8,7 +8,7 @@ async function getData() {
   await db.connectDb();
 
   try {
-    const categories = await Category.find({}).sort({ updatedAt: -1 }).lean();
+    const categories = await Category.find();
 
     return { categories: JSON.parse(JSON.stringify(categories)) };
   } catch (error) {
