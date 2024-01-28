@@ -51,7 +51,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
       if (formData.action === "edit") {
         const { data } = await axios.put("/api/admin/subcategory", {
           id: formData.id,
-          name: formData.name,
+          name: formData?.name,
           parent: formData.categoryId,
         });
 
@@ -60,7 +60,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
       } else {
         // Create operation
         const { data } = await axios.post("/api/admin/subcategory", {
-          name: formData.name,
+          name: formData?.name,
           parent: formData.categoryId,
         });
 
@@ -106,7 +106,7 @@ export default function CreateSubCategory({ categories, subcategories }) {
   const rowsWithIds = data?.map((row, index) => ({
     ...row,
     id: index + 1,
-    "parent.name": row.parent.name,
+    "parent.name": row.parent?.name,
   }));
 
   return (

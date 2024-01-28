@@ -84,11 +84,11 @@ export default function Example({ categories, subCategories }) {
                       <li
                         key={category.name}
                         className="flex z-40 relative items-center justify-between p-4 hover:bg-gray-50 transition ease-in-out duration-150"
-                        onMouseEnter={() => setSelectedCategory(category._id)}
+                        onMouseEnter={() => setSelectedCategory(category?._id)}
                       >
                         <div className="ml-4">
                           <Link
-                            href={`/browse?category=${category._id}`}
+                            href={`/browse?category=${category?._id}`}
                             className="text-gray-900"
                             prefetch={false}
                           >
@@ -109,15 +109,15 @@ export default function Example({ categories, subCategories }) {
                     >
                       {subCategories?.map(
                         (subCategory) =>
-                          subCategory.parent._id === selectedCategory && (
-                            <ul key={subCategory.name} className="pl-4  ">
+                          subCategory.parent?._id === selectedCategory && (
+                            <ul key={subCategory?.name} className="pl-4  ">
                               <li className=" p-4">
                                 <Link
-                                  href={`/browse?category=${selectedCategory}&subCategories=${subCategory._id}`}
+                                  href={`/browse?category=${selectedCategory}&subCategories=${subCategory?._id}`}
                                   className="text-gray-700 hover:font-bold"
                                   prefetch={false}
                                 >
-                                  {subCategory.name}
+                                  {subCategory?.name}
                                 </Link>
                               </li>
                             </ul>

@@ -20,30 +20,28 @@ export default function CreateSubCategoryForm({
   editData,
 }) {
   const initialValues = {
-    name: editData && editData.name ? editData.name : "",
+    name: editData && editData?.name ? editData?.name : "",
     parentName:
-      editData && editData.parent && editData.parent.name
-        ? editData.parent.name
+      editData && editData.parent && editData.parent?.name
+        ? editData.parent?.name
         : "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("Subcategory name is required")
-  ,
+    name: Yup.string().required("Subcategory name is required"),
     parentName: Yup.string().required("Parent category is required"),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
     const selectedCategoryObject = categories.find(
-      (category) => category.name === values.parentName
+      (category) => category?.name === values.parentName
     );
 
     if (selectedCategoryObject) {
       onSubmits({
         action: editData.action,
         id: editData._id,
-        name: values.name,
+        name: values?.name,
         categoryId: selectedCategoryObject._id,
       });
 
@@ -109,8 +107,8 @@ export default function CreateSubCategoryForm({
                       Select a category
                     </option>
                     {categories?.map((category) => (
-                      <option key={category._id} value={category.name}>
-                        {category.name}
+                      <option key={category?._id} value={category?.name}>
+                        {category?.name}
                       </option>
                     ))}
                   </Field>
