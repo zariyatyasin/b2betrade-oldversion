@@ -48,7 +48,7 @@ export default function StoreNavbar({ subCategory, storeName, storeId }) {
           <InquiryForm
             name={storeName}
             onClose={closeModal}
-            storeId={storeName}
+            storeId={storeId}
           />
         </div>
       )}
