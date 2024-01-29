@@ -227,17 +227,16 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
         </div>
         <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
           <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5">
-            <div className={`xl:mx-3.5  ${siginIN ? "flex" : "hidden"} mx-2.5`}>
+            <div
+              className={`xl:mx-3.5  ${
+                siginIN ? "flex items-center" : "hidden"
+              } mx-2.5`}
+            >
               <Link
                 href={"/b2betrade/form/supplier"}
-                className="relative z-10 lg:top-[1px]"
+                className="relative z-10 lg:top-[1px] text-sm text-white "
               >
-                <Button
-                  type="button"
-                  className=" text-xs text-white bg-[#FFD700]   "
-                >
-                  Become a supplier
-                </Button>
+                Become a supplier
               </Link>
             </div>
             <Link

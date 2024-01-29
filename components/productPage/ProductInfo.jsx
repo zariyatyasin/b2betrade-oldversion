@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import Rating from "@mui/material/Rating";
 import axios from "axios";
-
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -447,9 +447,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             type="number"
             value={qty.toString() > 10000 ? 10000 : qty.toString()}
             min={qty}
-            max={10000}
+            max={100}
             onChange={handleQtyChange}
-            className="p-4 flex items-center text-lg font-semibold"
+            disabled
+            className="p-4 flex items-cente  text-lg font-semibold"
           />
 
           <button
@@ -461,8 +462,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </div>
       </div>
 
-      <div className="md:mt-5 md:mb-2 z-50 p-4 sm:p-0 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
-        <Link
+      <div className="md:mt-5 md:mb-2 z-30 p-4 sm:p-0 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
+        {/* <Link
           href={"/cart"}
           className="sm:ml-6 relative order-1 lg:hidden   sm:order-3"
         >
@@ -472,6 +473,25 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               {cart.cartItems.length}
             </div>
           )}
+        </Link> */}
+        <Link
+          href={`/store/${product?.storeId._id}`}
+          className="sm:ml-6 relative order-1 lg:hidden   sm:order-3"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 text-[#2B39D1]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
+            />
+          </svg>
         </Link>
         <div className="hidden lg:block sm:ml-6 order-1    sm:order-3">
           <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
@@ -481,14 +501,14 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             disabled={10000 < 1}
             onClick={openModal}
             type="button"
-            className="bg-white border-[#2B39D1] border text-[#2B39D1] order-2 mr-2 sm:order-2"
+            className="bg-white border-[#2B39D1]  rounded-full text-xs border text-[#2B39D1] order-2 mr-2 sm:order-2"
           >
             Send Inquiry
           </Button>
           <Button
             disabled={10000 < 1 || loading}
             type="button"
-            className="bg-[#2B39D1] ease-in-out order-3 sm:order-1 hover:bg-[#2B39D1]   focus:bg-[#2B39D1] "
+            className="bg-[#2B39D1] ease-in-out text-xs order-3 rounded-full sm:order-1 hover:bg-[#2B39D1]   focus:bg-[#2B39D1] "
             onClick={() => addToCartHandler()}
           >
             {loading ? (

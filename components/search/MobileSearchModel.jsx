@@ -95,7 +95,7 @@ export default function MobileSearchModel({ isModalOpen, setModalOpen }) {
   return (
     <div>
       {isModalOpen && (
-        <div className="fixed inset-0  bg-black bg-opacity-50 z-[1000] flex items-center justify-center">
+        <div className="fixed inset-0  bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white h-screen p-4 w-full  ">
             <form
               className="relative lg:hidden flex w-full rounded-md"
@@ -137,7 +137,7 @@ export default function MobileSearchModel({ isModalOpen, setModalOpen }) {
                         <li
                           key={index}
                           onClick={() => handleSuggestionSelect(suggestion)}
-                          className="hover:cursor-pointer truncate hover:bg-gray-100"
+                          className="hover:cursor-pointer text-xs truncate hover:bg-gray-100"
                         >
                           {highlightMatchedText(suggestion.name, query)}
                         </li>

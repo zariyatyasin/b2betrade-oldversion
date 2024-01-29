@@ -126,7 +126,7 @@ export default async function Page({ params, searchParams }) {
   return (
     <>
       <MainpageLayout />
-      <div className="pt-20 lg:pt-40 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
+      <div className="pt-16 lg:pt-40 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto  ">
         <div className="flex items-center pb-4 ">
           <ol className="flex items-center w-full overflow-hidden">
             <li className="text-sm text-body px-2.5 transition duration-200 ease-in ltr:first:pl-0 rtl:first:pr-0 ltr:last:pr-0 rtl:last:pl-0 hover:text-heading">

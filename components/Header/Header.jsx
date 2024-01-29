@@ -263,7 +263,7 @@ export const Header = ({ categories, subCategories }) => {
         </Dialog>
       </Transition.Root>
       <div className=" border-b  bg-white  lg:bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
-        <div className="flex items-center justify-between py-2  lg:py-6  lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
+        <div className="flex items-center justify-between py-3  lg:py-6  lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
           <div className="flex items-center">
             <GobackPage />
             <div
@@ -416,7 +416,7 @@ export const Header = ({ categories, subCategories }) => {
           </div>
 
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
-            <div className="flex    ">
+            <div className="flex  gap-x-2   ">
               <div className=" ">
                 {/* <Link
                 href={"/requestproduct/form"}
@@ -462,7 +462,7 @@ export const Header = ({ categories, subCategories }) => {
                 aria-label="cart-button"
               >
                 {cart.cartItems.length > 0 && (
-                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold   bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-xs   bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
                     {cart.cartItems.length}
                   </div>
                 )}

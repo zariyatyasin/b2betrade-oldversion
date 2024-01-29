@@ -109,13 +109,13 @@ const InquiryForm = ({ onClose, productId, storeId, name }) => {
             <div className="text-red-500 text-sm">{formik.errors.details}</div>
           )}
         </div>
-        <label
+        {/* <label
           htmlFor="details"
           className="block mt-2 text-sm font-semibold text-gray-600"
         >
           If you Have any sample of product
-        </label>
-        <Images images={images} setImages={setImages} imageAllow={2} />
+        </label> */}
+        {/* <Images images={images} setImages={setImages} imageAllow={2} /> */}
 
         <button
           type="submit"

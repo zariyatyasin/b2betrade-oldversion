@@ -29,7 +29,7 @@ const ProductPageImage = ({ images, activeImg }) => {
             <Image
               height={500}
               width={500}
-              className="w-full h-[500px] object-contain"
+              className="w-full h-80  lg:h-[400px] object-contain"
               src={activeImg || modifyImageUrl(images[active]?.url)}
               alt=""
             />
@@ -37,19 +37,13 @@ const ProductPageImage = ({ images, activeImg }) => {
         </div>
       </div>
       <div className="mt-2 lg:mt-0 lg:mr-5">
-        <div className="flex">
-          {images?.map((img, i) => (
-            <Swiper
-              key={i}
-              slidesPerView={1}
-              spaceBetween={50}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-            >
-              <SwiperSlide>
+        <div className="flex   ">
+          <Swiper slidesPerView={4} spaceBetween={10} navigation={true}>
+            {images?.map((img, i) => (
+              <SwiperSlide key={i}>
                 <div
-                  className={`flex-0 lg:flex-col aspect-square ml-2 h-20 ${
-                    i === active && "border-2 border-gray-900"
+                  className={` w-16 h-16 rounded-md overflow-hidden   ${
+                    i === active && "border-2 border-[#2B39D1]"
                   } text-center`}
                   key={i}
                   onMouseOver={() => setActive(i)}
@@ -63,8 +57,8 @@ const ProductPageImage = ({ images, activeImg }) => {
                   />
                 </div>
               </SwiperSlide>
-            </Swiper>
-          ))}
+            ))}
+          </Swiper>
         </div>
       </div>
     </div>
