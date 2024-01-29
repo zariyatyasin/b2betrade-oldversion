@@ -91,14 +91,6 @@ export default function Main({ data }) {
       const currentSearchParams = new URLSearchParams(window.location.search);
 
       router.push(`/browse?search=${query}`);
-
-      // Generate the new URL with the modified search parameter
-      // const newURL = `${
-      //   window.location.pathname
-      // }?${currentSearchParams.toString()}`;
-
-      // // Use the `router.push` function to navigate to the new URL
-      // router.push(newURL, undefined, { shallow: true });
     } else {
       router.push("/browse", { shallow: true });
     }
@@ -120,7 +112,7 @@ export default function Main({ data }) {
       <div className="xl:flex md:pb-2.5 mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
         {/* side */}
         <div className="w-full trendy-main-content">
-          <form
+          {/* <form
             className="relative lg:hidden flex w-full rounded-md"
             noValidate=""
             role="search"
@@ -166,7 +158,7 @@ export default function Main({ data }) {
                 )}
               </div>
             )}
-          </form>
+          </form> */}
           <div className="mb-3 md:mb-4 lg:mb-5 xl:mb-6">
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 2xl:gap-5">
               <div className="mx-auto w-full rounded overflow-hidden">

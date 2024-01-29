@@ -12,119 +12,7 @@ function classNames(...classes) {
 
 const Usermenu = ({ isLogin, session }) => {
   return (
-    // <div>
-    //   {session.status == "authenticated" ? (
-    //     <div
-    //       className="origin-top-right z-50 absolute right-0     w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none"
-    //       role="menu"
-    //       aria-orientation="vertical"
-    //       aria-labelledby="user-menu-button"
-    //       tabIndex="-1"
-    //     >
-    //       {session.data.user.role === "admin" && (
-    //         <Link
-    //           href="/admin/dashboard"
-    //           className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //           role="menuitem"
-    //           tabIndex="-1"
-    //           id="user-menu-item-0"
-    //         >
-    //           Admin
-    //         </Link>
-    //       )}
-
-    //       {session.data.user.role === "vendor" && (
-    //         <Link
-    //           href="/vendor"
-    //           className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //           role="menuitem"
-    //           tabIndex="-1"
-    //           id="user-menu-item-1"
-    //         >
-    //           Vendor
-    //         </Link>
-    //       )}
-
-    //       {session.data.user.role === "user" && (
-    //         <Link
-    //           href="/profile"
-    //           className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //           role="menuitem"
-    //           tabIndex="-1"
-    //           id="user-menu-item-2"
-    //         >
-    //           Profile
-    //         </Link>
-    //       )}
-
-    //       {session.data.user.role === "supplier" && (
-    //         <Link
-    //           href="/supplier/dashboard"
-    //           className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //           role="menuitem"
-    //           tabIndex="-1"
-    //           id="user-menu-item-2"
-    //         >
-    //           Dashboard
-    //         </Link>
-    //       )}
-
-    //       <a
-    //         href="#"
-    //         className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //         role="menuitem"
-    //         tabIndex="-1"
-    //         id="user-menu-item-1"
-    //       >
-    //         Settings
-    //       </a>
-
-    //       <div
-    //         className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //         role="menuitem"
-    //         tabIndex="-1"
-    //         id="user-menu-item-2"
-    //         onClick={() => {
-    //           signOut();
-    //         }}
-    //       >
-    //         Sign out
-    //       </div>
-    //     </div>
-    //   ) : (
-    //     <div
-    //       className="origin-top-right absolute right-0  -mt-1  w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none"
-    //       role="menu"
-    //       aria-orientation="vertical"
-    //       aria-labelledby="user-menu-button"
-    //       tabIndex="-1"
-    //     >
-    //       <div
-    //         className="block py-2 px-4 text-sm text-gray-700 hover:bg-[#2B39D1] hover:text-white"
-    //         role="menuitem"
-    //         tabIndex="-1"
-    //         id="user-menu-item-0"
-    //         onClick={() => {
-    //           signIn();
-    //         }}
-    //       >
-    //         Sign in/ Register
-    //       </div>
-
-    //       <a
-    //         href="#"
-    //         className="block hover:bg-[#2B39D1] hover:text-white py-2 px-4 text-sm text-gray-700"
-    //         role="menuitem"
-    //         tabIndex="-1"
-    //         id="user-menu-item-1"
-    //       >
-    //         Help
-    //       </a>
-    //     </div>
-    //   )}
-    // </div>
-
-    <Menu as="div" className="ml-3 relative">
+    <Menu as="div" className="lg:ml-3 relative">
       <div>
         <Menu.Button className="max-w-xs  flex items-center text-sm rounded-full ">
           <span className="sr-only">Open user menu</span>
@@ -136,8 +24,8 @@ const Usermenu = ({ isLogin, session }) => {
             />
           ) : (
             <AccountCircleOutlinedIcon
-              sx={{ fontSize: "28px" }}
-              className=" text-white"
+              sx={{ fontSize: [24, 28] }}
+              className=" text-[#2B39D1] lg:text-white"
             />
           )}
         </Menu.Button>

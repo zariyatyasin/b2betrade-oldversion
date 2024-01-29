@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "../../components/Header/Header";
+
 import OrderCard from "../../components/profile/OrderCard";
 import Layout from "../../components/profile/layout/Layout";
 
@@ -11,6 +11,7 @@ import Order from "../../model/Order";
 
 import FirstSection from "../../components/profile/FirstSection";
 import User from "../../model/User";
+import MainpageLayout from "../../components/layout/MainpageLayout";
 async function getData({ searchParams }) {
   const session = await getCurrentUser();
   if (!session) {
@@ -40,23 +41,23 @@ export default async function page({ searchParams }) {
   const { session, tab, orders, user } = await getData({ searchParams });
 
   return (
-    <div className="">
-      <Header />
+    <>
+      <MainpageLayout />
+      <div className=" pt-16 lg:pt-32">
+        <Layout
+          data={{
+            ...session,
+            tab,
+          }}
+        >
+          <FirstSection name={user.name} />
+          <div className="mt-5 py-10 px-4  bg-white">
+            <h5 className="font-semibold text-gray-950 text-xl">My Orders</h5>
 
-      <Layout
-        data={{
-          ...session,
-          tab,
-        }}
-      >
-        <FirstSection name={user.name} />
-        <div className="mt-5 py-10 px-4 bg-white">
-          <h5 className="font-semibold text-gray-950 text-xl">My Orders</h5>
-
-          <div className="py-8    ">
-            {orders.length !== 0 ? (
-              <div key={orders.number} className="    ">
-                {/* {orders.map((orders) => (
+            <div className="py-8    ">
+              {orders.length !== 0 ? (
+                <div key={orders.number} className="    ">
+                  {/* {orders.map((orders) => (
                   <div>
                     <h3 className="sr-only">
                       Order placed on{" "}
@@ -104,31 +105,32 @@ export default async function page({ searchParams }) {
                   </div>
                 ))} */}
 
-                <OrderCard order={orders} />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-10 h-10"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                  />
-                </svg>
+                  <OrderCard order={orders} />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-10 h-10"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                    />
+                  </svg>
 
-                <div className="text-gray-500">No Orders</div>
-              </div>
-            )}
+                  <div className="text-gray-500">No Orders</div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </Layout>
-    </div>
+        </Layout>
+      </div>
+    </>
   );
 }

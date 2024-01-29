@@ -301,7 +301,7 @@ export default function BrowsePage({
 
   return (
     <div>
-      <div className="bg-white">
+      <div className="bg-white pt-10 lg:pt-32">
         <div>
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
             <Dialog

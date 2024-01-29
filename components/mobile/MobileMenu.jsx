@@ -106,51 +106,6 @@ function MobileMenu({ categories, subCategories }) {
                 </button>
               </div>
 
-              {/*            
-              <Tab.Group as="div" className="mt-2">
-                <div className="border-b border-gray-200">
-                  <Tab.List className="-mb-px flex px-4 space-x-8">
-                    {categories.map((category) => (
-                      <Tab
-                        key={category.name}
-                        className={({ selected }) =>
-                          classNames(
-                            selected
-                              ? "text-indigo-600 border-indigo-600"
-                              : "text-gray-900 border-transparent",
-                            "flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium"
-                          )
-                        }
-                      >
-                        {category.name}
-                      </Tab>
-                    ))}
-                  </Tab.List>
-                </div>
-                <Tab.Panels as={Fragment}>
-                  {subCategories.map((subCategory) => (
-                    <Tab.Panel
-                      key={subCategory.name}
-                      className="pt-10 pb-8 px-4 space-y-10"
-                    >
-                      <div className="grid grid-cols-2 gap-x-4">
-                        {categories
-                          .filter(
-                            (filteredCategory) =>
-                              filteredCategory.parent &&  
-                              filteredCategory.parent._id === subCategory._id
-                          )
-                          .map((filteredSubCategory) => (
-                            <div key={filteredSubCategory.name}>
-                          
-                              {filteredSubCategory.name}
-                            </div>
-                          ))}
-                      </div>
-                    </Tab.Panel>
-                  ))}
-                </Tab.Panels>
-              </Tab.Group> */}
               {categories.map((category, i) => (
                 <MobileCategory
                   key={i}

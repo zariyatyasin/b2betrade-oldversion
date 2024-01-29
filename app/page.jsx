@@ -53,7 +53,7 @@ async function getData({ searchParams }) {
   }
 }
 export default async function Home({ searchParams }) {
-  const { newProduct, homeHero, categories, subCategories } = await getData({
+  const { newProduct, homeHero } = await getData({
     searchParams,
   });
 
@@ -67,7 +67,7 @@ export default async function Home({ searchParams }) {
       {/* 
       <HeaderPolicy /> */}
 
-      <div className=" max-w-[1600px]  mx-auto">
+      <div className=" pt-16 lg:pt-32 max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
         <Categories />
 
@@ -80,7 +80,7 @@ export default async function Home({ searchParams }) {
       </div>
 
       <Footer />
-      <MobileMenu categories={categories} subCategories={subCategories} />
+      {/* <MobileMenu categories={categories} subCategories={subCategories} /> */}
     </>
   );
 }

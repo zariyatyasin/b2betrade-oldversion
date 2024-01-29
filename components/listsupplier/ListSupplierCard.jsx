@@ -13,8 +13,8 @@ export default function ListSupplierCard({ store }) {
   };
   return (
     <div>
-      <div key={store.id} className="py-6 sm:flex">
-        <div className="flex space-x-4 sm:min-w-0 sm:flex-1 sm:space-x-6 lg:space-x-8">
+      <div key={store.id} className="py-6  lg:flex">
+        <div className="flex space-x-4 sm:space-x-6 lg:space-x-8">
           <img
             src={
               store.image.length > 0
@@ -51,7 +51,7 @@ export default function ListSupplierCard({ store }) {
           </span>
         </p>
 
-        <div className=" mt-4 md:mt-6 space-y-4 sm:mt-0 sm:ml-6 sm:flex-none sm:w-40">
+        <div className=" mt-4 md:mt-6 space-y-4 sm:mt-0 lg:ml-6 lg:flex-none lg:w-40">
           <Link
             href={`store/${store._id}`}
             className="w-full flex items-center justify-center bg-[#2B39D1] py-2 px-2.5 b  rounded-md shadow-sm text-sm font-medium text-white h sm:w-full sm:flex-grow-0"

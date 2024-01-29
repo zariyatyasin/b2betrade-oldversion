@@ -64,7 +64,7 @@ export default function Example({ categories, subCategories }) {
         <nav aria-label="Top" className="  ">
           <div>
             <div
-              className={`  flex items-center justify-between h-16   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}
+              className={`  flex items-center justify-between h-full   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}
             >
               <div className="  mr-5  lg:flex">
                 <div

@@ -49,7 +49,7 @@ const features = [
 
 export default function Hero() {
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-16 lg:pt-32">
       <main>
         <div>
           <div className="relative">

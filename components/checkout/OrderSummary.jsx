@@ -147,7 +147,25 @@ export default function OrderSummary({
 
             <button
               type="submit"
-              className="w-full bg-[#2B39D1] border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-[#2B39D1] mt-4"
+              className="w-full hidden lg:flex bg-[#2B39D1] border border-transparent  shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-[#2B39D1] mt-4"
+              onClick={() => placeOrderHandler()}
+            >
+              Place order
+            </button>
+          </div>
+        </div>
+
+        <div className="md:mt-5  z-50 p-4 flex items-center  lg:hidden   fixed bottom-0 left-0 w-full bg-white   justify-between  l   border-y-2  border-gray-200 border-2">
+          <div className=" flex items-center ">
+            <dd className="text-base   text-[#2B39D1] font-extrabold">
+              ৳ {cart?.cartTotal.toLocaleString("en-US")}
+            </dd>
+          </div>
+
+          <div className=" order-2">
+            <button
+              type="submit"
+              className="w-full bg-[#2B39D1] border border-transparent  rounded-md  text-xs  shadow-sm py-2 px-4  font-medium text-white  "
               onClick={() => placeOrderHandler()}
             >
               Place order

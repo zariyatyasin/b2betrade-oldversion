@@ -123,7 +123,7 @@ export default function BuyerRequest({
   //   };
 
   return (
-    <div>
+    <div className="pt-16 lg:pt-32 ">
       <FloatingWhatsapp />
       <div className="bg-white  max-w-6xl mx-auto mt-8">
         <div>

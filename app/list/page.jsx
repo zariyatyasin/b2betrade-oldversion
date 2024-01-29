@@ -8,6 +8,7 @@ import Category from "../../model/Category";
 import SubCategory from "../../model/SubCategory";
 import Link from "next/link";
 import MainpageLayout from "../../components/layout/MainpageLayout";
+import Footer from "../../components/Footer/Footer";
 
 function createRegex(data, styleRegex) {
   if (data.length > 1) {
@@ -105,6 +106,7 @@ export default async function page({ searchParams }) {
         locations={locations}
         paginationCount={paginationCount}
       />
+      <Footer />
     </>
   );
 }

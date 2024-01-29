@@ -6,7 +6,7 @@ export default function page() {
   return (
     <div>
       <MainpageLayout />
-      <div className="bg-white min-h-full px-4  py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+      <div className="bg-white pt-24 lg:pt-56  min-h-full px-4  py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
         <div className=" max-w-4xl mx-auto">
           <main className="sm:flex">
             <div className="sm:ml-6">

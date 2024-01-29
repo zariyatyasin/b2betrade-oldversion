@@ -5,7 +5,7 @@ export default function page() {
   return (
     <div>
       <MainpageLayout />
-      <div className="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
+      <div className="relative pt-20 lg:pt-40 pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
         <div className="mt-5  text-gray-500">
           <div class="bg-white p-8   ">
             <h1 class="text-2xl font-bold mb-4">Return Policy - B2BETrade</h1>

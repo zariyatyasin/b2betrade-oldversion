@@ -5,7 +5,7 @@ export default function page() {
   return (
     <>
       <MainpageLayout />
-      <div className="relative bg-white&apos">
+      <div className="relative bg-white&apos pt-20 lg:pt-40">
         <div className="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 max-w-7xl mx-auto &apos">
           <div className="lg:col-start-2 lg:pl-8&apos">
             <div className="text-base lg:mr-0&apos">
