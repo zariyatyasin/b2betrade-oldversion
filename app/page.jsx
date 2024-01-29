@@ -67,7 +67,7 @@ export default async function Home({ searchParams }) {
       {/* 
       <HeaderPolicy /> */}
 
-      <div className=" pt-16 lg:pt-32 max-w-[1600px]  mx-auto">
+      <div className=" pt-20 lg:pt-32 max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
         <Categories />
 

@@ -160,7 +160,7 @@ export default function Main({ data }) {
             )}
           </form> */}
           <div className="mb-3 md:mb-4 lg:mb-5 xl:mb-6">
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 2xl:gap-5">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 2xl:gap-5">
               <div className="mx-auto w-full rounded overflow-hidden">
                 <Swiper
                   slidesPerView={1}
@@ -187,7 +187,7 @@ export default function Main({ data }) {
                             alt={item.title}
                             width={500}
                             height={100}
-                            className="md:w-full md:h-full"
+                            className="w-full h-full"
                           />
                         </SwiperSlide>
                       ));
@@ -196,7 +196,7 @@ export default function Main({ data }) {
                   })}
                 </Swiper>
               </div>
-              <div className="mx-auto w-full rounded overflow-hidden">
+              <div className="mx-auto hidden lg:block w-full rounded overflow-hidden">
                 <Swiper
                   slidesPerView={1}
                   spaceBetween={30}
