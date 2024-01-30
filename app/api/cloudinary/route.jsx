@@ -30,8 +30,11 @@ export const POST = async (request) => {
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const filePath = path.join(process.cwd(), "public/uploads", file.name);
-      await fs.mkdir(path.dirname(filePath), { recursive: true });
+      const filePath = path.join(
+        process.cwd(),
+        "/var/task/public/uploads",
+        file.name
+      );
 
       await writeFile(filePath, buffer);
 
