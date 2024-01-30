@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { writeFile, unlink } from "fs/promises";
 import { v2 as cloudinary } from "cloudinary";
 import path from "path";
-import { getCurrentUser } from "../../../utils/session";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -14,8 +13,6 @@ const allowedFileTypes = ["jpg", "jpeg", "png", "webp"];
 const maxNumberOfFiles = 10;
 export const POST = async (request) => {
   try {
-    const session = await getCurrentUser();
-
     const data = await request.formData();
 
     const files = data.getAll("file");

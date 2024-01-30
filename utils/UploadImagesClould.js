@@ -10,7 +10,7 @@ export default async function UploadImagesClould(images) {
       // const blob = await response.blob();
       const formData = new FormData();
       formData.append("file",imageUrl);
-      formData.append("upload presets","ml_default");
+      formData.append("upload_preset","ml_default");
       formData.append("clound_name","dtasegoef");
 
       const uploadedImage = await Uploadimages(formData);

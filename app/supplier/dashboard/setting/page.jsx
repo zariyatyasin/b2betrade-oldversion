@@ -1,21 +1,14 @@
 import React from "react";
 import Layout from "../../../../components/seller/layout/Layout";
 import { getCurrentUser } from "../../../../utils/session";
-import Product from "../../../../model/Product";
-import User from "../../../../model/User";
-import Store from "../../../../model/Store";
-import Category from "../../../../model/Category";
-import SubCategory from "../../../../model/SubCategory";
-import StoreEditHeader from "../../../../components/store/storeHeader/StoreEditHeader";
 
-import { redirect } from "next/navigation";
+import Store from "../../../../model/Store";
+
+import StoreEditHeader from "../../../../components/store/storeHeader/StoreEditHeader";
 
 async function getData() {
   const session = await getCurrentUser();
 
-  if (!session) {
-    redirect("/signin");
-  }
   let StoreData = await Store.find({ owner: session.id });
 
   return {
@@ -23,7 +16,7 @@ async function getData() {
   };
 }
 
-export default async function page() {
+export default async function Page() {
   const { StoreData } = await getData();
 
   return (
