@@ -207,7 +207,7 @@ export const Header = ({ categories, subCategories }) => {
                 </button>
               </div>
 
-              {categories.map((category, i) => (
+              {categories?.map((category, i) => (
                 <MobileCategory
                   key={i}
                   category={category}

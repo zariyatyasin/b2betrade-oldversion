@@ -1,18 +1,25 @@
 import axios from "axios";
 
 export const Uploadimages = async (formData) => {
-  const { data } = await axios.post(
-    "https://api.cloudinary.com/v1_1/dtasegoef/image/upload  ",
-    formData
-    // {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // }
-  );
-  return data;
-};
+  try {
+    const response = await axios.post(
+      "https://api.cloudinary.com/v1_1/dtasegoef/image/upload",
+      formData
+    );
 
+    const data = response.data; // Access the data property from the response
+    const image = {
+      url: data.url,
+      secure_url: data.secure_url,
+      public_id: data.public_id,
+    };
+
+    return image;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw error; // Re-throw the error to be caught by the calling function
+  }
+};
 // export const ResizeAndUpload = async (file) => {
 //   const ext = file.name.split(".").pop().toLowerCase();
 //   const allowedFileTypes = ["jpg", "jpeg", "png", "webp"];

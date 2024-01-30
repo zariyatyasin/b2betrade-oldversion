@@ -166,21 +166,24 @@ export default function CreateProduct({ categories }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    setLoading(true);
+    // setLoading(true);
     for (const subProduct of subProducts) {
       const formData = new FormData();
-
+      const cloudinaryImages = [];
       for (const image of subProduct.images) {
         formData.append("file", image.blob);
+        formData.append("upload_preset", "ml_default");
+        formData.append("cloud_name", "dtasegoef");
+        const cloudinaryResponse = await Uploadimages(formData);
+
+        cloudinaryImages.push(cloudinaryResponse);
       }
 
-      const cloudinaryResponse = await Uploadimages(formData);
-
-      const cloudinaryImages = cloudinaryResponse.map((response) => ({
-        url: response.secure_url,
-        secure_url: response.secure_url,
-        public_id: response.public_id,
-      }));
+      // const cloudinaryImages = cloudinaryResponse.map((response) => ({
+      //   url: response.secure_url,
+      //   secure_url: response.secure_url,
+      //   public_id: response.public_id,
+      // }));
 
       if (subProduct.color.image) {
         const colorFormData = new FormData();
@@ -190,10 +193,11 @@ export default function CreateProduct({ categories }) {
             type: "image/jpeg",
           })
         );
-
+        colorFormData.append("upload_preset", "ml_default");
+        colorFormData.append("cloud_name", "dtasegoef");
         const colorImageUpload = await Uploadimages(colorFormData);
 
-        subProduct.color.image = colorImageUpload[0].secure_url;
+        subProduct.color.image = colorImageUpload.secure_url;
       }
 
       updatedSubProducts.push({
@@ -228,7 +232,6 @@ export default function CreateProduct({ categories }) {
     brand: Yup.string().required("Please add a brand"),
     category: Yup.string().required("Please select a category."),
     // sku: Yup.string().required("Please add an SKU/number"),
-
     description: Yup.string().required("Please add a description"),
   });
   return (

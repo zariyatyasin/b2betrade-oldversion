@@ -403,6 +403,10 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
                         }
                         onMouseLeave={() => setActiveImg("")}
                       >
+                        {console.log(
+                          "mew",
+                          product.subProducts[i].images[0].url
+                        )}
                         <Link
                           href={`/product/${product._id}/${i}/0`}
                           scroll={false}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "../../../components/Header/Header";
+
 import Store from "../../../model/Store";
 import User from "../../../model/User";
 import Product from "../../../model/Product";
@@ -8,8 +8,9 @@ import SubCategory from "../../../model/SubCategory";
 import StoreHeader from "../../../components/store/storeHeader/StoreHeader";
 import StoreNavbar from "../../../components/store/storeHeader/StoreNavbar";
 import ProductCardSwip from "../../../components/cards/ProductCardSwip";
-import GobackPage from "../../../components/gobackPage/GobackPage";
+
 import Footer from "../../../components/Footer/Footer";
+import MainpageLayout from "../../../components/layout/MainpageLayout";
 
 async function getData({ params }) {
   let StoreData = await Store.findById(params.id)
@@ -48,10 +49,9 @@ export default async function page({ params }) {
 
   return (
     <>
-      <Header />
+      <MainpageLayout />
 
-      <div className=" max-w-7xl mx-auto">
-        <GobackPage />
+      <div className=" pt-20 lg:pt-32 max-w-7xl mx-auto">
         <StoreHeader
           storeName={StoreData.storeName}
           headerImage={StoreData.image}

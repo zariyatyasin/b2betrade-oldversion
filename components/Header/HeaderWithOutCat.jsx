@@ -272,14 +272,16 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
             </Link>
             <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
               <div className="  relative  cursor-pointer  z-50">
-                {
-                  <Usermenu
-                    session={session}
-                    isLogin={isLogin}
-                    onMouseEnter={handleUserMenuOpen}
-                    onMouseLeave={handleUserMenuClose}
-                  />
-                }
+                {session?.status === "authenticated" ? (
+                  <Usermenu session={session} isLogin={isLogin} />
+                ) : (
+                  <div onClick={() => signIn()}>
+                    <AccountCircleOutlinedIcon
+                      sx={{ fontSize: [24, 28] }}
+                      className=" text-[#2B39D1] lg:text-white"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

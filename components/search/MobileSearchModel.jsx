@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
-import GobackPage from "../gobackPage/GobackPage";
+
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 export default function MobileSearchModel({ isModalOpen, setModalOpen }) {
   const handleModalClose = () => {

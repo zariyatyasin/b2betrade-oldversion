@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 

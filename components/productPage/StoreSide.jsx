@@ -26,7 +26,7 @@ export default function StoreSide({ store }) {
   };
   const imageUrl =
     store?.image.length > 0
-      ? modifyImageUrl(store.image[0][0].url)
+      ? modifyImageUrl(store.image[0]?.url)
       : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png";
 
   return (

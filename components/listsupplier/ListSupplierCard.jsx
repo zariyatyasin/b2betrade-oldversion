@@ -18,7 +18,7 @@ export default function ListSupplierCard({ store }) {
           <img
             src={
               store.image.length > 0
-                ? store.image[0][0].secure_url
+                ? store.image[0].secure_url
                 : "https://res.cloudinary.com/drtexlmq7/image/upload/v1705749427/bvxioa50sceeggcjqbuk.png"
             }
             alt={store.storeName}
