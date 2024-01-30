@@ -30,11 +30,7 @@ export const POST = async (request) => {
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const filePath = path.join(
-        process.cwd(),
-        "/var/task/public/uploads",
-        file.name
-      );
+      const filePath = path.join(process.cwd(), "public/uploadimg", file.name);
 
       await writeFile(filePath, buffer);
 
@@ -46,8 +42,6 @@ export const POST = async (request) => {
         secure_url: response.secure_url,
         public_id: response.public_id,
       });
-
-      await unlink(filePath);
     }
 
     return NextResponse.json(images, {
