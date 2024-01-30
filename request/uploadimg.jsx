@@ -1,11 +1,15 @@
 import axios from "axios";
 
 export const Uploadimages = async (formData) => {
-  const { data } = await axios.post("/api/cloudinary", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const { data } = await axios.post(
+    "https://api.cloudinary.com/v1_1/dtasegoef/image/upload  ",
+    formData
+    // {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // }
+  );
   return data;
 };
 
