@@ -17,31 +17,32 @@ export const POST = async (request) => {
     const session = await getCurrentUser();
 
     const data = await request.formData();
+
     const files = data.getAll("file");
 
     let images = [];
 
     for (const file of files) {
-      const ext = file.name ? file.name.split(".").pop().toLowerCase() : "";
+      // const ext = file.name ? file.name.split(".").pop().toLowerCase() : "";
 
-      if (ext && !allowedFileTypes.includes(ext)) {
-        return NextResponse.json(`File type not allowed: ${file.name}`);
-      }
+      // if (ext && !allowedFileTypes.includes(ext)) {
+      //   return NextResponse.json(`File type not allowed: ${file.name}`);
+      // }
 
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const filePath = path.join(process.cwd(), "public/uploads", file.name);
+      // const bytes = await file.arrayBuffer();
+      // const buffer = Buffer.from(bytes);
+      // const filePath = path.join(process.cwd(), "public/uploads", file.name);
 
-      await writeFile(filePath, buffer);
+      // await writeFile(filePath, buffer);
 
-      const response = await cloudinary.uploader.upload(filePath);
+      const response = await cloudinary.uploader.upload(file);
       images.push({
         url: response.url,
         secure_url: response.secure_url,
         public_id: response.public_id,
       });
 
-      await unlink(filePath);
+      // await unlink(filePath);
     }
 
     return NextResponse.json(images, {

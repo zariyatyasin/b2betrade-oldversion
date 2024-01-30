@@ -6,10 +6,12 @@ export default async function UploadImagesClould(images) {
 
   for (const imageUrl of images) {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+      // const response = await fetch(imageUrl);
+      // const blob = await response.blob();
       const formData = new FormData();
-      formData.append("file", blob, "image.jpg");
+      formData.append("file",imageUrl);
+      formData.append("upload presets","ml_default");
+      formData.append("clound_name","dtasegoef");
 
       const uploadedImage = await Uploadimages(formData);
    
