@@ -17,7 +17,7 @@ export const POST = async (request) => {
   try {
     await db.connectDb();
 
-    const { name } = await request.json();
+    const { name, image } = await request.json();
     const slugs = slugify(name);
 
     const exists = await Category.find({ slug: slugs });
@@ -32,6 +32,7 @@ export const POST = async (request) => {
     }
     await new Category({
       name,
+      image,
       slug: slugify(name),
     }).save();
 
@@ -53,13 +54,9 @@ export const PUT = async (request) => {
   try {
     await db.connectDb();
 
-    const { id, name } = await request.json();
+    const { id, name, image } = await request.json();
 
-    const category = await Category.findByIdAndUpdate(
-      id,
-      { name, slug: slugify(name) },
-      { new: true }
-    );
+    const category = await Category.findById(id);
 
     if (!category) {
       return NextResponse.json("Category not found", {
@@ -67,11 +64,24 @@ export const PUT = async (request) => {
       });
     }
 
+    if (name) {
+      category.name = name;
+      category.slug = slugify(name);
+    }
+
+    if (image) {
+      category.image = image;
+    }
+
+    await category.save();
+
+    const updatedCategories = await Category.find().sort({ createdAt: -1 });
+
     db.disconnectDb();
     return NextResponse.json(
       {
-        message: "Category updated successfully !",
-        categories: await Category.find({}).sort({ createdAt: -1 }),
+        message: "Category updated successfully!",
+        categories: updatedCategories,
       },
       {
         status: 200,

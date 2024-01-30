@@ -36,9 +36,9 @@ export default function MobileCategory({
         className="flex items-center mt-2 cursor-pointer"
         onClick={() => handleCategoryClick(category._id)}
       >
-        <div className="flex items-center w-full p-2 justify-between">
+        <div className="flex items-center w-full  font-medium text-gray-900 p-2 justify-between">
           <label htmlFor={category._id}>
-            <a className="text-sm">{category.name}</a>
+            <a className=" font-medium text-gray-900">{category.name}</a>
           </label>
           <span>
             {show ? (

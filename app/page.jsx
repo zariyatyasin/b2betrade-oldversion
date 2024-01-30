@@ -53,7 +53,7 @@ async function getData({ searchParams }) {
   }
 }
 export default async function Home({ searchParams }) {
-  const { newProduct, homeHero } = await getData({
+  const { newProduct, homeHero, categories } = await getData({
     searchParams,
   });
 
@@ -69,7 +69,7 @@ export default async function Home({ searchParams }) {
 
       <div className=" pt-20 lg:pt-32 max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
-        <Categories />
+        <Categories Category={categories} />
 
         {/* <Tabs /> */}
         {/* <FlashDeals /> */}

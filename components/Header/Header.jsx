@@ -20,7 +20,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Listbox } from "@headlessui/react";
 import Example from "./Example";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import MobileSearchModel from "../../components/search/MobileSearchModel";
@@ -196,7 +196,7 @@ export const Header = ({ categories, subCategories }) => {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
+            <div className="relative   max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
               <div className="px-4 pt-5 pb-2 flex">
                 <button
                   type="button"
@@ -240,12 +240,23 @@ export const Header = ({ categories, subCategories }) => {
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div className="flow-root">
-                  <Link
-                    href="/signin"
-                    className="-m-2 p-2 block font-medium text-gray-900"
-                  >
-                    Sign in/ Register
-                  </Link>
+                  {session?.status === "authenticated" ? (
+                    <div>
+                      <div
+                        onClick={() => signOut()}
+                        className="-m-2 p-2 block font-medium text-gray-900"
+                      >
+                        Sign out
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => signIn()}
+                      className="-m-2 p-2 block font-medium text-gray-900"
+                    >
+                      Sign in/ Register
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
@@ -262,19 +273,21 @@ export const Header = ({ categories, subCategories }) => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
-      <div className=" border-b  bg-white  lg:bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
+      <div className="  bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
         <div className="flex items-center justify-between py-3  lg:py-6  lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
           <div className="flex items-center">
             <GobackPage />
             <div
               onClick={() => setOpen(true)}
-              className={` ${isHomePage ? "flex" : "hidden"} lg:hidden`}
+              className={` text-white ${
+                isHomePage ? "flex" : "hidden"
+              } lg:hidden`}
             >
               <MenuIcon sx={{ fontSize: 24 }} />
             </div>
             <Link
               href="/"
-              className="inline-block focus:outline-none text-[#2B39D1] lg:text-white font-bold text-xl md:text-3xl max-w-[131px] "
+              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-3xl max-w-[131px] "
             >
               B2B
               <span className="  text-[#FFD700] text-xl md:text-3xl">
@@ -303,7 +316,6 @@ export const Header = ({ categories, subCategories }) => {
                             <div className="inline-flex h-11 shadow-sm rounded-md   ">
                               <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
                                 <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-md shadow-sm text-white">
-                                  {/* <CheckOutlinedIcon sx={{ fontSize: 16 }} /> */}
                                   <p className="ml-2.5 text-sm font-medium">
                                     {selected.title}
                                   </p>
@@ -429,21 +441,25 @@ export const Header = ({ categories, subCategories }) => {
                   Post a Request
                 </Button>
               </Link> */}
-                <div className="relative   z-10 lg:top-[1px]">
+                <div
+                  className={` ${
+                    isHomePage && "hidden"
+                  } relative lg:hidden   z-10 lg:top-[1px]`}
+                >
                   <button
                     onClick={handleInputFocus}
                     type="button"
-                    className=" text-sm  lg:bg-[#2B39D1]   "
+                    className=" text-sm   bg-[#2B39D1]   "
                   >
                     <SearchIcon
                       sx={{ fontSize: [24, 28] }}
-                      className="ml-2 text-[#2B39D1] lg:text-white"
+                      className="ml-2  text-white"
                     />
                   </button>
                 </div>
-                {/* <Link
+                <Link
                   href={"/contact"}
-                  className="relative hidden z-10 lg:top-[1px]"
+                  className={`relative  ${isHomePage ? "flex" : "hidden"}  `}
                 >
                   <button
                     type="button"
@@ -451,10 +467,10 @@ export const Header = ({ categories, subCategories }) => {
                   >
                     <HeadsetMicOutlinedIcon
                       sx={{ fontSize: [24, 28] }}
-                      className="ml-2 text-[#2B39D1] lg:text-white"
+                      className="ml-2  text-white"
                     />
                   </button>
-                </Link> */}
+                </Link>
               </div>
               <Link
                 href={"/cart"}
@@ -462,13 +478,13 @@ export const Header = ({ categories, subCategories }) => {
                 aria-label="cart-button"
               >
                 {cart.cartItems.length > 0 && (
-                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-xs   bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-white md:w-6 md:h-6 text-xs font-bold     bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2  ">
                     {cart.cartItems.length}
                   </div>
                 )}
                 <ShoppingCartOutlinedIcon
                   sx={{ fontSize: [24, 28] }}
-                  className="md:ml-2 text-[#2B39D1] lg:text-white"
+                  className="md:ml-2  text-white"
                 />
               </Link>
               <div className="items-center flex shrink-0 xl:mx-3.5 mr-2.5">
@@ -479,7 +495,7 @@ export const Header = ({ categories, subCategories }) => {
                     <div onClick={() => signIn()}>
                       <AccountCircleOutlinedIcon
                         sx={{ fontSize: [24, 28] }}
-                        className=" text-[#2B39D1] lg:text-white"
+                        className=" text-white"
                       />
                     </div>
                   )}
@@ -501,7 +517,7 @@ export const Header = ({ categories, subCategories }) => {
             >
               <input
                 id="top-bar-search"
-                className="text-heading p-2   rounded-full bg-gray-200  text-xs   overflow-hidden  w-full 2  "
+                className="text-heading p-2    rounded-full   placeholder:px-2 text-xs   overflow-hidden  w-full 2  "
                 placeholder="What are you looking..."
                 aria-label="top-bar-search"
                 name="search"

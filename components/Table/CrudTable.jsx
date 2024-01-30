@@ -6,7 +6,6 @@ import { Button } from "../../components/ui/button";
 
 export default function CrudTable({
   columns,
-
   data,
   onSubmitDelete,
   onSubmitView,
@@ -38,13 +37,18 @@ export default function CrudTable({
       />
       <DataGrid
         rows={filteredData}
-        // components={{
-        //   Toolbar: GridToolbar,
-        // }}
         columns={columns.map((col) => ({
           ...col,
           renderCell: (params) => {
-            if (col.field === "actions") {
+            if (col.field === "image") {
+              return (
+                <img
+                  src={params.value}
+                  alt="Product"
+                  style={{ width: 30, height: 30 }}
+                />
+              );
+            } else if (col.field === "actions") {
               return (
                 <>
                   <Button onClick={() => onEdit(params.row)} variant="outline">

@@ -15,15 +15,20 @@ import CreateForm from "../../../components/form/CreateForm";
 import axios from "axios";
 import { toast } from "react-toastify";
 import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
+import UploadImagesClould from "../../../utils/UploadImagesClould";
+import Images from "../../productPage/reviews/Images";
 export default function CreateCategories({ categories }) {
   const [data, setData] = useState(categories);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [images, setImages] = useState([]);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editData, setEditData] = useState({});
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
+
   const columns = [
+    { field: "image", headerName: "Image", width: 300 },
     { field: "name", headerName: "Category Name", width: 300 },
 
     {
@@ -38,11 +43,15 @@ export default function CreateCategories({ categories }) {
   );
   const [createFormOpen, setCreateFormOpen] = useState(false);
 
-  //create categories
   const handleCreateCategory = async (name) => {
+    const uploadedImages = await UploadImagesClould(name.images);
+
     setLoading(true);
     try {
-      const { data } = await axios.post("/api/admin/category", name);
+      const { data } = await axios.post("/api/admin/category", {
+        name: name.name,
+        image: uploadedImages[0].url,
+      });
 
       setData(data.categories);
       toast.success(data.message);
@@ -51,6 +60,7 @@ export default function CreateCategories({ categories }) {
       console.error("Error:", error.response);
       toast.error(error.response.data);
     } finally {
+      setImages([]);
       setLoading(false);
     }
   };
@@ -80,16 +90,19 @@ export default function CreateCategories({ categories }) {
 
   const handleEdit = (rowData) => {
     setEditData(rowData);
+
     setOpenEditDialog(true);
   };
 
   const handleUpdateCategory = async () => {
     setLoading(true);
+    const uploadedImages = await UploadImagesClould(images);
 
     try {
       const { data } = await axios.put(`/api/admin/category/`, {
         id: editData._id,
         name: editData.name,
+        image: uploadedImages[0].url,
       });
       setData(data.categories);
       toast.success(data.message);
@@ -99,9 +112,11 @@ export default function CreateCategories({ categories }) {
       console.error("Error:", error.response);
       toast.error(error.response.data);
     } finally {
+      setImages([]);
       setLoading(false);
     }
   };
+
   const rowsWithIds = data?.map((row, index) => ({
     ...row,
     id: index + 1,
@@ -134,15 +149,26 @@ export default function CreateCategories({ categories }) {
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
         <DialogTitle>Edit Row</DialogTitle>
         <DialogContent>
-          {editableColumns.map((col) => (
-            <TextField
-              key={col.field}
-              label={col.headerName}
-              value={editData[col.field]}
-              onChange={(e) =>
-                setEditData({ ...editData, [col.field]: e.target.value })
-              }
-            />
+          {editableColumns.map((col, i) => (
+            <div key={i}>
+              {col.field === "name" ? (
+                <TextField
+                  key={col.field}
+                  label={col.headerName}
+                  value={editData[col.field]}
+                  onChange={(e) =>
+                    setEditData({ ...editData, [col.field]: e.target.value })
+                  }
+                />
+              ) : col.field === "image" ? (
+                <Images
+                  key={col.field}
+                  images={images}
+                  setImages={setImages}
+                  imageAllow={1}
+                />
+              ) : null}
+            </div>
           ))}
         </DialogContent>
         <DialogActions>

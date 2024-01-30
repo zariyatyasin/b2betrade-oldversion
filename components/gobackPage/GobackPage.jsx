@@ -17,7 +17,7 @@ export default function GobackPage() {
       className={`text-white ${isHomePage ? "hidden" : "lg:hidden"}`}
       onClick={goBack}
     >
-      <ArrowBackIosIcon sx={{ fontSize: 28 }} className=" text-gray-950 " />
+      <ArrowBackIosIcon sx={{ fontSize: 28 }} className=" text-white " />
     </div>
   );
 }

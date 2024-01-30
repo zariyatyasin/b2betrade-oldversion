@@ -8,7 +8,7 @@ export default function Images({ images, setImages, imageAllow }) {
     let files = Array.from(e.target.files);
 
     files.forEach((img, i) => {
-      if (images.length === imageAllow || i === imageAllow) {
+      if (images?.length === imageAllow || i === imageAllow) {
         alert(`Maximum ${imageAllow} images are allowed.`);
         return;
       }
@@ -59,7 +59,7 @@ export default function Images({ images, setImages, imageAllow }) {
       </div>
       {error && <div className="text-red-500 mt-2">{error}</div>}
       <div className="mt-4 flex flex-wrap">
-        {images.length > 0 &&
+        {images?.length > 0 &&
           images.map((img, i) => (
             <div key={i} className="relative mr-4 mb-4">
               <div

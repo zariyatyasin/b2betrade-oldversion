@@ -10,6 +10,7 @@ const categorySchema = new mongoose.Schema(
       minlength: [2, "must be atleast 2 charcters"],
       maxlength: [32, "must be atleast 2 charcters"],
     },
+    image:{},
     slug: {
       type: String,
       unique: true,

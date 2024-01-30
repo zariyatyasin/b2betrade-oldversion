@@ -28,7 +28,7 @@ const NewProducts = ({ products, name }) => {
         loop={true}
         breakpoints={{
           640: {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 20,
           },
           768: {

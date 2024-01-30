@@ -108,7 +108,7 @@ export default function Main({ data }) {
   };
 
   return (
-    <div className="relative  mt-5  px-4 md:px-6 lg:px-8 2xl:px-10">
+    <div className="relative  mt-5    md:px-6 lg:px-8 2xl:px-10">
       <div className="xl:flex md:pb-2.5 mb-12 lg:mb-14 xl:mb-16 2xl:mb-20">
         {/* side */}
         <div className="w-full trendy-main-content">

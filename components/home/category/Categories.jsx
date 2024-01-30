@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,51 +11,8 @@ import styles from "./styles.module.css";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import CategoryCard from "./CategoryCard";
 
-export const Categories = () => {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const Category = [
-    {
-      icon: "/image/category/man.png",
-      name: "Men",
-      slug: "men",
-    },
-    {
-      icon: "/image/category/sunglass.png",
-      name: "Sunglasses",
-      slug: "sunglasses",
-    },
-    {
-      icon: "/image/category/women.png",
-      name: "Women",
-      slug: "women",
-    },
-    {
-      icon: "/image/category/bags.png",
-      name: "Bags",
-      slug: "bags",
-    },
-    {
-      icon: "/image/category/watch.png",
-      name: "Watches",
-      slug: "watches",
-    },
-    {
-      icon: "/image/category/sneakers.png",
-      name: "Shoes",
-      slug: "shoes",
-    },
-    {
-      icon: "/image/category/sports.png",
-      name: "Sports",
-      slug: "sports",
-    },
-    {
-      icon: "/image/category/kids.png",
-      name: "Kids",
-      slug: "kids",
-    },
-  ];
+export const Categories = ({ Category }) => {
+  console.log(Category);
 
   return (
     <div className={` px-2 sm:px-4  lg:px-8  mb-12 md:mb-14 lg:mb-16 `}>
@@ -89,7 +46,8 @@ export const Categories = () => {
         {Category.map((category, id) => (
           <SwiperSlide key={id} className="">
             <CategoryCard
-              icon={category.icon}
+              id={category._id}
+              icon={category.image}
               slug={category.slug}
               name={category.name}
               key={id}
