@@ -6,7 +6,7 @@ import FactoryOutlinedIcon from "@mui/icons-material/FactoryOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -20,7 +20,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import { Listbox } from "@headlessui/react";
 import Example from "./Example";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import MobileSearchModel from "../../components/search/MobileSearchModel";
@@ -473,7 +473,16 @@ export const Header = ({ categories, subCategories }) => {
               </Link>
               <div className="items-center flex shrink-0 xl:mx-3.5 mr-2.5">
                 <div className="  relative  cursor-pointer  z-50">
-                  {<Usermenu session={session} isLogin={isLogin} />}
+                  {session?.status === "authenticated" ? (
+                    <Usermenu session={session} isLogin={isLogin} />
+                  ) : (
+                    <div onClick={() => signIn()}>
+                      <AccountCircleOutlinedIcon
+                        sx={{ fontSize: [24, 28] }}
+                        className=" text-[#2B39D1] lg:text-white"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -11,7 +11,7 @@ import axios from "axios";
 import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 export default function StoreEditHeader({ description, image, storeName, id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editedDescription, setEditedDescription] = useState(description);
+  const [editedDescription, setEditedDescription] = useState(description || "");
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const handleEditButtonClick = () => {

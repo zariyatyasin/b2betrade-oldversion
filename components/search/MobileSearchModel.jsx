@@ -95,10 +95,10 @@ export default function MobileSearchModel({ isModalOpen, setModalOpen }) {
   return (
     <div>
       {isModalOpen && (
-        <div className="fixed inset-0  bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div className="fixed   w-full  top-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white h-screen p-4 w-full  ">
             <form
-              className="relative lg:hidden flex w-full rounded-md"
+              className="relative  flex w-full rounded-md"
               noValidate=""
               role="search"
               onSubmit={(e) => handleSearch(e)}

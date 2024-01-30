@@ -20,6 +20,7 @@ const ProfileEdit = ({ data }) => {
     phoneNumber: user.phoneNumber || "",
     email: user.email || "",
   };
+
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState();
