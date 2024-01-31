@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 import SearchSelect from "../selects/SearchSelect";
+import Images from "../../components/productPage/reviews/Images";
 import * as Yup from "yup";
 import axios from "axios";
 import SingularSelect from "../../components/selects/SingularSelect";
@@ -11,6 +12,7 @@ import MultipleSelect from "../../components/selects/MultipleSelect";
 import { toast } from "react-toastify";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
+import UploadImagesClould from "../../utils/UploadImagesClould";
 import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,7 +28,7 @@ const initialValues = {
   isUrgent: false,
   preferredBrand: "",
   preferredColor: "",
-  paymentMethod: "",
+  paymentMethod: "Cash On Delivery",
   contactNumber: "",
   additionalRequirements: "",
   category: "",
@@ -109,6 +111,8 @@ const RequestProductForm = ({ session, categories }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [subs, setSubs] = useState([]);
   const router = useRouter();
+  const [images, setImages] = useState([]);
+
   const [product, setProduct] = useState(initialValues);
   const validationSchema = Yup.object({
     productName: Yup.string().required("Product Name is required"),
@@ -157,7 +161,10 @@ const RequestProductForm = ({ session, categories }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setLoading(true);
+      const uploadedImages = await UploadImagesClould(images);
+      console.log(uploadedImages);
       values.userId = session.id;
+      values.images = uploadedImages;
       const response = await axios.post("/api/productrequest", values);
 
       if (response.status === 200) {
@@ -198,17 +205,16 @@ const RequestProductForm = ({ session, categories }) => {
     getSubs();
   }, [product.category]);
   return (
-    <div className="p-4 max-w-6xl mt-8 rounded-md border sm:px-6 bg-white lg:px-8 mx-auto">
+    <div className="p-4 px-4 md:px-6 lg:px-8 2xl:px-10 max-w-7xl mt-36 flex flex-col lg:flex-row gap-x-6  ">
       {loading && <FullScreenLoading />}
 
-      <div className="mx-auto mt-8">
-        <h3 className="text-xl leading-6 font-medium text-gray-900">
+      <div className=" lg:mt-8">
+        <h3 className="text-3xl font-bold leading-6 text-gray-800">
           Post Your Request
         </h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+        <p className="mt-3 max-w-2xl text-sm text-gray-500">
           Looking for a specific product? Post your request below and let
-          sellers bid on providing you with the best offer. Get ready to receive
-          personalized offers tailored to your needs!
+          sellers bid on providing you with the best offer.
         </p>
       </div>
 
@@ -218,9 +224,9 @@ const RequestProductForm = ({ session, categories }) => {
         onSubmit={handleSubmit}
       >
         {({ values, handleSubmit, setFieldValue }) => (
-          <Form className="  my-8  mx-auto  ">
+          <Form className=" max-w-2xl  my-8  bg-white p-4   shadow rounded-md   ">
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <div>
                   <label
                     htmlFor="productName"
@@ -241,28 +247,7 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <div>
-                  <label
-                    htmlFor="quantity"
-                    className="block text-gray-700  mb-2"
-                  >
-                    Quantity
-                  </label>
-                  <Field
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="quantity"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={12}>
                 <div>
                   <label
                     htmlFor="description"
@@ -283,7 +268,28 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={6} md={4}>
+                <div>
+                  <label
+                    htmlFor="quantity"
+                    className="block text-gray-700  mb-2"
+                  >
+                    Quantity
+                  </label>
+                  <Field
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <ErrorMessage
+                    name="quantity"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6} md={4}>
                 <div>
                   <label htmlFor="budget" className="block text-gray-700  mb-2">
                     Budget
@@ -301,7 +307,8 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} md={6}>
+
+              <Grid item xs={6} md={4}>
                 <div>
                   <label
                     htmlFor="deliveryDate"
@@ -323,13 +330,13 @@ const RequestProductForm = ({ session, categories }) => {
                 </div>
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={12}>
                 <div>
                   <label
                     htmlFor="shippingAddress.city"
                     className="block text-gray-700 mb-2"
                   >
-                    city
+                    Delivery Location
                   </label>
                   <SearchSelect
                     value={
@@ -351,8 +358,8 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>
-              </Grid>
-
+              </Grid> */}
+              {/* 
               <Grid item xs={12} md={6}>
                 <div>
                   <label
@@ -394,8 +401,8 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>{" "}
-              </Grid>
-              <Grid item xs={12} md={6}>
+              </Grid> */}
+              <Grid item xs={12} md={4}>
                 <div>
                   <label
                     htmlFor="paymentMethod"
@@ -407,6 +414,8 @@ const RequestProductForm = ({ session, categories }) => {
                     type="text"
                     id="paymentMethod"
                     name="paymentMethod"
+                    placeholder="Cash On Delivery"
+                    disabled
                     className="w-full border border-gray-300 rounded p-2"
                   />
                   <ErrorMessage
@@ -416,22 +425,22 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={8}>
                 <div>
                   <label
-                    htmlFor="contactNumber"
+                    htmlFor="location"
                     className="block text-gray-700  mb-2"
                   >
-                    Contact Number
+                    Delivery Address
                   </label>
                   <Field
                     type="text"
-                    id="contactNumber"
-                    name="contactNumber"
+                    id="location"
+                    name="location"
                     className="w-full border border-gray-300 rounded p-2"
                   />
                   <ErrorMessage
-                    name="contactNumber"
+                    name="location"
                     component="div"
                     className="text-red-500"
                   />
@@ -469,22 +478,7 @@ const RequestProductForm = ({ session, categories }) => {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <div>
-                  <label htmlFor="images" className="block text-gray-700  mb-2">
-                    Images
-                  </label>
-                  <Field
-                    type="file"
-                    id="images"
-                    name="images"
-                    className="w-full border border-gray-300 rounded p-2"
-                  />
-                  <ErrorMessage
-                    name="images"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
+                <Images images={images} setImages={setImages} imageAllow={5} />
               </Grid>
 
               {/* <Grid item xs={12} md={6}>
@@ -664,7 +658,7 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid> */}
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="additionalRequirements"
@@ -700,13 +694,10 @@ const RequestProductForm = ({ session, categories }) => {
                     className="mr-2"
                   />
                 </div>
-              </Grid>
-              <Grid item xs={6} md={3}>
+              </Grid> */}
+              <Grid item xs={12} md={12}>
                 <div className=" flex items-center">
-                  <label
-                    htmlFor="isUrgent"
-                    className="block text-gray-700  mb-2"
-                  >
+                  <label htmlFor="isUrgent" className="block text-gray-700 ">
                     Is Urgent
                   </label>
                   <Field
@@ -781,7 +772,7 @@ const RequestProductForm = ({ session, categories }) => {
                   />
                 </div>
               </Grid> */}
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <div>
                   <label
                     htmlFor="attachmentUrls"
@@ -801,12 +792,12 @@ const RequestProductForm = ({ session, categories }) => {
                     className="text-red-500"
                   />
                 </div>
-              </Grid>
+              </Grid> */}
             </Grid>
-            <div className="flex items-center justify-between">
+            <div className="flex mt-4   items-center justify-end">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#2B39D1] hover:bg-[#2B39D1]   "
               >
                 Submit
               </button>

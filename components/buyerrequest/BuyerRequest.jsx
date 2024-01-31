@@ -106,7 +106,7 @@ export default function BuyerRequest({
 
   return (
     <div>
-      <div className="bg-white  max-w-6xl mx-auto mt-8">
+      <div className="bg-white  max-w-6xl mx-auto  mt-16 lg:mt-32">
         <div>
           <main className="max-w-3xl mx-auto py-5 px-4 sm:py-10 sm:px-6  lg:max-w-[1500px] lg:px-8">
             <div className="  border-gray-200 ">
@@ -141,17 +141,17 @@ export default function BuyerRequest({
                       replaceQuery={replaceQuery}
                     />
 
-                    <CheckBoxFilter
+                    {/* <CheckBoxFilter
                       data={locations}
                       name={"Loaction"}
                       handle={locationsHandle}
                       replaceQuery={replaceQuery}
-                    />
+                    /> */}
                   </div>
                 </div>
               </aside>
 
-              <div className=" lg:ml-5   mt-6 lg:mt-0 lg:col-span-2 xl:col-span-4 divide-y border shadow rounded-md overflow-hidden   ">
+              <div className=" lg:ml-5   mt-6 lg:mt-0 lg:col-span-2 xl:col-span-4 divide-y border rounded-md overflow-hidden   ">
                 {/* <div className=" hidden lg:block">
                   <HeaderFilters
                     priceHandler={priceHandler}

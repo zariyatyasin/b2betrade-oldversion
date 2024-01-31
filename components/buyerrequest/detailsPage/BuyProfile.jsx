@@ -22,21 +22,13 @@ export default function BuyProfile({ requestProductDetails }) {
             <h1 className="text-2xl font-bold text-gray-900">
               {requestProductDetails.userId.name}
             </h1>
+            <p className="text-sm font-medium text-gray-500">supplier</p>
             <p className="text-sm font-medium text-gray-500">
-              supplier
-              <a href="#" className="text-gray-900">
-                KSRM
-              </a>{" "}
               Joined on <time dateTime="2020-08-25">August 25, 2020</time>
             </p>
           </div>
         </div>
-        <p className="text-sm font-medium text-gray-500">
-          Rating
-          <a href="#" className="text-gray-900">
-            5/4.9
-          </a>{" "}
-        </p>
+
         <div className="mt-6 flex flex-col justify-stretch">
           <button
             type="button"

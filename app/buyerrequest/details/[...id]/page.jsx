@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "../../../../components/Header/Header";
+import MainpageLayout from "../../../../components/layout/MainpageLayout";
 import RequestProduct from "../../../../model/RequestProduct";
 import User from "../../../../model/User";
 import SellerRequest from "../../../../model/SellerRequest";
@@ -17,6 +17,7 @@ async function getData({ params }) {
     path: "userId",
     model: User,
   });
+
   let sellerRequest = await SellerRequest.find({
     requestId: params.id[0],
   }).populate({
@@ -50,18 +51,18 @@ export default async function page({ params }) {
 
   return (
     <div>
-      <Header />
+      <MainpageLayout />
 
-      <main className="py-10">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
+      <main className="py-10 mt-16 lg:mt-32">
+        <div className="max-w-3xl mx-auto px-4   md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
           <div className="flex items-center space-x-5">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
                 {requestProductDetails?.productName}
               </h1>
-              <p className="text-sm font-medium text-gray-500">
-                on
-                <time className="ml-2">
+              <p className="text-sm mt-1    text-gray-950">
+                Posted
+                <time className="ml-1">
                   {new Date(
                     requestProductDetails?.createdAt
                   ).toLocaleDateString()}
@@ -97,11 +98,11 @@ export default async function page({ params }) {
           </div>
         </div>
 
-        <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+        <div className="mt-2 max-w-3xl mx-auto grid grid-cols-1 gap-12   lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
           <div className="space-y-6 lg:col-start-1 lg:col-span-2">
             <section aria-labelledby="applicant-information-title">
-              <div className="bg-white shadow border sm:rounded-md">
-                <div className="px-4 py-5 sm:px-6">
+              <div className=" bg-white   rounded-sm shadow">
+                <div className="px-4 py-5 ">
                   <h2
                     id="applicant-information-title"
                     className="text-lg leading-6 font-medium text-gray-900"
@@ -109,26 +110,27 @@ export default async function page({ params }) {
                     Details Information
                   </h2>
                 </div>
-                <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+                <div className="border-t border-gray-200 px-4 py-5  ">
                   <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3">
                     <div className="sm:col-span-3">
-                      <dt className="text-sm font-medium text-gray-500">
-                        About
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.description}
-                      </dd>
-                    </div>
-                    <div className="sm:col-span-3">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Sample Image
                       </dt>
                       <DetailsPageImage
                         requestProductDetails={requestProductDetails.images}
                       />
                     </div>
+                    <div className="sm:col-span-3">
+                      <dt className="text-sm font-medium  text-gray-950">
+                        About
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900">
+                        {requestProductDetails.description}
+                      </dd>
+                    </div>
+
                     <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Delivery Date:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
@@ -138,7 +140,7 @@ export default async function page({ params }) {
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Location:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
@@ -146,7 +148,7 @@ export default async function page({ params }) {
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Budget:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
@@ -155,45 +157,14 @@ export default async function page({ params }) {
                       </dd>
                     </div>
                     <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Urgent:
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900">
                         {requestProductDetails?.isUrgent ? "Yes" : "No"}
                       </dd>
                     </div>
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Preferred Brand:
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails?.preferredBrand}
-                      </dd>
-                    </div>
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Preferred Color:
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails?.preferredColor}
-                      </dd>
-                    </div>
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Bargain Allowed:
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.isBargainAllowed ? "Yes" : "No"}
-                      </dd>
-                    </div>
-                    <div className="sm:col-span-1">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Sample Requested:
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {requestProductDetails.isSampleRequested ? "Yes" : "No"}
-                      </dd>
-                    </div>
+
                     {/* Add other details here */}
                   </dl>
                 </div>
@@ -206,14 +177,14 @@ export default async function page({ params }) {
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
                     Your Bid Details
                   </h3>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                  <p className="mt-1 max-w-2xl text-sm  text-gray-950">
                     Personal details and application.
                   </p>
                 </div>
                 <div className="border-t border-gray-200">
                   <dl>
                     <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Name
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -221,7 +192,7 @@ export default async function page({ params }) {
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Application for
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -230,7 +201,7 @@ export default async function page({ params }) {
                     </div>
 
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Salary expectation
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -238,7 +209,7 @@ export default async function page({ params }) {
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Salary expectation
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -247,7 +218,7 @@ export default async function page({ params }) {
                     </div>
 
                     <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
+                      <dt className="text-sm font-medium  text-gray-950">
                         Attachments
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
