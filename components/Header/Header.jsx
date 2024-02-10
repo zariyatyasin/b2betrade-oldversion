@@ -488,7 +488,7 @@ export const Header = ({ categories, subCategories }) => {
                 )}
                 <ShoppingCartOutlinedIcon
                   sx={{ fontSize: [24, 28] }}
-                  className="   text-white"
+                  className="text-white"
                 />
               </Link>
               <div className="items-center flex shrink-0  ">
