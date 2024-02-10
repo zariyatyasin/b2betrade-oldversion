@@ -191,14 +191,21 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     // Add more entries as needed
   ];
 
-  const handleSizeSelection = (size) => {
-    setSize(size.size);
-    setStaySize(size.index);
+  const handleSizeSelection = (selectedSize) => {
+    if (selectedSize.size !== size) {
+      // Check if the selected size is different
+      setSize(selectedSize.size);
+      setStaySize(selectedSize.index);
 
-    const selectedSize = product?.size.find((s) => s.size === size.size);
-    setPriceRanges(selectedSize.bulkPricing || []);
-    setSelectedRange(selectedSize.bulkPricing[0] || null);
+      const selectedSizeData = product?.size.find(
+        (s) => s.size === selectedSize.size
+      );
+      setPriceRanges(selectedSizeData.bulkPricing || []);
+      setSelectedRange(selectedSizeData.bulkPricing[0] || null);
+      setQty(selectedSizeData.bulkPricing[0].minQty);
+    }
   };
+
   const handleRangeSelect = (range) => {
     setSelectedRange(range);
 
@@ -297,7 +304,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
     } catch (error) {
       // Handle errors
 
-      toast.error("Error adding to Cart");
+      toast.error(error);
     } finally {
       setLoading(false);
     }

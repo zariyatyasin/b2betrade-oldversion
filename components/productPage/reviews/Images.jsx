@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 export default function Images({ images, setImages, imageAllow }) {
   const [error, setError] = useState("");
   const inputRef = useRef(null);
@@ -51,11 +52,10 @@ export default function Images({ images, setImages, imageAllow }) {
         accept="image/png,image/jpeg,image/webp"
       />
       <div
-        className="bg-blue-500 text-white py-2 cursor-pointer px-4 mt-4 rounded-lg hover:bg-blue-600"
-        style={{ width: "150px" }}
+        className="inline-flex items-center cursor-pointer px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#2B39D1] hover:bg-[#2B39D1] "
         onClick={() => inputRef.current.click()}
       >
-        Add Images
+        <AddPhotoAlternateOutlinedIcon /> <span>Add Images</span>
       </div>
       {error && <div className="text-red-500 mt-2">{error}</div>}
       <div className="mt-4 flex flex-wrap">

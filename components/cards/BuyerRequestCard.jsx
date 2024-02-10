@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 
 export default function BuyerRequestCard({ productData }) {
+  console.log(productData);
+
   return (
     <div className="bg-white hover:bg-slate-100 cursor-pointer p-6 ">
       <Link href={`/buyerrequest/details/${productData._id}`} prefetch={false}>
@@ -50,13 +52,13 @@ export default function BuyerRequestCard({ productData }) {
               ))}
             </div> */}
             <div className="flex flex-wrap">
-              {productData.images.lenth > 1 &&
+              {productData.images.length > 0 &&
                 productData.images.map((url, index) => (
                   <img
                     key={index}
-                    src={url}
+                    src={url.url}
                     alt={`Product Image ${index}`}
-                    className="w-16 h-16 object-cover m-1 rounded-lg border-2 border-green-600"
+                    className="w-20 h-20 object-cover    "
                   />
                 ))}
             </div>

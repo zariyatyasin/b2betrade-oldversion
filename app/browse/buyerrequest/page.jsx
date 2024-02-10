@@ -5,6 +5,7 @@ import db from "../../../utils/db";
 import RequestProduct from "../../../model/RequestProduct";
 import Category from "../../../model/Category";
 import SubCategory from "../../../model/SubCategory";
+import MainpageLayout from "../../../components/layout/MainpageLayout";
 function createRegex(data, styleRegex) {
   if (data.length > 1) {
     for (var i = 1; i < data.length; i++) {
@@ -67,7 +68,7 @@ export default async function page({ searchParams }) {
 
   return (
     <div className=" ">
-      <Header />
+      <MainpageLayout />
 
       <BuyerRequest
         products={products}

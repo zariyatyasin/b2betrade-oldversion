@@ -114,7 +114,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           <button
             onClick={handleDelete}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
+            className="inline-flex items-center justify-center px-4 w-full  py-2  shadow-sm text-sm font-medium rounded-md text-white bg-red-500"
           >
             Delete Your Request
           </button>
@@ -123,7 +123,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           <button
             onClick={handleDelete}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-500"
+            className="inline-flex items-center justify-center px-4 w-full  py-2  shadow-sm text-sm font-medium rounded-md text-white bg-red-500"
           >
             Delete Your Request
           </button>
@@ -132,7 +132,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           <button
             onClick={handleOpenTagModal}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+            className="inline-flex items-center justify-center px-4 py-2 w-full border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
           >
             Submit your Offer
           </button>
@@ -141,7 +141,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           <button
             onClick={handleOpenTagModal}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+            className="inline-flex items-center justify-center px-4 py-2 w-full border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
           >
             Submit your Offer
           </button>
@@ -149,7 +149,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
         {session?.role === "user" && (
           <button
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+            className="inline-flex items-center justify-center px-4 py-2 w-full border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
           >
             Become a Seller
           </button>
@@ -158,7 +158,7 @@ const SubmitForm = ({ session, productName, ProductId, userId }) => {
           <button
             onClick={() => signIn()}
             type="button"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
+            className="inline-flex items-center justify-center px-4 py-2 w-full border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B39D1]"
           >
             Login
           </button>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -45,37 +45,17 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const router = useRouter();
-  const [quary, setQuary] = useState(search);
+  const [query, setQuery] = useState(search);
   const [isLogin, setLogin] = useState(false);
-  const [isOpen, setOpen] = useState(false);
-  const [selected, setSelected] = useState(publishingOptions[0]);
+
+  const [suggestions, setSuggestions] = useState([]);
+
   const pathname = usePathname();
+
   const siginIN = pathname === "/signin";
-  const handleUserMenuOpen = () => {
-    setOpen(true);
-  };
   const { cart } = useSelector((state) => ({ ...state }));
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-
-    if (quary?.length > 1) {
-      const currentSearchParams = new URLSearchParams(window.location.search);
-
-      // Modify the search parameter
-      router.push(`/browse?search=${quary}`);
-
-      // Generate the new URL with the modified search parameter
-      // const newURL = `${
-      //   window.location.pathname
-      // }?${currentSearchParams.toString()}`;
-
-      // // Use the `router.push` function to navigate to the new URL
-      // router.push(newURL, undefined, { shallow: true });
-    } else {
-      router.push("/browse", { shallow: true });
-    }
-  };
+  const suggestionListRef = useRef();
+  const isHomePage = pathname === "/";
   // Add this code inside your component
   useEffect(() => {
     const searchParam = searchParams.get("productType");
@@ -89,6 +69,43 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const response = await axios.get(`/api/search/${query}`);
+        setSuggestions(response.data.suggestions);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      }
+    };
+
+    if (query?.length > 1) {
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [query]);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  const handleSuggestionSelect = (suggestion) => {
+    setQuery(suggestion.name);
+    setSuggestions([]);
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      suggestionListRef.current &&
+      !suggestionListRef.current.contains(event.target)
+    ) {
+      setSuggestions([]);
+    }
+  };
   const handleSelectionChange = (option) => {
     setSelected(option);
     if (option.title) {
@@ -99,14 +116,48 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
       }
     }
   };
+  const handleInputFocus = () => {
+    setModalOpen(true);
+  };
 
-  const handleUserMenuClose = () => {
-    setOpen(false);
+  const highlightMatchedText = (text, query) => {
+    if (!query) return <span>{text}</span>;
+
+    const regex = new RegExp(`(${query})`, "ig");
+
+    const parts = text.split(regex);
+
+    return (
+      <span>
+        {parts.map((part, index) =>
+          regex.test(part) ? (
+            <span key={index} className="text-gray-950 font-bold">
+              {part}
+            </span>
+          ) : (
+            <span className=" text-gray-600" key={index}>
+              {part}
+            </span>
+          )
+        )}
+      </span>
+    );
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (query?.length > 1) {
+      const currentSearchParams = new URLSearchParams(window.location.search);
+
+      router.push(`/browse?search=${query}`);
+    } else {
+      router.push("/browse", { shallow: true });
+    }
   };
 
   return (
     <div className=" bg-[#2B39D1]   ">
-      <div className="flex items-center justify-between h-16 py-6  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
+      <div className="flex items-center justify-between h-16 py-4  border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
         <Link
           href="/"
           className="inline-block focus:outline-none text-white font-bold text-xl md:text-3xl max-w-[131px] "
@@ -115,10 +166,9 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
           <span className=" text-[#FFD700]  text-2xl lg:text-3xl">eTrade</span>
         </Link>
 
-        <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
-          <div className="overlay cursor-pointer invisible w-full h-full opacity-0 flex top-0 p ltr:left-0 rtl:right-0 transition-all duration-300 fixed"></div>
-          <div className="relative z-30 flex flex-col justify-center w-full shrink-0">
-            <div className="flex flex-col w-full mx-auto">
+        <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
+          <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
+            <div className="flex flex-col w-full mx-auto  justify-center relative  ">
               <form
                 className="relative flex w-full rounded-md"
                 noValidate=""
@@ -127,102 +177,123 @@ export const HeaderWithOutCat = ({ categories, subCategories }) => {
               >
                 <label
                   htmlFor="top-bar-search"
-                  className="flex flex-1 items-center py-0.5"
+                  className="flex flex-1 items-center py-0.5 relative"
                 >
-                  <Listbox value={selected} onChange={handleSelectionChange}>
-                    {({ open }) => (
-                      <div className="">
-                        <div className="relative ">
-                          <div className="inline-flex h-11 shadow-sm rounded-md   ">
-                            <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
-                              <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-md shadow-sm text-white">
-                                {/* <CheckOutlinedIcon sx={{ fontSize: 16 }} /> */}
-                                <p className="ml-2.5 text-sm font-medium">
-                                  {selected.title}
-                                </p>
+                  {/* <Listbox value={selected} onChange={handleSelectionChange}>
+                      {({ open }) => (
+                        <div className="">
+                          <div className="relative ">
+                            <div className="inline-flex h-11 shadow-sm rounded-md   ">
+                              <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
+                                <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-md shadow-sm text-white">
+                                  <p className="ml-2.5 text-sm font-medium">
+                                    {selected.title}
+                                  </p>
+                                </div>
+                                <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
+                                  <KeyboardArrowDownOutlinedIcon />
+                                </Listbox.Button>
                               </div>
-                              <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
-                                <KeyboardArrowDownOutlinedIcon />
-                              </Listbox.Button>
                             </div>
-                          </div>
 
-                          <Transition
-                            show={open}
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="origin-top-right absolute z-10 right-0 mt-2 w-72 rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none">
-                              {publishingOptions.map((option) => (
-                                <Listbox.Option
-                                  key={option.title}
-                                  className={({ active }) =>
-                                    classNames(
-                                      active
-                                        ? "text-white bg-[#FFD700] "
-                                        : " text-gray-950",
-                                      "cursor-default select-none relative p-4 text-sm"
-                                    )
-                                  }
-                                  value={option}
-                                >
-                                  {({ selected, active }) => (
-                                    <div className="flex flex-col">
-                                      <div className="flex justify-between">
-                                        <p
-                                          className={
-                                            selected
-                                              ? "font-semibold"
-                                              : "font-normal"
-                                          }
-                                        >
-                                          {option.title}
-                                        </p>
-                                        {selected ? (
-                                          <span
+                            <Transition
+                              show={open}
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="origin-top-right absolute z-10 right-0 mt-2 w-72 rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                {publishingOptions.map((option) => (
+                                  <Listbox.Option
+                                    key={option.title}
+                                    className={({ active }) =>
+                                      classNames(
+                                        active
+                                          ? "text-white bg-[#FFD700] "
+                                          : " text-gray-950",
+                                        "cursor-default select-none relative p-4 text-sm"
+                                      )
+                                    }
+                                    value={option}
+                                  >
+                                    {({ selected, active }) => (
+                                      <div className="flex flex-col">
+                                        <div className="flex justify-between">
+                                          <p
                                             className={
-                                              active
-                                                ? "text-white"
-                                                : "text-gray-900"
+                                              selected
+                                                ? "font-semibold"
+                                                : "font-normal"
                                             }
                                           >
-                                            <CheckOutlinedIcon />
-                                          </span>
-                                        ) : null}
+                                            {option.title}
+                                          </p>
+                                          {selected ? (
+                                            <span
+                                              className={
+                                                active
+                                                  ? "text-white"
+                                                  : "text-gray-900"
+                                              }
+                                            >
+                                              <CheckOutlinedIcon />
+                                            </span>
+                                          ) : null}
+                                        </div>
+                                        <p className={classNames("mt-2")}>
+                                          {option.description}
+                                        </p>
                                       </div>
-                                      <p className={classNames("mt-2")}>
-                                        {option.description}
-                                      </p>
-                                    </div>
-                                  )}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox.Options>
-                          </Transition>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Listbox>
+                      )}
+                    </Listbox> */}
 
                   <input
                     id="top-bar-search"
-                    className="text-heading  p-4   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
+                    className="text-heading bg-gray-100  p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
                     placeholder="What are you looking..."
                     aria-label="top-bar-search"
                     name="search"
-                    onChange={(e) => setQuary(e.target.value)}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
+
                   <button
                     type=" submit"
-                    className=" bg-[#FFD700] flex items-center   rounded-r-md justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none text-white"
+                    className=" absolute right-5 text-gray-600   "
                   >
                     <SearchIcon sx={{ fontSize: 24 }} />
                   </button>
                 </label>
               </form>
             </div>
+            {suggestions.length > 0 && (
+              <div
+                ref={suggestionListRef}
+                className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+              >
+                {suggestions.length > 0 && (
+                  <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSuggestionSelect(suggestion)}
+                        className="hover:cursor-pointer hover:bg-gray-100 truncate"
+                      >
+                        {highlightMatchedText(suggestion.name, query)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">

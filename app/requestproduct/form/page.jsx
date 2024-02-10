@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import db from "../../../utils/db";
 import Category from "../../../model/Category";
 import { getCurrentUser } from "../../../utils/session";
+import MainpageLayout from "../../../components/layout/MainpageLayout";
 async function getData() {
   await db.connectDb();
   const session = await getCurrentUser();
@@ -25,7 +26,7 @@ export default async function page({}) {
 
   return (
     <div>
-      <Header />
+      <MainpageLayout />
       <RequestProductForm categories={categories} session={session} />
     </div>
   );

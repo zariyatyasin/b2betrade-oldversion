@@ -38,8 +38,8 @@ function ProductCardSwip({ products }) {
   const maxPrice = Math.max(
     ...firstSizeBulkPricing.map((pricing) => pricing.price)
   );
-  const minQty2 = products.bulkPricing[0].minQty;
-  const minQty = firstSizeBulkPricing[0].minQty;
+  const minQty2 = products.bulkPricing[0]?.minQty;
+  const minQty = firstSizeBulkPricing[0]?.minQty;
   return (
     <div className=" bg-white border border-gray-200 rounded-md overflow-hidden sm:max-h-96  ">
       <Link

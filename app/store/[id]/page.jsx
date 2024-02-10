@@ -51,7 +51,7 @@ export default async function page({ params }) {
     <>
       <MainpageLayout />
 
-      <div className=" pt-20 lg:pt-32 max-w-7xl mx-auto">
+      <div className=" pt-20 lg:pt-32 max-w-6xl mx-auto">
         <StoreHeader
           storeName={StoreData.storeName}
           headerImage={StoreData.image}
@@ -64,7 +64,7 @@ export default async function page({ params }) {
               storeName={StoreData.storeName}
               storeId={StoreData._id}
             />
-            <div className=" pb-24 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
+            <div className=" pb-24 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
               {products?.map((item, id) => (
                 <div className="   " key={id}>
                   <ProductCardSwip products={item} />

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
 
 export default function DetailsPageImage({ requestProductDetails }) {
   const [open, setOpen] = useState(false);
@@ -31,13 +32,14 @@ export default function DetailsPageImage({ requestProductDetails }) {
   return (
     <div>
       <div className="mt-1 text-sm text-gray-900 flex flex-wrap">
-        {requestProductDetails?.map((url, index) => (
-          <img
-            key={index}
-            src={url}
-            alt={`Product Image ${index}`}
+        {requestProductDetails?.map((item, id) => (
+          <Image
+            key={id}
+            height={500}
+            width={500}
             className="w-16 h-16 object-cover m-1 rounded-md border-2   cursor-pointer"
-            onClick={() => handleOpen(url)}
+            src={item.url}
+            alt=""
           />
         ))}
       </div>

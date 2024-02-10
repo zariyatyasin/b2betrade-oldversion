@@ -11,7 +11,7 @@ function classNames(...classes) {
 
 const Usermenu = ({ isLogin, session }) => {
   return (
-    <Menu as="div" className="lg:ml-3 relative">
+    <Menu as="div" className="  relative">
       <div>
         <Menu.Button className="max-w-xs  flex items-center text-sm rounded-full ">
           <span className="sr-only">Open user menu</span>
