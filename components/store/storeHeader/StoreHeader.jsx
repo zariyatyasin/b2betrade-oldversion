@@ -7,7 +7,7 @@ export default function StoreHeader({
   storeName,
 }) {
   return (
-    <div className="relative  mt-4 ">
+    <div className="relative  mt-4  lg:h-64">
       <div className="absolute inset-0">
         <Image
           height={500}

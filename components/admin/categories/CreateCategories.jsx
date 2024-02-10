@@ -44,9 +44,9 @@ export default function CreateCategories({ categories }) {
   const [createFormOpen, setCreateFormOpen] = useState(false);
 
   const handleCreateCategory = async (name) => {
+    setLoading(true);
     const uploadedImages = await UploadImagesClould(name.images);
 
-    setLoading(true);
     try {
       const { data } = await axios.post("/api/admin/category", {
         name: name.name,

@@ -64,7 +64,7 @@ export default function Example({ categories, subCategories }) {
         <nav aria-label="Top" className="  ">
           <div>
             <div
-              className={`  flex items-center justify-between h-full   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1920px] px-4 md:px-6 lg:px-8 2xl:px-10`}
+              className={`  flex items-center justify-between h-full   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10`}
             >
               <div className="  mr-5  lg:flex">
                 <div
@@ -127,14 +127,14 @@ export default function Example({ categories, subCategories }) {
                   </ul>
                 </div>
               </div>
-              <div className="hidden lg:flex  lg:items-center  mr-5 ">
+              {/* <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
                   className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>
                 </Link>
-              </div>
+              </div> */}
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">

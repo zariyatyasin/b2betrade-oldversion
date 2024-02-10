@@ -34,6 +34,7 @@ export default function DetailsPageImage({ requestProductDetails }) {
       <div className="mt-1 text-sm text-gray-900 flex flex-wrap">
         {requestProductDetails?.map((item, id) => (
           <Image
+            key={id}
             height={500}
             width={500}
             className="w-16 h-16 object-cover m-1 rounded-md border-2   cursor-pointer"

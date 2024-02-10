@@ -273,13 +273,13 @@ export const Header = ({ categories, subCategories }) => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
-      <div className="  bg-[#] bg-white  fixed w-full  z-40 top-0 ">
-        <div className="flex items-center justify-between py-3    lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
+      <div className="  file: bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
+        <div className="flex items-center justify-between py-3 lg:py-4    lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
           <div className="flex items-center">
             <GobackPage />
             <div
               onClick={() => setOpen(true)}
-              className={` text-gray-600 ${
+              className={` text-white ${
                 isHomePage ? "flex" : "hidden"
               } lg:hidden`}
             >
@@ -287,10 +287,10 @@ export const Header = ({ categories, subCategories }) => {
             </div>
             <Link
               href="/"
-              className="inline-block focus:outline-none  text-[#2B39D1] font-bold text-xl md:text-3xl max-w-[131px] "
+              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-3xl max-w-[131px] "
             >
               B2B
-              <span className="  text-[#2B39D1] text-xl md:text-3xl">
+              <span className="  text-[#FFD700] text-xl md:text-3xl">
                 eTrade
               </span>
             </Link>
@@ -428,9 +428,9 @@ export const Header = ({ categories, subCategories }) => {
           </div>
 
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
-            <div className="flex  gap-x-6   ">
+            <div className="flex  gap-x-6  items-center  ">
               <div className=" ">
-                <Link
+                {/* <Link
                   href={"/requestproduct/form"}
                   className="relative hidden lg:flex z-10 lg:top-[1px]"
                 >
@@ -444,24 +444,24 @@ export const Header = ({ categories, subCategories }) => {
                       <span className=" ml-1"> Post your need</span>
                     </div>
                   </button>
-                </Link>
+                </Link> */}
                 <div
                   className={` ${
                     isHomePage && "hidden"
-                  } relative lg:hidden   z-10 lg:top-[1px]`}
+                  } relative lg:hidden   z-10  `}
                 >
                   <button
                     onClick={handleInputFocus}
                     type="button"
-                    className=" text-sm   text-gray-600   "
+                    className=" text-sm       "
                   >
                     <SearchIcon
                       sx={{ fontSize: [24, 28] }}
-                      className="  text-gray-500"
+                      className="  text-white"
                     />
                   </button>
                 </div>
-                {/* <Link
+                <Link
                   href={"/contact"}
                   className={`relative  ${isHomePage ? "flex" : "hidden"}  `}
                 >
@@ -474,7 +474,7 @@ export const Header = ({ categories, subCategories }) => {
                       className="ml-2  text-white"
                     />
                   </button>
-                </Link> */}
+                </Link>
               </div>
               <Link
                 href={"/cart"}
@@ -482,13 +482,13 @@ export const Header = ({ categories, subCategories }) => {
                 aria-label="cart-button"
               >
                 {cart.cartItems.length > 0 && (
-                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-white md:w-6 md:h-6 text-xs font-bold     bg-[#2B39D1] border-2 border-white rounded-full -top-2 -end-2  ">
+                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-white md:w-6 md:h-6 text-xs font-bold     bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2  ">
                     {cart.cartItems.length}
                   </div>
                 )}
                 <ShoppingCartOutlinedIcon
                   sx={{ fontSize: [24, 28] }}
-                  className="   text-gray-500"
+                  className="   text-white"
                 />
               </Link>
               <div className="items-center flex shrink-0  ">
@@ -499,7 +499,7 @@ export const Header = ({ categories, subCategories }) => {
                     <div onClick={() => signIn()}>
                       <AccountCircleOutlinedIcon
                         sx={{ fontSize: [24, 28] }}
-                        className=" text-gray-500"
+                        className=" text-white"
                       />
                     </div>
                   )}

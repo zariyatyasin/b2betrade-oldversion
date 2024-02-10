@@ -13,7 +13,7 @@ export default function ListSupplierCard({ store }) {
   };
   return (
     <div>
-      <div key={store.id} className="py-6  lg:flex">
+      <div key={store.id} className="py-6  lg:flex justify-between">
         <div className="flex space-x-4 sm:space-x-6 lg:space-x-8">
           <img
             src={
