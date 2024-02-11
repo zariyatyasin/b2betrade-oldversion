@@ -18,7 +18,11 @@ import FullScreenLoading from "../../fullScreenOverlay/FullScreenLoading";
 import UploadImagesClould from "../../../utils/UploadImagesClould";
 import Images from "../../productPage/reviews/Images";
 export default function CreateCategories({ categories }) {
+  console.log("cats", categories);
+
   const [data, setData] = useState(categories);
+
+  console.log("this is data", data);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
