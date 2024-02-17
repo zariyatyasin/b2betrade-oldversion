@@ -430,21 +430,21 @@ export const Header = ({ categories, subCategories }) => {
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
             <div className="flex  gap-x-6  items-center  ">
               <div className=" ">
-                {/* <Link
+                <Link
                   href={"/requestproduct/form"}
                   className="relative hidden lg:flex z-10 lg:top-[1px]"
                 >
                   <button
                     type="button"
-                    className="flex justify-center  items-center w-40 py-2 b  shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-[#2B39D1]      "
+                    className="flex justify-center  items-center w-40 py-2 b  shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-[#4252fd]      "
                   >
                     <div>
                       {" "}
                       <AddCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} />
-                      <span className=" ml-1"> Post your need</span>
+                      <span className=" "> Product Request</span>
                     </div>
                   </button>
-                </Link> */}
+                </Link>
                 <div
                   className={` ${
                     isHomePage && "hidden"
@@ -461,7 +461,7 @@ export const Header = ({ categories, subCategories }) => {
                     />
                   </button>
                 </div>
-                <Link
+                {/* <Link
                   href={"/contact"}
                   className={`relative  ${isHomePage ? "flex" : "hidden"}  `}
                 >
@@ -474,7 +474,7 @@ export const Header = ({ categories, subCategories }) => {
                       className="ml-2  text-white"
                     />
                   </button>
-                </Link>
+                </Link> */}
               </div>
               <Link
                 href={"/cart"}

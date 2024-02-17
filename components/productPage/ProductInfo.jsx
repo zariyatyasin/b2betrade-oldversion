@@ -146,7 +146,8 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
 
   const formatPrice = (price) => {
     const formattedPrice = parseFloat(price).toFixed(2);
-    return formattedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const trimmedPrice = parseFloat(formattedPrice).toFixed(0);
+    return trimmedPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
   const togglePriceHistory = () => {
     setShowPriceHistory(!showPriceHistory);
@@ -473,7 +474,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
         </div>
       </div>
 
-      <div className="md:mt-5 md:mb-2 z-30 p-4 sm:p-0 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between sm:justify-normal   border-t border-gray-200">
+      <div className="md:mt-5 md:mb-2 z-30 p-4 sm:p-0 flex items-center sm:pt-4 sm:static fixed bottom-0 left-0 w-full bg-white   justify-between   border-t border-gray-200">
         {/* <Link
           href={"/cart"}
           className="sm:ml-6 relative order-1 lg:hidden   sm:order-3"
@@ -485,7 +486,7 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
             </div>
           )}
         </Link> */}
-        <Link
+        {/* <Link
           href={`/store/${product?.storeId._id}`}
           className="sm:ml-6 relative order-1 lg:hidden   sm:order-3"
         >
@@ -503,11 +504,15 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
             />
           </svg>
-        </Link>
+        </Link> */}
+
+        <div className="text-xl font-bold  text-[#2B39D1] sm:ml-6 relative order-1 sm:hidden   sm:order-3">
+          ৳{formatPrice(totalPrice)}
+        </div>
         <div className="hidden lg:block sm:ml-6 order-1    sm:order-3">
           <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
         </div>
-        <div className=" order-2">
+        <div className=" order-2 flex items-center">
           <Button
             disabled={10000 < 1}
             onClick={openModal}

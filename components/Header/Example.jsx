@@ -127,14 +127,14 @@ export default function Example({ categories, subCategories }) {
                   </ul>
                 </div>
               </div>
-              {/* <div className="hidden lg:flex  lg:items-center  mr-5 ">
+              <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
                   className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>
                 </Link>
-              </div> */}
+              </div>
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">

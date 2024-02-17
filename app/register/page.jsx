@@ -11,6 +11,15 @@ import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoad
 import Link from "next/link";
 import Footer from "../../components/Footer/Footer";
 
+const validationSchema = Yup.object({
+  phoneNumber: Yup.string()
+    .required("Phone Number is required")
+    .matches(
+      /^(01)\d{9}$/,
+      "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
+    ),
+});
+
 export default function page() {
   const session = useSession();
   const params = useSearchParams();
@@ -31,6 +40,7 @@ export default function page() {
     const newOtp = [...enteredOtp];
     newOtp[index] = value;
 
+    // Move focus to next input if not at the last input
     if (index < enteredOtp.length - 1 && value !== "") {
       otpInputsRefs.current[index + 1].focus();
     }
@@ -171,8 +181,7 @@ export default function page() {
                 <div className="bg-white h-64 py-3 rounded text-center">
                   <h1 className="text-2xl font-bold">OTP Verification</h1>
                   <div className="flex flex-col mt-4">
-                    <span>Enter the OTP you received at</span>
-                    <span class="font-bold">+88{phoneNumber}</span>
+                    <span>Enter the OTP you received</span>
                   </div>
 
                   <div

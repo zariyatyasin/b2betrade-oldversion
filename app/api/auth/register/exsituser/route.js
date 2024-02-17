@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import db from "../../../../../utils/db";
 import User from "../../../../../model/User";
-
+import axios from "axios";
 export async function POST(request) {
   try {
     await await db.connectDb();
