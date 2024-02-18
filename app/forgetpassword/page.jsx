@@ -191,12 +191,6 @@ const page = () => {
 
   console.log(otp);
 
-  const handleResign = (event) => {
-    event.preventDefault();
-
-    location.reload();
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -208,11 +202,11 @@ const page = () => {
 
       if (response.data.type === "login") {
         setIsRegistering(true);
+        setShowOtpModal(true);
         setShowNumber(false);
+        handleOtpSend();
         setSuccess(response.data.message);
       } else if (response.data.type === "register") {
-        handleOtpSend();
-        setShowOtpModal(true);
         setIsRegistering(false);
         setSuccess(response.data.message);
       }
@@ -272,11 +266,7 @@ const page = () => {
       <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-xl mb-8 font-bold text-gray-900">
-            {isRegistering
-              ? "Sign In"
-              : isRegistering === false
-              ? "Register"
-              : "Sign In/Register"}
+            Forget Password
           </h2>
         </div>
 
@@ -317,6 +307,13 @@ const page = () => {
                     Phone number must start with "01"
                   </p>
                 )}
+
+                {!isRegistering && (
+                  <p className="text-red-500 text-sm mt-1">
+                    This Phone Number doesn't exist.
+                    <span>Register</span>
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
@@ -328,108 +325,7 @@ const page = () => {
             </form>
           )}
 
-          {isRegistering && (
-            <form
-              onSubmit={loginHandle}
-              className="space-y-6 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10  "
-            >
-              <div>
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Phone Number
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="text"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    autoComplete="phoneNumber"
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
-                  />
-                </div>
-                {phoneNumber.length !== 11 && phoneNumber !== "" && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Phone number must be exactly 11 digits
-                  </p>
-                )}
-                {!/^01/.test(phoneNumber) && phoneNumber.length === 11 && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Phone number must start with "01"
-                  </p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="mt-1 relative">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className={`appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <RemoveRedEyeOutlinedIcon />
-                      ) : (
-                        <VisibilityOffOutlinedIcon />
-                      )}
-                    </button>
-                  </div>
-                </div>
-                <div className=" text-xs text-red-500 mt-1">
-                  {error && error}
-                </div>
-                <Link
-                  href={"/forgetpassword"}
-                  className=" text-xs text-gray-500 mt-3"
-                >
-                  Forget Password?
-                </Link>
-
-                <label
-                  htmlFor="remember-me"
-                  className=" text-xs block  mt-2 text-gray-500"
-                >
-                  Don&apos;t have account?
-                  <span
-                    className="ml-1  font-medium hover:cursor-pointer"
-                    onClick={handleResign}
-                  >
-                    Create one
-                  </span>
-                </label>
-              </div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#2B39D1] hover:bg-[#2B39D1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "CONTINUE"}
-              </button>
-            </form>
-          )}
-
-          {isRegistering === false && otpSuccess === false && (
+          {isRegistering === true && otpSuccess === false && (
             <Model isOpen={showOtpModal} onClose={closeOtpModal}>
               <div className="w-full">
                 <div className="bg-white h-64 py-3 rounded text-center">
@@ -487,30 +383,10 @@ const page = () => {
             >
               <div>
                 <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Full Name
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    autoComplete="name"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-900"
                 >
-                  Password
+                  New Password
                 </label>
                 <div className="mt-1 relative">
                   <input

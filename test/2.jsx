@@ -570,8 +570,8 @@ const Page = () => {
     }
   };
 
-  const handleSubmit = async (values) => {
-    const { phoneNumber, password } = values;
+  const handleSubmit = async () => {
+  
 
     try {
       setLoading(true);
