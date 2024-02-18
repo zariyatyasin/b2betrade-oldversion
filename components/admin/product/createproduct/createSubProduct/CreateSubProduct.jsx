@@ -83,7 +83,10 @@ const CreateSubProduct = ({
             Product {index + 1}
           </h3> */}
           {subProductVisibility[index] && (
-            <Box key={index} className="border  rounded-md shadow p-2">
+            <div
+              key={index}
+              className="border p-2 shadow rounded-md mb-5 bg-white"
+            >
               {/* <Button
                 variant="contained"
                 color="primary"
@@ -139,7 +142,7 @@ const CreateSubProduct = ({
                 subProducts={subProducts}
                 setSubProducts={setSubProducts}
               />
-            </Box>
+            </div>
           )}
         </div>
       ))}

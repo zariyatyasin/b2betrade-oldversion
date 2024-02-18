@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { HeaderWithOutCat } from "../../components/Header/HeaderWithOutCat";
+import OtpInput from "react-otp-input";
 
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -22,7 +23,7 @@ const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [enteredOtp, setEnteredOtp] = useState(["", "", "", "", "", ""]);
+  const [enteredOtp, setEnteredOtp] = useState(["", "", "", ""]);
   const otpInputsRefs = useRef([]);
   const [otp, setOtp] = useState("");
   const [otpSuccess, setotpSuccess] = useState(false);
@@ -47,7 +48,7 @@ const Page = () => {
           }
           return Math.max(prevCountdown - 1, 0);
         });
-      }, 10);
+      }, 1000);
     }
 
     return () => clearInterval(intervalId);
@@ -92,7 +93,10 @@ const Page = () => {
   };
 
   const closeOtpModal = () => {
+    setEnteredOtp(["", "", "", ""]);
+    setError(null);
     setShowOtpModal(false);
+    setCountdown(60);
   };
   const handleResendClick = () => {
     if (isRegistering === false && otpSuccess === false) {
@@ -101,49 +105,66 @@ const Page = () => {
 
       handleOtpSend();
       setError(null);
-      setEnteredOtp(["", "", "", "", "", ""]);
+      setEnteredOtp(["", "", "", ""]);
     }
   };
   const handleOtpInputChange = (index, value) => {
     const newOtp = [...enteredOtp];
     newOtp[index] = value;
 
+    setEnteredOtp(newOtp);
+
     if (index < enteredOtp.length - 1 && value !== "") {
       otpInputsRefs.current[index + 1].focus();
     }
 
-    setEnteredOtp(newOtp);
+    const isAllFilled = newOtp.every((digit) => digit !== "");
 
-    if (index === enteredOtp.length - 1 && value !== "") {
+    if (isAllFilled) {
       const enteredOtpjon = newOtp.join("");
       handleVerifyOtp(enteredOtpjon);
     }
   };
 
+  const handleOtpPaste = (event) => {
+    const pastedData = event.clipboardData.getData("Text");
+    const pastedOtp = pastedData.match(/\d/g);
+    if (pastedOtp && pastedOtp.length === enteredOtp.length) {
+      const newOtp = pastedOtp.slice(0, enteredOtp.length);
+      setEnteredOtp(newOtp);
+      handleVerifyOtp(newOtp.join(""));
+
+      // Focus on the next input field
+      if (otpInputsRefs.current[enteredOtp.length]) {
+        otpInputsRefs.current[enteredOtp.length].focus();
+      }
+    }
+  };
   const renderOtpInputs = () => {
     return enteredOtp.map((digit, index) => (
       <input
         key={index}
         className="m-2 border h-10 w-10 text-center form-control rounded"
-        type="number"
+        type="text"
         maxLength="1"
         value={digit || ""}
         onChange={(e) => handleOtpInputChange(index, e.target.value)}
         ref={(input) => (otpInputsRefs.current[index] = input)}
         onKeyDown={(e) => handleOtpKeyDown(index, e)}
+        onPaste={handleOtpPaste} // Add this line for paste event
       />
     ));
   };
 
   const handleOtpSend = async () => {
-    // Generate OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000);
+
+    console.log(generatedOtp);
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
-    console.log(otp);
-    // try {
 
+    // try {
     //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
     //     api_key: apiKey,
     //     senderid: senderId,
@@ -156,7 +177,6 @@ const Page = () => {
     //   });
     // } catch (error) {
     //   console.error("Error sending OTP:", error);
-
     // }
   };
   const loginHandle = async (e) => {
@@ -185,7 +205,6 @@ const Page = () => {
     }
   };
 
-  console.log(otp);
   const handleResign = (event) => {
     event.preventDefault();
 
@@ -207,6 +226,7 @@ const Page = () => {
         setSuccess(response.data.message);
       } else if (response.data.type === "register") {
         handleOtpSend();
+        setCountdown(60);
         setShowOtpModal(true);
         setIsRegistering(false);
         setSuccess(response.data.message);
@@ -257,6 +277,9 @@ const Page = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const handleChange = (otp) => {
+    setOtp(otp);
   };
 
   return (
@@ -427,9 +450,9 @@ const Page = () => {
           {isRegistering === false && otpSuccess === false && (
             <Model isOpen={showOtpModal} onClose={closeOtpModal}>
               <div className="w-full">
-                <div className="bg-white   py-3 rounded text-center">
+                <div className="bg-white w-full  py-3 rounded text-center">
                   <div className="flex flex-col mt-4">
-                    <span>Enter the OTP you received at</span>
+                    <span className="">Enter the OTP you received at</span>
                     <span className="font-bold">+88{phoneNumber}</span>
                     <div onClick={closeOtpModal} className=" text-blue-600">
                       Edit
@@ -443,16 +466,9 @@ const Page = () => {
                     {renderOtpInputs()}
                   </div>
 
-                  {/* <div className="flex justify-center text-center mt-5">
-                    <div
-                      className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"
-                      onClick={handleVerifyOtp}
-                    >
-                      <span className="font-bold">Verify OTP</span>
-                      <i className="bx bx-caret-right ml-1"></i>
-                    </div>
-                  </div> */}
-                  <div>{error && error}</div>
+                  <div className=" text-xs text-red-500 mt-1">
+                    {error && error}
+                  </div>
 
                   <div>
                     {resendDisabled && (

@@ -46,7 +46,7 @@ export default function Details({ details, product, setProduct }) {
                 placeholder="Name"
                 value={detail.name}
                 onChange={(e) => handleDetails(i, e)}
-                className="border rounded-md p-2 w-40" // Apply Tailwind CSS classes for input styling
+                className="border rounded-md p-2  w-full " // Apply Tailwind CSS classes for input styling
               />
               <input
                 type="text"
@@ -54,7 +54,7 @@ export default function Details({ details, product, setProduct }) {
                 placeholder="Value"
                 value={detail.value}
                 onChange={(e) => handleDetails(i, e)}
-                className="border rounded-md p-2 w-40" // Apply Tailwind CSS classes for input styling
+                className="border rounded-md p-2  w-full " // Apply Tailwind CSS classes for input styling
               />
 
               <>

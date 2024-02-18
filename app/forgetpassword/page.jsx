@@ -23,7 +23,7 @@ const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [enteredOtp, setEnteredOtp] = useState(["", "", "", "", "", ""]);
+  const [enteredOtp, setEnteredOtp] = useState(["", "", "", ""]);
   const otpInputsRefs = useRef([]);
   const [otp, setOtp] = useState("");
   const [otpSuccess, setotpSuccess] = useState(false);
@@ -37,7 +37,7 @@ const Page = () => {
   useEffect(() => {
     let intervalId;
 
-    if (resendDisabled && isRegistering === false && otpSuccess === false) {
+    if (resendDisabled && isRegistering && !otpSuccess) {
       intervalId = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown === 0) {
@@ -48,7 +48,7 @@ const Page = () => {
           }
           return Math.max(prevCountdown - 1, 0);
         });
-      }, 10);
+      }, 1000);
     }
 
     return () => clearInterval(intervalId);
@@ -91,13 +91,12 @@ const Page = () => {
       setError("Incorrect OTP. Please try again.");
     }
   };
-  const openOtpModal = () => {
-    setShowOtpModal(true);
-  };
 
-  // Function to close OTP modal
   const closeOtpModal = () => {
+    setEnteredOtp(["", "", "", ""]);
+    setError(null);
     setShowOtpModal(false);
+    setCountdown(60);
   };
   const handleResendClick = () => {
     if (isRegistering === false && otpSuccess === false) {
@@ -106,25 +105,41 @@ const Page = () => {
 
       handleOtpSend();
       setError(null);
-      setEnteredOtp(["", "", "", "", "", ""]);
+      setEnteredOtp(["", "", "", ""]);
     }
   };
   const handleOtpInputChange = (index, value) => {
     const newOtp = [...enteredOtp];
     newOtp[index] = value;
 
+    setEnteredOtp(newOtp);
+
     if (index < enteredOtp.length - 1 && value !== "") {
       otpInputsRefs.current[index + 1].focus();
     }
 
-    setEnteredOtp(newOtp);
+    const isAllFilled = newOtp.every((digit) => digit !== "");
 
-    if (index === enteredOtp.length - 1 && value !== "") {
+    if (isAllFilled) {
       const enteredOtpjon = newOtp.join("");
       handleVerifyOtp(enteredOtpjon);
     }
   };
 
+  const handleOtpPaste = (event) => {
+    const pastedData = event.clipboardData.getData("Text");
+    const pastedOtp = pastedData.match(/\d/g);
+    if (pastedOtp && pastedOtp.length === enteredOtp.length) {
+      const newOtp = pastedOtp.slice(0, enteredOtp.length);
+      setEnteredOtp(newOtp);
+      handleVerifyOtp(newOtp.join(""));
+
+      // Focus on the next input field
+      if (otpInputsRefs.current[enteredOtp.length]) {
+        otpInputsRefs.current[enteredOtp.length].focus();
+      }
+    }
+  };
   const renderOtpInputs = () => {
     return enteredOtp.map((digit, index) => (
       <input
@@ -136,31 +151,33 @@ const Page = () => {
         onChange={(e) => handleOtpInputChange(index, e.target.value)}
         ref={(input) => (otpInputsRefs.current[index] = input)}
         onKeyDown={(e) => handleOtpKeyDown(index, e)}
+        onPaste={handleOtpPaste} // Add this line for paste event
       />
     ));
   };
 
   const handleOtpSend = async () => {
     // Generate OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000);
+    console.log(generatedOtp);
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
-    console.log(otp);
-    try {
-      await axios.post("http://bulksmsbd.net/api/smsapimany", {
-        api_key: apiKey,
-        senderid: senderId,
-        messages: [
-          {
-            to: phoneNumber,
-            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-          },
-        ],
-      });
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-    }
+
+    // try {
+    //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
+    //     api_key: apiKey,
+    //     senderid: senderId,
+    //     messages: [
+    //       {
+    //         to: phoneNumber,
+    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+    //       },
+    //     ],
+    //   });
+    // } catch (error) {
+    //   console.error("Error sending OTP:", error);
+    // }
   };
   const restPassword = async (e) => {
     e.preventDefault();
@@ -172,11 +189,8 @@ const Page = () => {
         { password: password }
       );
 
-      console.log("this is response", response);
-
-      // If the password is changed successfully, redirect to the sign-in page
       if (response.status === 200) {
-        router.push("/signin"); // Assuming your sign-in page route is '/signin'
+        router.push("/signin");
       }
     } catch (error) {
       setError(error.message || "An error occurred during sign-in.");
@@ -184,8 +198,6 @@ const Page = () => {
       setLoading(false);
     }
   };
-
-  console.log(otp);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -199,11 +211,12 @@ const Page = () => {
       if (response.data.type === "login") {
         setIsRegistering(true);
         setShowOtpModal(true);
-
+        setCountdown(60);
         handleOtpSend();
         setSuccess(response.data.message);
       } else if (response.data.type === "register") {
         setIsRegistering(false);
+
         setExistNumber("This number doesn't exist");
         setSuccess(response.data.message);
       }
@@ -211,45 +224,6 @@ const Page = () => {
       console.log(error);
 
       setExistNumber(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const registerHandle = async (e) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-      const res = await fetch("api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber,
-          password,
-          name: fullName,
-        }),
-      });
-
-      if (!res.ok) {
-        setLoading(false);
-        const data = await res.json();
-        setError(data.message);
-      }
-      let options = {
-        redirect: false,
-        phoneNumber: phoneNumber,
-        password: password,
-      };
-      await signIn("credentials", options);
-
-      const data = await res.json();
-
-      return data;
-    } catch (error) {
-      setError(error.message || "An error occurred during registration.");
     } finally {
       setLoading(false);
     }

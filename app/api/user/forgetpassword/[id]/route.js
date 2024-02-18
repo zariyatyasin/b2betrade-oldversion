@@ -26,7 +26,7 @@ export const PUT = async (request, { params }) => {
       user.password = hashedPassword;
       await user.save();
     }
-    console.log(user);
+
     db.disconnectDb();
 
     return NextResponse.json(

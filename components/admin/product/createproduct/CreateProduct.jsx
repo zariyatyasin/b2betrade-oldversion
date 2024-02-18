@@ -250,7 +250,7 @@ export default function CreateProduct({ categories }) {
             </h1>
             <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
-                <Paper className="p-4">
+                <div className="p-4">
                   {" "}
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
@@ -312,13 +312,7 @@ export default function CreateProduct({ categories }) {
                         onChange={handleChange}
                       />
                     </Grid>
-                    {/* <Grid item xs={12} lg={12}>  <AdminInput
-              type="text"
-              label="Description"
-              name="description"
-              placholder="Product description"
-              onChange={handleChange}
-            /></Grid> */}
+
                     <Grid item xs={12} lg={12}>
                       <ReactQuill
                         theme="snow"
@@ -388,7 +382,7 @@ export default function CreateProduct({ categories }) {
                       />
                     </Grid>
                   </Grid>
-                </Paper>
+                </div>
               </div>
 
               <section
