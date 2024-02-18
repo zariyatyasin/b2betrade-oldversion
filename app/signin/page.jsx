@@ -11,7 +11,7 @@ import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoad
 import Link from "next/link";
 
 import Model from "./Model";
-const page = () => {
+const Page = () => {
   const session = useSession();
   const params = useSearchParams();
   const [isRegistering, setIsRegistering] = useState(null);
@@ -90,11 +90,7 @@ const page = () => {
       setError("Incorrect OTP. Please try again.");
     }
   };
-  const openOtpModal = () => {
-    setShowOtpModal(true);
-  };
 
-  // Function to close OTP modal
   const closeOtpModal = () => {
     setShowOtpModal(false);
   };
@@ -129,7 +125,7 @@ const page = () => {
       <input
         key={index}
         className="m-2 border h-10 w-10 text-center form-control rounded"
-        type="text"
+        type="number"
         maxLength="1"
         value={digit || ""}
         onChange={(e) => handleOtpInputChange(index, e.target.value)}
@@ -190,7 +186,6 @@ const page = () => {
   };
 
   console.log(otp);
-
   const handleResign = (event) => {
     event.preventDefault();
 
@@ -432,8 +427,7 @@ const page = () => {
           {isRegistering === false && otpSuccess === false && (
             <Model isOpen={showOtpModal} onClose={closeOtpModal}>
               <div className="w-full">
-                <div className="bg-white h-64 py-3 rounded text-center">
-                  <h1 className="text-2xl font-bold">OTP Verification</h1>
+                <div className="bg-white   py-3 rounded text-center">
                   <div className="flex flex-col mt-4">
                     <span>Enter the OTP you received at</span>
                     <span className="font-bold">+88{phoneNumber}</span>
@@ -581,4 +575,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

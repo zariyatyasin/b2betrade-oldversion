@@ -11,10 +11,11 @@ import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoad
 import Link from "next/link";
 
 import Model from "./Model";
-const page = () => {
+const Page = () => {
   const session = useSession();
   const params = useSearchParams();
   const [isRegistering, setIsRegistering] = useState(null);
+  const router = useRouter();
   const [showNumber, setShowNumber] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,7 +33,7 @@ const page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(true);
   const [providers, setProviders] = useState(null);
-
+  const [existNumber, setExistNumber] = useState(null);
   useEffect(() => {
     let intervalId;
 
@@ -146,41 +147,36 @@ const page = () => {
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
     console.log(otp);
-    // try {
-
-    //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
-    //     api_key: apiKey,
-    //     senderid: senderId,
-    //     messages: [
-    //       {
-    //         to: phoneNumber,
-    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-    //       },
-    //     ],
-    //   });
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-
-    // }
+    try {
+      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+        api_key: apiKey,
+        senderid: senderId,
+        messages: [
+          {
+            to: phoneNumber,
+            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
   };
-  const loginHandle = async (e) => {
+  const restPassword = async (e) => {
     e.preventDefault();
-    console.log(password);
-    let options = {
-      redirect: false,
-      phoneNumber: phoneNumber,
-      password: password,
-    };
+
     try {
       setLoading(true);
-      const result = await signIn("credentials", options);
+      const response = await axios.put(
+        `/api/user/forgetpassword/${phoneNumber}`,
+        { password: password }
+      );
 
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setSuccess("User signed in successfully!");
+      console.log("this is response", response);
 
-        return result;
+      // If the password is changed successfully, redirect to the sign-in page
+      if (response.status === 200) {
+        router.push("/signin"); // Assuming your sign-in page route is '/signin'
       }
     } catch (error) {
       setError(error.message || "An error occurred during sign-in.");
@@ -203,17 +199,18 @@ const page = () => {
       if (response.data.type === "login") {
         setIsRegistering(true);
         setShowOtpModal(true);
-        setShowNumber(false);
+
         handleOtpSend();
         setSuccess(response.data.message);
       } else if (response.data.type === "register") {
         setIsRegistering(false);
+        setExistNumber("This number doesn't exist");
         setSuccess(response.data.message);
       }
     } catch (error) {
       console.log(error);
 
-      setError(error.message);
+      setExistNumber(error.message);
     } finally {
       setLoading(false);
     }
@@ -308,11 +305,8 @@ const page = () => {
                   </p>
                 )}
 
-                {!isRegistering && (
-                  <p className="text-red-500 text-sm mt-1">
-                    This Phone Number doesn't exist.
-                    <span>Register</span>
-                  </p>
+                {existNumber && (
+                  <div className=" text-red-500">{existNumber}</div>
                 )}
               </div>
               <button
@@ -378,7 +372,7 @@ const page = () => {
           )}
           {otpSuccess === true && (
             <form
-              onSubmit={registerHandle}
+              onSubmit={restPassword}
               className="space-y-6 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10  "
             >
               <div>
@@ -457,4 +451,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
