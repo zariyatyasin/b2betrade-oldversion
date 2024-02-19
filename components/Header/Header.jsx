@@ -273,13 +273,13 @@ export const Header = ({ categories, subCategories }) => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
-      <div className="  file: bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
-        <div className="flex items-center justify-between py-3 lg:py-4    lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
-          <div className="flex items-center">
+      <div className="      fixed w-full  z-40 top-0 ">
+        <div className="flex items-center justify-between py-3 lg:py-3      top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
+          <div className="flex flex-1 items-center  ">
             <GobackPage />
             <div
               onClick={() => setOpen(true)}
-              className={` text-white ${
+              className={` text-gray-950 ${
                 isHomePage ? "flex" : "hidden"
               } lg:hidden`}
             >
@@ -287,29 +287,25 @@ export const Header = ({ categories, subCategories }) => {
             </div>
             <Link
               href="/"
-              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-3xl max-w-[131px] "
+              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-2xl max-w-[131px] "
             >
               B2B
-              <span className="  text-[#FFD700] text-xl md:text-3xl">
-                eTrade
-              </span>
+              <span className=" text-white text-xl md:text-2xl">eTrade</span>
             </Link>
-          </div>
-
-          <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
-            <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
-              <div className="flex flex-col w-full mx-auto  justify-center relative  ">
-                <form
-                  className="relative flex w-full rounded-md"
-                  noValidate=""
-                  role="search"
-                  onSubmit={(e) => handleSearch(e)}
-                >
-                  <label
-                    htmlFor="top-bar-search"
-                    className="flex flex-1 items-center py-0.5 relative"
+            <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
+              <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
+                <div className="flex flex-col w-full mx-auto  justify-center relative  ">
+                  <form
+                    className="relative flex w-full rounded-md"
+                    noValidate=""
+                    role="search"
+                    onSubmit={(e) => handleSearch(e)}
                   >
-                    {/* <Listbox value={selected} onChange={handleSelectionChange}>
+                    <label
+                      htmlFor="top-bar-search"
+                      className="flex flex-1 items-center py-0.5 relative"
+                    >
+                      {/* <Listbox value={selected} onChange={handleSelectionChange}>
                       {({ open }) => (
                         <div className="">
                           <div className="relative ">
@@ -385,66 +381,52 @@ export const Header = ({ categories, subCategories }) => {
                       )}
                     </Listbox> */}
 
-                    <input
-                      id="top-bar-search"
-                      className="text-heading bg-gray-100  p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
-                      placeholder="What are you looking..."
-                      aria-label="top-bar-search"
-                      name="search"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                    />
+                      <input
+                        id="top-bar-search"
+                        className="text-heading bg-white   p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
+                        placeholder="What are you looking..."
+                        aria-label="top-bar-search"
+                        name="search"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
 
-                    <button
-                      type=" submit"
-                      className=" absolute right-5 text-gray-600   "
-                    >
-                      <SearchIcon sx={{ fontSize: 24 }} />
-                    </button>
-                  </label>
-                </form>
-              </div>
-              {suggestions.length > 0 && (
-                <div
-                  ref={suggestionListRef}
-                  className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                >
-                  {suggestions.length > 0 && (
-                    <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
-                      {suggestions.map((suggestion, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleSuggestionSelect(suggestion)}
-                          className="hover:cursor-pointer hover:bg-gray-100 truncate"
-                        >
-                          {highlightMatchedText(suggestion.name, query)}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                      <button
+                        type=" submit"
+                        className=" absolute right-5 text-gray-600   "
+                      >
+                        <SearchIcon sx={{ fontSize: 24 }} />
+                      </button>
+                    </label>
+                  </form>
                 </div>
-              )}
+                {suggestions.length > 0 && (
+                  <div
+                    ref={suggestionListRef}
+                    className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  >
+                    {suggestions.length > 0 && (
+                      <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
+                        {suggestions.map((suggestion, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleSuggestionSelect(suggestion)}
+                            className="hover:cursor-pointer hover:bg-gray-100 truncate"
+                          >
+                            {highlightMatchedText(suggestion.name, query)}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
             <div className="flex  gap-x-6  items-center  ">
               <div className=" ">
-                <Link
-                  href={"/requestproduct/form"}
-                  className="relative hidden lg:flex z-10 lg:top-[1px]"
-                >
-                  <button
-                    type="button"
-                    className="flex justify-center  items-center w-40 py-2 b  shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-[#4252fd]      "
-                  >
-                    <div>
-                      {" "}
-                      <AddCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} />
-                      <span className=" "> Product Request</span>
-                    </div>
-                  </button>
-                </Link>
                 <div
                   className={` ${
                     isHomePage && "hidden"
@@ -482,7 +464,7 @@ export const Header = ({ categories, subCategories }) => {
                 aria-label="cart-button"
               >
                 {cart.cartItems.length > 0 && (
-                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-white md:w-6 md:h-6 text-xs font-bold     bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2  ">
+                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-gray-950 md:w-5 md:h-5 text-xs       bg-white border border-white rounded-full -top-2 -end-2  ">
                     {cart.cartItems.length}
                   </div>
                 )}
@@ -505,6 +487,21 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
+              <Link
+                href={"/requestproduct/form"}
+                className="relative hidden lg:flex z-10 lg:top-[1px]"
+              >
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm rounded-full  text-gray-950 bg-white     "
+                >
+                  <div>
+                    {" "}
+                    {/* <AddCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} /> */}
+                    <span className=" "> Product Request</span>
+                  </div>
+                </button>
+              </Link>
             </div>
           </div>
         </div>

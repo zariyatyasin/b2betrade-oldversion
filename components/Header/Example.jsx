@@ -59,21 +59,21 @@ export default function Example({ categories, subCategories }) {
     setSelectedCategory(null);
   };
   return (
-    <div className="bg-white hidden lg:block  ">
-      <header className="relative bg-white text-gray-950">
+    <div className="  hidden lg:block  ">
+      <header className="relative   text-white">
         <nav aria-label="Top" className="  ">
           <div>
             <div
-              className={`  flex items-center justify-between h-full   border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10`}
+              className={`  flex items-center justify-between h-full  shadow  e top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10`}
             >
               <div className="  mr-5  lg:flex">
                 <div
-                  className="flex   hover:cursor-pointer  py-3 w-full items-center text-sm text-gray-950  relative"
+                  className="flex   hover:cursor-pointer  py-3 w-full items-center text-sm text-white  relative"
                   onMouseEnter={() => setCategoryListOpen(true)}
                   onMouseLeave={leaveMouse}
                 >
                   <MenuOutlinedIcon sx={{ fontSize: "18px" }} />
-                  <div className="ml-2 font-bold ">All Categories</div>
+                  <div className="ml-2  ">All Categories</div>
 
                   <ul
                     className={`absolute z-40   bg-white shadow-lg ring-1 ring-black ring-opacity-5  top-0 z-50 left-0 mt-9 px-2 w-screen max-w-xs sm:px-0 ${
@@ -130,7 +130,7 @@ export default function Example({ categories, subCategories }) {
               <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
-                  className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
+                  className="text-sm flex items-center f text-white mr-2 hover:text-gray-800"
                 >
                   <span> Browse Project</span>
                 </Link>
@@ -140,7 +140,7 @@ export default function Example({ categories, subCategories }) {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
                   <Link
                     href="/list?storeType=supplier"
-                    className="text-sm flex items-center f text-gray-950 mr-2 hover:text-gray-800"
+                    className="text-sm flex items-center f text-white mr-2 hover:text-gray-800"
                   >
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
@@ -150,7 +150,7 @@ export default function Example({ categories, subCategories }) {
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   <Link
                     href="/list?storeType=manufacturer"
-                    className="text-sm flex items-center f text-gray-950 ml-2 hover:text-gray-800"
+                    className="text-sm flex items-center f text-white ml-2 hover:text-gray-800"
                   >
                     <FactoryOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
@@ -166,7 +166,7 @@ export default function Example({ categories, subCategories }) {
                         <Popover.Button
                           className={classNames(
                             open ? "text-gray-900" : "text-gray-500",
-                            "group bg-white rounded-md inline-flex items-centere   text-sm  text-gray-950  "
+                            "group   rounded-md inline-flex items-centere   text-sm  text-white  "
                           )}
                         >
                           <span>Become a Supplier</span>

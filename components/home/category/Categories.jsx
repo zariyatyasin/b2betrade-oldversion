@@ -44,7 +44,7 @@ export const Categories = ({ Category }) => {
         className={styles.swiper}
       >
         {Category.map((category, id) => (
-          <SwiperSlide key={id} className="">
+          <SwiperSlide key={id} className=" bg-none">
             <CategoryCard
               id={category._id}
               icon={category.image}

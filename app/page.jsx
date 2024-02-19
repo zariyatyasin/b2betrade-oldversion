@@ -67,18 +67,16 @@ export default async function Home({ searchParams }) {
       {/* 
       <HeaderPolicy /> */}
 
-      <div className=" pt-20 lg:pt-32 max-w-[1600px]  mx-auto">
+      <div className="  max-w-[1600px]  mx-auto">
         <Main data={homeHero} />
         <Categories Category={categories} />
 
         {/* <Tabs /> */}
         {/* <FlashDeals /> */}
 
-        <NewProducts products={newProduct} name={"New Arrival"} />
-
         {/* <Discount /> */}
       </div>
-
+      <NewProducts products={newProduct} name={"New Arrival"} />
       <Footer />
       {/* <MobileMenu categories={categories} subCategories={subCategories} /> */}
     </>
