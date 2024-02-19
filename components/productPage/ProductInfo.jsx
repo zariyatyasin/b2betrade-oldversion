@@ -506,25 +506,23 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
           </svg>
         </Link> */}
 
-        <div className="text-xl font-bold  text-[#2B39D1] sm:ml-6 relative order-1 sm:hidden   sm:order-3">
+        <div className="text-xl font-bold  text-[#2B39D1] sm:ml-6 relative    sm:hidden    ">
           ৳{formatPrice(totalPrice)}
         </div>
-        <div className="hidden lg:block sm:ml-6 order-1    sm:order-3">
-          <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
-        </div>
-        <div className=" order-2 flex items-center">
+
+        <div className="  flex items-center">
           <Button
             disabled={10000 < 1}
             onClick={openModal}
             type="button"
-            className="bg-white border-[#2B39D1]  rounded-full text-xs border text-[#2B39D1] order-2 mr-2 sm:order-2"
+            className="bg-white border-[#2B39D1]  rounded-full text-xs border text-[#2B39D1]   mr-2  "
           >
             Send Inquiry
           </Button>
           <Button
             disabled={10000 < 1 || loading}
             type="button"
-            className="bg-[#2B39D1] ease-in-out text-xs order-3 rounded-full sm:order-1 hover:bg-[#2B39D1]   focus:bg-[#2B39D1] "
+            className="bg-[#2B39D1] ease-in-out text-xs order-3 rounded-full   hover:bg-[#2B39D1]   focus:bg-[#2B39D1] "
             onClick={() => addToCartHandler()}
           >
             {loading ? (
@@ -533,6 +531,9 @@ const ProductInfo = ({ product, setActiveImg, params }) => {
               "Add to Cart"
             )}
           </Button>
+        </div>
+        <div className="hidden lg:block sm:ml-6     ">
+          <FavoriteBorderOutlinedIcon sx={{ fontSize: 32 }} />
         </div>
       </div>
 

@@ -1,814 +1,161 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { HeaderWithOutCat } from "../../components/Header/HeaderWithOutCat";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
-import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
-import Link from "next/link";
-import Footer from "../../components/Footer/Footer";
-const validationSchema = Yup.object({
-  phoneNumber: Yup.string()
-    .required("Phone Number is required")
-    .matches(
-      /^(01)\d{9}$/,
-      "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
-    ),
-});
-
-const Page = () => {
-  const session = useSession();
-  const params = useSearchParams();
-  const [isRegistering, setIsRegistering] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [providers, setProviders] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [password, setpassword] = useState();
-  const [otp, setOtp] = useState("");
-  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
-  const [enteredOtp, setEnteredOtp] = useState("");
-
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      const callbackUrl = params.get("callbackUrl");
-      if (callbackUrl) {
-        redirect(callbackUrl);
-      } else {
-        redirect("/");
-      }
-    }
-  }, [session]);
-  useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      setProviders(res);
-    })();
-  }, []);
-
-  const handleOtpSend = async () => {
-    // Generate OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000);
-    setOtp(generatedOtp);
-    const apiKey = "vUg6OOv4uFlo7WIfkgwC";
-    const senderId = "8809617615565";
-
-    // try {
-
-    //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
-    //     api_key: apiKey,
-    //     senderid: senderId,
-    //     messages: [
-    //       {
-    //         to: phoneNumber,
-    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-    //       },
-    //     ],
-    //   });
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-
-    // }
-  };
-
-  console.log(otp, enteredOtp);
-  const handleVerifyOtp = () => {
-    if (otp === parseInt(enteredOtp)) {
-      setRegistrationSuccessful(true);
-    } else {
-      setRegistrationSuccessful(false);
-    }
-  };
-  console.log(registrationSuccessful);
-  const loginHandle = async (values, callbackUrl) => {
-    const { phoneNumber, password } = values;
-    let options = {
-      redirect: false,
-      phoneNumber: phoneNumber,
-      password: password,
-    };
-    try {
-      setLoading(true);
-      const result = await signIn("credentials", options);
-
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setSuccess("User signed in successfully!");
-
-        return result;
-      }
-    } catch (error) {
-      setError(error.message || "An error occurred during sign-in.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const registerHandle = async (values) => {
-    const { phoneNumber, password, fullName } = values;
-
-    try {
-      setLoading(true);
-      const res = await fetch("api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber,
-          password,
-          name: fullName,
-        }),
-      });
-
-      if (!res.ok) {
-        setLoading(false);
-        const data = await res.json();
-        setError(data.message);
-      }
-      let options = {
-        redirect: false,
-        phoneNumber: phoneNumber,
-        password: password,
-      };
-      await signIn("credentials", options);
-
-      const data = await res.json();
-
-      return data;
-    } catch (error) {
-      setError(error.message || "An error occurred during registration.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (values) => {
-    const { phoneNumber, password } = values;
-
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/auth/register/exsituser", {
-        phoneNumber,
-      });
-
-      if (response.data.type === "login") {
-        setIsRegistering(true);
-        setSuccess(response.data.message);
-      } else if (response.data.type === "register") {
-        setIsRegistering(false);
-        handleOtpSend();
-        setSuccess(response.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleSignInClick = (event) => {
-    event.preventDefault();
-
-    location.reload();
-  };
-
-  return (
-    <div>
-      <HeaderWithOutCat />
-      {loading && <FullScreenLoading />}
-      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-xl mb-8 font-bold text-gray-900">
-            {isRegistering
-              ? "Sign In"
-              : isRegistering === false
-              ? "Register"
-              : "Sign In/Register"}
-          </h2>
-        </div>
-
-        <div className="  sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <Formik
-              initialValues={{
-                phoneNumber: "",
-                fullName: "", // Add new field for full name
-                password: "", // Add new field for password
-              }}
-              validationSchema={validationSchema}
-              onSubmit={(values) => {
-                if (isRegistering === null) {
-                  handleSubmit(values);
-                } else {
-                  isRegistering ? loginHandle(values) : registerHandle(values);
-                }
-              }}
-              enableReinitialize
-              validateOnChange
-            >
-              {({ errors, touched, setFieldValue }) => (
-                <Form className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="phoneNumber"
-                      className="block text-sm font-medium text-gray-900"
-                    >
-                      Phone Number
-                    </label>
-                    <div className="mt-1">
-                      <Field
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        autoComplete="phoneNumber"
-                        required
-                        className={`appearance-none block w-full px-3 py-2 border ${
-                          errors.phoneNumber && touched.phoneNumber
-                            ? "border-red-500"
-                            : "border-gray-200"
-                        } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                      />
-                    </div>
-                    <ErrorMessage
-                      name="phoneNumber"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  {isRegistering !== null && (
-                    <>
-                      {isRegistering ? (
-                        <div>
-                          <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-900"
-                          >
-                            Password
-                          </label>
-                          <div className="mt-1">
-                            <Field
-                              id="password"
-                              name="password"
-                              type="password"
-                              autoComplete="new-password"
-                              required
-                              className={`appearance-none block w-full px-3 py-2 border ${
-                                errors.password && touched.password
-                                  ? "border-red-500"
-                                  : "border-gray-200"
-                              } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                            />
-                          </div>
-                          <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                          <Link
-                            href={"/contact"}
-                            className=" text-xs text-gray-500 mt-2"
-                          >
-                            Forget Password?
-                          </Link>
-
-                          <label
-                            htmlFor="remember-me"
-                            className=" text-xs block  mt-2 text-gray-500"
-                          >
-                            Don&apos;t have account?
-                            <span
-                              className="ml-1  font-medium hover:cursor-pointer"
-                              onClick={handleSignInClick}
-                            >
-                              Create one
-                            </span>
-                          </label>
-                        </div>
-                      ) : (
-                        <>
-                          {registrationSuccessful ? (
-                            <div>
-                              <div>
-                                <label
-                                  htmlFor="fullName"
-                                  className="block text-sm font-medium text-gray-900"
-                                >
-                                  Full Name
-                                </label>
-                                <div className="mt-1">
-                                  <Field
-                                    id="fullName"
-                                    name="fullName"
-                                    type="text"
-                                    autoComplete="name"
-                                    required
-                                    className={`appearance-none block w-full px-3 py-2 border ${
-                                      errors.fullName && touched.fullName
-                                        ? "border-red-500"
-                                        : "border-gray-200"
-                                    } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                                  />
-                                </div>
-                                <ErrorMessage
-                                  name="fullName"
-                                  component="div"
-                                  className="text-red-500 text-sm"
-                                />
-                              </div>
-
-                              <div>
-                                <label
-                                  htmlFor="password"
-                                  className="block text-sm font-medium text-gray-900"
-                                >
-                                  Password
-                                </label>
-                                <div className="mt-1">
-                                  <Field
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="new-password"
-                                    required
-                                    className={`appearance-none block w-full px-3 py-2 border ${
-                                      errors.password && touched.password
-                                        ? "border-red-500"
-                                        : "border-gray-200"
-                                    } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                                  />
-                                </div>
-                                <ErrorMessage
-                                  name="password"
-                                  component="div"
-                                  className="text-red-500 text-sm"
-                                />
-                                <label
-                                  htmlFor="remember-me"
-                                  className=" block text-sm mt-2 text-gray-900"
-                                >
-                                  Alredy have account?
-                                  <span
-                                    className="ml-1  font-medium hover:cursor-pointer"
-                                    onClick={handleSignInClick}
-                                  >
-                                    Sign in now
-                                  </span>
-                                </label>
-                              </div>
-                            </div>
-                          ) : (
-                            <div>
-                              <div className="   ">
-                                <div className="  mx-auto">
-                                  <div className=" ">
-                                    <div className="w-full">
-                                      <div className="bg-white h-64 py-3 rounded text-center">
-                                        <h1 className="text-2xl font-bold">
-                                          OTP Verification
-                                        </h1>
-                                        <div className="flex flex-col mt-4">
-                                          <span>
-                                            Enter the OTP you received
-                                          </span>
-                                        </div>
-
-                                        {/* OTP input fields */}
-                                        <div
-                                          id="otp"
-                                          className="flex flex-row justify-center text-center px-2 mt-5"
-                                        >
-                                          {[...Array(6)].map((_, index) => (
-                                            <input
-                                              key={index}
-                                              className="m-2 border h-10 w-10 text-center form-control rounded"
-                                              type="text"
-                                              maxLength="1"
-                                              value={enteredOtp[index] || ""}
-                                              onChange={(e) => {
-                                                const newOtp = [...enteredOtp];
-                                                newOtp[index] = e.target.value;
-                                                setEnteredOtp(newOtp.join(""));
-                                              }}
-                                            />
-                                          ))}
-                                          ç
-                                        </div>
-
-                                        <div className="flex justify-center text-center mt-5">
-                                          <div
-                                            className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"
-                                            onClick={handleVerifyOtp}
-                                          >
-                                            <span className="font-bold">
-                                              Verify OTP
-                                            </span>
-                                            <i className="bx bx-caret-right ml-1"></i>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#2B39D1] hover:bg-[#2B39D1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                    disabled={loading}
-                  >
-                    {loading ? "Loading..." : "CONTINUE"}
-                  </button>
-
-                  {error && <div className="text-red-500 text-sm">{error}</div>}
-                  {success && (
-                    <div className="text-green-500 text-sm">{success}</div>
-                  )}
-                </Form>
-              )}
-            </Formik>
+<div className="  mx-auto w-full   overflow-hidden">
+  <div className="absolute top-1/2   w-full  left-10  transform -translate-y-1/2 text-white   z-20 user-select-none">
+    <div className=" max-w-7xl   mx-auto ">
+      <div className="  max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
+        <div className="lg:py-24">
+          <a
+            href="#"
+            className="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
+          >
+            <span className="px-3 flex items-center py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-[#2B39D1] rounded-full">
+              <PlayCircleIcon sx={{ fontSize: 14 }} />{" "}
+              <span className=" ml-1">Watch</span>
+            </span>
+            <span className="ml-4 text-sm">Learn about B2BeTrade</span>
+          </a>
+          <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5  lg:mt-6 lg:text-4xl">
+            <span className="block">B2B Wholesale</span>
+            <p className="block">
+              Where Every Request
+              <span className=" ml-2 text-indigo-400">Sparks a Bid!</span>
+            </p>
+          </h1>
+          <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+            চাহিদা আছে? বিড আছে! B2B হোলসেলের সেরা ডিল এখানে।আমরা বিশ্বাস করি যে
+            প্রতিটি ব্যবসা সেরা ডিল পাওয়ার যোগ্য। আমাদের বিডিং সিস্টেমের
+            মাধ্যমে, আপনি আপনার চাহিদা পূরণকারী সরবরাহকারীদের সাথে সরাসরি সংযোগ
+            স্থাপন করতে পারেন
+          </p>
+          <div className="mt-10 sm:mt-12 flex gap-5">
+            <div className="flex items-center">
+              Trending Search <TrendingUpOutlinedIcon />:
+            </div>
+            <div className=" border border-white py-1 text-sm px-4 rounded-full">
+              T-shirt
+            </div>
+            <div className=" border border-white py-1 text-sm px-4  rounded-full">
+              Iphone 14 pro
+            </div>
+            <div className=" border border-white py-1 text-sm px-4 rounded-full">
+              Bottle
+            </div>
           </div>
+          {/* <div className="mt-10 sm:mt-12">
+          <form
+            action="#"
+            className="sm:max-w-xl sm:mx-auto lg:mx-0"
+          >
+            <div className="sm:flex">
+              <div className="min-w-0 flex-1">
+                <label htmlFor="email" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  className="block w-full px-4 py-3 rounded-md border-0 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:ring-offset-gray-900"
+                />
+              </div>
+              <div className="mt-3 sm:mt-0 sm:ml-3">
+                <button
+                  type="submit"
+                  className="block w-full py-3 px-4 rounded-md shadow bg-indigo-500 text-white font-medium hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300 focus:ring-offset-gray-900"
+                >
+                  Start free trial
+                </button>
+              </div>
+            </div>
+            <p className="mt-3 text-sm text-gray-300 sm:mt-4">
+              Start your free 14-day trial, no credit card
+              necessary. By providing your email, you agree to our{" "}
+              <a href="#" className="font-medium text-white">
+                terms of service
+              </a>
+              .
+            </p>
+          </form>
+        </div> */}
         </div>
       </div>
-      <Footer />
     </div>
-  );
-};
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r max-h-[700px] from-black to-transparent  z-10"></div>
 
-export default Page;
-
-
-
-
-
-
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { HeaderWithOutCat } from "../../components/Header/HeaderWithOutCat";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import axios from "axios";
-import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
-import Link from "next/link";
-import Footer from "../../components/Footer/Footer";
-const validationSchema = Yup.object({
-  phoneNumber: Yup.string()
-    .required("Phone Number is required")
-    .matches(
-      /^(01)\d{9}$/,
-      "Invalid phoneNumber number. It should start with '0' and have a total of 11 digits."
-    ),
-});
-
-const Page = () => {
-  const session = useSession();
-  const params = useSearchParams();
-  const [isRegistering, setIsRegistering] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [providers, setProviders] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [password, setpassword] = useState();
-
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      const callbackUrl = params.get("callbackUrl");
-      if (callbackUrl) {
-        redirect(callbackUrl);
-      } else {
-        redirect("/");
+  <Swiper
+    slidesPerView={1}
+    spaceBetween={30}
+    loop={true}
+    pagination={{
+      clickable: true,
+    }}
+    autoplay={{
+      delay: 2500,
+      disableOnInteraction: false,
+    }}
+    navigation={true}
+    modules={[Pagination, Navigation, Autoplay]}
+    className={styles.swiper}
+  >
+    {data.map((item, id) => {
+      if (item.active && item.heroImageSide === "none") {
+        return item.images.map((image, index) => (
+          <SwiperSlide key={`${id}-${index}`}>
+            <img
+              src={modifyImageUrl(image.url)}
+              alt={item.title}
+              className="w-full max-h-[700px] " // Adjust the class for full-width image
+            />
+          </SwiperSlide>
+        ));
       }
-    }
-  }, [session]);
-  useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      setProviders(res);
-    })();
-  }, []);
-  const loginHandle = async (values, callbackUrl) => {
-    const { phoneNumber, password } = values;
-    let options = {
-      redirect: false,
-      phoneNumber: phoneNumber,
-      password: password,
-    };
-    try {
-      setLoading(true);
-      const result = await signIn("credentials", options);
+      return null;
+    })}
+  </Swiper>
+</div>;
+{
+  /* <section
+        className="relative bg-cover bg-center bg-no-repeat   h-[700px]"
+        style={{
+          backgroundImage: `url(${data[0]?.images[0]?.url})`,
+        }}
+      >
+      
 
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        setSuccess("User signed in successfully!");
+     
 
-        return result;
-      }
-    } catch (error) {
-      setError(error.message || "An error occurred during sign-in.");
-    } finally {
-      setLoading(false);
-    }
-  };
+        <div className="absolute inset-0 bg-gradient-to-r   from-black to-transparent   "></div>
+        <div class="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
+          <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+            <h1 class="text-3xl font-extrabold sm:text-5xl">
+              Let us find your
+              <strong class="block font-extrabold text-rose-700">
+                {" "}
+                Forever Home.{" "}
+              </strong>
+            </h1>
 
-  const registerHandle = async (values) => {
-    const { phoneNumber, password, fullName } = values;
+            <p class="mt-4 max-w-lg sm:text-xl/relaxed">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt
+              illo tenetur fuga ducimus numquam ea!
+            </p>
 
-    try {
-      setLoading(true);
-      const res = await fetch("api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber,
-          password,
-          name: fullName,
-        }),
-      });
+            <div class="mt-8 flex flex-wrap gap-4 text-center">
+              <a
+                href="#"
+                class="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
+              >
+                Get Started
+              </a>
 
-      if (!res.ok) {
-        setLoading(false);
-        const data = await res.json();
-        setError(data.message);
-      }
-      let options = {
-        redirect: false,
-        phoneNumber: phoneNumber,
-        password: password,
-      };
-      await signIn("credentials", options);
-
-      const data = await res.json();
-
-      return data;
-    } catch (error) {
-      setError(error.message || "An error occurred during registration.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async () => {
-  
-
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/auth/register/exsituser", {
-        phoneNumber,
-      });
-
-      if (response.data.type === "login") {
-        setIsRegistering(true);
-        setSuccess(response.data.message);
-      } else if (response.data.type === "register") {
-        setIsRegistering(false);
-        setSuccess(response.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleSignInClick = (event) => {
-    event.preventDefault();
-
-    location.reload();
-  };
-
-  return (
-    <div>
-      <HeaderWithOutCat />
-      {loading && <FullScreenLoading />}
-      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-xl mb-8 font-bold text-gray-900">
-            {isRegistering
-              ? "Sign In"
-              : isRegistering === false
-              ? "Register"
-              : "Sign In/Register"}
-          </h2>
-        </div>
-
-        <div className="  sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <Formik
-              initialValues={{
-                phoneNumber: "",
-                fullName: "", // Add new field for full name
-                password: "", // Add new field for password
-              }}
-              validationSchema={validationSchema}
-              onSubmit={(values) => {
-                if (isRegistering === null) {
-                  handleSubmit(values);
-                } else {
-                  isRegistering ? loginHandle(values) : registerHandle(values);
-                }
-              }}
-              enableReinitialize
-              validateOnChange
-            >
-              {({ errors, touched, setFieldValue }) => (
-                <Form className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="phoneNumber"
-                      className="block text-sm font-medium text-gray-900"
-                    >
-                      Phone Number
-                    </label>
-                    <div className="mt-1">
-                      <Field
-                        id="phoneNumber"
-                        name="phoneNumber"
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        autoComplete="phoneNumber"
-                        required
-                        className={`appearance-none block w-full px-3 py-2 border ${
-                          errors.phoneNumber && touched.phoneNumber
-                            ? "border-red-500"
-                            : "border-gray-200"
-                        } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                      />
-                    </div>
-                    <ErrorMessage
-                      name="phoneNumber"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
-                  {isRegistering !== null && (
-                    <>
-                      {isRegistering ? (
-                        <div>
-                          <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-900"
-                          >
-                            Password
-                          </label>
-                          <div className="mt-1">
-                            <Field
-                              id="password"
-                              name="password"
-                              type="password"
-                              autoComplete="new-password"
-                              required
-                              className={`appearance-none block w-full px-3 py-2 border ${
-                                errors.password && touched.password
-                                  ? "border-red-500"
-                                  : "border-gray-200"
-                              } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                            />
-                          </div>
-                          <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                          <Link
-                            href={"/contact"}
-                            className=" text-xs text-gray-500 mt-2"
-                          >
-                            Forget Password?
-                          </Link>
-
-                          <label
-                            htmlFor="remember-me"
-                            className=" text-xs block  mt-2 text-gray-500"
-                          >
-                            Don&apos;t have account?
-                            <span
-                              className="ml-1  font-medium hover:cursor-pointer"
-                              onClick={handleSignInClick}
-                            >
-                              Create one
-                            </span>
-                          </label>
-                        </div>
-                      ) : (
-                        <>
-                          <div>
-                            <label
-                              htmlFor="fullName"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Full Name
-                            </label>
-                            <div className="mt-1">
-                              <Field
-                                id="fullName"
-                                name="fullName"
-                                type="text"
-                                autoComplete="name"
-                                required
-                                className={`appearance-none block w-full px-3 py-2 border ${
-                                  errors.fullName && touched.fullName
-                                    ? "border-red-500"
-                                    : "border-gray-200"
-                                } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                              />
-                            </div>
-                            <ErrorMessage
-                              name="fullName"
-                              component="div"
-                              className="text-red-500 text-sm"
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              htmlFor="password"
-                              className="block text-sm font-medium text-gray-900"
-                            >
-                              Password
-                            </label>
-                            <div className="mt-1">
-                              <Field
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="new-password"
-                                required
-                                className={`appearance-none block w-full px-3 py-2 border ${
-                                  errors.password && touched.password
-                                    ? "border-red-500"
-                                    : "border-gray-200"
-                                } shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                              />
-                            </div>
-                            <ErrorMessage
-                              name="password"
-                              component="div"
-                              className="text-red-500 text-sm"
-                            />
-                            <label
-                              htmlFor="remember-me"
-                              className=" block text-sm mt-2 text-gray-900"
-                            >
-                              Alredy have account?
-                              <span
-                                className="ml-1  font-medium hover:cursor-pointer"
-                                onClick={handleSignInClick}
-                              >
-                                Sign in now
-                              </span>
-                            </label>
-                          </div>
-                        </>
-                      )}
-                    </>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#2B39D1] hover:bg-[#2B39D1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                    disabled={loading}
-                  >
-                    {loading ? "Loading..." : "CONTINUE"}
-                  </button>
-
-                  {error && <div className="text-red-500 text-sm">{error}</div>}
-                  {success && (
-                    <div className="text-green-500 text-sm">{success}</div>
-                  )}
-                </Form>
-              )}
-            </Formik>
+              <a
+                href="#"
+                class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+              >
+                Learn More
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <Footer />
-    </div>
-  );
-};
-
-export default Page;
+      </section> */
+}
