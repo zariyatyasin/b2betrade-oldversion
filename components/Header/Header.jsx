@@ -64,11 +64,12 @@ export const Header = ({ categories, subCategories }) => {
   const [selected, setSelected] = useState(publishingOptions[0]);
   const [isModalOpen, setModalOpen] = useState(false);
   const pathname = usePathname();
+  const [scrollPosition, setScrollPosition] = useState(0);
 
+  const isHomePage = pathname === "/";
   const { cart } = useSelector((state) => ({ ...state }));
   const suggestionListRef = useRef();
-  const isHomePage = pathname === "/";
-  // Add this code inside your component
+
   useEffect(() => {
     const searchParam = searchParams.get("productType");
     if (searchParam) {
@@ -105,6 +106,21 @@ export const Header = ({ categories, subCategories }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isHomePage) {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const handleSuggestionSelect = (suggestion) => {
     setQuery(suggestion.name);
     setSuggestions([]);
@@ -273,13 +289,21 @@ export const Header = ({ categories, subCategories }) => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
-      <div className="      fixed w-full  z-40 top-0 ">
+      <div
+        className={` ${
+          scrollPosition > 0 && isHomePage
+            ? "bg-[#2B39D1]"
+            : isHomePage
+            ? "bg-transparent"
+            : "bg-[#2B39D1]"
+        }    fixed w-full  z-40 top-0  transition-all duration-300  `}
+      >
         <div className="flex items-center justify-between py-3 lg:py-3      top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
           <div className="flex flex-1 items-center  ">
             <GobackPage />
             <div
               onClick={() => setOpen(true)}
-              className={` text-gray-950 ${
+              className={` text-white ${
                 isHomePage ? "flex" : "hidden"
               } lg:hidden`}
             >

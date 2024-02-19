@@ -36,7 +36,12 @@ export default function BrowsePage({
   const pathname = usePathname();
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   function checkChecked(queryName, value) {
     if (searchParams.get(queryName)?.search(value) !== -1) {
       return true;
@@ -513,6 +518,25 @@ export default function BrowsePage({
           </main>
         </div>
       </div>
+      <button
+        onClick={scrollToTop}
+        className="fixed bottom-8 right-8 bg-blue-500 text-white rounded-full p-2 shadow-md hover:bg-blue-600 focus:outline-none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 10l7-7m0 0l7 7m-7-7v18"
+          />
+        </svg>
+      </button>
     </div>
   );
 }

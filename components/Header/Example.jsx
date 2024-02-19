@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -14,6 +14,7 @@ import { categoriesAndSub } from "../../data/CategoriesAndSub";
 
 import { Navigation } from "../../data/Navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 const solutions = [
   {
     name: "Become a Supplier",
@@ -54,21 +55,50 @@ export default function Example({ categories, subCategories }) {
   const [isCategoryListOpen, setCategoryListOpen] = useState(false);
   const [isSubCategoryListOpen, setSubCategoryListOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const leaveMouse = () => {
     setCategoryListOpen(false);
     setSelectedCategory(null);
   };
+  const [scrollPosition, setScrollPosition] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isHomePage) {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <div className="  hidden lg:block  ">
-      <header className="relative   text-white">
+    <div
+      className={` ${
+        scrollPosition > 0
+          ? "hidden"
+          : isHomePage
+          ? "lg:block bg-transparent"
+          : "lg:block bg-white "
+      } hidden  `}
+    >
+      <header
+        className={`relative  ${isHomePage ? "text-white" : "text-gray-950"} `}
+      >
         <nav aria-label="Top" className="  ">
           <div>
             <div
-              className={`  flex items-center justify-between h-full  shadow  e top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10`}
+              className={`  flex items-center justify-between h-full  ${
+                isHomePage ? " shadow-none" : "shadow"
+              }  shadow  e top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10`}
             >
               <div className="  mr-5  lg:flex">
                 <div
-                  className="flex   hover:cursor-pointer  py-3 w-full items-center text-sm text-white  relative"
+                  className="flex   hover:cursor-pointer  py-3 w-full items-center text-sm   relative"
                   onMouseEnter={() => setCategoryListOpen(true)}
                   onMouseLeave={leaveMouse}
                 >
@@ -83,7 +113,7 @@ export default function Example({ categories, subCategories }) {
                     {categories?.map((category) => (
                       <li
                         key={category.name}
-                        className="flex z-40 relative items-center justify-between p-4 hover:bg-gray-50 transition ease-in-out duration-150"
+                        className="flex z-40 relative items-center justify-between p-4   transition ease-in-out duration-150"
                         onMouseEnter={() => setSelectedCategory(category?._id)}
                       >
                         <div className="ml-4">
@@ -130,7 +160,7 @@ export default function Example({ categories, subCategories }) {
               <div className="hidden lg:flex  lg:items-center  mr-5 ">
                 <Link
                   href="/browse/buyerrequest"
-                  className="text-sm flex items-center f text-white mr-2 hover:text-gray-800"
+                  className="text-sm flex items-center f  mr-2 "
                 >
                   <span> Browse Project</span>
                 </Link>
@@ -140,17 +170,17 @@ export default function Example({ categories, subCategories }) {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end  ">
                   <Link
                     href="/list?storeType=supplier"
-                    className="text-sm flex items-center f text-white mr-2 hover:text-gray-800"
+                    className="text-sm flex items-center f  mr-2 "
                   >
                     <PersonOutlineOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
                     />
                     <span> Supplier</span>
                   </Link>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                  <span className="h-6 w-px bg-whitte" aria-hidden="true" />
                   <Link
                     href="/list?storeType=manufacturer"
-                    className="text-sm flex items-center f text-white ml-2 hover:text-gray-800"
+                    className="text-sm flex items-center f  ml-2 "
                   >
                     <FactoryOutlinedIcon
                       sx={{ fontSize: "18px", marginRight: 1 }}
@@ -165,8 +195,8 @@ export default function Example({ categories, subCategories }) {
                       <>
                         <Popover.Button
                           className={classNames(
-                            open ? "text-gray-900" : "text-gray-500",
-                            "group   rounded-md inline-flex items-centere   text-sm  text-white  "
+                            open ? " " : " ",
+                            "group   rounded-md inline-flex items-centere   text-sm    "
                           )}
                         >
                           <span>Become a Supplier</span>
