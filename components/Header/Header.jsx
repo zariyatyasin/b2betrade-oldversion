@@ -37,9 +37,19 @@ const publishingOptions = [
   //   current: true,
   // },
   {
-    title: "B2B",
+    title: "Products",
     description: "Tailored for business-to-business interactions.",
     current: true,
+  },
+  {
+    title: "Suppliers",
+    description: "Tailored for business-to-business interactions.",
+    current: false,
+  },
+  {
+    title: "Manufacturer",
+    description: "Tailored for business-to-business interactions.",
+    current: false,
   },
   // {
   //   title: "B2C",
@@ -136,13 +146,13 @@ export const Header = ({ categories, subCategories }) => {
   };
   const handleSelectionChange = (option) => {
     setSelected(option);
-    if (option.title) {
-      if (option.title === publishingOptions[0].title) {
-        router.push(`?productType= `);
-      } else {
-        router.push(`?productType=${option.title}`);
-      }
-    }
+    // if (option.title) {
+    //   if (option.title === publishingOptions[0].title) {
+    //     router.push(`?productType= `);
+    //   } else {
+    //     router.push(`?productType=${option.title}`);
+    //   }
+    // }
   };
   const handleInputFocus = () => {
     setModalOpen(true);
@@ -314,7 +324,9 @@ export const Header = ({ categories, subCategories }) => {
               className="inline-block focus:outline-none  text-white font-bold text-xl md:text-2xl max-w-[131px] "
             >
               B2B
-              <span className=" text-white text-xl md:text-2xl">eTrade</span>
+              <span className={`   text-[#FFD700] text-xl md:text-2xl`}>
+                eTrade
+              </span>
             </Link>
             <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
               <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
@@ -329,85 +341,90 @@ export const Header = ({ categories, subCategories }) => {
                       htmlFor="top-bar-search"
                       className="flex flex-1 items-center py-0.5 relative"
                     >
-                      {/* <Listbox value={selected} onChange={handleSelectionChange}>
-                      {({ open }) => (
-                        <div className="">
-                          <div className="relative ">
-                            <div className="inline-flex h-11 shadow-sm rounded-md   ">
-                              <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
-                                <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-md shadow-sm text-white">
-                                  <p className="ml-2.5 text-sm font-medium">
-                                    {selected.title}
-                                  </p>
+                      <Listbox
+                        value={selected}
+                        onChange={handleSelectionChange}
+                      >
+                        {({ open }) => (
+                          <div className=" absolute">
+                            <div className="relative ">
+                              <div className="inline-flex h-11 shadow-sm rounded-md   ">
+                                <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
+                                  <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-full shadow-sm text-white">
+                                    <p className="ml-2.5 text-sm font-medium">
+                                      {selected.title}
+                                    </p>
+                                  </div>
+                                  <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
+                                    <KeyboardArrowDownOutlinedIcon />
+                                  </Listbox.Button>
                                 </div>
-                                <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
-                                  <KeyboardArrowDownOutlinedIcon />
-                                </Listbox.Button>
                               </div>
-                            </div>
 
-                            <Transition
-                              show={open}
-                              as={Fragment}
-                              leave="transition ease-in duration-100"
-                              leaveFrom="opacity-100"
-                              leaveTo="opacity-0"
-                            >
-                              <Listbox.Options className="origin-top-right absolute z-10 right-0 mt-2 w-72 rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                {publishingOptions.map((option) => (
-                                  <Listbox.Option
-                                    key={option.title}
-                                    className={({ active }) =>
-                                      classNames(
-                                        active
-                                          ? "text-white bg-[#FFD700] "
-                                          : " text-gray-950",
-                                        "cursor-default select-none relative p-4 text-sm"
-                                      )
-                                    }
-                                    value={option}
-                                  >
-                                    {({ selected, active }) => (
-                                      <div className="flex flex-col">
-                                        <div className="flex justify-between">
-                                          <p
-                                            className={
-                                              selected
-                                                ? "font-semibold"
-                                                : "font-normal"
-                                            }
-                                          >
-                                            {option.title}
-                                          </p>
-                                          {selected ? (
-                                            <span
+                              <Transition
+                                show={open}
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Listbox.Options
+                                  className="origin-top-right absolute z-10 right-0 mt-2 w-36
+                                  rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                >
+                                  {publishingOptions.map((option) => (
+                                    <Listbox.Option
+                                      key={option.title}
+                                      className={({ active }) =>
+                                        classNames(
+                                          active
+                                            ? "   text-gray-950 font-bold "
+                                            : " text-gray-950",
+                                          "cursor-default select-none relative p-4 text-sm"
+                                        )
+                                      }
+                                      value={option}
+                                    >
+                                      {({ selected, active }) => (
+                                        <div className="flex flex-col">
+                                          <div className="flex justify-between">
+                                            <p
                                               className={
-                                                active
-                                                  ? "text-white"
-                                                  : "text-gray-900"
+                                                selected
+                                                  ? "font-semibold"
+                                                  : "font-normal"
                                               }
                                             >
-                                              <CheckOutlinedIcon />
-                                            </span>
-                                          ) : null}
+                                              {option.title}
+                                            </p>
+                                            {selected ? (
+                                              <span
+                                                className={
+                                                  active
+                                                    ? " text-gray-950 font-bold"
+                                                    : "text-gray-900"
+                                                }
+                                              >
+                                                <CheckOutlinedIcon
+                                                  sx={{ fontSize: 18 }}
+                                                />
+                                              </span>
+                                            ) : null}
+                                          </div>
                                         </div>
-                                        <p className={classNames("mt-2")}>
-                                          {option.description}
-                                        </p>
-                                      </div>
-                                    )}
-                                  </Listbox.Option>
-                                ))}
-                              </Listbox.Options>
-                            </Transition>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </Transition>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Listbox> */}
+                        )}
+                      </Listbox>
 
                       <input
                         id="top-bar-search"
-                        className="text-heading bg-white   p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
+                        className="text-heading bg-white   p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px  pl-32   transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
                         placeholder="What are you looking..."
                         aria-label="top-bar-search"
                         name="search"
