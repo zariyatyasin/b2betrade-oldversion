@@ -61,7 +61,7 @@ async function getData({ searchParams }) {
   };
 }
 
-export default async function page({ searchParams }) {
+export default async function Page({ searchParams }) {
   const { products, categories, locations, subCategories } = await getData({
     searchParams,
   });

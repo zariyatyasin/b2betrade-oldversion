@@ -10,7 +10,7 @@ import axios from "axios";
 import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
 import Link from "next/link";
 
-import Model from "./Model";
+import Model from "../../components/modelUi/Model";
 const Page = () => {
   const session = useSession();
   const params = useSearchParams();
@@ -275,7 +275,7 @@ const Page = () => {
                 )}
                 {!/^01/.test(phoneNumber) && phoneNumber.length === 11 && (
                   <p className="text-red-500 text-sm mt-1">
-                    Phone number must start with "01"
+                    Phone number must start with 01
                   </p>
                 )}
 

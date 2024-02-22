@@ -40,7 +40,7 @@ async function getData({ params }) {
   };
 }
 
-export default async function page({ params }) {
+export default async function Page({ params }) {
   const { session, requestProductDetails, sellerRequest, sellerRequestBid } =
     await getData({
       params,

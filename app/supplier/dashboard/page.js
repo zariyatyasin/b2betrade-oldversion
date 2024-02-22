@@ -66,7 +66,7 @@ async function getData() {
   };
 }
 
-export default async function page() {
+export default async function Page() {
   const {
     totalOrdersCount,
     statusCounts,

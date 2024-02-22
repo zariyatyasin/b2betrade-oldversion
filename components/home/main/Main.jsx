@@ -22,7 +22,6 @@ export default function Main({ data }) {
   };
   const activeImages = data.filter((item) => item.active);
 
-  console.log(activeImages);
   return (
     <div className="relative   ">
       {/* <div className="xl:flex md:pb-2.5 mb-12 lg:mb-6    ">
@@ -214,11 +213,17 @@ export default function Main({ data }) {
                   </p>
                 </h1>
                 <p className="mt-3  text-sm text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                  চাহিদা আছে? B2B হোলসেলের সেরা ডিল এখানে।আমরা বিশ্বাস করি যে
+                  প্রতিটি ব্যবসা সেরা ডিল পাওয়ার যোগ্য। সিস্টেমের মাধ্যমে, আপনি
+                  আপনার চাহিদা পূরণকারী সরবরাহকারীদের সাথে সরাসরি সংযোগ স্থাপন
+                  করতে পারেন
+                </p>
+                {/* <p className="mt-3  text-sm text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                   চাহিদা আছে? বিড আছে! B2B হোলসেলের সেরা ডিল এখানে।আমরা বিশ্বাস
                   করি যে প্রতিটি ব্যবসা সেরা ডিল পাওয়ার যোগ্য। আমাদের বিডিং
                   সিস্টেমের মাধ্যমে, আপনি আপনার চাহিদা পূরণকারী সরবরাহকারীদের
                   সাথে সরাসরি সংযোগ স্থাপন করতে পারেন
-                </p>
+                </p> */}
                 <div className="mt-10 hidden sm:mt-12 lg:flex gap-5">
                   <div className="flex items-center">
                     Trending Search <TrendingUpOutlinedIcon />:

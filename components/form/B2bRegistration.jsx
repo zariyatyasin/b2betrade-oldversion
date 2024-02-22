@@ -54,7 +54,7 @@ function B2bRegistration({ categories, userType }) {
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(false);
-  const [enteredOtp, setEnteredOtp] = useState(["", "", "", "", "", ""]);
+  const [enteredOtp, setEnteredOtp] = useState(["", "", "", ""]);
   const otpInputsRefs = useRef([]);
   const [otp, setOtp] = useState("");
   const [otpSuccess, setotpSuccess] = useState(false);
@@ -122,9 +122,10 @@ function B2bRegistration({ categories, userType }) {
   };
 
   const closeOtpModal = () => {
-    setEnteredOtp(["", "", "", "", "", ""]);
+    setEnteredOtp(["", "", "", ""]);
     setError(null);
     setShowOtpModal(false);
+    setCountdown(60);
   };
   const handleResendClick = () => {
     if (otpSuccess === false) {
@@ -133,20 +134,22 @@ function B2bRegistration({ categories, userType }) {
 
       handleOtpSend();
       setError(null);
-      setEnteredOtp(["", "", "", "", "", ""]);
+      setEnteredOtp(["", "", "", ""]);
     }
   };
   const handleOtpInputChange = (index, value) => {
     const newOtp = [...enteredOtp];
     newOtp[index] = value;
 
+    setEnteredOtp(newOtp);
+
     if (index < enteredOtp.length - 1 && value !== "") {
       otpInputsRefs.current[index + 1].focus();
     }
 
-    setEnteredOtp(newOtp);
+    const isAllFilled = newOtp.every((digit) => digit !== "");
 
-    if (index === enteredOtp.length - 1 && value !== "") {
+    if (isAllFilled) {
       const enteredOtpjon = newOtp.join("");
       handleVerifyOtp(enteredOtpjon);
     }
@@ -178,12 +181,12 @@ function B2bRegistration({ categories, userType }) {
 
   const handleOtpSend = async (phoneNumber) => {
     // Generate OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000);
 
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
-
+    setCountdown(60);
     try {
       await axios.post("http://bulksmsbd.net/api/smsapimany", {
         api_key: apiKey,

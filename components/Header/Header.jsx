@@ -484,20 +484,17 @@ export const Header = ({ categories, subCategories }) => {
                     />
                   </button>
                 </div>
-                {/* <Link
+                <Link
                   href={"/contact"}
                   className={`relative  ${isHomePage ? "flex" : "hidden"}  `}
                 >
-                  <button
-                    type="button"
-                    className=" text-sm  lg:bg-[#2B39D1]   "
-                  >
+                  <button type="button" className=" text-sm      ">
                     <HeadsetMicOutlinedIcon
                       sx={{ fontSize: [24, 28] }}
                       className="ml-2  text-white"
                     />
                   </button>
-                </Link> */}
+                </Link>
               </div>
               <Link
                 href={"/cart"}
@@ -528,7 +525,7 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
-              <Link
+              {/* <Link
                 href={"/requestproduct/form"}
                 className="relative hidden lg:flex z-10 lg:top-[1px]"
               >
@@ -538,11 +535,11 @@ export const Header = ({ categories, subCategories }) => {
                 >
                   <div>
                     {" "}
-                    {/* <AddCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} /> */}
+                   
                     <span className=" "> Product Request</span>
                   </div>
                 </button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

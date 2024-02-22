@@ -11,7 +11,7 @@ import axios from "axios";
 import FullScreenLoading from "../../components/fullScreenOverlay/FullScreenLoading";
 import Link from "next/link";
 
-import Model from "./Model";
+import Model from "../../components/modelUi/Model";
 const Page = () => {
   const session = useSession();
   const params = useSearchParams();
@@ -159,25 +159,24 @@ const Page = () => {
   const handleOtpSend = async () => {
     const generatedOtp = Math.floor(1000 + Math.random() * 9000);
 
-    console.log(generatedOtp);
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
 
-    // try {
-    //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
-    //     api_key: apiKey,
-    //     senderid: senderId,
-    //     messages: [
-    //       {
-    //         to: phoneNumber,
-    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-    //       },
-    //     ],
-    //   });
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-    // }
+    try {
+      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+        api_key: apiKey,
+        senderid: senderId,
+        messages: [
+          {
+            to: phoneNumber,
+            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
   };
   const loginHandle = async (e) => {
     e.preventDefault();
@@ -332,7 +331,7 @@ const Page = () => {
                 )}
                 {!/^01/.test(phoneNumber) && phoneNumber.length === 11 && (
                   <p className="text-red-500 text-sm mt-1">
-                    Phone number must start with "01"
+                    Phone number must start with 01
                   </p>
                 )}
               </div>
@@ -379,7 +378,7 @@ const Page = () => {
                 )}
                 {!/^01/.test(phoneNumber) && phoneNumber.length === 11 && (
                   <p className="text-red-500 text-sm mt-1">
-                    Phone number must start with "01"
+                    Phone number must start with 01
                   </p>
                 )}
               </div>
