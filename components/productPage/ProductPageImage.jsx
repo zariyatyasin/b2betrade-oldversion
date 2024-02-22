@@ -1,7 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 
+import "swiper/css";
+import "swiper/css/pagination";
+
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 const ProductPageImage = ({ images, activeImg }) => {
   const modifyImageUrl = (url) => {
     const uploadIndex = url?.indexOf("/upload/");
@@ -41,11 +46,56 @@ const ProductPageImage = ({ images, activeImg }) => {
         </div>
       </div>
       <div className="mt-2 lg:mt-0 lg:mr-5  ">
-        <div className="flex items-center justify-between  ">
-          <div className="cursor-pointer" onClick={prevImage}>
+        <div className="">
+          {/* <div className="cursor-pointer" onClick={prevImage}>
             {"<"}
-          </div>
-          {images?.map((img, i) => (
+          </div> */}
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={15}
+            breakpoints={{
+              640: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 5,
+                spaceBetween: 40,
+              },
+              1024: {
+                slidesPerView: 6,
+                spaceBetween: 30,
+              },
+            }}
+            navigation={true}
+            modules={[Navigation, Autoplay]}
+            className="mySwiper"
+          >
+            {images?.map((img, id) => (
+              <SwiperSlide
+                key={id}
+                tyle={{ backgroundColor: "transparent" }}
+                className=" bg-none"
+              >
+                <div
+                  className={`w-16 h-16 rounded-md overflow-hidden ${
+                    id === active && "border-2 border-[#2B39D1]"
+                  } text-center`}
+                  key={id}
+                  onMouseOver={() => setActive(id)}
+                >
+                  <Image
+                    height={500}
+                    width={500}
+                    className="h-full w-full object-cover"
+                    src={modifyImageUrl(img.url)}
+                    alt=""
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          {/* {images?.map((img, i) => (
             <div
               className={`w-16 h-16 rounded-md overflow-hidden ${
                 i === active && "border-2 border-[#2B39D1]"
@@ -64,7 +114,7 @@ const ProductPageImage = ({ images, activeImg }) => {
           ))}
           <div className="cursor-pointer" onClick={nextImage}>
             {">"}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
