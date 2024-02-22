@@ -33,10 +33,10 @@ const incentives = [
 export default function Feature() {
   return (
     <div className=" bg-white text-[#222222] mb-12 md:mb-14 lg:mb-16 ">
-      <div className="max-w-7xl flex flex-col lg:flex-row  lg:items-center mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8  ">
+      <div className="max-w-7xl flex flex-col lg:flex-row  lg:items-center mx-auto py-8 px-4 sm:py-16 sm:px-6 lg:px-8  ">
         <div className=" flex-[2] mx-auto text-left  ">
           <h2
-            className="text-2xl font-bold text-center lg:text-left  leading-normal tracking-wide
+            className="text-2xl font-bold text-center lg:text-left  lg:leading-normal tracking-wide
             sm:text-[44px]"
           >
             Explore millions of offerings tailored to your business needs

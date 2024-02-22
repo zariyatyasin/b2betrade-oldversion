@@ -104,7 +104,7 @@ export default function FindSupplier() {
                 <img
                   src={city.imageUrl}
                   alt={city.name}
-                  className=" w-28   h-28 rounded-full  object-cover  "
+                  className="  w-16 h-16 lg:w-28   lg:h-28 rounded-full  object-cover  "
                 />
               </div>
               <h4 className=" text-sm      ">{city.name}</h4>
