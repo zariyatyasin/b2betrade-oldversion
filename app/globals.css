@@ -37,7 +37,9 @@ body {
 
   /* Adding a shadow effect */
 }
-
+.swiper-slide {
+  background:none
+}
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 20px !important;

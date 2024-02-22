@@ -25,23 +25,6 @@ const CartProduct = ({
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => ({ ...state }));
 
-  const updateQty = (type) => {
-    let newCart = cart.cartItems.map((p) => {
-      if (p._uid == product._uid) {
-        const newQuantity = type === "plus" ? product.qty + 1 : product.qty - 1;
-        if (newQuantity >= 1) {
-          handleQuantityChange(product._uid, newQuantity);
-        }
-        return {
-          ...p,
-          qty: newQuantity,
-        };
-      }
-      return p;
-    });
-    dispatch(updateCart(newCart));
-  };
-
   const removeProduct = (id) => {
     dispatch(removeFromCart(id));
     setSelected([]);
@@ -91,13 +74,7 @@ const CartProduct = ({
                 </Link>
               </h3>
             </div>
-            {/* <div className="mt-1 flex text-sm">
-              <p className="text-gray-500">Sienna</p>
 
-              <p className="ml-4 pl-4 border-l border-gray-200 text-gray-500">
-                Large
-              </p>
-            </div> */}
             <div className="flex md:flex-row flex-col md:items-center mt-4 lg:mt-8">
               <div className="flex md:mb-0 mb-2">
                 {product.color.image !== "" ? (
@@ -219,7 +196,7 @@ const CartProduct = ({
               <span className="sr-only">Remove</span>
 
               <DeleteOutlineOutlinedIcon sx={{ fontSize: 18 }} />
-              <p className="ml-1 hidden md:block">Remoe item</p>
+              <p className="ml-1 hidden md:block">Remove item</p>
             </button>
           </div>
           <div className="ml-4 flex items-center">

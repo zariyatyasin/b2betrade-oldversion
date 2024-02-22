@@ -90,7 +90,7 @@ export default async function page({ searchParams }) {
         <>
           <SuplierNavbar paginationCount={paginationCount} />
 
-          <div className="h-screen  grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
+          <div className=" pb-32 grid grid-cols-2 gap-y-5 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
             {products?.map((item, id) => (
               <div className=" relative   " key={id}>
                 <ProductDeleteButto

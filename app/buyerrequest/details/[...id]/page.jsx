@@ -5,6 +5,7 @@ import User from "../../../../model/User";
 import SellerRequest from "../../../../model/SellerRequest";
 import DetailsPageImage from "../../../../components/buyerrequest/detailsPage/DetailsPageImage";
 import SubmitForm from "../../../../components/buyerrequest/detailsPage/SubmitForm";
+import BuyerRequestDetails from "../../../../components/buyerrequest/detailsPage/BuyerRequestDetails";
 import BuyProfile from "../../../../components/buyerrequest/detailsPage/BuyProfile";
 import SellerBiding from "../../../../components/buyerrequest/detailsPage/SellerBiding";
 import { getCurrentUser } from "../../../../utils/session";
@@ -39,7 +40,7 @@ async function getData({ params }) {
   };
 }
 
-export default async function page({ params }) {
+export default async function Page({ params }) {
   const { session, requestProductDetails, sellerRequest, sellerRequestBid } =
     await getData({
       params,
@@ -53,7 +54,7 @@ export default async function page({ params }) {
     <div>
       <MainpageLayout />
 
-      <main className="py-10 mt-16 lg:mt-32">
+      {/* <main className="py-10 mt-16 lg:mt-32">
         <div className="max-w-3xl mx-auto px-4   md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
           <div className="flex items-center space-x-5">
             <div>
@@ -165,7 +166,7 @@ export default async function page({ params }) {
                       </dd>
                     </div>
 
-                    {/* Add other details here */}
+                 
                   </dl>
                 </div>
               </div>
@@ -279,7 +280,9 @@ export default async function page({ params }) {
             )}
           </section>
         </div>
-      </main>
+      </main> */}
+
+      <BuyerRequestDetails requestProductDetails={requestProductDetails} />
     </div>
   );
 }

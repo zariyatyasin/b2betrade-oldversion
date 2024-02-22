@@ -73,7 +73,7 @@ const HeroImageUploaderForm = ({ data }) => {
       setLoading(false);
     }
   };
-
+  console.log(data);
   return (
     <div>
       {loading && <FullScreenLoading />}
@@ -130,15 +130,18 @@ const HeroImageUploaderForm = ({ data }) => {
         {data?.map((item) => (
           <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
             <div className="flex flex-wrap gap-2">
-              {item.images.map((imageArray, arrayIndex) =>
-                imageArray.map((image, index) => (
+              {item.images?.map(
+                (
+                  image,
+                  index // Change 'imageArray' to 'image'
+                ) => (
                   <img
-                    key={`${arrayIndex}-${index}`}
-                    src={image.secure_url}
-                    alt={`${item.title} - ${arrayIndex}-${index}`}
+                    key={`${item._id}-${index}`} // Use a unique key
+                    src={image.url} // Access 'url' property instead of 'secure_url'
+                    alt={`${item.title} - ${index}`} // Change `${arrayIndex}-${index}` to `${index}`
                     className="mb-2 rounded-md w-24 h-24 object-cover"
                   />
-                ))
+                )
               )}
             </div>
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>

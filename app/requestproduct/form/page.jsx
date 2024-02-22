@@ -21,7 +21,7 @@ async function getData() {
   };
 }
 
-export default async function page({}) {
+export default async function Page({}) {
   const { session, categories } = await getData();
 
   return (

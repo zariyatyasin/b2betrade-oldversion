@@ -37,9 +37,19 @@ const publishingOptions = [
   //   current: true,
   // },
   {
-    title: "B2B",
+    title: "Products",
     description: "Tailored for business-to-business interactions.",
     current: true,
+  },
+  {
+    title: "Suppliers",
+    description: "Tailored for business-to-business interactions.",
+    current: false,
+  },
+  {
+    title: "Manufacturer",
+    description: "Tailored for business-to-business interactions.",
+    current: false,
   },
   // {
   //   title: "B2C",
@@ -64,11 +74,12 @@ export const Header = ({ categories, subCategories }) => {
   const [selected, setSelected] = useState(publishingOptions[0]);
   const [isModalOpen, setModalOpen] = useState(false);
   const pathname = usePathname();
+  const [scrollPosition, setScrollPosition] = useState(0);
 
+  const isHomePage = pathname === "/";
   const { cart } = useSelector((state) => ({ ...state }));
   const suggestionListRef = useRef();
-  const isHomePage = pathname === "/";
-  // Add this code inside your component
+
   useEffect(() => {
     const searchParam = searchParams.get("productType");
     if (searchParam) {
@@ -105,6 +116,21 @@ export const Header = ({ categories, subCategories }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isHomePage) {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const handleSuggestionSelect = (suggestion) => {
     setQuery(suggestion.name);
     setSuggestions([]);
@@ -120,13 +146,13 @@ export const Header = ({ categories, subCategories }) => {
   };
   const handleSelectionChange = (option) => {
     setSelected(option);
-    if (option.title) {
-      if (option.title === publishingOptions[0].title) {
-        router.push(`?productType= `);
-      } else {
-        router.push(`?productType=${option.title}`);
-      }
-    }
+    // if (option.title) {
+    //   if (option.title === publishingOptions[0].title) {
+    //     router.push(`?productType= `);
+    //   } else {
+    //     router.push(`?productType=${option.title}`);
+    //   }
+    // }
   };
   const handleInputFocus = () => {
     setModalOpen(true);
@@ -273,9 +299,17 @@ export const Header = ({ categories, subCategories }) => {
           </Transition.Child>
         </Dialog>
       </Transition.Root>
-      <div className="  file: bg-[#2B39D1]  fixed w-full  z-40 top-0 ">
-        <div className="flex items-center justify-between py-3 lg:py-4    lg:border-b border-border-base top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
-          <div className="flex items-center">
+      <div
+        className={` ${
+          scrollPosition > 0 && isHomePage
+            ? "bg-[#2B39D1]"
+            : isHomePage
+            ? "bg-transparent"
+            : "bg-[#2B39D1]"
+        }    fixed w-full  z-40 top-0  transition-all duration-300  `}
+      >
+        <div className="flex items-center justify-between py-3 lg:py-3      top-bar lg:h-auto mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 2xl:px-10">
+          <div className="flex flex-1 items-center  ">
             <GobackPage />
             <div
               onClick={() => setOpen(true)}
@@ -287,164 +321,153 @@ export const Header = ({ categories, subCategories }) => {
             </div>
             <Link
               href="/"
-              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-3xl max-w-[131px] "
+              className="inline-block focus:outline-none  text-white font-bold text-xl md:text-2xl max-w-[131px] "
             >
               B2B
-              <span className="  text-[#FFD700] text-xl md:text-3xl">
+              <span className={`   text-[#FFD700] text-xl md:text-2xl`}>
                 eTrade
               </span>
             </Link>
-          </div>
-
-          <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
-            <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
-              <div className="flex flex-col w-full mx-auto  justify-center relative  ">
-                <form
-                  className="relative flex w-full rounded-md"
-                  noValidate=""
-                  role="search"
-                  onSubmit={(e) => handleSearch(e)}
-                >
-                  <label
-                    htmlFor="top-bar-search"
-                    className="flex flex-1 items-center py-0.5 relative"
+            <div className="w-full transition-all duration-200 ease-in-out hidden lg:flex   relative lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8">
+              <div className="relative z-30 flex flex-col justify-center w-full shrink-0  ">
+                <div className="flex flex-col w-full mx-auto  justify-center relative  ">
+                  <form
+                    className="relative flex w-full rounded-md"
+                    noValidate=""
+                    role="search"
+                    onSubmit={(e) => handleSearch(e)}
                   >
-                    {/* <Listbox value={selected} onChange={handleSelectionChange}>
-                      {({ open }) => (
-                        <div className="">
-                          <div className="relative ">
-                            <div className="inline-flex h-11 shadow-sm rounded-md   ">
-                              <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
-                                <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-md shadow-sm text-white">
-                                  <p className="ml-2.5 text-sm font-medium">
-                                    {selected.title}
-                                  </p>
+                    <label
+                      htmlFor="top-bar-search"
+                      className="flex flex-1 items-center py-0.5 relative"
+                    >
+                      <Listbox
+                        value={selected}
+                        onChange={handleSelectionChange}
+                      >
+                        {({ open }) => (
+                          <div className=" absolute">
+                            <div className="relative ">
+                              <div className="inline-flex h-11 shadow-sm rounded-md   ">
+                                <div className="relative z-0 inline-flex shadow-sm rounded-md   ">
+                                  <div className="relative inline-flex items-center   bg-[#FFD700] py-3 pl-3     rounded-l-full shadow-sm text-white">
+                                    <p className="ml-2.5 text-sm font-medium">
+                                      {selected.title}
+                                    </p>
+                                  </div>
+                                  <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
+                                    <KeyboardArrowDownOutlinedIcon />
+                                  </Listbox.Button>
                                 </div>
-                                <Listbox.Button className="relative inline-flex items-center bg-[#FFD700] p-2 rounded-l-none   text-sm font-medium text-white ">
-                                  <KeyboardArrowDownOutlinedIcon />
-                                </Listbox.Button>
                               </div>
-                            </div>
 
-                            <Transition
-                              show={open}
-                              as={Fragment}
-                              leave="transition ease-in duration-100"
-                              leaveFrom="opacity-100"
-                              leaveTo="opacity-0"
-                            >
-                              <Listbox.Options className="origin-top-right absolute z-10 right-0 mt-2 w-72 rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                {publishingOptions.map((option) => (
-                                  <Listbox.Option
-                                    key={option.title}
-                                    className={({ active }) =>
-                                      classNames(
-                                        active
-                                          ? "text-white bg-[#FFD700] "
-                                          : " text-gray-950",
-                                        "cursor-default select-none relative p-4 text-sm"
-                                      )
-                                    }
-                                    value={option}
-                                  >
-                                    {({ selected, active }) => (
-                                      <div className="flex flex-col">
-                                        <div className="flex justify-between">
-                                          <p
-                                            className={
-                                              selected
-                                                ? "font-semibold"
-                                                : "font-normal"
-                                            }
-                                          >
-                                            {option.title}
-                                          </p>
-                                          {selected ? (
-                                            <span
+                              <Transition
+                                show={open}
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Listbox.Options
+                                  className="origin-top-right absolute z-10 right-0 mt-2 w-36
+                                  rounded-md shadow-lg overflow-hidden text-gray-950 bg-white    ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                >
+                                  {publishingOptions.map((option) => (
+                                    <Listbox.Option
+                                      key={option.title}
+                                      className={({ active }) =>
+                                        classNames(
+                                          active
+                                            ? "   text-gray-950 font-bold "
+                                            : " text-gray-950",
+                                          "cursor-default select-none relative p-4 text-sm"
+                                        )
+                                      }
+                                      value={option}
+                                    >
+                                      {({ selected, active }) => (
+                                        <div className="flex flex-col">
+                                          <div className="flex justify-between">
+                                            <p
                                               className={
-                                                active
-                                                  ? "text-white"
-                                                  : "text-gray-900"
+                                                selected
+                                                  ? "font-semibold"
+                                                  : "font-normal"
                                               }
                                             >
-                                              <CheckOutlinedIcon />
-                                            </span>
-                                          ) : null}
+                                              {option.title}
+                                            </p>
+                                            {selected ? (
+                                              <span
+                                                className={
+                                                  active
+                                                    ? " text-gray-950 font-bold"
+                                                    : "text-gray-900"
+                                                }
+                                              >
+                                                <CheckOutlinedIcon
+                                                  sx={{ fontSize: 18 }}
+                                                />
+                                              </span>
+                                            ) : null}
+                                          </div>
                                         </div>
-                                        <p className={classNames("mt-2")}>
-                                          {option.description}
-                                        </p>
-                                      </div>
-                                    )}
-                                  </Listbox.Option>
-                                ))}
-                              </Listbox.Options>
-                            </Transition>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </Transition>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Listbox> */}
+                        )}
+                      </Listbox>
 
-                    <input
-                      id="top-bar-search"
-                      className="text-heading bg-gray-100  p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px    transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
-                      placeholder="What are you looking..."
-                      aria-label="top-bar-search"
-                      name="search"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                    />
+                      <input
+                        id="top-bar-search"
+                        className="text-heading bg-white   p-4  rounded-full   outline-none w-full h-11 ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm lg:text-15px  pl-32   transition-all duration-200  placeholder:text-brand-dark/50 bg-fill-one"
+                        placeholder="What are you looking..."
+                        aria-label="top-bar-search"
+                        name="search"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
 
-                    <button
-                      type=" submit"
-                      className=" absolute right-5 text-gray-600   "
-                    >
-                      <SearchIcon sx={{ fontSize: 24 }} />
-                    </button>
-                  </label>
-                </form>
-              </div>
-              {suggestions.length > 0 && (
-                <div
-                  ref={suggestionListRef}
-                  className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                >
-                  {suggestions.length > 0 && (
-                    <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
-                      {suggestions.map((suggestion, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleSuggestionSelect(suggestion)}
-                          className="hover:cursor-pointer hover:bg-gray-100 truncate"
-                        >
-                          {highlightMatchedText(suggestion.name, query)}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                      <button
+                        type=" submit"
+                        className=" absolute right-5 text-gray-600   "
+                      >
+                        <SearchIcon sx={{ fontSize: 24 }} />
+                      </button>
+                    </label>
+                  </form>
                 </div>
-              )}
+                {suggestions.length > 0 && (
+                  <div
+                    ref={suggestionListRef}
+                    className="absolute top-11 z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                  >
+                    {suggestions.length > 0 && (
+                      <ul className="flex flex-col gap-y-2   cursor-default select-none py-2 pl-3 pr-9">
+                        {suggestions.map((suggestion, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleSuggestionSelect(suggestion)}
+                            className="hover:cursor-pointer hover:bg-gray-100 truncate"
+                          >
+                            {highlightMatchedText(suggestion.name, query)}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
             <div className="flex  gap-x-6  items-center  ">
               <div className=" ">
-                {/* <Link
-                  href={"/requestproduct/form"}
-                  className="relative hidden lg:flex z-10 lg:top-[1px]"
-                >
-                  <button
-                    type="button"
-                    className="flex justify-center  items-center w-40 py-2 b  shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-[#2B39D1]      "
-                  >
-                    <div>
-                      {" "}
-                      <AddCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} />
-                      <span className=" ml-1"> Post your need</span>
-                    </div>
-                  </button>
-                </Link> */}
                 <div
                   className={` ${
                     isHomePage && "hidden"
@@ -465,10 +488,7 @@ export const Header = ({ categories, subCategories }) => {
                   href={"/contact"}
                   className={`relative  ${isHomePage ? "flex" : "hidden"}  `}
                 >
-                  <button
-                    type="button"
-                    className=" text-sm  lg:bg-[#2B39D1]   "
-                  >
+                  <button type="button" className=" text-sm      ">
                     <HeadsetMicOutlinedIcon
                       sx={{ fontSize: [24, 28] }}
                       className="ml-2  text-white"
@@ -482,7 +502,7 @@ export const Header = ({ categories, subCategories }) => {
                 aria-label="cart-button"
               >
                 {cart.cartItems.length > 0 && (
-                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-white md:w-6 md:h-6 text-xs font-bold     bg-[#FFD700] border-2 border-white rounded-full -top-2 -end-2  ">
+                  <div className="absolute inline-flex items-center justify-center w-4 h-4 text-gray-950 md:w-5 md:h-5 text-xs       bg-white border border-white rounded-full -top-2 -end-2  ">
                     {cart.cartItems.length}
                   </div>
                 )}
@@ -505,6 +525,21 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
+              {/* <Link
+                href={"/requestproduct/form"}
+                className="relative hidden lg:flex z-10 lg:top-[1px]"
+              >
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm rounded-full  text-gray-950 bg-white     "
+                >
+                  <div>
+                    {" "}
+                   
+                    <span className=" "> Product Request</span>
+                  </div>
+                </button>
+              </Link> */}
             </div>
           </div>
         </div>

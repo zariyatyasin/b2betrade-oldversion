@@ -30,7 +30,7 @@ function ProductCardSwip({ products }) {
     })
   );
 
-  const firstSizeBulkPricing = products.subProducts[0].sizes[0].bulkPricing;
+  const firstSizeBulkPricing = products.subProducts[0]?.sizes[0]?.bulkPricing;
 
   const minPrice = Math.min(
     ...firstSizeBulkPricing.map((pricing) => pricing.price)

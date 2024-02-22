@@ -12,9 +12,9 @@ import { useRouter } from "next/navigation";
 const ProductMain = ({ product, params }) => {
   const [activeImg, setActiveImg] = useState("");
   const router = useRouter();
-  window.addEventListener("popstate", (event) => {
-    router.push("/");
-  });
+  // window.addEventListener("popstate", (event) => {
+  //   router.push("/");
+  // });
   return (
     <div>
       <div className="    flex flex-col justify-center   lg:flex-row gap-4  ">

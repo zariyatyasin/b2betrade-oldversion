@@ -1,22 +1,19 @@
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 
 export default function Questions({ questions, product, setProduct }) {
-  const handleQuestion = (i, e) => {
-    const values = [...questions];
-    values[i][e.target.name] = e.target.value;
-    setProduct({ ...product, questions: values });
+  const handleQuestion = (i, field, value) => {
+    const updatedQuestions = questions.map((q, index) =>
+      index === i ? { ...q, [field]: value } : q
+    );
+    setProduct({ ...product, questions: updatedQuestions });
   };
 
   const handleRemove = (i) => {
-    if (questions.length > 0) {
-      const values = [...questions];
-      values.splice(i, 1);
-      setProduct({ ...product, questions: values });
-    }
+    const updatedQuestions = questions.filter((q, index) => index !== i);
+    setProduct({ ...product, questions: updatedQuestions });
   };
 
   const addQuestion = () => {
@@ -47,21 +44,21 @@ export default function Questions({ questions, product, setProduct }) {
       )}
       {questions.map((q, i) => (
         <div className="mt-4" key={i}>
-          <TextField
-            variant="outlined"
+          <input
+            type="text"
             name="question"
-            label="Question"
-            fullWidth
+            placeholder="Question"
             value={q.question}
-            onChange={(e) => handleQuestion(i, e)}
+            onChange={(e) => handleQuestion(i, "question", e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:border-gray-500"
           />
-          <TextField
-            variant="outlined"
+          <input
+            type="text"
             name="answer"
-            label="Answer"
-            fullWidth
+            placeholder="Answer"
             value={q.answer}
-            onChange={(e) => handleQuestion(i, e)}
+            onChange={(e) => handleQuestion(i, "answer", e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 mt-2 w-full focus:outline-none focus:border-gray-500"
           />
           <div className="mt-2">
             <IconButton
