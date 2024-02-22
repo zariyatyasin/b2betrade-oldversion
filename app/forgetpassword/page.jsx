@@ -134,7 +134,6 @@ const Page = () => {
       setEnteredOtp(newOtp);
       handleVerifyOtp(newOtp.join(""));
 
-      // Focus on the next input field
       if (otpInputsRefs.current[enteredOtp.length]) {
         otpInputsRefs.current[enteredOtp.length].focus();
       }
@@ -151,33 +150,32 @@ const Page = () => {
         onChange={(e) => handleOtpInputChange(index, e.target.value)}
         ref={(input) => (otpInputsRefs.current[index] = input)}
         onKeyDown={(e) => handleOtpKeyDown(index, e)}
-        onPaste={handleOtpPaste} // Add this line for paste event
+        onPaste={handleOtpPaste}
       />
     ));
   };
 
   const handleOtpSend = async () => {
-    // Generate OTP
     const generatedOtp = Math.floor(1000 + Math.random() * 9000);
-    console.log(generatedOtp);
+
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
 
-    // try {
-    //   await axios.post("http://bulksmsbd.net/api/smsapimany", {
-    //     api_key: apiKey,
-    //     senderid: senderId,
-    //     messages: [
-    //       {
-    //         to: phoneNumber,
-    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-    //       },
-    //     ],
-    //   });
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-    // }
+    try {
+      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+        api_key: apiKey,
+        senderid: senderId,
+        messages: [
+          {
+            to: phoneNumber,
+            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
   };
   const restPassword = async (e) => {
     e.preventDefault();
@@ -201,7 +199,7 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError(null);
     try {
       setLoading(true);
       const response = await axios.post("/api/auth/register/exsituser", {
