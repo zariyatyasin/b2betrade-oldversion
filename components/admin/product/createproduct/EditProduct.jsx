@@ -48,7 +48,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
     details: editedProduct.details,
     bulkPricing: editedProduct.bulkPricing,
     questions: editedProduct.questions,
-    shippingFee: "",
+    shipping: editedProduct.shipping,
   });
 
   const [loading, setLoading] = useState(false);
@@ -144,40 +144,40 @@ export default function EditProduct({ editedProduct, categories, id }) {
   const handleSubmit = async () => {
     const updatedSubProducts = [];
 
-    // for (const subProduct of subProducts) {
-    //   const formData = new FormData();
+    for (const subProduct of subProducts) {
+      const formData = new FormData();
 
-    //   for (const image of subProduct.images) {
-    //     formData.append("file", image.blob);
-    //   }
+      for (const image of subProduct.images) {
+        formData.append("file", image.blob);
+      }
 
-    //   const cloudinaryResponse = await Uploadimages(formData);
+      const cloudinaryResponse = await Uploadimages(formData);
 
-    //   const cloudinaryImages = cloudinaryResponse.map((response) => ({
-    //     url: response.secure_url,
-    //     secure_url: response.secure_url,
-    //     public_id: response.public_id,
-    //   }));
+      const cloudinaryImages = cloudinaryResponse.map((response) => ({
+        url: response.secure_url,
+        secure_url: response.secure_url,
+        public_id: response.public_id,
+      }));
 
-    //   if (subProduct.color.image) {
-    //     const colorFormData = new FormData();
-    //     colorFormData.append(
-    //       "file",
-    //       new File([subProduct.color.image], "color_image.jpg", {
-    //         type: "image/jpeg",
-    //       })
-    //     );
+      if (subProduct.color.image) {
+        const colorFormData = new FormData();
+        colorFormData.append(
+          "file",
+          new File([subProduct.color.image], "color_image.jpg", {
+            type: "image/jpeg",
+          })
+        );
 
-    //     const colorImageUpload = await Uploadimages(colorFormData);
+        const colorImageUpload = await Uploadimages(colorFormData);
 
-    //     subProduct.color.image = colorImageUpload[0].secure_url;
-    //   }
+        subProduct.color.image = colorImageUpload[0].secure_url;
+      }
 
-    //   updatedSubProducts.push({
-    //     ...subProduct,
-    //     images: cloudinaryImages,
-    //   });
-    // }
+      updatedSubProducts.push({
+        ...subProduct,
+        images: cloudinaryImages,
+      });
+    }
 
     try {
       setLoading(true);
@@ -207,11 +207,11 @@ export default function EditProduct({ editedProduct, categories, id }) {
       >
         {(formik) => (
           <Form className=" ">
-            <h1 className="font-semibold tracking-tight text-2xl">
-              Edit Product
-            </h1>
             <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
+                <h1 className="font-semibold tracking-tight text-2xl">
+                  Edit Product
+                </h1>
                 <Paper className="p-4">
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
@@ -253,7 +253,7 @@ export default function EditProduct({ editedProduct, categories, id }) {
                         handleChange={handleChange}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}>
+                    {/* <Grid item xs={12} lg={6}>
                       <AdminInput
                         type="text"
                         label="Sku"
@@ -270,10 +270,18 @@ export default function EditProduct({ editedProduct, categories, id }) {
                         placholder="Product slug"
                         onChange={handleChange}
                       />
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item xs={12} lg={6}>
-                      {" "}
+                      <AdminInput
+                        type="text"
+                        label="Shipping Free"
+                        name="shipping"
+                        placholder="Shipping Free"
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
                       <AdminInput
                         type="text"
                         label="Discount"

@@ -20,6 +20,7 @@ const ChangePassword = ({ data }) => {
   };
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState();
+  const [error, setError] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const onSubmit = (values, { setSubmitting, resetForm }) => {
@@ -35,9 +36,10 @@ const ChangePassword = ({ data }) => {
         `/api/user/update/${data._id}`,
         formSubmitted
       );
-
+      setError(null);
       toast.success(response.data.message);
     } catch (error) {
+      setError(error.response.data.message);
       toast.success(error.response.data.message);
     } finally {
       setLoading(false);
@@ -108,7 +110,9 @@ const ChangePassword = ({ data }) => {
                   </div>
                 </div>
               </div>
+
               <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <div className=" text-red-500 mb-2 mt-2">{error && error}</div>
                 <button
                   type="submit"
                   onClick={() => setIsConfirmationModalOpen(true)}

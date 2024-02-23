@@ -22,7 +22,6 @@ const ProfileEdit = ({ data }) => {
   };
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
   const [formSubmitted, setFormSubmitted] = useState();
   const onSubmit = (values) => {
     setFormSubmitted(values);

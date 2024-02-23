@@ -12,8 +12,6 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import CategoryCard from "./CategoryCard";
 
 export const Categories = ({ Category }) => {
-  console.log(Category);
-
   return (
     <div
       className={` px-2 sm:px-4  lg:px-8  mb-12 md:mb-14 lg:mb-16 max-w-7xl mx-auto `}

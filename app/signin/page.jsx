@@ -33,7 +33,14 @@ const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(true);
   const [providers, setProviders] = useState(null);
+  const [hasStore, setHasStore] = useState(false);
+  const [storeName, setStoreName] = useState("");
 
+  const [storeAddress, setStoreAddress] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const regions = ["Dhaka", "Chittagong", "Khulna", "Rajshahi"];
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   useEffect(() => {
     let intervalId;
 
@@ -70,6 +77,18 @@ const Page = () => {
       setProviders(res);
     })();
   }, []);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/getitem/category");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [hasStore]);
   const handleOtpKeyDown = (index, e) => {
     if (e.key === "Backspace" && enteredOtp[index] === "" && index > 0) {
       e.preventDefault();
@@ -158,25 +177,25 @@ const Page = () => {
 
   const handleOtpSend = async () => {
     const generatedOtp = Math.floor(1000 + Math.random() * 9000);
-
+    console.log(generatedOtp);
     setOtp(generatedOtp);
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
 
-    try {
-      await axios.post("https://bulksmsbd.net/api/smsapimany", {
-        api_key: apiKey,
-        senderid: senderId,
-        messages: [
-          {
-            to: phoneNumber,
-            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-          },
-        ],
-      });
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-    }
+    // try {
+    //   await axios.post("https://bulksmsbd.net/api/smsapimany", {
+    //     api_key: apiKey,
+    //     senderid: senderId,
+    //     messages: [
+    //       {
+    //         to: phoneNumber,
+    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+    //       },
+    //     ],
+    //   });
+    // } catch (error) {
+    //   console.error("Error sending OTP:", error);
+    // }
   };
   const loginHandle = async (e) => {
     e.preventDefault();
@@ -253,6 +272,11 @@ const Page = () => {
           phoneNumber,
           password,
           name: fullName,
+          storeName,
+          ShopAddress: storeAddress,
+          category: selectedCategory,
+
+          city: selectedRegion,
         }),
       });
 
@@ -489,101 +513,218 @@ const Page = () => {
               </div>
             </Model>
           )}
-          {otpSuccess === true && (
-            <form
-              onSubmit={registerHandle}
-              className="space-y-6 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10  "
-            >
-              <div>
-                <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Full Name
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    autoComplete="name"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="mt-1 relative">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className={`appearance-none block w-full px-3 py-2 border  shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <RemoveRedEyeOutlinedIcon />
-                      ) : (
-                        <VisibilityOffOutlinedIcon />
-                      )}
-                    </button>
+          <>
+            {otpSuccess === true && (
+              <form
+                onSubmit={registerHandle}
+                className="space-y-6 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10"
+              >
+                <div>
+                  <label
+                    htmlFor="fullName"
+                    className="block text-sm font-medium text-gray-900"
+                  >
+                    Full Name
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                    />
                   </div>
                 </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Confirm Password
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={`appearance-none block w-full px-3 py-2 border shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm`}
-                  />
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-900"
+                  >
+                    Password
+                  </label>
+                  <div className="mt-1 relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="appearance-none block w-full px-3 py-2 border shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        type="button"
+                        className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <RemoveRedEyeOutlinedIcon />
+                        ) : (
+                          <VisibilityOffOutlinedIcon />
+                        )}
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              {password.length < 6 && password !== "" && (
-                <p className="text-red-500 text-sm mt-1">
-                  Password must be at least 6 characters
-                </p>
-              )}
-              {password !== confirmPassword && confirmPassword !== "" && (
-                <p className="text-red-500 text-sm mt-1">
-                  Passwords do not match
-                </p>
-              )}
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#2B39D1] hover:bg-[#2B39D1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                disabled={loading || password !== confirmPassword}
-              >
-                {loading ? "Loading..." : "CONTINUE"}
-              </button>
-            </form>
-          )}
+                <div>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium text-gray-900"
+                  >
+                    Confirm Password
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="appearance-none block w-full px-3 py-2 border shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="hasStore"
+                    className="block text-sm font-medium text-gray-900"
+                  >
+                    Do you have a store?
+                  </label>
+                  <div className="mt-2">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox h-5 w-5 text-gray-600"
+                        checked={hasStore}
+                        onChange={(e) => setHasStore(e.target.checked)}
+                      />
+                      <span className="ml-2 text-gray-900">Yes</span>
+                    </label>
+                  </div>
+                </div>
+                {hasStore && ( // Show additional fields only if user has store
+                  <>
+                    <div>
+                      <label
+                        htmlFor="storeName"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Store Name
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          id="storeName"
+                          name="storeName"
+                          type="text"
+                          autoComplete="off"
+                          required
+                          value={storeName}
+                          onChange={(e) => setStoreName(e.target.value)}
+                          className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="region"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Store Category
+                      </label>
+                      <div className="mt-1">
+                        <select
+                          id="category"
+                          name="category"
+                          autoComplete="off"
+                          value={selectedCategory}
+                          onChange={(e) => setSelectedCategory(e.target.value)}
+                          className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                        >
+                          <option value="">Select Category</option>
+                          {categories.map((category) => (
+                            <option key={category._id} value={category._id}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="region"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Region
+                      </label>
+                      <div className="mt-1">
+                        <select
+                          id="region"
+                          name="region"
+                          autoComplete="off"
+                          required
+                          value={selectedRegion}
+                          onChange={(e) => setSelectedRegion(e.target.value)}
+                          className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                        >
+                          <option value="">Select Region</option>
+                          {regions.map((region, index) => (
+                            <option key={index} value={region}>
+                              {region}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="storeAddress"
+                        className="block text-sm font-medium text-gray-900"
+                      >
+                        Store Address
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          id="storeAddress"
+                          name="storeAddress"
+                          type="text"
+                          autoComplete="off"
+                          required
+                          value={storeAddress}
+                          onChange={(e) => setStoreAddress(e.target.value)}
+                          className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+                {password.length < 6 && password !== "" && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Password must be at least 6 characters
+                  </p>
+                )}
+                {password !== confirmPassword && confirmPassword !== "" && (
+                  <p className="text-red-500 text-sm mt-1">
+                    Passwords do not match
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#2B39D1] hover:bg-[#2B39D1] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                  disabled={password !== confirmPassword}
+                >
+                  {loading ? "Loading..." : "CONTINUE"}
+                </button>
+              </form>
+            )}
+          </>
         </div>
       </div>
     </div>

@@ -6,22 +6,25 @@ import SubCategory from "../../../../model/SubCategory";
 
 export const GET = async (request, { params }) => {
   try {
-    await db.connectDb(); // Connect to the database
+    await db.connectDb();
 
     const id = params.id[0];
-    const style = parseInt( params.id[1]) ||0;
- 
-    const size = parseInt(params.id[2]) ||0
-  
+    const style = parseInt(params.id[1]) || 0;
+
+    const size = parseInt(params.id[2]) || 0;
+
     const product = await Product.findById(id)
       .populate({ path: "category", model: Category })
       .populate({ path: "subCategories", model: SubCategory })
       .lean();
-      
-    await db.disconnectDb(); // Disconnect from the database
+
+    await db.disconnectDb();
 
     if (!product) {
-      return new NextResponse({ message: "Product not found" }, { status: 404 });
+      return new NextResponse(
+        { message: "Product not found" },
+        { status: 404 }
+      );
     }
     let subProduct = product.subProducts[style];
     let prices = subProduct.sizes
@@ -43,9 +46,7 @@ export const GET = async (request, { params }) => {
         return p.color;
       }),
       priceRange: subProduct.discount
-        ? ` $${(prices[0] - prices[0] / subProduct.discount).toFixed(
-            2
-          )} - $${(
+        ? ` $${(prices[0] - prices[0] / subProduct.discount).toFixed(2)} - $${(
             prices[prices.length - 1] -
             prices[prices.length - 1] / subProduct.discount
           ).toFixed(2)}`
@@ -82,12 +83,14 @@ export const GET = async (request, { params }) => {
             array.findIndex((e12) => e12.size === element.size) === index
         ),
     };
-    return NextResponse.json( {
-      product: newProduct
-
-    } ,{
-      status: 201,
-    })
+    return NextResponse.json(
+      {
+        product: newProduct,
+      },
+      {
+        status: 201,
+      }
+    );
   } catch (err) {
     return new NextResponse({ message: err.message }, { status: 500 });
   }
