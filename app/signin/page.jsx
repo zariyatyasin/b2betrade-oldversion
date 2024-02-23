@@ -164,7 +164,7 @@ const Page = () => {
     const senderId = "8809617615565";
 
     try {
-      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+      await axios.post("https://bulksmsbd.net/api/smsapimany", {
         api_key: apiKey,
         senderid: senderId,
         messages: [
@@ -180,7 +180,7 @@ const Page = () => {
   };
   const loginHandle = async (e) => {
     e.preventDefault();
-    console.log(password);
+
     let options = {
       redirect: false,
       phoneNumber: phoneNumber,

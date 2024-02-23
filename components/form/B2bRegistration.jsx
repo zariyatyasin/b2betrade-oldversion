@@ -188,7 +188,7 @@ function B2bRegistration({ categories, userType }) {
     const senderId = "8809617615565";
     setCountdown(60);
     try {
-      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+      await axios.post("https://bulksmsbd.net/api/smsapimany", {
         api_key: apiKey,
         senderid: senderId,
         messages: [
