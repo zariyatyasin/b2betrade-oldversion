@@ -99,13 +99,13 @@ const Page = () => {
     setCountdown(60);
   };
   const handleResendClick = () => {
-    if (isRegistering === false && otpSuccess === false) {
+    if (isRegistering === true && otpSuccess === false) {
       setResendDisabled(true);
-      setCountdown(60);
 
       handleOtpSend();
       setError(null);
       setEnteredOtp(["", "", "", ""]);
+      setCountdown(60);
     }
   };
   const handleOtpInputChange = (index, value) => {
@@ -163,7 +163,7 @@ const Page = () => {
     const senderId = "8809617615565";
 
     try {
-      await axios.post("http://bulksmsbd.net/api/smsapimany", {
+      const otp = await axios.post("https://bulksmsbd.net/api/smsapimany", {
         api_key: apiKey,
         senderid: senderId,
         messages: [
@@ -173,6 +173,8 @@ const Page = () => {
           },
         ],
       });
+
+      console.log(otp);
     } catch (error) {
       console.error("Error sending OTP:", error);
     }
