@@ -556,7 +556,7 @@ export const Header = ({ categories, subCategories }) => {
             >
               <input
                 id="top-bar-search"
-                className="text-heading p-2 bg-gray-100    rounded-full   placeholder:px-2 text-xs   overflow-hidden  w-full 2  "
+                className="text-heading p-2 bg-white    rounded-full   placeholder:px-2 text-xs   overflow-hidden  w-full 2  "
                 placeholder="What are you looking..."
                 aria-label="top-bar-search"
                 name="search"

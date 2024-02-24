@@ -31,105 +31,105 @@ export default function CreateCategories({ categories }) {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
 
-  const columns = [
-    { field: "image", headerName: "Image", width: 300 },
-    { field: "name", headerName: "Category Name", width: 300 },
+  // const columns = [
+  //   { field: "image", headerName: "Image", width: 300 },
+  //   { field: "name", headerName: "Category Name", width: 300 },
 
-    {
-      field: "actions",
-      headerName: "Actions",
-      sortable: false,
-      width: 280,
-    },
-  ];
-  const editableColumns = columns.filter(
-    (col) => col.field !== "id" && col.field !== "actions"
-  );
-  const [createFormOpen, setCreateFormOpen] = useState(false);
+  //   {
+  //     field: "actions",
+  //     headerName: "Actions",
+  //     sortable: false,
+  //     width: 280,
+  //   },
+  // ];
+  // const editableColumns = columns.filter(
+  //   (col) => col.field !== "id" && col.field !== "actions"
+  // );
+  // const [createFormOpen, setCreateFormOpen] = useState(false);
 
-  const handleCreateCategory = async (name) => {
-    setLoading(true);
-    const uploadedImages = await UploadImagesClould(name.images);
+  // const handleCreateCategory = async (name) => {
+  //   setLoading(true);
+  //   const uploadedImages = await UploadImagesClould(name.images);
 
-    try {
-      const { data } = await axios.post("/api/admin/category", {
-        name: name.name,
-        image: uploadedImages[0].url,
-      });
+  //   try {
+  //     const { data } = await axios.post("/api/admin/category", {
+  //       name: name.name,
+  //       image: uploadedImages[0].url,
+  //     });
 
-      setData(data.categories);
-      toast.success(data.message);
-    } catch (error) {
-      setError(error);
-      console.error("Error:", error.response);
-      toast.error(error.response.data);
-    } finally {
-      setImages([]);
-      setLoading(false);
-    }
-  };
-  const handleDelete = (id) => {
-    setDeleteItemId(id);
-    setDeleteConfirmationOpen(true);
-  };
-  const handleConfirmDelete = async () => {
-    setLoading(true);
-    setDeleteConfirmationOpen(false);
+  //     setData(data.categories);
+  //     toast.success(data.message);
+  //   } catch (error) {
+  //     setError(error);
+  //     console.error("Error:", error.response);
+  //     toast.error(error.response.data);
+  //   } finally {
+  //     setImages([]);
+  //     setLoading(false);
+  //   }
+  // };
+  // const handleDelete = (id) => {
+  //   setDeleteItemId(id);
+  //   setDeleteConfirmationOpen(true);
+  // };
+  // const handleConfirmDelete = async () => {
+  //   setLoading(true);
+  //   setDeleteConfirmationOpen(false);
 
-    try {
-      const { data } = await axios.delete(
-        ` /api/admin/category/${deleteItemId}`
-      );
+  //   try {
+  //     const { data } = await axios.delete(
+  //       ` /api/admin/category/${deleteItemId}`
+  //     );
 
-      setData(data.categories);
-      toast.success(data.message);
-    } catch (error) {
-      setError(error);
-      console.error("Error:", error.response);
-      toast.error(error.response.data);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setData(data.categories);
+  //     toast.success(data.message);
+  //   } catch (error) {
+  //     setError(error);
+  //     console.error("Error:", error.response);
+  //     toast.error(error.response.data);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleEdit = (rowData) => {
-    setEditData(rowData);
+  // const handleEdit = (rowData) => {
+  //   setEditData(rowData);
 
-    setOpenEditDialog(true);
-  };
+  //   setOpenEditDialog(true);
+  // };
 
-  const handleUpdateCategory = async () => {
-    setLoading(true);
-    const uploadedImages = await UploadImagesClould(images);
+  // const handleUpdateCategory = async () => {
+  //   setLoading(true);
+  //   const uploadedImages = await UploadImagesClould(images);
 
-    try {
-      const { data } = await axios.put(`/api/admin/category/`, {
-        id: editData._id,
-        name: editData.name,
-        image: uploadedImages[0].url,
-      });
-      setData(data.categories);
-      toast.success(data.message);
-      setOpenEditDialog(false);
-    } catch (error) {
-      setError(error);
-      console.error("Error:", error.response);
-      toast.error(error.response.data);
-    } finally {
-      setImages([]);
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     const { data } = await axios.put(`/api/admin/category/`, {
+  //       id: editData._id,
+  //       name: editData.name,
+  //       image: uploadedImages[0].url,
+  //     });
+  //     setData(data.categories);
+  //     toast.success(data.message);
+  //     setOpenEditDialog(false);
+  //   } catch (error) {
+  //     setError(error);
+  //     console.error("Error:", error.response);
+  //     toast.error(error.response.data);
+  //   } finally {
+  //     setImages([]);
+  //     setLoading(false);
+  //   }
+  // };
 
-  const rowsWithIds = data?.map((row, index) => ({
-    ...row,
-    id: index + 1,
-  }));
+  // const rowsWithIds = data?.map((row, index) => ({
+  //   ...row,
+  //   id: index + 1,
+  // }));
 
   return (
     <div className=" w-full">
       {loading && <FullScreenLoading />}
-      <Button
+      {/* <Button
         variant="contained"
         color="primary"
         onClick={() => setCreateFormOpen(true)}
@@ -203,7 +203,7 @@ export default function CreateCategories({ categories }) {
             Cancel
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }

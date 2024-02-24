@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../../../components/admin/Layout/Layout";
 import StoreComp from "../../../../components/admin/store/Store";
-import { revalidatePath } from "next/cache";
+
 import db from "../../../../utils/db";
 
 import Store from "../../../../model/Store";

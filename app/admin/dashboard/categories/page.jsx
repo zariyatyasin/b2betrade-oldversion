@@ -18,11 +18,11 @@ async function getData() {
 }
 export default async function page() {
   const { categories } = await getData();
-  const componentKey = Date.now();
+  console.log(categories);
   return (
     <Layout>
       <div className="px-4 sm:px-6 lg:px-8">
-        <CreateCategories key={componentKey} categories={categories} />
+        <CreateCategories categories={categories} />
       </div>
     </Layout>
   );

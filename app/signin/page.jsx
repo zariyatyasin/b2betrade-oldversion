@@ -182,20 +182,20 @@ const Page = () => {
     const apiKey = "vUg6OOv4uFlo7WIfkgwC";
     const senderId = "8809617615565";
 
-    // try {
-    //   await axios.post("https://bulksmsbd.net/api/smsapimany", {
-    //     api_key: apiKey,
-    //     senderid: senderId,
-    //     messages: [
-    //       {
-    //         to: phoneNumber,
-    //         message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
-    //       },
-    //     ],
-    //   });
-    // } catch (error) {
-    //   console.error("Error sending OTP:", error);
-    // }
+    try {
+      await axios.post("https://bulksmsbd.net/api/smsapimany", {
+        api_key: apiKey,
+        senderid: senderId,
+        messages: [
+          {
+            to: phoneNumber,
+            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
   };
   const loginHandle = async (e) => {
     e.preventDefault();
