@@ -3,6 +3,7 @@ import React from "react";
 import Category from "../../../../model/Category";
 import db from "../../../../utils/db";
 import Test from "../../../../components/Test";
+export const revalidate = 60;
 
 async function getData() {
   await db.connectDb();
