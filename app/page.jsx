@@ -61,9 +61,8 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <MainpageLayout />
-
+      <Main data={homeHero} />
       <div className="  max-w-[1600px]  mx-auto">
-        <Main data={homeHero} />
         <Feature />
         <Categories Category={categories} />
 

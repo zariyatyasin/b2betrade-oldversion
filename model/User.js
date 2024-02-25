@@ -23,7 +23,32 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: ["admin", "subadmin", "supplier", "manufacturer", "seller", "user"],
+      enum: [
+        "admin",
+        "subadmin",
+        "supplier",
+        "manufacturer",
+        "retailer",
+        "user",
+      ],
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+
+      ref: "Category",
+    },
+    storeName: {
+      type: String,
+    },
+    ShopAddress: {
+      type: String,
+    },
+    ShopLocation: {
+      street: String,
+      city: String,
+      state: String,
+      postalCode: String,
+      country: String,
     },
     image: {
       type: String,

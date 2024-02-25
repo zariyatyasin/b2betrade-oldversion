@@ -10,7 +10,7 @@ import SubCategory from "../../../model/SubCategory";
 
 import { getCurrentUser } from "../../../utils/session";
 import { redirect } from "next/navigation";
-export const revalidate = 3;
+
 async function GetData({ params, searchParams }) {
   await db.connectDb();
 

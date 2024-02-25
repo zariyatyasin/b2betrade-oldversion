@@ -111,49 +111,57 @@ export default function Example({ categories, subCategories }) {
                     }`}
                   >
                     {categories?.map((category) => (
-                      <li
-                        key={category.name}
-                        className="flex z-40 relative items-center justify-between p-4   transition ease-in-out duration-150"
-                        onMouseEnter={() => setSelectedCategory(category?._id)}
-                      >
-                        <div className="ml-4">
-                          <Link
-                            href={`/browse?category=${category?._id}`}
-                            className="text-gray-900"
-                            prefetch={false}
-                          >
-                            {category.name}
-                          </Link>
+                      <>
+                        <li
+                          key={category.name}
+                          className="flex z-40 relative items-center justify-between p-4   transition ease-in-out duration-150"
+                          onMouseEnter={() =>
+                            setSelectedCategory(category?._id)
+                          }
+                        >
+                          <div className="ml-4">
+                            <Link
+                              href={`/browse?category=${category?._id}`}
+                              className="text-gray-900"
+                              prefetch={false}
+                            >
+                              {category.name}
+                            </Link>
+                          </div>
+                          <div>
+                            <ArrowForwardIosOutlinedIcon
+                              sx={{ fontSize: 14 }}
+                            />
+                          </div>
+                        </li>
+                        <div
+                          className={`absolute top-0   w-[672px] border bg-white left-80 grid  py-6 lg:grid-cols-3 ${
+                            selectedCategory === category?._id
+                              ? "visible"
+                              : "invisible"
+                          }`}
+                          onMouseLeave={() => setSelectedCategory(null)}
+                        >
+                          {console.log(subCategories)}
+                          {subCategories?.map(
+                            (subCategory) =>
+                              subCategory.parent?._id === selectedCategory && (
+                                <ul key={subCategory?.name} className="pl-4  ">
+                                  <li className=" p-4">
+                                    <Link
+                                      href={`/browse?category=${selectedCategory}&subCategories=${subCategory?._id}`}
+                                      className="text-gray-700 hover:font-bold"
+                                      prefetch={false}
+                                    >
+                                      {subCategory?.name}
+                                    </Link>
+                                  </li>
+                                </ul>
+                              )
+                          )}
                         </div>
-                        <div>
-                          <ArrowForwardIosOutlinedIcon sx={{ fontSize: 14 }} />
-                        </div>
-                      </li>
+                      </>
                     ))}
-
-                    <div
-                      className={`absolute top-0   w-[672px] border bg-white left-80 grid  py-6 lg:grid-cols-3 ${
-                        isCategoryListOpen ? "visible" : "invisible"
-                      }`}
-                      onMouseLeave={() => setSelectedCategory(null)}
-                    >
-                      {subCategories?.map(
-                        (subCategory) =>
-                          subCategory.parent?._id === selectedCategory && (
-                            <ul key={subCategory?.name} className="pl-4  ">
-                              <li className=" p-4">
-                                <Link
-                                  href={`/browse?category=${selectedCategory}&subCategories=${subCategory?._id}`}
-                                  className="text-gray-700 hover:font-bold"
-                                  prefetch={false}
-                                >
-                                  {subCategory?.name}
-                                </Link>
-                              </li>
-                            </ul>
-                          )
-                      )}
-                    </div>
                   </ul>
                 </div>
               </div>

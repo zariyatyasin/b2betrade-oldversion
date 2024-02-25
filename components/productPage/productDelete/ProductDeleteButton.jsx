@@ -7,39 +7,7 @@ import ConfirmationModal from "../../modelUi/ConfirmationModal";
 const ProductDeleteButton = ({ id, visible }) => {
   const [loading, setLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  function generateRandomString(length) {
-    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      result += charset[randomIndex];
-    }
-    return result;
-  }
 
-  // Function to generate a unique SKU
-  async function generateUniqueSKU(existingSKUs) {
-    const skuLength = 8; // Length of the SKU
-    let isUnique = false;
-    let sku;
-
-    // Generate SKU until it's unique
-    while (!isUnique) {
-      sku = generateRandomString(skuLength);
-      // Check if the generated SKU already exists
-      if (!existingSKUs.includes(sku)) {
-        isUnique = true;
-      }
-    }
-
-    return sku;
-  }
-
-  // Example usage
-  const existingSKUs = ["ABC123", "DEF456", "GHI789"]; // Existing SKUs in your database
-  generateUniqueSKU(existingSKUs).then((sku) => {
-    console.log("Generated SKU:", sku);
-  });
   const result =
     visible === "visible"
       ? "visible"
@@ -50,9 +18,8 @@ const ProductDeleteButton = ({ id, visible }) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      // const response = await axios.delete(`/api/admin/product/delete/${id}`);
-      // toast.success(response.data.message);
-      console.log(id);
+      const response = await axios.delete(`/api/admin/product/delete/${id}`);
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Error deleting product:", error.message);
     } finally {

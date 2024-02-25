@@ -135,7 +135,7 @@ export default function CreateProduct({ categories }) {
 
   const validateForm = () => {
     const errors = {};
-    console.log(subProducts);
+
     if (!product.name) {
       errors.name = "Name is required";
     }
@@ -154,7 +154,7 @@ export default function CreateProduct({ categories }) {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  console.log(errors, product.description, product.name);
+
   useEffect(() => {
     async function getSubs() {
       if (product.category) {
@@ -178,7 +178,6 @@ export default function CreateProduct({ categories }) {
     setProduct({ ...product, [name]: value });
   };
   const handleSubmit = async () => {
-    console.log(errors);
     if (!validateForm()) {
       toast.error(errors);
       return;
@@ -187,52 +186,52 @@ export default function CreateProduct({ categories }) {
     const updatedSubProducts = [];
 
     setLoading(true);
-    // for (const subProduct of subProducts) {
-    //   const formData = new FormData();
-    //   const cloudinaryImages = [];
-    //   for (const image of subProduct.images) {
-    //     formData.append("file", image.blob);
-    //     formData.append("upload_preset", "ml_default");
-    //     formData.append("cloud_name", "dtasegoef");
-    //     const cloudinaryResponse = await Uploadimages(formData);
+    for (const subProduct of subProducts) {
+      const formData = new FormData();
+      const cloudinaryImages = [];
+      for (const image of subProduct.images) {
+        formData.append("file", image.blob);
+        formData.append("upload_preset", "ml_default");
+        formData.append("cloud_name", "dtasegoef");
+        const cloudinaryResponse = await Uploadimages(formData);
 
-    //     cloudinaryImages.push(cloudinaryResponse);
-    //   }
+        cloudinaryImages.push(cloudinaryResponse);
+      }
 
-    //   if (subProduct.color.image) {
-    //     const colorFormData = new FormData();
-    //     colorFormData.append(
-    //       "file",
-    //       new File([subProduct.color.image], "color_image.jpg", {
-    //         type: "image/jpeg",
-    //       })
-    //     );
-    //     colorFormData.append("upload_preset", "ml_default");
-    //     colorFormData.append("cloud_name", "dtasegoef");
-    //     const colorImageUpload = await Uploadimages(colorFormData);
+      if (subProduct.color.image) {
+        const colorFormData = new FormData();
+        colorFormData.append(
+          "file",
+          new File([subProduct.color.image], "color_image.jpg", {
+            type: "image/jpeg",
+          })
+        );
+        colorFormData.append("upload_preset", "ml_default");
+        colorFormData.append("cloud_name", "dtasegoef");
+        const colorImageUpload = await Uploadimages(colorFormData);
 
-    //     subProduct.color.image = colorImageUpload.secure_url;
-    //   }
+        subProduct.color.image = colorImageUpload.secure_url;
+      }
 
-    //   updatedSubProducts.push({
-    //     ...subProduct,
-    //     images: cloudinaryImages,
-    //   });
-    // }
+      updatedSubProducts.push({
+        ...subProduct,
+        images: cloudinaryImages,
+      });
+    }
 
-    // try {
-    //   const { data } = await axios.post("/api/admin/product", {
-    //     ...product,
-    //     updatedSubProducts,
-    //   });
-    // } catch (error) {
-    //   console.error("Error creating product:", error);
-    //   toast.success(error);
-    // } finally {
-    //   toast.success("Product successfully created");
+    try {
+      const { data } = await axios.post("/api/admin/product", {
+        ...product,
+        updatedSubProducts,
+      });
+    } catch (error) {
+      console.error("Error creating product:", error);
+      toast.success(error);
+    } finally {
+      toast.success("Product successfully created");
 
-    //   setLoading(false);
-    // }
+      setLoading(false);
+    }
   };
 
   return (
@@ -248,9 +247,9 @@ export default function CreateProduct({ categories }) {
             <h1 className="font-semibold tracking-tight text-2xl">
               Create Product
             </h1>
-            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
+            <div className="mt-8  max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
-                <div className="p-4">
+                <div className="p-4 bg-white  shadow rounded-md">
                   {" "}
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
@@ -439,9 +438,12 @@ export default function CreateProduct({ categories }) {
               </section>
             </div>
 
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <button
+              className="mt-2 inline-flex w-full text-center items-center px-8 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600  "
+              onClick={handleSubmit}
+            >
               Submit
-            </Button>
+            </button>
           </Form>
         )}
       </Formik>

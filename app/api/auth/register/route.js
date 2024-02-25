@@ -8,8 +8,16 @@ import { createActivationToken } from "../../../../utils/token";
 export async function POST(request) {
   try {
     await db.connectDb();
-    const { phoneNumber, password, name } = await request.json();
-
+    const {
+      phoneNumber,
+      password,
+      name,
+      storeName,
+      ShopAddress,
+      category,
+      city,
+    } = await request.json();
+    console.log(storeName, ShopAddress, category);
     if (!phoneNumber || !password) {
       return NextResponse.json(
         { message: "Please fill all the fields" },
@@ -38,7 +46,20 @@ export async function POST(request) {
     }
 
     const cryptedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ phoneNumber, password: cryptedPassword, name });
+    const newUser = new User({
+      phoneNumber,
+      password: cryptedPassword,
+      name,
+      storeName,
+      category,
+      city,
+      ShopAddress,
+      ShopLocation: {
+        city: city,
+      },
+    });
+
+    console.log(newUser);
     const addedUser = await newUser.save();
 
     const activation_token = createActivationToken({
