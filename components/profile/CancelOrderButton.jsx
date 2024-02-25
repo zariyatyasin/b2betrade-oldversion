@@ -41,7 +41,11 @@ export default function CancelOrderButton({ order, setLoading }) {
 
   return (
     <div className="text-blue-800">
-      <button className="" variant="outlined" onClick={openConfirmationModal}>
+      <button
+        className=" text-red-500"
+        variant="outlined"
+        onClick={openConfirmationModal}
+      >
         Cancel Order
       </button>
       <Dialog

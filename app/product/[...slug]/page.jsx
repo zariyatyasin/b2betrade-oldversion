@@ -10,7 +10,7 @@ import Link from "next/link";
 import MainpageLayout from "../../../components/layout/MainpageLayout";
 import mongoose from "mongoose";
 import Footer from "../../../components/Footer/Footer";
-
+import Error from "../../../components/error/Error";
 async function getData(url) {
   const ObjectId = mongoose.Types.ObjectId;
 
@@ -105,7 +105,7 @@ async function getData(url) {
     return { product: JSON.parse(JSON.stringify(newProduct)) };
   } catch (error) {
     console.error("Error occurred:", error);
-    return { error: "An error occurred while fetching the product." };
+    return { error: `An error occurred while fetching the product.` };
   }
 
   // finally {
@@ -121,8 +121,21 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params, searchParams }) {
-  const { product } = await getData(params);
-
+  const { product, error } = await getData(params);
+  if (error) {
+    return (
+      <>
+        <MainpageLayout />
+        <div className="pt-16 lg:pt-32 px-2 sm:px-4 lg:px-8  max-w-[1400px]  mx-auto ">
+          <Error
+            header={" No Product Found"}
+            title={"Error occurred while fetching the product."}
+          />
+        </div>
+        <Footer />
+      </>
+    );
+  }
   return (
     <>
       <MainpageLayout />

@@ -28,7 +28,7 @@ const Layout = async ({ children, data }) => {
   const { categories, subCategories } = await getData();
   return (
     <>
-      <div className=" max-w-7xl   mx-auto flex mt-8 gap-8  px-2 sm:px-4  lg:px-8">
+      <div className=" max-w-7xl   mx-auto flex mt-24 lg:mt-32 gap-8  px-2 sm:px-4  lg:px-8">
         {/* Static sidebar for desktop */}
         <div className="hidden lg:flex md:w-64 md:flex-col   ">
           {/* Sidebar component, swap this element with another sidebar if you like */}

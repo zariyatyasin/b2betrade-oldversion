@@ -64,7 +64,7 @@ export default async function page({ searchParams }) {
           tab,
         }}
       >
-        <main className=" pb-24 ">
+        <main className=" pt-20 pb-24 ">
           <div className="   ">
             <h1 className="text-2xl text-center   w-full font-extrabold tracking-tight text-gray-900 sm:text-3xl">
               Order history

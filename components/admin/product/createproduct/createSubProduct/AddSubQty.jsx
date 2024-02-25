@@ -75,7 +75,12 @@ export default function AddSubQty({
   };
 
   return (
-    <div className=" border py-8 p-4 mt-8" key={sizeIndex}>
+    <div className="  border rounded-md   py-8 p-4 mt-8" key={sizeIndex}>
+      <HighlightOffOutlinedIcon
+        variant="contained"
+        color="error"
+        onClick={() => handleRemoveSize(index, sizeIndex)}
+      />
       <div className="flex items-end justify-end ">
         <div
           className="text-white bg-blue-800 hover:bg-blue-800      text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
@@ -189,12 +194,6 @@ export default function AddSubQty({
           </div>
         )}
       </div>
-
-      <HighlightOffOutlinedIcon
-        variant="contained"
-        color="error"
-        onClick={() => handleRemoveSize(index, sizeIndex)}
-      />
     </div>
   );
 }

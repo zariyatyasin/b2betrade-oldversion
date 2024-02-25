@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Link from "next/link";
-
+import ConfirmationModal from "../../modelUi/ConfirmationModal";
 const ProductDeleteButton = ({ id, visible }) => {
   const [loading, setLoading] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const result =
     visible === "visible"
       ? "visible"
@@ -16,27 +18,25 @@ const ProductDeleteButton = ({ id, visible }) => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-
       const response = await axios.delete(`/api/admin/product/delete/${id}`);
-
       toast.success(response.data.message);
     } catch (error) {
-      // Handle error, e.g., show an error message
       console.error("Error deleting product:", error.message);
     } finally {
-      window.location.reload();
       setLoading(false);
+      setShowConfirmation(false);
+      window.location.reload();
     }
   };
 
   return (
     <div className="flex   items-center">
       <button
-        onClick={handleDelete}
+        onClick={() => setShowConfirmation(true)}
         disabled={loading}
         className="border border-red-500 rounded-md p-2"
       >
-        {loading ? "Deleting..." : "Delete "}
+        {loading ? "Deleting..." : "Delete"}
       </button>
       <Link
         href={`/editproduct/${id}`}
@@ -51,6 +51,12 @@ const ProductDeleteButton = ({ id, visible }) => {
       >
         {result}
       </div>
+      <ConfirmationModal
+        showConfirmation={showConfirmation}
+        setShowConfirmation={setShowConfirmation}
+        handleDelete={handleDelete}
+        result={result}
+      />
     </div>
   );
 };

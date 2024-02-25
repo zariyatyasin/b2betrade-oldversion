@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 import { toast } from "react-toastify";
@@ -7,6 +7,8 @@ import MultipleSelect from "../selects/MultipleSelect";
 import * as Yup from "yup";
 import axios from "axios";
 import { Button } from "../ui/button";
+import Model from "./Model";
+
 function B2bRegistration({ categories, userType }) {
   const role = [
     { _id: 1, name: "supplier" },
@@ -51,31 +53,14 @@ function B2bRegistration({ categories, userType }) {
   const [values, setValues] = useState(initialValues);
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    setValues({ ...values, [name]: value });
-  };
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        "/api/formrequest/b2bregistration",
-
-        values
-      );
-
-      if (response.status === 201) {
-        resetForm();
-        toast.success(response.data.message);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
-    setValues(values);
-  };
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [enteredOtp, setEnteredOtp] = useState(["", "", "", ""]);
+  const otpInputsRefs = useRef([]);
+  const [otp, setOtp] = useState("");
+  const [otpSuccess, setotpSuccess] = useState(false);
+  const [resendDisabled, setResendDisabled] = useState(true);
+  const [countdown, setCountdown] = useState(60);
+  const [error, setError] = useState(null);
   useEffect(() => {
     async function getSubs() {
       if (values.category) {
@@ -94,6 +79,161 @@ function B2bRegistration({ categories, userType }) {
     }
     getSubs();
   }, [values.category]);
+  useEffect(() => {
+    let intervalId;
+
+    if (resendDisabled && otpSuccess === false) {
+      intervalId = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown === 0) {
+            setResendDisabled(false);
+            clearInterval(intervalId);
+          } else if (prevCountdown === 1) {
+            setResendDisabled(false);
+          }
+          return Math.max(prevCountdown - 1, 0);
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [resendDisabled, otpSuccess]);
+
+  const handleOtpKeyDown = (index, e) => {
+    if (e.key === "Backspace" && enteredOtp[index] === "" && index > 0) {
+      e.preventDefault();
+      otpInputsRefs.current[index - 1].focus();
+    }
+  };
+  const handleVerifyOtp = (enteredOtpjon) => {
+    setLoading(true);
+    if (otp === parseInt(enteredOtpjon)) {
+      setTimeout(() => {
+        setotpSuccess(true);
+        setLoading(false);
+        setShowOtpModal(false);
+        setError(null);
+      }, 2000);
+    } else {
+      setotpSuccess(false);
+      setLoading(false);
+      setError("Incorrect OTP. Please try again.");
+    }
+  };
+
+  const closeOtpModal = () => {
+    setEnteredOtp(["", "", "", ""]);
+    setError(null);
+    setShowOtpModal(false);
+    setCountdown(60);
+  };
+  const handleResendClick = () => {
+    if (otpSuccess === false) {
+      setResendDisabled(true);
+      setCountdown(60);
+
+      handleOtpSend();
+      setError(null);
+      setEnteredOtp(["", "", "", ""]);
+    }
+  };
+  const handleOtpInputChange = (index, value) => {
+    const newOtp = [...enteredOtp];
+    newOtp[index] = value;
+
+    setEnteredOtp(newOtp);
+
+    if (index < enteredOtp.length - 1 && value !== "") {
+      otpInputsRefs.current[index + 1].focus();
+    }
+
+    const isAllFilled = newOtp.every((digit) => digit !== "");
+
+    if (isAllFilled) {
+      const enteredOtpjon = newOtp.join("");
+      handleVerifyOtp(enteredOtpjon);
+    }
+  };
+  const handleOtpPaste = (event) => {
+    const pastedData = event.clipboardData.getData("Text");
+    const pastedOtp = pastedData.match(/\d/g);
+    if (pastedOtp && pastedOtp.length === enteredOtp.length) {
+      const newOtp = pastedOtp.slice(0, enteredOtp.length);
+      setEnteredOtp(newOtp);
+      handleVerifyOtp(newOtp.join(""));
+    }
+  };
+  const renderOtpInputs = () => {
+    return enteredOtp.map((digit, index) => (
+      <input
+        key={index}
+        className="m-2 border h-10 w-10 text-center form-control rounded"
+        type="text"
+        maxLength="1"
+        value={digit || ""}
+        onChange={(e) => handleOtpInputChange(index, e.target.value)}
+        ref={(input) => (otpInputsRefs.current[index] = input)}
+        onKeyDown={(e) => handleOtpKeyDown(index, e)}
+        onPaste={handleOtpPaste} // Add this line for paste event
+      />
+    ));
+  };
+
+  const handleOtpSend = async (phoneNumber) => {
+    // Generate OTP
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000);
+
+    setOtp(generatedOtp);
+    const apiKey = "vUg6OOv4uFlo7WIfkgwC";
+    const senderId = "8809617615565";
+    setCountdown(60);
+    try {
+      await axios.post("https://bulksmsbd.net/api/smsapimany", {
+        api_key: apiKey,
+        senderid: senderId,
+        messages: [
+          {
+            to: phoneNumber,
+            message: `Welcome to B2BeTrade, Your OTP is: ${generatedOtp}`,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
+  };
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    if (otpSuccess) {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          "/api/formrequest/b2bregistration",
+
+          values
+        );
+
+        if (response.status === 201) {
+          resetForm();
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+        setError(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+      setValues(values);
+    } else {
+      handleOtpSend(values.phoneNumber);
+      setShowOtpModal(true);
+      setError("Verify the Phone number");
+    }
+  };
+
   return (
     <Formik
       initialValues={values}
@@ -327,14 +467,55 @@ function B2bRegistration({ categories, userType }) {
               />
             </div>
           </div>
+          <Model isOpen={showOtpModal} onClose={closeOtpModal}>
+            <div className="w-full">
+              <div className="bg-white   py-3 rounded text-center">
+                <div className="flex flex-col mt-4">
+                  <span>Enter the OTP you received at</span>
 
+                  <div onClick={closeOtpModal} className=" text-blue-600">
+                    Edit
+                  </div>
+                </div>
+
+                <div
+                  id="otp"
+                  className="flex flex-row justify-center text-center px-2 mt-5"
+                >
+                  {renderOtpInputs()}
+                </div>
+
+                <div className=" text-xs text-red-500 mt-1">
+                  {error && error}
+                </div>
+
+                <div>
+                  {resendDisabled && (
+                    <div className="text-center">{countdown}s</div>
+                  )}
+                </div>
+                <div>
+                  {!resendDisabled && (
+                    <button
+                      className=" text-center font-bold"
+                      onClick={handleResendClick}
+                      disabled={resendDisabled}
+                    >
+                      Resend
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Model>
+          <div className=" text-xs text-red-600 mb-2">{error && error}</div>
           <div className="  pb-4 ">
-            <Button
+            <button
               type="submit"
-              className=" px-2 py-4 bg-blue-600 text-white  "
+              className=" px-4 py-2 rounded-md bg-[#2B39D1] text-white  "
             >
               Submit
-            </Button>
+            </button>
           </div>
         </Form>
       )}

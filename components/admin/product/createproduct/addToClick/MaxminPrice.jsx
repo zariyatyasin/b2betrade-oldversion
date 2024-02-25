@@ -47,7 +47,7 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
                 placeholder="Min Qty"
                 value={pricing.minQty}
                 onChange={(e) => handleBulkPricing(i, e)}
-                className="border rounded-md p-2 w-40" // Apply Tailwind CSS classes for input styling
+                className="border rounded-md p-2  w-full " // Apply Tailwind CSS classes for input styling
               />
               <input
                 type="number"
@@ -55,7 +55,7 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
                 placeholder="Max Qty"
                 value={pricing.maxQty}
                 onChange={(e) => handleBulkPricing(i, e)}
-                className="border rounded-md p-2 w-40" // Apply Tailwind CSS classes for input styling
+                className="border rounded-md p-2  w-full " // Apply Tailwind CSS classes for input styling
               />
               <input
                 type="number"
@@ -63,7 +63,7 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
                 placeholder="Price"
                 value={pricing.price}
                 onChange={(e) => handleBulkPricing(i, e)}
-                className="border rounded-md p-2 w-40" // Apply Tailwind CSS classes for input styling
+                className="border rounded-md p-2  w-full " // Apply Tailwind CSS classes for input styling
               />
               <>
                 <Delete

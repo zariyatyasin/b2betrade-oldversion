@@ -24,8 +24,8 @@ export default function SingularSelect({
         className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
       >
         <option value="">Select an option</option>
-        {data?.map((option) => (
-          <option key={option._id} value={option._id || option.name}>
+        {data?.map((option, id) => (
+          <option key={id} value={option._id || option.name}>
             {option.name}
           </option>
         ))}

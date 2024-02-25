@@ -3,7 +3,8 @@ import Footer from "../components/Footer/Footer";
 import MainpageLayout from "../components/layout/MainpageLayout";
 import { Categories } from "../components/home/category/Categories";
 import Discount from "../components/home/Discount/Discount";
-
+import Feature from "../components/home/Feature";
+import FindSupplier from "../components/home/FindSupplier";
 import Main from "../components/home/main/Main";
 import NewProducts from "../components/home/newProducts/NewProducts";
 
@@ -60,25 +61,17 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <MainpageLayout />
-      {/* <HeaderAds /> */}
-      {/* <TopNavbar/> */}
-      {/* <Header categories={categories} subCategories={subCategories} /> */}
-      {/* <Example categories={categories} subCategories={subCategories} /> */}
-      {/* 
-      <HeaderPolicy /> */}
-
-      <div className=" pt-20 lg:pt-32 max-w-[1600px]  mx-auto">
-        <Main data={homeHero} />
+      <Main data={homeHero} />
+      <div className="  max-w-[1600px]  mx-auto">
+        <Feature />
         <Categories Category={categories} />
 
         {/* <Tabs /> */}
-        {/* <FlashDeals /> */}
-
-        <NewProducts products={newProduct} name={"New Arrival"} />
 
         {/* <Discount /> */}
       </div>
-
+      <NewProducts products={newProduct} name={"New Arrival"} />
+      <FindSupplier />
       <Footer />
       {/* <MobileMenu categories={categories} subCategories={subCategories} /> */}
     </>

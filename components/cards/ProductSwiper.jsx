@@ -36,7 +36,7 @@ const ProductSwiper = ({ images }) => {
       }}
     >
       <Swiper
-        className="mySwiper w-full h-32  lg:h-64 "
+        className="mySwiper w-full h-32  lg:h-56 "
         ref={swiperRef}
         modules={[Autoplay]}
         autoplay={{ delay: 500, stopOnLastSlide: false }}

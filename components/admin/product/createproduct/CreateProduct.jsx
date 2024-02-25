@@ -67,6 +67,8 @@ export default function CreateProduct({ categories }) {
   const [images, setImages] = useState([]);
   const [samePriceForAll, setSamePriceForAll] = useState(true);
   const [editorHtml, setEditorHtml] = useState("");
+  const [subProducts, setSubProducts] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const modules = {
     toolbar: [
@@ -92,16 +94,7 @@ export default function CreateProduct({ categories }) {
     "link",
     "image",
   ];
-  // const handleImageUpload = (file) => {
-  //   const formData = new FormData();
-  //   formData.append("image", file);
 
-  //   // Replace 'YOUR_UPLOAD_URL' with your actual image upload endpoint
-  //   return axios.post("YOUR_UPLOAD_URL", formData).then((response) => {
-  //     // Replace 'YOUR_CLOUDINARY_URL' with your actual Cloudinary URL
-  //     return response.data.url || "YOUR_CLOUDINARY_URL";
-  //   });
-  // };
   const section = [
     {
       name: "big-deal",
@@ -140,7 +133,28 @@ export default function CreateProduct({ categories }) {
     },
   ];
 
-  const [subProducts, setSubProducts] = useState([]);
+  const validateForm = () => {
+    const errors = {};
+
+    if (!product.name) {
+      errors.name = "Name is required";
+    }
+    if (!product.description) {
+      errors.description = "Description is required";
+    }
+    if (subProducts.length === 0) {
+      errors.subProducts = " product is required";
+    }
+    if (product.subCategories.length === 0) {
+      errors.subCategories = " subCategories is required";
+    }
+    if (!product.category) {
+      errors.category = " category is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   useEffect(() => {
     async function getSubs() {
       if (product.category) {
@@ -164,9 +178,14 @@ export default function CreateProduct({ categories }) {
     setProduct({ ...product, [name]: value });
   };
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      toast.error(errors);
+      return;
+    }
+
     const updatedSubProducts = [];
 
-    // setLoading(true);
+    setLoading(true);
     for (const subProduct of subProducts) {
       const formData = new FormData();
       const cloudinaryImages = [];
@@ -178,12 +197,6 @@ export default function CreateProduct({ categories }) {
 
         cloudinaryImages.push(cloudinaryResponse);
       }
-
-      // const cloudinaryImages = cloudinaryResponse.map((response) => ({
-      //   url: response.secure_url,
-      //   secure_url: response.secure_url,
-      //   public_id: response.public_id,
-      // }));
 
       if (subProduct.color.image) {
         const colorFormData = new FormData();
@@ -220,27 +233,13 @@ export default function CreateProduct({ categories }) {
       setLoading(false);
     }
   };
-  const validate = Yup.object({
-    name: Yup.string()
-      .required("Please add a name")
-      .min(10, "Product name must be between 10 and 300 characters.")
-      .max(300, "Product name must be between 10 and 300 characters.")
-      .matches(
-        /^[^\(\)\[\]@{}$#]+$/,
-        "Name cannot contain @, {}, $, #, (), [] symbols"
-      ),
-    brand: Yup.string().required("Please add a brand"),
-    category: Yup.string().required("Please select a category."),
-    // sku: Yup.string().required("Please add an SKU/number"),
-    description: Yup.string().required("Please add a description"),
-  });
+
   return (
     <Box>
       {loading && <FullScreenLoading />}
       <Formik
         enableReinitialize
         initialValues={product}
-        validationSchema={validate}
         onSubmit={handleSubmit}
       >
         {(formik) => (
@@ -248,9 +247,9 @@ export default function CreateProduct({ categories }) {
             <h1 className="font-semibold tracking-tight text-2xl">
               Create Product
             </h1>
-            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
+            <div className="mt-8  max-w-3xl mx-auto grid grid-cols-1 gap-6 lg:max-w-[1400px] lg:grid-flow-col-dense lg:grid-cols-3">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
-                <Paper className="p-4">
+                <div className="p-4 bg-white  shadow rounded-md">
                   {" "}
                   <Grid container spacing={2}>
                     <Grid item xs={12} lg={12}>
@@ -261,6 +260,9 @@ export default function CreateProduct({ categories }) {
                         placholder="Product name"
                         onChange={handleChange}
                       />
+                      {errors.name && (
+                        <span className="text-red-500">{errors.name}</span>
+                      )}
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <SingularSelect
@@ -293,7 +295,7 @@ export default function CreateProduct({ categories }) {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}>
+                    {/* <Grid item xs={12} lg={6}>
                       <AdminInput
                         type="text"
                         label="Sku"
@@ -301,7 +303,7 @@ export default function CreateProduct({ categories }) {
                         placholder="Product sku/ number"
                         onChange={handleChange}
                       />
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item xs={12} lg={6}>
                       <AdminInput
@@ -312,13 +314,7 @@ export default function CreateProduct({ categories }) {
                         onChange={handleChange}
                       />
                     </Grid>
-                    {/* <Grid item xs={12} lg={12}>  <AdminInput
-              type="text"
-              label="Description"
-              name="description"
-              placholder="Product description"
-              onChange={handleChange}
-            /></Grid> */}
+
                     <Grid item xs={12} lg={12}>
                       <ReactQuill
                         theme="snow"
@@ -334,6 +330,11 @@ export default function CreateProduct({ categories }) {
                         bounds=".app"
                         scrollingContainer=".app"
                       />
+                      {errors.description && (
+                        <span className="text-red-500">
+                          {errors.description}
+                        </span>
+                      )}
                     </Grid>
 
                     <Grid item xs={12} lg={12}>
@@ -368,6 +369,11 @@ export default function CreateProduct({ categories }) {
                         setImages={setImages}
                         images={images}
                       />
+                      {errors.subProducts && (
+                        <span className="text-red-500">
+                          {errors.subProducts}
+                        </span>
+                      )}
                     </Grid>
 
                     <Grid item xs={12} lg={12}>
@@ -388,7 +394,7 @@ export default function CreateProduct({ categories }) {
                       />
                     </Grid>
                   </Grid>
-                </Paper>
+                </div>
               </div>
 
               <section
@@ -397,7 +403,6 @@ export default function CreateProduct({ categories }) {
               >
                 <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
                   <Grid item xs={12} lg={6}>
-                    {" "}
                     <SingularSelect
                       name="category"
                       value={product.category}
@@ -407,10 +412,12 @@ export default function CreateProduct({ categories }) {
                       handleChange={handleChange}
                       disabled={product.parent}
                     />
+                    {errors.category && (
+                      <span className="text-red-500">{errors.category}</span>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} lg={6}>
-                    {" "}
                     {
                       <MultipleSelect
                         value={product.subCategories}
@@ -421,14 +428,22 @@ export default function CreateProduct({ categories }) {
                         handleChange={handleChange}
                       />
                     }{" "}
+                    {errors.subCategories && (
+                      <span className="text-red-500">
+                        {errors.subCategories}
+                      </span>
+                    )}
                   </Grid>
                 </div>
               </section>
             </div>
 
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <button
+              className="mt-2 inline-flex w-full text-center items-center px-8 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600  "
+              onClick={handleSubmit}
+            >
               Submit
-            </Button>
+            </button>
           </Form>
         )}
       </Formik>
