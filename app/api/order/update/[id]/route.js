@@ -40,3 +40,34 @@ export const PUT = async (request, { params }) => {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
+
+export const DELETE = async (request, { params }) => {
+  const session = await getCurrentUser();
+
+  if (!session) {
+    return NextResponse.json("You must be logged in", {
+      status: 401,
+    });
+  }
+
+  try {
+    await db.connectDb();
+    const { id } = params;
+
+    const order = await Order.findById(id);
+    if (!order) {
+      return NextResponse.json({ message: "Order not found" }, { status: 404 });
+    }
+
+    await Order.findByIdAndDelete(id);
+
+    db.disconnectDb();
+
+    return NextResponse.json(
+      { message: "Order deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+};

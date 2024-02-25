@@ -43,7 +43,7 @@ export default async function page({ searchParams }) {
   return (
     <>
       <MainpageLayout />
-      <div className=" pt-16 lg:pt-32">
+      <div className=" ">
         <Layout
           data={{
             ...session,

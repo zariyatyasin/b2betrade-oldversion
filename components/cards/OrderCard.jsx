@@ -6,10 +6,15 @@ import DeleteConfirmationModal from "../../components/modelUi/DeleteConfirmation
 import ViewDetailsModal from "../../components/modelUi/ViewDetailsModal";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import FullScreenLoading from "../fullScreenOverlay/FullScreenLoading";
 export default function OrderCard({ data }) {
   const [order, setorder] = useState(data);
   const { data: session, status } = useSession();
   const [editedProduct, setEditedProduct] = useState(null);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isViewModalOpen, setViewModalOpen] = useState(false);
+  const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   let totalProductNumber = 0;
   const menuItem = [
     { value: "Not Processed", label: "Not Processed" },
@@ -134,10 +139,6 @@ export default function OrderCard({ data }) {
     }
   };
 
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isViewModalOpen, setViewModalOpen] = useState(false);
-  const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
   const openEditModal = () => {
     setEditModalOpen(true);
   };
@@ -154,10 +155,6 @@ export default function OrderCard({ data }) {
 
   const openViewModel = () => {
     setViewModalOpen(true);
-  };
-
-  const closeViewModel = () => {
-    setViewModalOpen(false);
   };
 
   const openDeleteConfirmation = () => {
@@ -192,12 +189,28 @@ export default function OrderCard({ data }) {
     }
   };
 
-  const handleDelete = () => {
-    closeDeleteConfirmation();
+  const handleDelete = async (orderId) => {
+    try {
+      setLoading(true);
+      setDeleteConfirmationOpen(false);
+      const response = await axios.delete(`/api/order/update/${orderId}`);
+      if (response.status === 200) {
+        window.location.reload();
+      } else {
+        console.error("Failed to delete order:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error.message);
+    } finally {
+      window.location.reload();
+      setDeleteConfirmationOpen(false);
+      setLoading(false);
+    }
   };
 
   return (
     <>
+      {isLoading && <FullScreenLoading />}
       <tr>
         <td className="whitespace-nowrap pl-4 pr-3 text-sm sm:pl-6 hover:bg-gray-100">
           <div className="shipping-address">
@@ -290,7 +303,7 @@ export default function OrderCard({ data }) {
       {isDeleteConfirmationOpen && (
         <DeleteConfirmationModal
           onClose={closeDeleteConfirmation}
-          onDelete={handleDelete}
+          onDelete={() => handleDelete(order._id)}
         />
       )}
     </>
