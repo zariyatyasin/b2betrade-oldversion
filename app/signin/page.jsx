@@ -89,6 +89,7 @@ const Page = () => {
 
     fetchCategories();
   }, [hasStore]);
+
   const handleOtpKeyDown = (index, e) => {
     if (e.key === "Backspace" && enteredOtp[index] === "" && index > 0) {
       e.preventDefault();
@@ -343,9 +344,10 @@ const Page = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     inputMode="numeric"
                     pattern="[0-9]*"
+                    placeholder="01XXXXXXXXX"
                     autoComplete="phoneNumber"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
+                    className="appearance-none placeholder:text-gray-300 block w-full px-3 py-2 border border-gray-200 shadow-sm placeholder-gray-900 focus:outline-none focus:ring-gray-900 focus:border-gray-200 sm:text-sm"
                   />
                 </div>
                 {phoneNumber.length !== 11 && phoneNumber !== "" && (
