@@ -3,6 +3,8 @@ import db from "../../../../utils/db";
 import React from "react";
 import Category from "../../../../model/Category";
 import CreateCategories from "../../../../components/admin/categories/CreateCategories";
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 async function getData() {
   await db.connectDb();

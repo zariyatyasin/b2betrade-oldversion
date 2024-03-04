@@ -142,7 +142,6 @@ export default function Example({ categories, subCategories }) {
                           }`}
                           onMouseLeave={() => setSelectedCategory(null)}
                         >
-                          {console.log(subCategories)}
                           {subCategories?.map(
                             (subCategory) =>
                               subCategory.parent?._id === selectedCategory && (
