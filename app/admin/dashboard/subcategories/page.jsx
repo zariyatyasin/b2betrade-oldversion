@@ -4,7 +4,8 @@ import React from "react";
 import Category from "../../../../model/Category";
 import SubCategory from "../../../../model/SubCategory";
 import CreateSubCategory from "../../../../components/admin/subcategory/CreateSubCategory";
-
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 async function getData() {
   await db.connectDb();
 
