@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export const Uploadimages = async (formData) => {
   try {
     const response = await axios.post(
@@ -7,7 +6,7 @@ export const Uploadimages = async (formData) => {
       formData
     );
 
-    const data = response.data; // Access the data property from the response
+    const data = response.data;
     const image = {
       url: data.url,
       secure_url: data.secure_url,
@@ -17,7 +16,7 @@ export const Uploadimages = async (formData) => {
     return image;
   } catch (error) {
     console.error("Error uploading image:", error);
-    throw error; // Re-throw the error to be caught by the calling function
+    throw error;
   }
 };
 // export const ResizeAndUpload = async (file) => {

@@ -15,13 +15,14 @@ export default function SingularSelect({
 
   return (
     <div className="mb-4">
-      {header && <div className="mb-2 font-bold">{header}</div>}
+      {header && <div className="mb-2 text-sm  font-medium">{header}</div>}
       <select
         name={field.name}
         onChange={handleChange}
         value={field.value || ""}
         disabled={isDisabled}
-        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+        className="border r  px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+        style={{ height: "48px" }}
       >
         <option value="">Select an option</option>
         {data?.map((option, id) => (

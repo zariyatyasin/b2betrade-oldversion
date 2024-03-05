@@ -1,17 +1,18 @@
-import React, { useState, useRef } from "react";
-import { Box } from "@mui/material";
-import { Button } from "../../../../ui/button";
+import React, { useState } from "react";
+import { HighlightOffOutlined as HighlightOffOutlinedIcon } from "@mui/icons-material";
 import AddSubProductImage from "./AddSubProductImage";
 import AddSubQty from "./AddSubQty";
 import AddSubProductColor from "./AddSubProductColor";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+
 const CreateSubProduct = ({
   subProducts,
   setSubProducts,
   samePriceForAll,
   editedProduct,
 }) => {
-  const [subProductVisibility, setSubProductVisibility] = useState([]);
+  const [subProductVisibility, setSubProductVisibility] = useState(
+    new Array(subProducts.length).fill(true)
+  );
 
   const toggleSubProductVisibility = (index) => {
     setSubProductVisibility((prevVisibility) => {
@@ -42,18 +43,18 @@ const CreateSubProduct = ({
       discount: 0,
       sold: 0,
     };
-    setSubProductVisibility((prevVisibility) =>
-      prevVisibility.map(() => false)
-    );
-
-    setSubProducts([...subProducts, newSubProduct]);
     setSubProductVisibility([...subProductVisibility, true]);
+    setSubProducts([...subProducts, newSubProduct]);
   };
 
   const handleRemoveSubProduct = (index) => {
     const updatedSubProducts = [...subProducts];
     updatedSubProducts.splice(index, 1);
     setSubProducts(updatedSubProducts);
+
+    const updatedVisibility = [...subProductVisibility];
+    updatedVisibility.splice(index, 1);
+    setSubProductVisibility(updatedVisibility);
   };
 
   const handleAddSize = (subProductIndex) => {
@@ -76,78 +77,55 @@ const CreateSubProduct = ({
     <div className=" ">
       {subProducts.map((subProduct, index) => (
         <div key={index}>
-          {/* <h3 onClick={() => toggleSubProductVisibility(index)} c>
-            Product {index + 1}
-          </h3> */}
-          {/* <h3 onClick={() => toggleSubProductVisibility(index)} className="font-semibold leading-none tracking-tight">
-            Product {index + 1}
-          </h3> */}
-          {subProductVisibility[index] && (
-            <div
-              key={index}
-              className="border p-2 shadow rounded-md mb-5 bg-white"
-            >
-              {/* <Button
+          <div key={index} className="border p-2   rounded-md mb-5 bg-white">
+            <div className="flex justify-between items-center">
+              <h3 className="font-semibold leading-none tracking-tight py-2">
+                {" "}
+                Product {index + 1}
+              </h3>
+              <HighlightOffOutlinedIcon
                 variant="contained"
-                color="primary"
-                onClick={() => {
-                  const updatedVisibility = [...subProductVisibility];
-                  updatedVisibility[index] = !updatedVisibility[index];
-                  setSubProductVisibility(updatedVisibility);
-                }}
-              >
-                Toggle Visibility
-              </Button> */}
-
-              <div className="   flex justify-between items-center">
-                <h3 className="font-semibold leading-none tracking-tight py-2">
-                  {" "}
-                  Product {index + 1}
-                </h3>
-                <HighlightOffOutlinedIcon
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleRemoveSubProduct(index)}
-                />
-              </div>
-
-              <AddSubProductImage
-                index={index}
-                subProducts={subProducts}
-                setSubProducts={setSubProducts}
-                initialImages={editedProduct?.subProducts[index]?.images}
-              />
-
-              <div
-                className="text-white bg-blue-800 hover:bg-blue-800 w-36   text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
-                onClick={() => handleAddSize(index)}
-              >
-                Add Size
-              </div>
-
-              {subProduct.sizes.map((size, sizeIndex) => (
-                <AddSubQty
-                  samePriceForAll={samePriceForAll}
-                  key={sizeIndex}
-                  size={size}
-                  index={index}
-                  sizeIndex={sizeIndex}
-                  subProducts={subProducts}
-                  setSubProducts={setSubProducts}
-                />
-              ))}
-              <AddSubProductColor
-                index={index}
-                subProduct={subProduct}
-                subProducts={subProducts}
-                setSubProducts={setSubProducts}
+                color="error"
+                onClick={() => handleRemoveSubProduct(index)}
               />
             </div>
-          )}
+
+            <AddSubProductImage
+              index={index}
+              subProducts={subProducts}
+              setSubProducts={setSubProducts}
+              initialImages={editedProduct?.subProducts[index]?.images}
+            />
+
+            <div
+              className="text-white bg-blue-800 hover:bg-blue-800 w-36 text-center cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
+              onClick={() => handleAddSize(index)}
+            >
+              Add Size
+            </div>
+
+            {subProduct.sizes.map((size, sizeIndex) => (
+              <AddSubQty
+                samePriceForAll={samePriceForAll}
+                key={sizeIndex}
+                size={size}
+                index={index}
+                sizeIndex={sizeIndex}
+                subProducts={subProducts}
+                setSubProducts={setSubProducts}
+              />
+            ))}
+            <AddSubProductColor
+              index={index}
+              subProduct={subProduct}
+              subProducts={subProducts}
+              setSubProducts={setSubProducts}
+            />
+          </div>
         </div>
       ))}
       <div
-        className="text-white bg-blue-800 hover:bg-blue-800 w-36   text-center  cursor-pointer  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d "
+        className="text-white bg-blue-800 hover:bg-blue-800 w-36 text-center cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 d"
         onClick={handleAddSubProduct}
       >
         Add Product

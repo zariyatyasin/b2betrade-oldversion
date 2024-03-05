@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 const ProductMain = ({ product, params }) => {
   const [activeImg, setActiveImg] = useState("");
   const router = useRouter();
+
   // window.addEventListener("popstate", (event) => {
   //   router.push("/");
   // });

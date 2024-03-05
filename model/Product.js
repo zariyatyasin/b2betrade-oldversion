@@ -34,10 +34,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    productType: {
-      type: String,
-      enum: ["B2B", "B2C"],
-    },
+    // productType: {
+    //   type: String,
+    //   enum: ["B2B", "B2C"],
+    // },
     bulkPricing: [
       {
         minQty: Number,

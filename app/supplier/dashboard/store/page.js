@@ -10,7 +10,7 @@ import StoreHeader from "../../../../components/store/storeHeader/StoreHeader";
 import SuplierNavbar from "../../../../components/store/storeHeader/SuplierNavbar";
 import { redirect } from "next/navigation";
 import ProductCardSwip from "../../../../components/cards/ProductCardSwip";
-import ProductDeleteButto from "../../../../components/productPage/productDelete/ProductDeleteButton";
+import ProductDeleteButton from "../../../../components/productPage/productDelete/ProductDeleteButton";
 async function getData({ searchParams }) {
   const session = await getCurrentUser();
 
@@ -93,7 +93,7 @@ export default async function page({ searchParams }) {
           <div className=" pb-32 grid grid-cols-2 gap-y-5 gap-x-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-x-8">
             {products?.map((item, id) => (
               <div className=" relative   " key={id}>
-                <ProductDeleteButto
+                <ProductDeleteButton
                   id={item._id}
                   visible={item.productvisibility}
                 />

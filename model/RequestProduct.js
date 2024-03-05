@@ -63,7 +63,6 @@ const requestProductSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    // Additional fields
     isRecurring: Boolean,
     isCustomizable: Boolean,
     preferredMaterial: String,
@@ -71,15 +70,13 @@ const requestProductSchema = new mongoose.Schema(
     specialInstructions: String,
     isPaid: Boolean,
     paymentReference: String,
-    // More fields
     isBargainAllowed: Boolean,
     isActive: Boolean,
     isSampleRequested: Boolean,
     supplierExperience: String,
     targetPrice: Number,
-    estimatedOrderFrequency: String, // How often the buyer plans to place orders
-    attachmentUrls: [String], // URLs to additional attachments or documents
-    // Add other fields as needed
+    estimatedOrderFrequency: String,
+    attachmentUrls: [String],
   },
   {
     timestamps: true,

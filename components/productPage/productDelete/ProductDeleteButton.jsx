@@ -30,7 +30,7 @@ const ProductDeleteButton = ({ id, visible }) => {
   };
 
   return (
-    <div className="flex   items-center">
+    <div className="flex  gap-4  items-center">
       <button
         onClick={() => setShowConfirmation(true)}
         disabled={loading}
@@ -47,7 +47,7 @@ const ProductDeleteButton = ({ id, visible }) => {
       </Link>
       <div
         style={{ background: result === "visible" ? "blue" : "red" }}
-        className=" text-white p-1 rounded"
+        className="  text-white   rounded-md p-2"
       >
         {result}
       </div>

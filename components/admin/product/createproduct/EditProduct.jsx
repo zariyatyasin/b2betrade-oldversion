@@ -149,9 +149,12 @@ export default function EditProduct({ editedProduct, categories, id }) {
 
       for (const image of subProduct.images) {
         formData.append("file", image.blob);
-      }
+        formData.append("upload_preset", "ml_default");
+        formData.append("cloud_name", "dtasegoef");
+        const cloudinaryResponse = await Uploadimages(formData);
 
-      const cloudinaryResponse = await Uploadimages(formData);
+        cloudinaryImages.push(cloudinaryResponse);
+      }
 
       const cloudinaryImages = cloudinaryResponse.map((response) => ({
         url: response.secure_url,
