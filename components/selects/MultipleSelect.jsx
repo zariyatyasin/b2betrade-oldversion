@@ -99,6 +99,4 @@ export default function MultipleSelect({
       </FormControl>
     </div>
   );
-};
-
- 
+}

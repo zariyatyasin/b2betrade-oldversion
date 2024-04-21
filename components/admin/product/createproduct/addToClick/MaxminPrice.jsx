@@ -16,7 +16,7 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
       const minQty = parseInt(lastItem.maxQty) + 1;
       const maxQty =
         minQty + (parseInt(lastItem.maxQty) - parseInt(lastItem.minQty));
-      const newPrice = parseInt(lastItem.price) + priceIncrease;
+      const newPrice = parseInt(lastItem.price) - priceIncrease;
       setProduct({
         ...product,
         bulkPricing: [
@@ -44,7 +44,7 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
       <div className=" mb-4">
         <div className="text-lg font-semibold"> Bulk Pricing</div>
         <div>
-          <p>Price Increase by</p>
+          <p>Price Reduce by</p>
           <input
             type="number"
             placeholder="Price Increase"
@@ -103,13 +103,13 @@ export default function MaxminPrice({ bulkPricing, product, setProduct }) {
                 <>
                   <Delete
                     onClick={() => handleRemove(i)}
-                    className="text-red-600 cursor-pointer" // Apply Tailwind CSS classes and MUI icon
+                    className="text-red-600 cursor-pointer"
                   />
                   {bulkPricing.length < 4 && i === bulkPricing.length - 1 && (
                     <div className="flex items-center space-x-2">
                       <Add
                         onClick={handleAdd}
-                        className="text-green-600 cursor-pointer" // Apply Tailwind CSS classes and MUI icon
+                        className="text-green-600 cursor-pointer"
                       />
                     </div>
                   )}

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import { Grid, Paper, Typography } from "@mui/material";
+import { div, Paper, Typography } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -27,6 +27,7 @@ import { Uploadimages } from "../../../../request/uploadimg";
 import axios from "axios";
 import FullScreenLoading from "../../../fullScreenOverlay/FullScreenLoading";
 import { toast } from "react-toastify";
+
 const initialState = {
   name: "",
   description: "",
@@ -48,9 +49,9 @@ const initialState = {
   ],
   bulkPricing: [
     {
-      minQty: "",
-      maxQty: "",
-      price: "",
+      minQty: 0,
+      maxQty: 0,
+      price: 0,
     },
   ],
   questions: [
@@ -179,7 +180,7 @@ export default function CreateProduct({ categories }) {
   };
   const handleSubmit = async () => {
     const errors = {};
-
+    console.log(product, subProducts);
     if (!validateForm()) {
       toast.error(errors);
       return;
@@ -189,59 +190,61 @@ export default function CreateProduct({ categories }) {
       errors.subProducts = "Subproduct is required";
     } else {
       let hasProductBulkPricing = false;
+      let hasSubproductBulkPricing = false;
+
+      if (
+        product?.bulkPricing.length === 1 &&
+        product?.bulkPricing[0]?.minQty === 0 &&
+        product?.bulkPricing[0]?.maxQty === 0 &&
+        product?.bulkPricing[0]?.price === 0
+      ) {
+        console.log("mewo is product bulk not here");
+        hasProductBulkPricing = false;
+      } else {
+        hasProductBulkPricing = true;
+      }
+
       subProducts.forEach((subProduct, index) => {
         if (subProduct.images.length === 0) {
           errors[`subProductImages-${index}`] = `Images for subproduct ${
             index + 1
           } are required`;
         } else {
-          subProducts.forEach((subProduct, index) => {
-            if (subProduct.images.length === 0) {
-              errors[`subProductImages-${index}`] = `Images for subproduct ${
-                index + 1
-              } are required`;
+          subProduct.sizes.forEach((size, sizeIndex) => {
+            if (size.qty === 0) {
+              errors[`Qty must be greater than 0`] = `Quantity for size ${
+                sizeIndex + 1
+              } of subproduct ${index + 1} must be greater than 0`;
+            }
+            if (
+              size?.bulkPricing.length === 1 &&
+              size?.bulkPricing[0]?.minQty === 0 &&
+              size?.bulkPricing[0]?.maxQty === 0 &&
+              size?.bulkPricing[0]?.price === 0
+            ) {
+              console.log("mewo is subprioduct bulk not here");
+              hasSubproductBulkPricing = false;
             } else {
-              let hasProductBulkPricing = false;
-
-              subProduct.sizes.forEach((size, sizeIndex) => {
-                if (size.qty === 0) {
-                  errors[`Qty must be greater than 0`] = `Quantity for size ${
-                    sizeIndex + 1
-                  } of subproduct ${index + 1} must be greater than 0`;
-                }
-                if (
-                  size.bulkPricing.length === 0 ||
-                  (size.bulkPricing.length === 1 &&
-                    size.bulkPricing[0].minQty === 0 &&
-                    size.bulkPricing[0].maxQty === 0 &&
-                    size.bulkPricing[0].price === 0 &&
-                    !hasProductBulkPricing)
-                ) {
-                  errors[
-                    `subProductSizeBulkPricing-${index}-${sizeIndex}`
-                  ] = `Bulk pricing for size ${sizeIndex + 1} of subproduct ${
-                    index + 1
-                  } is required`;
-                } else {
-                  hasProductBulkPricing = true;
-                }
-              });
+              hasSubproductBulkPricing = true;
             }
           });
-          if (
-            (product.bulkPricing.minQty !== "" ||
-              product.bulkPricing.maxQty !== "" ||
-              product.bulkPricing.price !== "") &&
-            hasProductBulkPricing
-          ) {
-            errors.bulkPricingConflict =
-              "Either product bulk pricing or subproduct bulk pricing can be filled, but not both";
-          }
         }
       });
+
+      if (!hasProductBulkPricing && !hasSubproductBulkPricing) {
+        errors.bulkPricingRequired =
+          "Either product bulk pricing or subproduct bulk pricing should be filled.";
+      } else if (hasProductBulkPricing && hasSubproductBulkPricing) {
+        errors.bulkPricingConflict =
+          "Either product bulk pricing or subproduct bulk pricing should be filled, but not both.";
+      }
+      // if (!hasProductBulkPricing || !hasSubproductBulkPricing) {
+      //   console.log(hasProductBulkPricing, hasSubproductBulkPricing);
+      //   errors.bulkPricingConflict =
+      //     "Either product bulk pricing or subproduct bulk pricing should be filled ";
+      // }
     }
 
-    // Set errors and display alert messages
     setErrors(errors);
     if (Object.keys(errors).length > 0) {
       const errorMessage = Object.values(errors).join("\n");
@@ -313,18 +316,16 @@ export default function CreateProduct({ categories }) {
       >
         {(formik) => (
           <Form className=" ">
-            <h1 className="font-semibold tracking-tight text-2xl">
-              Create Product
-            </h1>
-            <div className="mt-8   mx-auto  max-w-7xl  ">
+            {/* <div className="mt-10   mx-auto  max-w-7xl  ">
               <div className="space-y-6 lg:col-start-1 lg:col-span-2 ">
-                <div className="   ">
-                  <Grid
-                    container
+                <div className="max-w-3xl mx-auto div div-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:div-flow-col-dense lg:div-cols-3   ">
+                  <div
+                    rowSpacing={8}
+                    columnSpacing={8}
                     spacing={2}
                     className=" bg-white p-4 pb-8 rounded-md shadow"
                   >
-                    <Grid item xs={12} lg={6}>
+                    <div item xs={12} lg={3}>
                       <AdminInput
                         type="text"
                         label="Name"
@@ -335,8 +336,8 @@ export default function CreateProduct({ categories }) {
                       {errors.name && (
                         <span className="text-red-500">{errors.name}</span>
                       )}
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
+                    </div>
+                    <div item xs={12} lg={3}>
                       <SingularSelect
                         name="section"
                         value={product.section}
@@ -345,8 +346,8 @@ export default function CreateProduct({ categories }) {
                         header="Product type"
                         handleChange={handleChange}
                       />
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
+                    </div>
+                    <div item xs={12} lg={3}>
                       <SingularSelect
                         name="productvisibility"
                         value={product.productvisibility}
@@ -355,8 +356,8 @@ export default function CreateProduct({ categories }) {
                         header="Visibility"
                         handleChange={handleChange}
                       />
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
+                    </div>
+                    <div item xs={12} lg={3}>
                       <AdminInput
                         type="text"
                         label="Brand"
@@ -364,8 +365,8 @@ export default function CreateProduct({ categories }) {
                         placholder="Product brand"
                         onChange={handleChange}
                       />
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
+                    </div>
+                    <div item xs={12} lg={3}>
                       <AdminInput
                         type="text"
                         label="Shipping Free"
@@ -373,8 +374,8 @@ export default function CreateProduct({ categories }) {
                         placholder="Shipping Free"
                         onChange={handleChange}
                       />
-                    </Grid>
-                    <Grid item xs={12} lg={3}>
+                    </div>
+                    <div item xs={12} lg={3}>
                       <SingularSelect
                         name="category"
                         value={product.category}
@@ -387,9 +388,9 @@ export default function CreateProduct({ categories }) {
                       {errors.category && (
                         <span className="text-red-500">{errors.category}</span>
                       )}
-                    </Grid>
+                    </div>
 
-                    <Grid item xs={12} lg={3}>
+                    <div item xs={12} lg={3}>
                       {
                         <MultipleSelect
                           value={product.subCategories}
@@ -405,9 +406,9 @@ export default function CreateProduct({ categories }) {
                           {errors.subCategories}
                         </span>
                       )}
-                    </Grid>
+                    </div>
 
-                    <Grid item xs={12} lg={12}>
+                    <div item xs={12} lg={12}>
                       <ReactQuill
                         theme="snow"
                         modules={modules}
@@ -418,7 +419,7 @@ export default function CreateProduct({ categories }) {
                           setEditorHtml(value);
                           setProduct({ ...product, description: value });
                         }}
-                        placeholder="Type something..."
+                        placeholder="Product description"
                         bounds=".app"
                         scrollingContainer=".app"
                       />
@@ -427,18 +428,10 @@ export default function CreateProduct({ categories }) {
                           {errors.description}
                         </span>
                       )}
-                    </Grid>
-                    {/* <Grid item xs={12} lg={6}>
-                      <AdminInput
-                        type="text"
-                        label="Sku"
-                        name="sku"
-                        placholder="Product sku/ number"
-                        onChange={handleChange}
-                      />
-                    </Grid> */}
+                    </div>
+                  
 
-                    <Grid item xs={12} lg={12}>
+                    <div item xs={12} lg={12}>
                       <p className=" mt-10 mb-2">Same Price for All Products</p>
                       <Select
                         value={samePriceForAll}
@@ -447,10 +440,10 @@ export default function CreateProduct({ categories }) {
                         <MenuItem value={true}>Yes</MenuItem>
                         <MenuItem value={false}>No</MenuItem>
                       </Select>
-                    </Grid>
+                    </div>
 
                     {samePriceForAll && (
-                      <Grid
+                      <div
                         className=" bg-white rounded-md"
                         item
                         xs={12}
@@ -461,10 +454,10 @@ export default function CreateProduct({ categories }) {
                           product={product}
                           setProduct={setProduct}
                         />
-                      </Grid>
+                      </div>
                     )}
 
-                    <Grid item xs={12} lg={12}>
+                    <div item xs={12} lg={12}>
                       <CreateSubProduct
                         bulkPricing={product.bulkPricing}
                         product={product}
@@ -479,43 +472,210 @@ export default function CreateProduct({ categories }) {
                           {errors.subProducts}
                         </span>
                       )}
-                    </Grid>
+                    </div>
 
-                    <Grid item xs={12} lg={12}>
+                    <div item xs={12} lg={12}>
                       <Details
                         details={product.details}
                         product={product}
                         setProduct={setProduct}
                       />
-                    </Grid>
+                    </div>
 
-                    <Grid item xs={12} lg={12}>
+                    <div item xs={12} lg={12}>
                       <Questions
                         questions={product.questions}
                         product={product}
                         setProduct={setProduct}
                       />
-                    </Grid>
-                  </Grid>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* <section
-                aria-labelledby="timeline-title"
-                className="lg:col-start-3 lg:col-span-1"
-              >
               
-              </section> */}
-            </div>
+            </div> */}
+
+            <main className=" ">
+              <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+                <div className="space-y-6 lg:col-start-1 lg:col-span-2">
+                  <div className="bg-white shadow sm:rounded-lg p-4 grid grid-cols-12 gap-6">
+                    <div className="col-span-12 sm:col-span-12 ">
+                      <AdminInput
+                        type="text"
+                        label="Name"
+                        name="name"
+                        placholder="Product name"
+                        onChange={handleChange}
+                      />
+                      {errors.name && (
+                        <span className="text-red-500">{errors.name}</span>
+                      )}
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <SingularSelect
+                        name="section"
+                        value={product.section}
+                        placeholder="Product type"
+                        data={section}
+                        header="Product type"
+                        handleChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <SingularSelect
+                        name="productvisibility"
+                        value={product.productvisibility}
+                        placeholder="Visibility"
+                        data={visibility}
+                        header="Visibility"
+                        handleChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <AdminInput
+                        type="text"
+                        label="Brand"
+                        name="brand"
+                        placholder="Product brand"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-span-12 sm:col-span-6 ">
+                      <AdminInput
+                        type="text"
+                        label="Shipping Free"
+                        name="shipping"
+                        placholder="Shipping Free"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="col-span-12 sm:col-span-12 ">
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        style={{ height: "200px", paddingBottom: "30px" }}
+                        formats={formats}
+                        value={editorHtml}
+                        onChange={(value) => {
+                          setEditorHtml(value);
+                          setProduct({ ...product, description: value });
+                        }}
+                        placeholder="Product description"
+                        bounds=".app"
+                        scrollingContainer=".app"
+                      />
+                      {errors.description && (
+                        <span className="text-red-500">
+                          {errors.description}
+                        </span>
+                      )}
+                    </div>
+                    <div className="col-span-12 sm:col-span-12 ">
+                      <p className=" mt-10 mb-2">Same Price for All Products</p>
+                      <Select
+                        value={samePriceForAll}
+                        onChange={(e) => setSamePriceForAll(e.target.value)}
+                      >
+                        <MenuItem value={true}>Yes</MenuItem>
+                        <MenuItem value={false}>No</MenuItem>
+                      </Select>
+                    </div>
+                    {samePriceForAll && (
+                      <div
+                        className=" col-span-12 sm:col-span-12 "
+                        item
+                        xs={12}
+                        lg={12}
+                      >
+                        <MaxminPrice
+                          bulkPricing={product.bulkPricing}
+                          product={product}
+                          setProduct={setProduct}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div item xs={12} lg={12}>
+                    <CreateSubProduct
+                      bulkPricing={product.bulkPricing}
+                      product={product}
+                      samePriceForAll={samePriceForAll}
+                      setSubProducts={setSubProducts}
+                      subProducts={subProducts}
+                      setImages={setImages}
+                      images={images}
+                    />
+                    {errors.subProducts && (
+                      <span className="text-red-500">{errors.subProducts}</span>
+                    )}
+                  </div>
+
+                  <section aria-labelledby="notes-title">
+                    <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden"></div>
+                  </section>
+                </div>
+
+                <section
+                  aria-labelledby="timeline-title"
+                  className="lg:col-start-3 lg:col-span-1"
+                >
+                  <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+                    <div item xs={12} lg={3}>
+                      <SingularSelect
+                        name="category"
+                        value={product.category}
+                        placeholder="Category"
+                        data={categories}
+                        header="Select a Category"
+                        handleChange={handleChange}
+                        disabled={product.parent}
+                      />
+                      {errors.category && (
+                        <span className="text-red-500">{errors.category}</span>
+                      )}
+                    </div>
+
+                    <div item xs={12} lg={3}>
+                      {
+                        <MultipleSelect
+                          value={product.subCategories}
+                          data={subs}
+                          header="Select SubCategories"
+                          name="subCategories"
+                          disabled={product.parent}
+                          handleChange={handleChange}
+                        />
+                      }
+                      {errors.subCategories && (
+                        <span className="text-red-500">
+                          {errors.subCategories}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-6 flex flex-col justify-stretch">
+                      <button
+                        onClick={handleSubmit}
+                        className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      >
+                        Product Submit
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </main>
           </Form>
         )}
       </Formik>
-      <button
+      {/* <button
         className="mt-2 inline-flex w-full text-center items-center px-8 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600  "
         onClick={handleSubmit}
       >
         Submit
-      </button>
+      </button> */}
     </Box>
   );
 }

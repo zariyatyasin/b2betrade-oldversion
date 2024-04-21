@@ -456,12 +456,12 @@ export default function BuyerRequestDetails({ requestProductDetails }) {
           </svg>
         </Link> */}
 
-              <button
+              {/* <button
                 type="button"
                 className="inline-flex mt-4   items-center justify-center px-4 py-2 w-full border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-[#2B39D1]"
               >
                 Submit your Offer
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

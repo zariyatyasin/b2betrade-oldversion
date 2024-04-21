@@ -525,21 +525,20 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
-              {/* <Link
+              <Link
                 href={"/requestproduct/form"}
                 className="relative hidden lg:flex z-10 lg:top-[1px]"
               >
                 <button
                   type="button"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm rounded-full  text-gray-950 bg-white     "
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm rounded-full  text-white bg-orange-500    "
                 >
                   <div>
                     {" "}
-                   
                     <span className=" "> Product Request</span>
                   </div>
                 </button>
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>

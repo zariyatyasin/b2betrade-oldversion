@@ -40,11 +40,11 @@ export default function EditProduct({ editedProduct, categories, id }) {
     productvisibility: editedProduct.productvisibility,
     discount: editedProduct.discount,
     section: editedProduct.section,
-    productType: "", // Add the appropriate property from editedProduct
+    productType: "",
     description_images: [],
-    parent: "", // Add the appropriate property from editedProduct
+    parent: "",
     category: editedProduct.category._id,
-    subCategories: subCategoriesIds, // Add the appropriate property from editedProduct
+    subCategories: subCategoriesIds,
     details: editedProduct.details,
     bulkPricing: editedProduct.bulkPricing,
     questions: editedProduct.questions,
@@ -379,23 +379,30 @@ export default function EditProduct({ editedProduct, categories, id }) {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <MultipleSelect
-                      value={editedProduct.subCategories.map(
-                        (subCategory) => subCategory._id
-                      )}
+                      value={product.subCategories}
                       data={subs}
                       header="Select SubCategories"
-                      name="subCategories"
+                      name="subCategories" // Pass the name prop
                       disabled={product.parent}
-                      handleChange={handleChange}
+                      handleChange={(event) =>
+                        handleChange(event, "subCategories")
+                      }
                     />
                   </Grid>
-                  {/* Add your other form fields here */}
+                  <div className="mt-6 flex flex-col justify-stretch">
+                    <button
+                      onClick={handleSubmit}
+                      className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      Product Submit
+                    </button>
+                  </div>
                 </div>
               </section>
             </div>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            {/* <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
-            </Button>
+            </Button> */}
           </Form>
         )}
       </Formik>

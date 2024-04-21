@@ -54,7 +54,7 @@ export default async function Page({ params }) {
     <div>
       <MainpageLayout />
 
-      <main className="py-10 mt-16 lg:mt-32">
+      {/* <main className="py-10 mt-16 lg:mt-32">
         <div className="max-w-3xl mx-auto px-4   md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
           <div className="flex items-center space-x-5">
             <div>
@@ -278,9 +278,9 @@ export default async function Page({ params }) {
             )}
           </section>
         </div>
-      </main>
+      </main> */}
 
-      {/* <BuyerRequestDetails requestProductDetails={requestProductDetails} /> */}
+      <BuyerRequestDetails requestProductDetails={requestProductDetails} />
     </div>
   );
 }
