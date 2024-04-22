@@ -525,7 +525,7 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
-              <Link
+              {/* <Link
                 href={"/requestproduct/form"}
                 className="relative hidden lg:flex z-10 lg:top-[1px]"
               >
@@ -538,7 +538,7 @@ export const Header = ({ categories, subCategories }) => {
                     <span className=" "> Product Request</span>
                   </div>
                 </button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
