@@ -525,8 +525,11 @@ export const Header = ({ categories, subCategories }) => {
                   )}
                 </div>
               </div>
-              {/* <Link
-                href={"/requestproduct/form"}
+              <Link
+                href={
+                  "https://b2betrade-bidding.vercel.app/bidding/product-request"
+                }
+                target="_blank"
                 className="relative hidden lg:flex z-10 lg:top-[1px]"
               >
                 <button
@@ -538,7 +541,7 @@ export const Header = ({ categories, subCategories }) => {
                     <span className=" "> Product Request</span>
                   </div>
                 </button>
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>
