@@ -119,7 +119,7 @@ export default function Example({ categories, subCategories }) {
                             setSelectedCategory(category?._id)
                           }
                         >
-                          <div className="ml-4">
+                          {/* <div className="ml-4">
                             <Link
                               href={`/browse?category=${category?._id}`}
                               className="text-gray-900"
@@ -127,7 +127,7 @@ export default function Example({ categories, subCategories }) {
                             >
                               {category.name}
                             </Link>
-                          </div>
+                          </div> */}
                           <div>
                             <ArrowForwardIosOutlinedIcon
                               sx={{ fontSize: 14 }}
